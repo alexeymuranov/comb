@@ -1,0 +1,15 @@
+%h4
+  - participant_name = capture_haml do
+    %q<>
+      %strong<>
+        = @participant.full_name_with_affiliation
+  = t 'resources.actions.delete.confirmation_question',
+      :resource_name => Participant.model_name.human,
+      :item_name     => participant_name
+%form.inline{:action => fixed_url("/#{ @locale }/#{ @page }/#{ @participant.id }"), :method => 'post'}
+  %input{:type => 'hidden', :name => '_method', :value => 'delete'}
+  %button.destroy{:type => 'submit', :name => 'button', :value => 'destroy'}
+    = t 'buttons.yes-delete'
+%a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ @page }"),
+                  :role => 'button'}
+  = t 'buttons.no-cancel'

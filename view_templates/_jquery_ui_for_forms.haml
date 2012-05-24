@@ -1,0 +1,12 @@
+-# JavaScript and CSS for JQuery UI date picker (http://jqueryui.com/)
+%link{:type => 'text/css',
+      :href => fixed_url('/css/jquery-ui/smoothness/jquery-ui-1.8.21.custom.css'),
+      :rel  => 'stylesheet'}/
+%script{:type => 'text/javascript',
+        :src  => fixed_url('/js/jquery-1.7.2.min.js')}
+%script{:type => 'text/javascript',
+        :src  => fixed_url('/js/jquery-ui-1.8.21.custom.min.js')}
+:javascript
+  $(function() {
+    $( "input[type=date]" ).datepicker({ dateFormat: 'yy-mm-dd' });
+  });

@@ -1,0 +1,31 @@
+%dl
+  - [ :last_name, :first_name, :email, :affiliation,
+      :academic_position, :country, :city, :post_code, :street_address,
+      :phone, :i_m_t_member,
+      :g_d_r_member, :visa_needed, :arrival_date, :departure_date,
+      :funding_requests, :special_requests ].each do |attr|
+    %dt
+      = t attr, :scope  => 'email.registration.fields'
+    %dd
+      - if (v = @participant.public_send(attr)).in?(true, false)
+        = text_from_boolean(v)
+      - else
+        = v
+
+  %dt
+    = t 'email.registration.fields.talk_proposed?'
+  %dd
+    - if @participant.talk_proposal
+      %strong
+        ✓
+        = t 'yes'
+      %dl
+        - [:title, :abstract].each do |attr|
+          %dt
+            = t attr,
+                :scope => 'email.registration.fields.talk_proposal_fields'
+          %dd
+            = @participant.talk_proposal.public_send(attr)
+    - else
+      ∅
+      = t 'no'

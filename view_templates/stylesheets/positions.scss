@@ -1,0 +1,181 @@
+@charset "UTF-8";
+
+////
+// Sass variables
+
+$banner-height: 200px;
+$textarea-width: 500px;
+$textarea-height: 50px;
+
+////
+// General element styles
+
+header {
+  margin: 0;
+  padding: 0;
+
+  nav {
+    margin: 10px;
+  }
+}
+
+footer {
+  margin: 0;
+  margin-left: 20px;
+  padding: 5px;
+}
+
+body {
+  position: relative; // to nest absolutely positioned elements
+  margin: 10px;
+  padding: 0;
+}
+
+div[role=main], div.container {
+  margin: 10px;
+  width: auto;
+}
+
+textarea {
+  width:   $textarea-width;
+  height:  $textarea-height;
+  padding: 10px;
+}
+
+fieldset {
+  margin: 0.5em 0;
+  padding: 15px;
+
+  legend {
+    margin: 0 15px;
+    padding: 0 10px;
+  }
+}
+
+////
+// Special element styles
+
+div.flash {
+  margin: 10px;
+}
+
+#banner {
+  position: relative; // to nest absolutely positionned elements
+
+  height: $banner-height;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#banner_shade {
+  margin: 0; // noramlly not necessary is 0 is the default
+  height: 100%;
+  width: 100%;
+}
+
+hgroup#main_heading {
+  position: absolute;
+  top: 15px;
+  bottom: 5px;
+  left: 15px;
+  right: 15px;
+
+  h1 {
+    position: absolute; // not necessary
+    margin: 0;
+  }
+  h2 {
+    position: absolute;
+    margin: 0;
+    bottom: 0;
+  }
+}
+
+nav#lang_select {
+  position: absolute;
+  z-index: 10;
+  margin: 0;
+  top:   -10px;
+  right: -10px;
+
+  & > ul {
+    margin: 0;
+    padding: 0;
+
+    & > li {
+
+      & > a {
+        margin: 0;
+        padding: 5px;
+      }
+    }
+  }
+}
+
+input[type="text"].long_string {
+  width:   $textarea-width;
+  padding: 10px;
+}
+
+#form_error_explanation {
+  margin: 15px;
+  padding: 0;
+
+  h2 {
+    padding: 5px 10px;
+  }
+
+  ul {
+    margin: 15px 10px;
+  }
+}
+
+#log_out_button {
+  float: right;
+}
+
+button[type="submit"] {
+  &.create {
+    &:hover {
+      @include button(Purple);
+    }
+  }
+
+  &.update, &.destroy {
+    &:hover {
+      @include button(Red);
+    }
+  }
+
+}
+
+
+// DL-based forms that look like TABLEs
+// form > dl.fields {
+//   // width: auto;
+//
+//   & > div.field {
+//
+//     dt.label {
+//       padding: 2px;
+//     }
+//
+//     dd.input {
+//       padding: 2px;
+//
+//       & > textarea {
+//         vertical-align: text-top;
+//       }
+//     }
+//   }
+// }
+
+////
+// Presentational styles
+
+.inline {
+  margin: 0;
+  padding: 0;
+}

@@ -1,0 +1,188 @@
+# Original version downloaded from
+#   https://github.com/svenfuchs/rails-i18n/raw/master/rails/locale/en-US.yml
+
+en:
+  "yes"   : "yes"
+  "no"    : "no"
+  other   : "other"
+  password: "password"
+
+  formats:
+    "attribute_name:": "%{attribute}:"
+    "attribute_name?": "%{attribute}?"
+
+  buttons:
+    submit       : "Submit"
+    cancel       : "Cancel"
+    no-cancel    : "No, cancel"
+    show         : "Show"
+    save         : "Save"
+    add          : "Add"
+    delete       : "Delete"
+    yes-delete   : "Yes, delete"
+    filter       : "Filter"
+    clear        : "Clear"
+    paginate     : "Paginate"
+    continue     : "Continue"
+    accept       : "Accept"
+    do_not_accept: "Do not accept"
+    log_in       : "Log in"
+    log_out      : "Log out"
+
+  db_actions:
+    create: "Write"
+    update: "Update"
+    delete: "Delete"
+
+  questions:
+    "are_you_sure?": "Are you sure?"
+    "show_details?": "Show details?"
+
+  flash:
+    actions:
+      create:
+        success: "%{resource_name} was successfully created."
+      update:
+        success: "%{resource_name} was successfully updated."
+      destroy:
+        success: "%{resource_name} was successfully destroyed."
+        failure: "%{resource_name} could not be destroyed."
+      other:
+        failure: "Error!"
+    filters:
+      require_login               : "Please log in to access this page."
+      require_organiser_login     : "Access allowed for organisers only"
+      require_main_organiser_login: "Access allowed only for main organisers"
+    sessions:
+      log_in:
+        success: "You are connected as #{role}"
+        failure: "The username or the password are not recognised"
+    resources:
+      participants:
+        create:
+          success: "Your registration has been noted."
+          failure: "Your registration could not be recorded."
+        update:
+          success: "The registration has been changed."
+          failure: "The registration could not be changed."
+        destroy:
+          success: "The registration is deleted."
+          failure: "The registration could not be deleted."
+
+  names:
+    conference_title: &conference_title "Low-dimensional Topology and Geometry in Toulouse"
+    i_m_t           : "Toulouse Mathematics Institute"
+    g_d_r_tresses   : "GDR \"Tresses\""
+    u_p_s           : "Paul Sabatier University"
+
+  base_page_title: "CTT 2013"
+
+  page_titles:
+    index                        : "Home"
+    program                      : "Programme"
+    scientific_committee         : "Scientific committee"
+    organising_committee         : "Organising committee"
+    directions_to_get_here       : "Directions"
+    funding                      : "Funding"
+    contacts                     : "Contacts"
+    accommodation                : "Accommodation"
+    participants                 : "Participants"
+    registration                 : "Registration"
+    useful_links                 : "Useful links"
+    'org/login'                  : 'Organiser login'
+    'org/participants'           : "OC : Participants"
+    'org/participants/to_approve': "OC : Unapproved participants"
+    'org/talks'                  : "OC : Talks"
+    'org/hotels'                 : "OC : Hotels"
+
+  header:
+    title_conf: *conference_title
+    michel: "on the occasion of Michel Boileau's 60th birthday"
+
+  footer: ~
+
+  pages:
+    index:
+      # title: "Home"
+      header: "Home page"
+    program:
+      header: "Programme"
+    scientific_committee:
+      header: "Scientific committee"
+    organising_committee:
+      header: "Organising committee"
+    directions_to_get_here:
+      header: "Directions"
+    funding:
+      header: "Funding"
+    contacts:
+      header: "Contacts"
+    accommodation:
+      header: "Accommodation"
+    participants:
+      header: "Participants"
+      subheaders:
+        plenary_speakers  : "Plenary speakers"
+        sectional_speakers: "Sectional speakers"
+    registration:
+      header: "Registration"
+      form:
+        field_labels:
+          last_name             : "Your last name:"
+          first_name            : "Your first name:"
+          name_title            : "Title:"
+          email                 : "Your e-mail address:"
+          affiliation           : "Your affiliation (university or institute):"
+          academic_position     : "Your academic position:"
+          address               : "Your address:"
+          country               : "Country:"
+          city                  : "City:"
+          post_code             : "Post code:"
+          street_address        : "Street address:"
+          phone                 : "Phone number:"
+          i_m_t_member          : "Are you a member of the %{link_to_i_m_t}?"
+          g_d_r_member          : "Are you a member of the %{link_to_g_d_r}?"
+          invitation_needed     : "Do you need an invitation letter?"
+          visa_needed           : "Do you need a visa for France?"
+          # plenary_speaker       : "Plenary speaker?"
+          # invited_speaker       : "Invited speaker?"
+          # speaker               : "Speaker?"
+          # student               : "Student?"
+          arrival_date          : "Arrival date:"
+          departure_date        : "Departure date:"
+          registration_fee_payed: "Registration fee paid:"
+          office_at_i_m_t       : "Office number at IMT:"
+          funding_requests      : "Funding requests:"
+          special_requests      : "Comments and special requests:"
+          talk_proposal:
+            caption : "If you would like to give a 30 min talk,"
+            title   : "the title:"
+            abstract: "the abstract:"
+        select_options:
+          academic_positions:
+            - "graduate student"
+            - "postdoc"
+            - "professor/faculty"
+            - "other (explain in the comments)"
+        buttons:
+          submit: "Submit"
+    useful_links:
+      header: "Useful links"
+    login:
+      header: "Organiser Connexion"
+      form_labels:
+        username: "Username:"
+        password: "Password:"
+
+  resources:
+    actions:
+      index: ~
+      show: ~
+      new: ~
+      edit: ~
+      delete:
+        confirmation_question:
+          "Are you sure you want to delete %{resource_name} %{item_name} ?"
+      create: ~
+      update: ~
+      destroy: ~

@@ -1,0 +1,163 @@
+-# Parameters:
+-#   participant
+
+%form{ :'accept-charset' => 'UTF-8',
+       :action           => fixed_url("/#{ @locale }/#{ @page }/#{ participant.id }"),
+       :method           => 'post' }
+  %input{:type => 'hidden', :name => '_method', :value => 'put'}
+
+  = haml :'_jquery_ui_for_forms'
+
+  - if participant.errors.any?
+    #form_error_explanation
+      %h2
+        - if participant.errors.count == 1
+          = t('activerecord.errors.template.header.one',
+              :model => Participant.model_name.human)
+        - else
+          = t('activerecord.errors.template.header.other',
+              :count => participant.errors.count,
+              :model => Participant.model_name.human)
+
+      %ul
+        - participant.errors.full_messages.each do |msg|
+          %li= msg
+
+  %dl.fields
+    - [:first_name, :last_name].each do |attr|
+      .field.required
+        %dt.label
+          %label{:for => "participant_#{ attr }"}
+            = @field_labels[attr] + '*'
+        %dd.input
+          %input{:id    => "participant_#{ attr }",
+                 :name  => "participant[#{ attr }]",
+                 :required => 'required',
+                 :type  => :text,
+                 :value => participant.public_send(attr)}
+
+    .field.required
+      %dt.label
+        %label{:for => :participant_email}
+          = @field_labels[:email] + '*'
+      %dd.input
+        %input{:id       => 'participant_email',
+               :name     => 'participant[email]',
+               :required => 'required',
+               :type     => 'email',
+               :value    => participant.email}
+
+    .field
+      %dt.label
+        %label{:for => 'participant_affiliation'}
+          = @field_labels[:affiliation]
+      %dd.input
+        %input{:id    => 'participant_affiliation',
+               :name  => 'participant[affiliation]',
+               :type  => 'text',
+               :value => participant.affiliation}
+
+    .field
+      %dt.label
+        %label{:for => 'participant_academic_position'}
+          = @field_labels[:academic_position]
+      %dd.input
+        %select{:id   => 'participant_academic_position',
+               :name  => 'participant[academic_position]',
+               :value => participant.academic_position}
+          %option
+          - t('pages.registration.form.select_options.academic_positions').each do |p|
+            - if p == participant.academic_position
+              %option{:selected => :selected}= p
+            - else
+              %option= p
+
+    - [:country, :city, :post_code, :street_address, :phone].each do |attr|
+      .field
+        %dt.label
+          %label{:for => "participant_#{ attr }"}
+            = @field_labels[attr]
+        %dd.input
+          %input{:id    => "participant_#{ attr }",
+                 :name  => "participant[#{ attr }]",
+                 :type  => 'text',
+                 :value => participant.public_send(attr)}
+
+    - [:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed].each do |attr|
+      .field
+        %dt.label
+          %label{:for => "participant_#{ attr }"}
+            = @field_labels[attr]
+        %dd.input
+          - name = "participant[#{ attr }]"
+          -# Hidden field to pass a value when the checkbox is not checked
+          %input{:name  => name,
+                 :type  => 'hidden',
+                 :value => 0}
+          %input{:id      => "participant_#{ attr }",
+                 :name    => name,
+                 :type    => 'checkbox',
+                 :value   => 1,
+                 :checked => participant.public_send(attr)}
+          %span= t 'yes'
+
+    - [:arrival_date, :departure_date].each do |attr|
+      .field
+        %dt.label
+          %label{:for => "participant_#{ attr }"}
+            = @field_labels[attr]
+        %dd.input
+          %input{:id    => "participant_#{ attr }",
+                 :name  => "participant[#{ attr }]",
+                 :type  => 'date',
+                 :value => participant.public_send(attr)}
+
+    - [:funding_requests, :special_requests].each do |attr|
+      .field
+        %dt.label
+          %label{:for => "participant_#{ attr }"}
+            = @field_labels[attr]
+        %dd.input
+          %textarea{:id   => "participant_#{ attr }",
+                    :name => "participant[#{ attr }]"}
+            &= participant.public_send(attr)
+    .field
+      %dt.label
+        %label{:for => 'participant_committee_comments'}
+          = @field_labels[:committee_comments]
+      %dd.input
+        %textarea{:id   => 'participant_committee_comments',
+                  :name => 'participant[committee_comments]'}
+          &= participant.committee_comments
+    %fieldset
+      %legend
+        = capitalize_first_letter_of(TalkProposal.model_name.human)
+        - if participant.talk_proposal
+          - proposed_talk_title = participant.talk_proposal.title
+          - proposed_talk_abstract = participant.talk_proposal.abstract
+        - else
+          - proposed_talk_abstract = proposed_talk_title = nil
+      .field
+        %dt.label
+          %label{:for => 'talk_proposal_attributes_title'}
+            = TalkProposal.human_attribute_name(:title)
+        %dd.input
+          %input.long_string{:id    => 'participant_talk_proposal_attributes_title',
+                             :name  => 'participant[talk_proposal_attributes][title]',
+                             :type  => 'text',
+                             :value => proposed_talk_title}
+      .field
+        %dt.label
+          %label{:for => 'talk_proposal_attributes_abstract'}
+            = TalkProposal.human_attribute_name(:abstract)
+        %dd.input
+          %textarea{:id   => 'participant_talk_proposal_attributes_abstract',
+                    :name => 'participant[talk_proposal_attributes][abstract]'}
+            &= proposed_talk_abstract
+
+  .actions
+    %button.update{:type => 'submit', :name => 'button', :value => 'update'}
+      = t 'buttons.submit'
+    %a.button.cancel{ :href => fixed_url("/#{ @locale }/oc/participants\#participant_#{participant.id}"),
+                      :role => 'button' }
+      = t 'buttons.cancel'

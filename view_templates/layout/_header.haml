@@ -1,0 +1,5 @@
+= haml :'layout/_language_selector'
+= haml :'layout/_banner'
+= haml :'layout/_main_menu'
+- if organiser_logged_in?
+  = haml :'layout/_main_menu_for_organisers'

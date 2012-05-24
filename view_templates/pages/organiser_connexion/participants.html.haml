@@ -1,0 +1,9 @@
+%ol
+  - @participants.each do |participant|
+    %li{:id => "participant_#{ participant.id }"}
+      - if participant.id == @form_participant_id
+        = haml :'pages/organiser_connexion/_participant_form',
+               :locals => { :participant => participant }
+      - else
+        = haml :'pages/organiser_connexion/_participant',
+               :locals => { :participant => participant }

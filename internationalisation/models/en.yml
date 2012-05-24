@@ -1,0 +1,81 @@
+# Original version downloaded from
+#   https://github.com/svenfuchs/rails-i18n/raw/master/rails/locale/en-US.yml
+
+en:
+  activerecord:
+    models:
+      participant  : "participant"
+      talk         : "talk"
+      plenary_talk : "plenary talk"
+      parallel_talk: "parallel talk"
+      hotel        : "hotel"
+      talk_proposal: "talk proposal"
+    attributes:
+      participant:
+        last_name             : "last name"
+        first_name            : "first name"
+        name_title            : "title"
+        email                 : "e-mail"
+        affiliation           : "affiliation (university or institute)"
+        academic_position     : "academic position"
+        country               : "country"
+        city                  : "city"
+        post_code             : "post code"
+        street_address        : "street address"
+        phone                 : "phone number"
+        i_m_t_member          : "member of IMT"
+        g_d_r_member          : "member of GDR"
+        invitation_needed     : "letter of invitation needed"
+        visa_needed           : "visa is required"
+        plenary_speaker       : "plenary speaker"
+        invited_speaker       : "invited speaker"
+        speaker               : "speaker"
+        student               : "student"
+        arrival_date          : "arrival date"
+        departure_date        : "departure date"
+        registration_fee_payed: "registration fee paid"
+        office_at_i_m_t       : "office number at IMT"
+        funding_requests      : "funding requests"
+        special_requests      : "funding requests"
+        approved              : "approved by the committee"
+        committee_comments    : "committee comments"
+      talk: &talk_attributes
+        type                : "type"
+        translated_type_name: "type"
+        duration_minutes    : "duration (minutes)"
+        speaker             : "speaker"
+        speaker_name        : "speaker"
+        title               : "title"
+        abstract            : "abstract"
+        joint_with          : "joint with"
+        authors             : "authors"
+        date                : "date"
+        time                : "time"
+        starts_at           : "starts at"
+        ends_at             : "ends at"
+        room_or_auditorium  : "room"
+      plenary_talk:
+        <<: *talk_attributes
+      parallel_talk:
+        <<: *talk_attributes
+      talk_proposal:
+        participant     : "participant"
+        duration_minutes: "duration (minutes)"
+        type            : "type"
+        title           : "title"
+        abstract        : "abstract"
+        accepted        : "accepted"
+      hotel:
+        name    : "name"
+        address : "address"
+        phone   : "phone"
+        web_site: "web site"
+
+  other_models:
+    models:
+      user: "user"
+    attributes:
+      user:
+        username: "username"
+        role    : "role"
+        password: "mot de passe"

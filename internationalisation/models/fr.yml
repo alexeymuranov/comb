@@ -1,0 +1,81 @@
+# Original version downloaded from
+#   https://github.com/svenfuchs/rails-i18n/raw/master/rails/locale/fr.yml
+
+fr:
+  activerecord:
+    models:
+      participant  : "participant(e)"
+      talk         : "exposé"
+      plenary_talk : "exposé plénière"
+      parallel_talk: "exposé parallel"
+      hotel        : "hôtel"
+      talk_proposal: "exposé proposé"
+    attributes:
+      participant:
+        last_name             : "nom"
+        first_name            : "prénom"
+        name_title            : "titre"
+        email                 : "adresse e-mail"
+        affiliation           : "affiliation (université ou institut)"
+        academic_position     : "statut académique"
+        country               : "pays"
+        city                  : "ville"
+        post_code             : "code postal"
+        street_address        : "adresse de la rue"
+        phone                 : "numéro de téléphone"
+        i_m_t_member          : "membre de l'IMT"
+        g_d_r_member          : "membre du GDR"
+        invitation_needed     : "besoin d'une lettre d'invitation"
+        visa_needed           : "besoin d'un visa"
+        plenary_speaker       : "orateur/oratrice plénière"
+        invited_speaker       : "orateur/oratrice invité(e)"
+        speaker               : "orateur/oratrice"
+        student               : "étudiant(e)"
+        arrival_date          : "date d'arrivée"
+        departure_date        : "date de départ"
+        registration_fee_payed: "frais d'inscription payés"
+        office_at_i_m_t       : "numéro du bureau à l'IMT"
+        funding_requests      : "demandes de financement"
+        special_requests      : "demandes spéciales"
+        approved              : "accepté(e) par le comité"
+        committee_comments    : "remarques du comité"
+      talk: &talk_attributes
+        type                : "type"
+        translated_type_name: "type"
+        duration_minutes    : "durée (minutes)"
+        speaker             : "orateur"
+        speaker_name        : "orateur"
+        title               : "titre"
+        abstract            : "résumé"
+        joint_with          : "en collaboration avec"
+        authors             : "auteurs"
+        date                : "date"
+        time                : "heure"
+        starts_at           : "début à"
+        ends_at             : "fin à"
+        room_or_auditorium  : "salle"
+      plenary_talk:
+        <<: *talk_attributes
+      parallel_talk:
+        <<: *talk_attributes
+      talk_proposal:
+        participant     : "participant"
+        duration_minutes: "durée (minutes)"
+        type            : "type"
+        title           : "titre"
+        abstract        : "résumé"
+        accepted        : "accepté"
+      hotel:
+        name    : "nom"
+        address : "adresse"
+        phone   : "téléphone"
+        web_site: "site web"
+
+  other_models:
+    models:
+      user: "utilisateur"
+    attributes:
+      user:
+        username: "nom d'utilisateur"
+        role    : "role"
+        password: "password"

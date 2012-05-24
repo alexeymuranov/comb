@@ -1,0 +1,6 @@
+%nav#lang_select
+  %ul
+    - @other_locales.each do |l|
+      %li
+        %a{:href => fixed_url("/#{ l }/#{ @page }")}
+          =l.upcase

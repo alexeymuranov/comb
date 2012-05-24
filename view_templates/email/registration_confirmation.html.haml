@@ -1,0 +1,12 @@
+<!doctype html>
+%html{:lang => @locale}
+  %head
+    %meta{:charset => 'utf-8'}/
+  %body
+    %section
+      = markdown(:"/text/#{ @locale }/registration_confirmation").force_encoding('utf-8')
+      %p= t 'email.registration.confirmation.your_pin_code_is', :code => @participant.new_pin
+    %section
+      %h6
+        = t 'email.registration.confirmation.details.header'
+      = haml(:"/email/_registration_details")

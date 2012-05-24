@@ -1,0 +1,5 @@
+* [Airport shuttle](http://www.tisseo.fr/se-deplacer/navettes-thematiques)
+* [SNCF](http://www.voyages-sncf.com/) (French trains)
+* [Tisséo](http://www.tisseo.fr/) (bus and metro in Toulouse), [metro and bus maps](http://www.tisseo.fr/se-deplacer/plans)
+* [Campus map](http://www.univ-tlse3.fr/servlet/com.univ.collaboratif.utils.LectureFichiergw?CODE_FICHIER=1347287993857&ID_FICHE=50206)
+* [Tourist office](http://www.toulouse-tourisme.com/eng)

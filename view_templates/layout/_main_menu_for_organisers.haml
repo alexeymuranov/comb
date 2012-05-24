@@ -1,0 +1,15 @@
+%nav.main_menu
+  %a.button#log_out_button{ :href => fixed_url("/#{ @locale }/logout"),
+                            :role => 'button' }
+    = t 'buttons.log_out'
+  %ul.menu#main_menu_for_organisers{:role => 'tablist'}
+    - ORGANISER_CONNEXION_PAGES.each do |p|
+      - page_title = t(p, :scope => :'page_titles')
+      - if p == @page
+        %li.current{:role => 'tab'}>
+          %span
+            = page_title
+      - else
+        %li{:role => 'tab'}>
+          %a{:href => fixed_url("/#{ @locale }/#{ p }")}
+            = page_title

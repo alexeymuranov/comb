@@ -1,0 +1,62 @@
+-# Parameters:
+-#   participant
+
+%strong
+  = participant.full_name_with_affiliation
+- if participant.approved?
+  ✓
+  = Participant.human_attribute_name(:approved)
+%br/
+%form.inline{ :action => fixed_url("/#{ @locale }/#{ @page }/#{ participant.id }"),
+              :method => 'post' }
+  %input{:type => "hidden", :name => "_method", :value => "put"}
+  - if participant.approved?
+    %button.on.toggle_off.deauthorize{ :type  => 'submit',
+                                       :name  => 'button',
+                                       :value => 'disapprove' }
+      = t 'buttons.do_not_accept'
+  - else
+    %button.off.toggle_on.authorize{ :type  => 'submit',
+                                     :name  => 'button',
+                                     :value => 'approve' }
+      = t 'buttons.accept'
+= t 'questions.show_details?'
+%input.style_control{:type => :checkbox}
+.hide_if_checkbox_unchecked
+  %dl
+    - @attributes.each do |attr|
+      %dt
+        = capitalize_first_letter_of(Participant.human_attribute_name(attr))
+      %dd
+        - if (v = participant.public_send(attr)).in?(true, false)
+          = text_from_boolean(v)
+        - else
+          = v
+    - if talk_proposal = participant.talk_proposal
+      %dt
+        = capitalize_first_letter_of(TalkProposal.model_name.human)
+        - if talk_proposal.accepted?
+          ✓
+          = TalkProposal.human_attribute_name(:accepted)
+        - elsif participant.approved? && main_organiser_logged_in?
+          %form.inline{ :action => fixed_url("/#{ @locale }/oc/talk_proposals/#{ talk_proposal.id }"),
+                        :method => 'post' }
+            %input{:type => "hidden", :name => "_method", :value => "put"}
+            %button.off.toggle_on.accept{ :type  => 'submit',
+                                          :name  => 'button',
+                                          :value => 'accept' }
+              = t 'buttons.accept'
+      %dd
+        %dl
+          - [:title, :abstract].each do |attr|
+            %dt
+              = TalkProposal.human_attribute_name(attr)
+            %dd
+              = talk_proposal.public_send(attr)
+  - if main_organiser_logged_in?
+    %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ @page }/edit/#{ participant.id }\#participant_#{ participant.id }"),
+                    :role => 'button' }
+      = t 'db_actions.update'
+    %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ @page }/delete/#{ participant.id }"),
+                      :role => 'button' }
+      = t 'db_actions.delete'

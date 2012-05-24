@@ -1,0 +1,89 @@
+-# Parameters:
+-#   talk
+
+%form{ :'accept-charset' => 'UTF-8',
+       :action           => fixed_url("/#{ @locale }/#{ @page }/#{ talk.id }"),
+       :method           => 'post' }
+  %input{:type => 'hidden', :name => '_method', :value => 'put'}
+
+  = haml :'_jquery_ui_for_forms'
+
+  - if talk.errors.any?
+    #form_error_explanation
+      %h2
+        - if talk.errors.count == 1
+          = t('activerecord.errors.template.header.one',
+              :model => Talk.model_name.human)
+        - else
+          = t('activerecord.errors.template.header.other',
+              :count => talk.errors.count,
+              :model => Talk.model_name.human)
+
+      %ul
+        - talk.errors.full_messages.each do |msg|
+          %li= msg
+
+  %dl.fields
+    .field.required
+      %dt.label
+        %label{:for => 'talk_title'}
+          = @field_labels[:title] + '*'
+      %dd.input
+        %input{:id    => 'talk_title',
+               :name  => 'talk[title]',
+               :required => 'required',
+               :type  => :text,
+               :value => talk.title}
+
+    .field
+      %dt.label
+        %label{:for => 'talk_abstract'}
+          = @field_labels[:abstract]
+      %dd.input
+        %textarea{:id   => 'talk_abstract',
+                  :name => 'talk[abstract]'}
+          &= talk.abstract
+
+    .disabled.field
+      %dt
+        = @field_labels[:type]
+      %dd
+        = talk.translated_type_name
+
+    .field
+      %dt.label
+        %label{:for => :talk_date}
+          = @field_labels[:date]
+      %dd.input
+        %input{:id    => 'talk_date',
+               :name  => 'talk[date]',
+               :type  => 'date',
+               :value => talk.date}
+
+    .field
+      %dt.label
+        %label{:for => :talk_time}
+          = @field_labels[:time]
+      %dd.input
+        %input{:id    => 'talk_time',
+               :name  => 'talk[time]',
+               :type  => 'time',
+               :value => talk.time}
+
+    .field
+      %dt.label
+        %label{:for => :talk_room_or_auditorium}
+          = @field_labels[:room_or_auditorium]
+      %dd.input
+        %input{:id    => 'talk_room_or_auditorium',
+               :name  => 'talk[room_or_auditorium]',
+               :type  => 'text',
+               :value => talk.room_or_auditorium}
+
+  .actions
+    %button.update{:type => 'submit', :name => 'button', :value => 'update'}
+      = t 'buttons.submit'
+    %a.button.cancel{ :href => fixed_url("/#{ @locale }/oc/talks\#talk_#{talk.id}"),
+                      :role => 'button' }
+      = t 'buttons.cancel'
+

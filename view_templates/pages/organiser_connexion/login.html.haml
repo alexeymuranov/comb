@@ -1,0 +1,27 @@
+%h3= t 'pages.login.header'
+
+%form{:'accept-charset' => 'UTF-8', :method => 'post'}
+  %dl.fields
+    .field.required
+      %dt.label
+        %label{:for => 'username'}
+          = t 'pages.login.form_labels.username'
+      %dd.input
+        %input{:id       => 'username',
+               :name     => 'username',
+               :required => 'required',
+               :type     => 'text'}
+      %dt
+        .field.required
+    .field.required
+      %dt.label
+        %label{:for => 'password'}
+          = t 'pages.login.form_labels.password'
+      %dd.input
+        %input{:id       => 'password',
+               :name     => 'password',
+               :required => 'required',
+               :type     => 'password'}
+  .actions
+    %button.log_in{:type => 'submit', :name => 'button', :value => 'log_in'}
+      = t 'buttons.log_in'

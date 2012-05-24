@@ -1,0 +1,249 @@
+@charset "UTF-8";
+
+////
+// Sass variables
+
+// $active-tab-bg-color: White;
+// $active-tab-text-color: Blue;
+// $current-tab-bg-color: DarkBlue;
+// $current-tab-text-color: White;
+$body-bg-color: AliceBlue;
+$main-border-color: #527ACC;
+
+////
+// Sass mixins
+
+// UL as tabs
+@mixin tabs {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+
+  & > li {
+    @include tab;
+  }
+}
+
+@mixin tab {
+  display: inline-block;
+
+  & > a {
+    @include tab-element;
+
+    &:hover {
+      color: White;
+      background-color: Blue;
+      text-decoration: none;
+    }
+  }
+
+  & > span {
+    @include tab-element;
+    border-bottom: none;
+  }
+}
+
+@mixin tab-element {
+  display: inline-block;
+  margin: 0 0 5px;
+  padding: 5px;
+  font-weight: bold;
+  @include border-top-radius(8px);
+  border: solid 1px $main-border-color;
+}
+
+////
+// General element styles
+
+a, a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button, input[type="submit"] {
+  @include button;
+  &._post_:hover {
+    @include button(Purple);
+  }
+  &._put_:hover, &._delete_:hover {
+    @include button(Red);
+  }
+}
+
+button._get_, a.button, a[role=button] {
+  @include button(pill, Blue);
+}
+
+fieldset {
+  @include border-radius(8px);
+  border-color: $main-border-color;
+}
+
+////
+// Special element styles
+
+nav#lang_select {
+  @include border-radius(10px);
+  border: solid 2px $main-border-color;
+  background-color: $body-bg-color;
+
+  & > ul {
+    & > li {
+      display: inline-block;
+
+      & > a {
+        display: inline-block;
+        font-weight: bold;
+        @include border-radius(8px);
+        border: none;
+
+        &:hover {
+          color: White;
+          background-color: Blue;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+nav.main_menu > ul.menu {
+  @include tabs;
+}
+
+#form_error_explanation {
+  border: 2px solid Firebrick;
+  @include border-radius(8px);
+
+  h2 {
+    background-color: Firebrick;
+    color: White;
+  }
+
+  ul {
+    li {
+      list-style: square;
+    }
+  }
+}
+
+button[type="submit"].log_in {
+  @include button(shiny, Silver);
+  &:hover {
+    @include button(shiny, Yellow);
+  }
+}
+
+#log_out_button {
+  @include button(shiny, Silver);
+  @include border-radius(16px);
+  &:hover {
+    @include button(shiny, Aqua);
+    @include border-radius(16px);
+  }
+}
+
+button[type="submit"] {
+  &.create {
+    &:hover {
+      @include button(Purple);
+    }
+  }
+
+  &.update, &.destroy {
+    &:hover {
+      @include button(Red);
+    }
+  }
+
+  &.toggle_on, &.toggle_off {
+    @include button(pill, Blue);
+    @include border-radius(3px);
+    &:hover {
+      @include button(pill, Red);
+      @include border-radius(3px);
+    }
+  }
+
+  &.create:before {
+    content: "✉";
+  }
+
+  &.toggle_on:before {
+    content: "✓";
+  }
+
+  &.toggle_off:before {
+    content: "✕";
+  }
+}
+
+a.button, a[role=button] {
+  &.new, &.edit, &.delete, &.cancel {
+    @include button(pill, Black);
+    &:hover {
+      @include button(pill, Gray);
+    }
+  }
+
+  &.cancel {
+    &:hover {
+      @include button(pill, White);
+    }
+  }
+
+  &.new:before {
+    content: "+";
+  }
+
+  &.edit:before {
+    content: "✎";
+  }
+
+  &.delete:before {
+    content: "␡";
+  }
+
+  &.cancel:before {
+    content: "∅";
+  }
+}
+
+// DL-based forms that look like TABLEs
+// form > dl.fields {
+//   display: table;
+//   // width: auto;
+//
+//   & > div.caption {
+//     display: table-caption;
+//   }
+//
+//   & > div.field {
+//     display: table-row;
+//
+//     dt.label {
+//       display: table-cell;
+//     }
+//
+//     dd.input {
+//       display: table-cell;
+//     }
+//   }
+// }
+
+////
+// Presentational styles
+
+form.inline {
+  display: inline-block;
+}
+
+////
+// Dynamic styles
+
+input[type=checkbox].style_control:not(:checked) + .hide_if_checkbox_unchecked {
+  display: none;
+}

@@ -1,0 +1,15 @@
+%nav.main_menu
+  %ul.menu#main_menu{:role => 'tablist'}
+    - PUBLIC_PAGES.each do |p|
+      - page_title = t(p, :scope => :page_titles)
+      - if p == @page
+        %li.current{:role => 'tab'}>
+          %span
+            = page_title
+      - else
+        %li{:role => 'tab'}>
+          %a{:href => fixed_url("/#{ @locale }/#{ p }")}
+            = page_title
+    - if self.class.development?
+      %li{:role => 'tab'}>
+        %a{:href => fixed_url("/#{ @locale }/org/login")} CO

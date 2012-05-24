@@ -1,0 +1,12 @@
+%article
+  -# %section#invited_participants
+  -#   -# XXX: had to add `force_encoding` as a workaround for a 'tilt' bug,
+  -#     see
+  -#       http://stackoverflow.com/questions/10341550/incompatible-character-encoding-in-simple-sinatra-app
+  -#     and
+  -#       https://github.com/rtomayko/tilt/issues/75
+  -#   = markdown(:"/text/#{ @locale }/invited_participants").force_encoding('utf-8')
+  %section#registered_participants
+    %ol
+      - @participants.each do |s|
+        %li= s.full_name_with_affiliation
