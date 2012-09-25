@@ -15,13 +15,7 @@ class CreateParticipants < ActiveRecord::Migration
 
       t.string  'gender',               :limit =>   8
 
-      t.boolean 'approved',           :default => false
-
-      t.boolean 'plenary_speaker',    :default => false
-      t.boolean 'invited_speaker',    :default => false
-      t.boolean 'speaker',            :default => false
       t.boolean 'student',            :default => false
-
       t.boolean 'i_m_t_member',       :default => false
       t.boolean 'g_d_r_member',       :default => false
 
@@ -31,14 +25,10 @@ class CreateParticipants < ActiveRecord::Migration
       t.date    'arrival_date'
       t.date    'departure_date'
 
-      t.decimal 'registration_fee_payed', :scale => 2,  :precision => 5
-
-      t.string  'office_at_i_m_t',      :limit =>  16
-
       t.string  'funding_requests'
       t.string  'special_requests'
 
-      t.text    'committee_comments',   :limit => 1024
+      t.string  'office_at_i_m_t',      :limit =>  16
 
       t.string  'pin_code_hash',        :limit =>  64
 
@@ -46,7 +36,6 @@ class CreateParticipants < ActiveRecord::Migration
     end
 
     add_index 'participants', ['last_name', 'first_name']
-    add_index 'participants', 'approved'
     add_index 'participants', 'visa_needed'
     add_index 'participants', 'invitation_needed'
   end

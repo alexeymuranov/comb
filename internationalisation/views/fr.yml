@@ -72,28 +72,10 @@ fr:
   names:
     conference_title: &conference_title "Topologie et Géométrie en petite dimension à Toulouse"
     i_m_t           : "Institut de Mathématiques de Toulouse"
-    g_d_r_tresses   : "GDR « Tresses »"
+    g_d_r_tresses   : "GDR « Tresses »"
     u_p_s           : "Université Paul Sabatier"
 
   base_page_title: "CTT 2013"
-
-  page_titles:
-    index                        : "Accueil"
-    program                      : "Programme"
-    scientific_committee         : "Comité scientifique"
-    organising_committee         : "Comité d'organisation"
-    directions_to_get_here       : "Directions"
-    funding                      : "Financement"
-    contacts                     : "Contacts"
-    accommodation                : "Hébergement"
-    participants                 : "Participants"
-    registration                 : "Inscription"
-    useful_links                 : "Liens utiles"
-    'org/login'                  : 'Connexion organisateur'
-    'org/participants'           : "CO : Participants"
-    'org/participants/to_approve': "CO : Participants non validés"
-    'org/talks'                  : "CO : Exposés"
-    'org/hotels'                 : "CO : Hôtels"
 
   header:
     title_conf: *conference_title
@@ -102,32 +84,14 @@ fr:
   footer: ~
 
   pages:
-    index:
-      # title: "Accueil"
-      header: "Page d'accueil"
-    program:
-      header: "Programme"
-    scientific_committee:
-      header: "Comité scientifique"
-    organising_committee:
-      header: "Comité d'organisation"
-    directions_to_get_here:
-      header: "Directions"
-    funding:
-      header: "Financement"
-    contacts:
-      header: "Contacts"
-    accommodation:
-      header: "Hébergement"
-    participants:
-      header: "Participants"
-      subheaders:
-        plenary_speakers  : "Orateurs plénières"
-        sectional_speakers: "Orateurs en parallèle"
-    registration:
+    registration: &registration_page
+      title: "Inscription"
       header: "Inscriptions"
       form:
         field_labels:
+          participations:
+            caption    : "Inscription simultanée pour 1 à 4 semaines"
+            which_weeks: "À quelles semaines voulez-vous vous inscrire ?"
           last_name             : "Votre nom :"
           first_name            : "Votre prénom :"
           name_title            : "Titre :"
@@ -140,8 +104,12 @@ fr:
           post_code             : "Code postal :"
           street_address        : "Adresse de la rue :"
           phone                 : "Votre numéro de téléphone :"
-          i_m_t_member          : "Êtes-vous membre de l'%{link_to_i_m_t} ?"
-          g_d_r_member          : "Êtes-vous membre du %{link_to_g_d_r} ?"
+          i_m_t_member          : "Êtes-vous membre de l'Institut de Mathématiques de Toulouse ?"
+          i_m_t_member__for_html: "Êtes-vous membre de l'%{link_to_i_m_t} ?"
+          i_m_t_member_html     : "Êtes-vous membre de l'<a href='http://www.math.univ-toulouse.fr/' target='_blank'>Institut de Mathématiques de Toulouse</a> ?"
+          g_d_r_member          : "Êtes-vous membre du GDR « Tresses » ?"
+          g_d_r_member__for_html: "Êtes-vous membre du %{link_to_g_d_r} ?"
+          g_d_r_member_html     : "Êtes-vous membre du <a href='http://tresses.math.cnrs.fr/' target='_blank'>GDR « Tresses »</a> ?"
           invitation_needed     : "Avez-vous besoin d'une lettre d'invitation ?"
           visa_needed           : "Avez-vous besoin de visa pour la France ?"
           # plenary_speaker       : "Orateur/oratrice plénière ?"
@@ -154,8 +122,8 @@ fr:
           office_at_i_m_t       : "Numéro du bureau à l'IMT :"
           funding_requests      : "Demandes de financement :"
           special_requests      : "Demandes particulières et remarques :"
-          talk_proposal:
-            caption : "Si vous souhaitez faire un exposé de 30 min,"
+          co_m_b_talk_proposal:
+            caption : "Si vous souhaitez faire un exposé de 30 min à « %{co_m_b_conf_title} »,"
             title   : "le titre :"
             abstract: "le résumé :"
         select_options:
@@ -166,9 +134,54 @@ fr:
             - "autre (à préciser dans les remarques)"
         buttons:
           submit: "Envoyer"
-    useful_links:
-      header: "Liens utiles"
+    ldtg-mb:
+      index:
+        title: "Accueil"
+        header: "Page d'accueil"
+      program:
+        title: "Programme"
+        header: "Programme"
+      scientific_committee:
+        title: "Comité scientifique"
+        header: "Comité scientifique"
+      organising_committee:
+        title: "Comité d'organisation"
+        header: "Comité d'organisation"
+      directions_to_get_here:
+        title: "Directions"
+        header: "Directions"
+      funding:
+        title: "Financement"
+        header: "Financement"
+      contacts:
+        title: "Contacts"
+        header: "Contacts"
+      accommodation:
+        title: "Hébergement"
+        header: "Hébergement"
+      participants:
+        title: "Participants"
+        header: "Participants"
+        subheaders:
+          plenary_speakers  : "Orateurs plénières"
+          sectional_speakers: "Orateurs en parallèle"
+      registration: *registration_page
+      useful_links:
+        title: "Liens utiles"
+        header: "Liens utiles"
+    org:
+      login:
+        title: "Connexion organisateur"
+      participants:
+        title: "CO : Participants"
+      participants_to_approve:
+        title: "CO : Participants non validés"
+      talks:
+        title: "CO : Exposés"
+      hotels:
+        title: "CO : Hôtels"
     login:
+      title:
       header: "Connexion pour les organisateurs"
       form_labels:
         username: "Nom d'utilisateur :"

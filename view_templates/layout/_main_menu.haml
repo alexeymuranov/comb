@@ -1,7 +1,7 @@
 %nav.main_menu
   %ul.menu#main_menu{:role => 'tablist'}
     - PUBLIC_PAGES.each do |p|
-      - page_title = t(p, :scope => :page_titles)
+      - page_title = t(:title, :scope => page_i18n_scope(p))
       - if p == @page
         %li.current{:role => 'tab'}>
           %span

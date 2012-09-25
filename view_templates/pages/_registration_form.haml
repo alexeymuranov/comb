@@ -17,6 +17,38 @@
         - @participant.errors.full_messages.each do |msg|
           %li= msg
 
+  %fieldset
+    %dl.fields
+      .field.required
+        %dt.label
+          = t 'pages.registration.form.field_labels.participations.which_weeks'
+        %dd.input
+          %ol
+            - @conferences.each do |conf|
+              - participation = @participant.participations.where(:conference_id => conf.id).first
+              %input{:type => :hidden, :name => 'conference_ids[]', :value => conf.id}
+              %li
+                %input{:id      => "participant_conference_#{ conf.id }_participation_conference_id",
+                       :name    => 'participant[participations_attributes][][conference_id]',
+                       :type    => :checkbox,
+                       :value   => conf.id,
+                       :checked => participation}
+                %span
+                  = conf.title(@locale)
+                %span
+                  = "(#{ conf.location }, #{ l(conf.start_date) } -- #{ l(conf.end_date) })"
+              %dl.fields
+                - [:arrival_date, :departure_date].each do |attr|
+                  .field
+                    %dt.label
+                      %label{:for => "participant_conference_#{ conf.id }_participation_#{ attr }"}
+                        = @field_labels[attr]
+                    %dd.input
+                      %input{:id    => "participant_conference_#{ conf.id }_participation_#{ attr }",
+                             :name  => "participant[participations_attributes][][#{ attr }]",
+                             :type  => 'date',
+                             :value => @participant.public_send(attr)}
+
   %dl.fields
     - [:first_name, :last_name].each do |attr|
       .field.required
@@ -95,17 +127,6 @@
                  :checked => @participant.public_send(attr)}
           %span= t 'yes'
 
-    - [:arrival_date, :departure_date].each do |attr|
-      .field
-        %dt.label
-          %label{:for => "participant_#{ attr }"}
-            = @field_labels[attr]
-        %dd.input
-          %input{:id    => "participant_#{ attr }",
-                 :name  => "participant[#{ attr }]",
-                 :type  => 'date',
-                 :value => @participant.public_send(attr)}
-
     - [:funding_requests, :special_requests].each do |attr|
       .field
         %dt.label
@@ -115,31 +136,14 @@
           %textarea{:id   => "participant_#{ attr }",
                     :name => "participant[#{ attr }]"}
             &= @participant.public_send(attr)
+
+  - if @conferences.map(&:id).include? Conference.co_m_b_conf.id
     %fieldset
       %legend
-        = t 'pages.registration.form.field_labels.talk_proposal.caption'
-        - if @participant.talk_proposal
-          - proposed_talk_title = @participant.talk_proposal.title
-          - proposed_talk_abstract = @participant.talk_proposal.abstract
-        - else
-          - proposed_talk_abstract = proposed_talk_title = nil
-      .field
-        %dt.label
-          %label{:for => 'talk_proposal_attributes_title'}
-            = t 'pages.registration.form.field_labels.talk_proposal.title'
-        %dd.input
-          %input.long_string{:id    => 'participant_talk_proposal_attributes_title',
-                             :name  => 'participant[talk_proposal_attributes][title]',
-                             :type  => 'text',
-                             :value => proposed_talk_title}
-      .field
-        %dt.label
-          %label{:for => 'talk_proposal_attributes_abstract'}
-            = t 'pages.registration.form.field_labels.talk_proposal.abstract'
-        %dd.input
-          %textarea{:id   => 'participant_talk_proposal_attributes_abstract',
-                    :name => 'participant[talk_proposal_attributes][abstract]'}
-            &= proposed_talk_abstract
+        = t 'pages.registration.form.field_labels.co_m_b_talk_proposal.caption',
+            :co_m_b_conf_title => Conference.co_m_b_conf.title(@locale)
+
+      = haml :'pages/_co_m_b_talk_proposal_fields'
 
   .actions
     %button.create{:type => 'submit', :name => 'button', :value => 'create'}

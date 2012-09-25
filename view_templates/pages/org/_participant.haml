@@ -32,7 +32,7 @@
           = text_from_boolean(v)
         - else
           = v
-    - if talk_proposal = participant.talk_proposal
+    - if talk_proposal = participant.co_m_b_talk_proposal
       %dt
         = capitalize_first_letter_of(TalkProposal.model_name.human)
         - if talk_proposal.accepted?

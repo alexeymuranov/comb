@@ -2,7 +2,7 @@
   - [ :last_name, :first_name, :email, :affiliation,
       :academic_position, :country, :city, :post_code, :street_address,
       :phone, :i_m_t_member,
-      :g_d_r_member, :visa_needed, :arrival_date, :departure_date,
+      :g_d_r_member, :visa_needed,
       :funding_requests, :special_requests ].each do |attr|
     %dt
       = t attr, :scope  => 'email.registration.fields'
@@ -15,7 +15,7 @@
   %dt
     = t 'email.registration.fields.talk_proposed?'
   %dd
-    - if @participant.talk_proposal
+    - if (participation = @participant.co_m_b_participation) && (talk_proposal = participation.talk_proposal)
       %strong
         ✓
         = t 'yes'
@@ -25,7 +25,7 @@
             = t attr,
                 :scope => 'email.registration.fields.talk_proposal_fields'
           %dd
-            = @participant.talk_proposal.public_send(attr)
+            = talk_proposal.public_send(attr)
     - else
       ∅
       = t 'no'

@@ -36,6 +36,8 @@ module AttributeTypes
         @attribute_types = Hash.new { |hash, key|
           if col = columns_hash[key.to_s]
             hash[key] = col.type
+          elsif assoc_reflection = reflect_on_association(key)  # NOTE: key must be a Symbol
+            hash[key] = assoc_reflection.macro  # return :belongs_to, :has_many, :has_one
           end
         }
       end

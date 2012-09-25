@@ -2,8 +2,8 @@
   - @talks.each do |talk|
     %li{:id => "talk_#{ talk.id }"}
       - if talk.id == @form_talk_id
-        = haml :'pages/organiser_connexion/_talk_form',
+        = haml :'pages/org/_talk_form',
                :locals => { :talk => talk }
       - else
-        = haml :'pages/organiser_connexion/_talk',
+        = haml :'pages/org/_talk',
                :locals => { :talk => talk }

@@ -4,7 +4,7 @@
     = t 'buttons.log_out'
   %ul.menu#main_menu_for_organisers{:role => 'tablist'}
     - ORGANISER_CONNEXION_PAGES.each do |p|
-      - page_title = t(p, :scope => :'page_titles')
+      - page_title = t(:title, :scope => page_i18n_scope(p))
       - if p == @page
         %li.current{:role => 'tab'}>
           %span

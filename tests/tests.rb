@@ -42,7 +42,7 @@ describe 'Test CTT2013 application' do
     [:participants, :registration].each do |page|
       app::LOCALES.each do |locale|
         app::LOCALE_URL_FRAGMENTS[locale].each do |l|
-          app::PAGE_URL_FRAGMENTS[page].each do |p|
+          app::PAGE_URL_FRAGMENTS[:"#{ app::COMB_PAGE_PREFIX }#{ page }"].each do |p|
             url = "#{ app::REQUEST_BASE_URL }#{ l }#{ p }"
             it "#{ url } should respond OK" do
               get url

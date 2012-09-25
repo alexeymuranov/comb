@@ -4,9 +4,9 @@ class CreateTalks < ActiveRecord::Migration
       t.string  'type'
       t.integer 'duration_minutes'
 
-      t.integer 'participant_id'
+      t.integer 'participation_id'
 
-      t.string  'title',          :null => false
+      t.string  'title',  :null => false
       t.text    'abstract'
       t.string  'joint_with'
       t.date    'date'
@@ -17,8 +17,8 @@ class CreateTalks < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index 'talks', 'participant_id'
-    add_index 'talks', ['title', 'participant_id']
+    add_index 'talks', 'participation_id'
+    add_index 'talks', ['title', 'participation_id']
   end
 
   def down

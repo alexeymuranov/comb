@@ -1,0 +1,23 @@
+%dl.fields
+  - if (participation = @participant.co_m_b_participation) && (talk_proposal = participation.talk_proposal)
+    - proposed_talk_title = talk_proposal.title
+    - proposed_talk_abstract = talk_proposal.abstract
+  - else
+    - proposed_talk_abstract = proposed_talk_title = nil
+.field
+  %dt.label
+    %label{:for => 'participant_co_m_b_participation_talk_proposal_attributes_title'}
+      = t 'pages.registration.form.field_labels.co_m_b_talk_proposal.title'
+  %dd.input
+    %input.long_string{:id    => 'participant_co_m_b_participation_attributes_talk_proposal_attributes_title',
+                       :name  => 'participant[co_m_b_participation_attributes][talk_proposal_attributes][title]',
+                       :type  => 'text',
+                       :value => proposed_talk_title}
+.field
+  %dt.label
+    %label{:for => 'participant_co_m_b_participation_attributes_talk_proposal_attributes_abstract'}
+      = t 'pages.registration.form.field_labels.co_m_b_talk_proposal.abstract'
+  %dd.input
+    %textarea{:id   => 'participant_co_m_b_participation_attributes_talk_proposal_attributes_abstract',
+              :name => 'participant[co_m_b_participation_attributes][talk_proposal_attributes][abstract]'}
+      &= proposed_talk_abstract

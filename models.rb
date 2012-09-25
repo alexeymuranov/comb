@@ -4,64 +4,83 @@ require 'digest' # hash function
 
 require './lib/attribute_types' # my custom module
 
-class Participant < ActiveRecord::Base
-  self.table_name = :participants
+class Conference < ActiveRecord::Base
+  self.table_name = :conferences
 
   include AttributeTypes
 
   # Associations
+  has_many :participations, :class_name  => :Participation,
+                            :foreign_key => :conference_id,
+                            :inverse_of  => :conference
+
+  has_many :participants, :through => :participations,
+                          :source  => :participant
+
+  # Scopes
+  scope :default_order, order("#{ table_name }.start_date ASC")
+
+  # Public class methods
+  def self.intro_conf
+    where(:identifier => 'Intro').first
+  end
+
+  def self.g_e_s_t_a_conf
+    where(:identifier => 'GESTA').first
+  end
+
+  def self.llagone_conf
+    where(:identifier => 'Llagone').first
+  end
+
+  def self.co_m_b_conf
+    where(:identifier => 'CoMB').first
+  end
+
+  # Public instance methods
+  def title(locale)
+    title_attr_name = "#{ locale }_title"
+    respond_to?(title_attr_name) ? public_send(title_attr_name) : en_title
+  end
+end
+
+class Participation < ActiveRecord::Base
+  self.table_name = :participations
+
+  include AttributeTypes
+
+  # Associations
+  belongs_to :participant, :class_name  => :Participant,
+                           :foreign_key => :participant_id,
+                           :inverse_of  => :participations
+
+  belongs_to :conference, :class_name   => :Conference,
+                           :foreign_key => :conference_id,
+                           :inverse_of  => :participations
+
   has_many :talks, :class_name  => :Talk,
-                   :foreign_key => :participant_id,
+                   :foreign_key => :participation_id,
                    :dependent   => :nullify,
-                   :inverse_of  => :speaker
+                   :inverse_of  => :participation
 
   has_one :talk_proposal, :class_name  => :TalkProposal,
-                          :foreign_key => :participant_id,
+                          :foreign_key => :participation_id,
                           :dependent   => :destroy,
-                          :inverse_of  => :participant
-
-  has_many :accommodations, :class_name  => :Accommodation,
-                            :foreign_key => :participant_id,
-                            :inverse_of  => :participant
-
-  has_many :hotels, :through => :accommodations,
-                    :source  => :hotel
+                          :inverse_of  => :participation
 
   has_one :conference_dinner_reservation,
           :class_name  => :ConferenceDinnerReservation,
-          :foreign_key => :participant_id,
+          :foreign_key => :participation_id,
           :dependent   => :destroy,
-          :inverse_of  => :participant
+          :inverse_of  => :participation
 
   accepts_nested_attributes_for :talk_proposal, :reject_if     => :all_blank,
                                                 :allow_destroy => true,
                                                 :update_only   => true
 
   # Validations
-  validates_presence_of :first_name,
-                        :last_name
-
-  validates_length_of :first_name, :last_name,
-                      :maximum => 32
-
-  validates_length_of :name_title, :maximum   => 16,
-                                   :allow_nil => true
-
-  validates_format_of :email,
-                      :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-
-  validates_inclusion_of :gender,
-                         :in        => ['female', 'male', :female, :male],
-                         :allow_nil => true
-
-  validates_uniqueness_of :first_name, :scope         => :last_name,
-                                       :case_sesitive => false
-
-  validates_uniqueness_of :email
 
   # Scopes
-  scope :default_order, order("UPPER(participants.last_name) ASC").
-                          order("UPPER(participants.first_name) ASC")
   scope :approved, where(:approved => true)
   scope :not_approved, where(:approved => false)
   scope :plenary_speakers, where(:plenary_speaker => true)
@@ -88,6 +107,76 @@ class Participant < ActiveRecord::Base
       write_attribute(:speaker, true)
     end
   end
+end
+
+class Participant < ActiveRecord::Base
+  self.table_name = :participants
+
+  include AttributeTypes
+
+  # Associations
+  has_many :participations, :class_name  => :Participation,
+                            :foreign_key => :participant_id,
+                            :inverse_of  => :participant,
+                            # :include     => :conference,
+                            :autosave    => true
+
+  has_many :conferences, :through => :participations,
+                         :source  => :conference
+
+  has_many :talks, :through => :participations,
+                   :source  => :talks
+
+  has_many :talk_proposals, :through => :participations,
+                            :source  => :talk_proposal
+
+  has_many :accommodations, :class_name  => :Accommodation,
+                            :foreign_key => :participant_id,
+                            :inverse_of  => :participant
+
+  has_many :hotels, :through => :accommodations,
+                    :source  => :hotel
+
+  has_many :conference_dinner_reservations,
+           :through => :participations,
+           :source  => :conference_dinner_reservation
+
+  accepts_nested_attributes_for :participations, :reject_if     => :all_blank,
+                                                 :allow_destroy => true,
+                                                 :update_only   => true
+
+  # Validations
+  validates_presence_of :first_name,
+                        :last_name
+
+  validates_length_of :first_name, :last_name,
+                      :maximum => 32
+
+  validates_length_of :name_title, :maximum   => 16,
+                                   :allow_nil => true
+
+  validates_format_of :email,
+                      :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+
+  validates_inclusion_of :gender,
+                         :in        => ['female', 'male', :female, :male],
+                         :allow_nil => true
+
+  validates_uniqueness_of :first_name, :scope         => :last_name,
+                                       :case_sesitive => false
+
+  validates_uniqueness_of :email
+
+  # Validaton of assocaitions
+  validates_presence_of :participations
+
+  # Scopes
+  scope :default_order, order("UPPER(#{ table_name }.last_name) ASC").
+                          order("UPPER(#{ table_name }.first_name) ASC")
+
+  scope :approved, joins(:participations).merge(Participation.approved).uniq
+
+  scope :not_all_participations_approved, joins(:participations).merge(Participation.not_approved).uniq
 
   # Virtual attributes
   def full_name
@@ -99,6 +188,25 @@ class Participant < ActiveRecord::Base
   end
 
   def new_pin; @new_pin end
+
+  def approved
+    participations.approved.any?
+  end
+
+  alias_method :approved?, :approved
+
+  # CoMB related
+  def co_m_b_participation
+    participations.where(:conference_id => Conference.co_m_b_conf.id).first
+  end
+
+  def co_m_b_committee_comments
+    co_m_b_participation.committee_comments if co_m_b_participation
+  end
+
+  def co_m_b_talk_proposal
+    co_m_b_participation.talk_proposal if co_m_b_participation
+  end
 
   # Public instance methods
   def generate_pin
@@ -114,14 +222,20 @@ end
 
 class Talk < ActiveRecord::Base
   self.table_name = :talks
-  self.inheritance_column = 'type'
+  self.inheritance_column = :type
 
   include AttributeTypes
 
   # Associations
-  belongs_to :speaker, :class_name  => :Participant,
-                       :foreign_key => :participant_id,
-                       :inverse_of  => :talks
+  belongs_to :conference_speaker, :class_name  => :Participation,
+                                  :foreign_key => :participation_id,
+                                  :inverse_of  => :talks
+
+  has_one :conference, :through => :conference_speaker,
+                       :source  => :conference
+
+  has_one :speaker, :through => :conference_speaker,
+                    :source  => :participant
 
   has_one :original_proposal, :class_name  => :TalkProposal,
                               :foreign_key => :talk_id,
@@ -136,7 +250,7 @@ class Talk < ActiveRecord::Base
   validates_inclusion_of :type, :in => %w[PlenaryTalk ParallelTalk]
 
   # Readonly attributes
-  attr_readonly :participant_id
+  attr_readonly :participation_id
 
   # Scopes
   scope :default_order, order("UPPER(talks.title) ASC")
@@ -229,12 +343,12 @@ class ConferenceDinnerReservation < ActiveRecord::Base
   include AttributeTypes
 
   # Associations
-  belongs_to :participant, :class_name  => :Participant,
-                           :foreign_key => :participant_id,
-                           :inverse_of  => :conference_dinner_reservation
+  belongs_to :participation, :class_name  => :Participation,
+                             :foreign_key => :participation_id,
+                             :inverse_of  => :conference_dinner_reservation
 
   # Readonly attributes
-  attr_readonly :participant_id
+  attr_readonly :participatioin_id
 end
 
 class TalkProposal < ActiveRecord::Base
@@ -243,16 +357,19 @@ class TalkProposal < ActiveRecord::Base
   include AttributeTypes
 
   # Associations
-  belongs_to :participant, :class_name  => :Participant,
-                           :foreign_key => :participant_id,
-                           :inverse_of  => :talk_proposal
+  belongs_to :participation, :class_name  => :Participation,
+                             :foreign_key => :participation_id,
+                             :inverse_of  => :talk_proposal
+
+  has_one :participant, :through => :participation,
+                        :source  => :participant
 
   belongs_to :talk, :class_name  => :ParallelTalk,
                     :foreign_key => :talk_id,
                     :inverse_of  => :original_proposal
 
   # Readonly attributes
-  attr_readonly :participant_id
+  attr_readonly :participation_id
 
   # Virtual attributes
   def accepted?
@@ -262,9 +379,9 @@ class TalkProposal < ActiveRecord::Base
   # Other instance methods
   def accept
     if talk.nil?
-      create_talk!(:participant_id => participant_id,
-                   :title          => title,
-                   :abstract       => abstract)
+      create_talk!(:participation_id => participation_id,
+                   :title            => title,
+                   :abstract         => abstract)
     end
   end
 end

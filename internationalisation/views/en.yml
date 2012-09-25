@@ -77,24 +77,6 @@ en:
 
   base_page_title: "CTT 2013"
 
-  page_titles:
-    index                        : "Home"
-    program                      : "Programme"
-    scientific_committee         : "Scientific committee"
-    organising_committee         : "Organising committee"
-    directions_to_get_here       : "Directions"
-    funding                      : "Funding"
-    contacts                     : "Contacts"
-    accommodation                : "Accommodation"
-    participants                 : "Participants"
-    registration                 : "Registration"
-    useful_links                 : "Useful links"
-    'org/login'                  : 'Organiser login'
-    'org/participants'           : "OC : Participants"
-    'org/participants/to_approve': "OC : Unapproved participants"
-    'org/talks'                  : "OC : Talks"
-    'org/hotels'                 : "OC : Hotels"
-
   header:
     title_conf: *conference_title
     michel: "on the occasion of Michel Boileau's 60th birthday"
@@ -102,32 +84,14 @@ en:
   footer: ~
 
   pages:
-    index:
-      # title: "Home"
-      header: "Home page"
-    program:
-      header: "Programme"
-    scientific_committee:
-      header: "Scientific committee"
-    organising_committee:
-      header: "Organising committee"
-    directions_to_get_here:
-      header: "Directions"
-    funding:
-      header: "Funding"
-    contacts:
-      header: "Contacts"
-    accommodation:
-      header: "Accommodation"
-    participants:
-      header: "Participants"
-      subheaders:
-        plenary_speakers  : "Plenary speakers"
-        sectional_speakers: "Sectional speakers"
-    registration:
+    registration: &registration_page
+      title: "Registration"
       header: "Registration"
       form:
         field_labels:
+          participations:
+            caption    : "Simultaneous registration for 1 to 4 weeks"
+            which_weeks: "For which weeks would you like to register?"
           last_name             : "Your last name:"
           first_name            : "Your first name:"
           name_title            : "Title:"
@@ -140,8 +104,12 @@ en:
           post_code             : "Post code:"
           street_address        : "Street address:"
           phone                 : "Phone number:"
-          i_m_t_member          : "Are you a member of the %{link_to_i_m_t}?"
-          g_d_r_member          : "Are you a member of the %{link_to_g_d_r}?"
+          i_m_t_member          : "Are you a member of the Toulouse Mathematics Institute?"
+          i_m_t_member__for_html: "Are you a member of the %{link_to_i_m_t}?"
+          i_m_t_member_html     : "Are you a member of the <a href='http://www.math.univ-toulouse.fr/' target='_blank'>Toulouse Mathematics Institute</a>?"
+          g_d_r_member          : "Are you a member of the GDR \"Tresses\"?"
+          g_d_r_member__for_html: "Are you a member of the %{link_to_g_d_r}?"
+          g_d_r_member_html     : "Are you a member of the <a href='http://tresses.math.cnrs.fr/' target='_blank'>GDR \"Tresses\"</a>?"
           invitation_needed     : "Do you need an invitation letter?"
           visa_needed           : "Do you need a visa for France?"
           # plenary_speaker       : "Plenary speaker?"
@@ -154,8 +122,8 @@ en:
           office_at_i_m_t       : "Office number at IMT:"
           funding_requests      : "Funding requests:"
           special_requests      : "Comments and special requests:"
-          talk_proposal:
-            caption : "If you would like to give a 30 min talk,"
+          co_m_b_talk_proposal:
+            caption : "If you would like to give a 30 min talk at \"%{co_m_b_conf_title}\","
             title   : "the title:"
             abstract: "the abstract:"
         select_options:
@@ -166,10 +134,55 @@ en:
             - "other (explain in the comments)"
         buttons:
           submit: "Submit"
-    useful_links:
-      header: "Useful links"
+    ldtg-mb:
+      index:
+        title: "Home"
+        header: "Home page"
+      program:
+        title: "Programme"
+        header: "Programme"
+      scientific_committee:
+        title: "Scientific committee"
+        header: "Scientific committee"
+      organising_committee:
+        title: "Organising committee"
+        header: "Organising committee"
+      directions_to_get_here:
+        title: "Directions"
+        header: "Directions"
+      funding:
+        title: "Funding"
+        header: "Funding"
+      contacts:
+        title: "Contacts"
+        header: "Contacts"
+      accommodation:
+        title: "Accommodation"
+        header: "Accommodation"
+      participants:
+        title: "Participants"
+        header: "Participants"
+        subheaders:
+          plenary_speakers  : "Plenary speakers"
+          sectional_speakers: "Sectional speakers"
+      registration: *registration_page
+      useful_links:
+        title: "Useful links"
+        header: "Useful links"
+    org:
+      login:
+        title: "Organiser login"
+      participants:
+        title: "OC : Participants"
+      participants_to_approve:
+        title: "OC : Unapproved participants"
+      talks:
+        title: "OC : Talks"
+      hotels:
+        title: "OC : Hotels"
     login:
-      header: "Organiser Connexion"
+      title: "Organiser login"
+      header: "Organiser login"
       form_labels:
         username: "Username:"
         password: "Password:"

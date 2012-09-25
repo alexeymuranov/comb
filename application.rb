@@ -176,18 +176,17 @@ class CTT2013 < Sinatra::Base
       :country, :city, :post_code, :street_address, :phone,
       :i_m_t_member, :g_d_r_member,
       :invitation_needed, :visa_needed,
-      :arrival_date, :departure_date,
-      :funding_requests, :special_requests,
-      :talk_proposal_attributes ]
+      # :arrival_date, :departure_date,
+      :funding_requests, :special_requests ]
   PARTICIPANT_ATTRIBUTES[:show] = PARTICIPANT_ATTRIBUTES[:index] =
     [ :first_name, :last_name, :email, :affiliation,
       :academic_position,
       :country, :city, :post_code, :street_address, :phone,
       :i_m_t_member, :g_d_r_member,
       :invitation_needed, :visa_needed,
-      :arrival_date, :departure_date,
+      # :arrival_date, :departure_date,
       :funding_requests, :special_requests,
-      :approved, :committee_comments ]
+      :approved, :co_m_b_committee_comments ]
 
   TALK_ATTRIBUTES = {}
   TALK_ATTRIBUTES[:show] = TALK_ATTRIBUTES[:index] =
@@ -198,9 +197,19 @@ class CTT2013 < Sinatra::Base
   HOTEL_ATTRIBUTES[:show] = HOTEL_ATTRIBUTES[:index] =
     [:name, :address, :phone, :web_site]
 
+  helpers do
+    def page_i18n_scope(page)
+      'pages.' + page.to_s.gsub(?/, ?.)
+    end
+  end
+
   # Handlers
   # ========
   #
+
+  COMB_PAGE_PREFIX = :'ldtg-mb/'
+  ORG_PAGE_PREFIX = :'org/'
+
   PUBLIC_PAGES = [ :index,
                    :program,
                    :scientific_committee,
@@ -211,7 +220,8 @@ class CTT2013 < Sinatra::Base
                    :accommodation,
                    :participants,
                    :registration,
-                   :useful_links ]
+                   :useful_links
+                 ].map { |p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
 
   STATIC_PUBLIC_PAGES = Set[ :index,
                              :program,
@@ -221,21 +231,23 @@ class CTT2013 < Sinatra::Base
                              :funding,
                              :contacts,
                              :accommodation,
-                             :useful_links ]
+                             :useful_links
+                           ].map { |p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
 
-  ORGANISER_CONNEXION_PAGES = [ :'org/participants/to_approve',
-                                :'org/participants',
-                                :'org/talks',
-                                :'org/hotels' ]
+  ORGANISER_CONNEXION_PAGES = [ :participants_to_approve,
+                                :participants,
+                                :talks,
+                                :hotels
+                              ].map { |p| :"#{ ORG_PAGE_PREFIX }#{ p }" }
 
   LOCALE_URL_FRAGMENTS = {}.tap { |h| LOCALES.each { |l| h[l] = ["#{ l }/"] } }
   LOCALE_URL_FRAGMENTS[DEFAULT_LOCALE] << ''
 
   # LOCALE_URL_FRAGMENT_MAP = { 'fr' => :fr, 'en' => :en, '' => :fr } # this is not used yet
 
-  DEFAULT_PAGE = PUBLIC_PAGES[0]
+  DEFAULT_COMB_PAGE = PUBLIC_PAGES[0]
   PAGE_URL_FRAGMENTS = {}.tap { |h| PUBLIC_PAGES.each { |p| h[p] = [p.to_s] } }
-  PAGE_URL_FRAGMENTS[DEFAULT_PAGE] << ''
+  PAGE_URL_FRAGMENTS[DEFAULT_COMB_PAGE] << COMB_PAGE_PREFIX
 
   # Cache control
   before do
@@ -258,6 +270,16 @@ class CTT2013 < Sinatra::Base
     scss :'/stylesheets/application.css'
   end
 
+
+  # XXX: this is a temporary redirect
+  LOCALES.each do |locale|
+    LOCALE_URL_FRAGMENTS[locale].each do |l|
+      get "#{ REQUEST_BASE_URL }#{ l }" do
+        redirect fixed_url("/#{ l }#{ DEFAULT_COMB_PAGE }")
+      end
+    end
+  end
+
   STATIC_PUBLIC_PAGES.each do |page|
     page_file = :"/pages/#{ page }.html"
     LOCALES.each do |locale|
@@ -275,32 +297,49 @@ class CTT2013 < Sinatra::Base
 
   LOCALES.each do |locale|
     LOCALE_URL_FRAGMENTS[locale].each do |l|
-      PAGE_URL_FRAGMENTS[:registration].each do |p|
-        # A page that uses models
+      get "#{ REQUEST_BASE_URL }#{ l }registration" do
+        set_locale(locale)
+        @conferences = conferences_from_conference_ids_in_param_array(
+                         params[:conference_ids])
+        @participant = Participant.new(:conferences => @conferences)
+        render_registration_page
+      end
+    end
+  end
+
+  co_m_b_registration_page = :"#{ COMB_PAGE_PREFIX }registration"
+  page_file = :"/pages/#{ co_m_b_registration_page }.html"
+  LOCALES.each do |locale|
+    LOCALE_URL_FRAGMENTS[locale].each do |l|
+      PAGE_URL_FRAGMENTS[co_m_b_registration_page].each do |p|
         get "#{ REQUEST_BASE_URL }#{ l }#{ p }" do
-          # @participant = Participant.new :arrival_date   => '2013-06-23',
-          #                                :departure_date => '2013-06-28'
-          @participant = Participant.new
-          render_registration_page(locale)
+          set_locale(locale)
+          set_page(co_m_b_registration_page)
+          haml page_file, :layout => :layout
         end
       end
+    end
+  end
 
-      PAGE_URL_FRAGMENTS[:participants].each do |p|
+  LOCALES.each do |locale|
+    LOCALE_URL_FRAGMENTS[locale].each do |l|
+      participants_page = :"#{ COMB_PAGE_PREFIX }participants"
+      PAGE_URL_FRAGMENTS[participants_page].each do |p|
         # A page that needs access to the database
         get "#{ REQUEST_BASE_URL }#{ l }#{ p }" do
           set_locale(locale)
-          set_page(:participants)
+          set_page(participants_page)
 
           @participants = Participant.approved.default_order.all
 
-          haml :'/pages/participants.html', :layout => :layout
+          haml :"/pages/#{ participants_page }.html", :layout => :layout
         end
       end
 
-      get "#{ REQUEST_BASE_URL }#{ l }org/login" do
+      get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }login" do
         set_locale(locale)
-        set_page(:'org/login')
-        haml :'/pages/organiser_connexion/login.html'
+        set_page(:"#{ ORG_PAGE_PREFIX }login")
+        haml :"/pages/#{ ORG_PAGE_PREFIX }login.html"
       end
 
       get "#{ REQUEST_BASE_URL }#{ l }logout" do
@@ -309,110 +348,114 @@ class CTT2013 < Sinatra::Base
         redirect fixed_url("/#{ locale }/")
       end
 
-      get "#{ REQUEST_BASE_URL }#{ l }org/" do
+      get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }" do
         require_organiser_login!
-        redirect fixed_url("/#{ locale }/org/participants/to_approve")
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants_to_approve")
       end
 
-      [:'org/participants/to_approve', :'org/participants'].each do |page|
+      [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
+        :"#{ ORG_PAGE_PREFIX }participants"
+      ].each do |page|
         get "#{ REQUEST_BASE_URL }#{ l }#{ page }" do
           require_organiser_login!
           set_locale(locale)
           set_page(page)
           @attributes = PARTICIPANT_ATTRIBUTES[:index]
           @participants = Participant.scoped
-          if page == :'org/participants/to_approve'
-            @participants = @participants.not_approved
+          if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
+            @participants = @participants.not_all_participations_approved
           end
           @participants = @participants.default_order.all
-          haml :'/pages/organiser_connexion/participants.html'
+          haml :"/pages/#{ ORG_PAGE_PREFIX }participants.html"
         end
       end
 
-      get "#{ REQUEST_BASE_URL }#{ l }org/talks" do
+      get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks" do
         require_organiser_login!
         set_locale(locale)
-        set_page(:'org/talks')
+        set_page(:"#{ ORG_PAGE_PREFIX }talks")
         @attributes = TALK_ATTRIBUTES[:index]
         @talks = Talk.default_order.all
-        haml :'/pages/organiser_connexion/talks.html'
+        haml :"/pages/#{ ORG_PAGE_PREFIX }talks.html"
       end
 
-      get "#{ REQUEST_BASE_URL }#{ l }org/hotels" do
+      get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels" do
         require_organiser_login!
         set_locale(locale)
-        set_page(:'org/hotels')
+        set_page(:"#{ ORG_PAGE_PREFIX }hotels")
         @attributes = HOTEL_ATTRIBUTES[:index]
         @hotels = Hotel.default_order.all
-        haml :'/pages/organiser_connexion/hotels.html'
+        haml :"/pages/#{ ORG_PAGE_PREFIX }hotels.html"
       end
 
-      [:'org/participants/to_approve', :'org/participants'].each do |page|
+      [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
+        :"#{ ORG_PAGE_PREFIX }participants"
+      ].each do |page|
         get "#{ REQUEST_BASE_URL }#{ l }#{ page }/edit/:id" do |id|
           require_main_organiser_login!
           set_locale(locale)
           set_page(page)
           @attributes = PARTICIPANT_ATTRIBUTES[:index]
           @participants = Participant.scoped
-          if page == :'org/participants/to_approve'
-            @participants = @participants.not_approved
+          if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
+            @participants = @participants.not_all_participations_approved
           end
           @participants = @participants.default_order.all
           @form_participant_id = id.to_i
-          render_edit_participants
+          render_co_m_b_edit_participants
         end
       end
 
-      get "#{ REQUEST_BASE_URL }#{ l }org/talks/edit/:id" do |id|
+      get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/edit/:id" do |id|
         require_main_organiser_login!
         set_locale(locale)
-        set_page(:'org/talks')
+        set_page(:"#{ ORG_PAGE_PREFIX }talks")
         @attributes = TALK_ATTRIBUTES[:index]
         @talks = Talk.default_order.all
         @form_talk_id = id.to_i
-        render_edit_talks
+        render_co_m_b_edit_talks
       end
 
-      get "#{ REQUEST_BASE_URL }#{ l }org/hotels/edit/:id" do |id|
+      get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/edit/:id" do |id|
         require_main_organiser_login!
         set_locale(locale)
-        set_page(:'org/hotels')
+        set_page(:"#{ ORG_PAGE_PREFIX }hotels")
         @attributes = HOTEL_ATTRIBUTES[:index]
         @hotels = Hotel.default_order.all
         @form_hotel_id = id.to_i
-        render_edit_hotels
+        render_co_m_b_edit_hotels
       end
 
-      [:'org/participants/to_approve', :'org/participants'].each do |page|
+      [:"#{ ORG_PAGE_PREFIX }participants_to_approve", :"#{ ORG_PAGE_PREFIX }participants"].each do |page|
         get "#{ REQUEST_BASE_URL }#{ l }#{ page }/delete/:id" do |id|
           require_main_organiser_login!
           set_locale(locale)
           set_page(page)
           @participant = Participant.find(id)
-          haml :'/pages/organiser_connexion/delete_participant.html'
+          haml :"/pages/#{ ORG_PAGE_PREFIX }delete_participant.html"
         end
       end
 
-      get "#{ REQUEST_BASE_URL }#{ l }org/talks/delete/:id" do |id|
+      get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/delete/:id" do |id|
         require_main_organiser_login!
         set_locale(locale)
-        set_page(:'org/talks')
+        set_page(:"#{ ORG_PAGE_PREFIX }talks")
         @talk = Talk.find(id)
-        haml :'/pages/organiser_connexion/delete_talk.html'
+        haml :"/pages/#{ ORG_PAGE_PREFIX }delete_talk.html"
       end
 
-      get "#{ REQUEST_BASE_URL }#{ l }org/hotels/delete/:id" do |id|
+      get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/delete/:id" do |id|
         require_main_organiser_login!
         set_locale(locale)
-        set_page(:'org/hotels')
+        set_page(:"#{ ORG_PAGE_PREFIX }hotels")
         @hotel = Hotel.find(id)
-        haml :'/pages/organiser_connexion/delete_hotel.html'
+        haml :"/pages/#{ ORG_PAGE_PREFIX }delete_hotel.html"
       end
     end
   end
 
   get "#{ REQUEST_BASE_URL }login" do
-    redirect fixed_url('/org/login')
+    redirect fixed_url("/#{ ORG_PAGE_PREFIX }login")
   end
 
   get "#{ REQUEST_BASE_URL }logout" do
@@ -426,102 +469,47 @@ class CTT2013 < Sinatra::Base
 
   LOCALES.each do |locale|
     LOCALE_URL_FRAGMENTS[locale].each do |l|
-      PAGE_URL_FRAGMENTS[:registration].each do |p|
-        post "#{ REQUEST_BASE_URL }#{ l }#{ p }" do
-          set_locale(locale)
+      post "#{ REQUEST_BASE_URL }#{ l }registration" do
+        set_locale(locale)
 
-          # Filter attributes before mass assignement
-          participant_attributes = {}.tap do |h|
-            original_hash = params[:participant]
-            [ :first_name, :last_name, :email,
-              :affiliation, :academic_position,
-              :country, :city, :post_code, :street_address, :phone,
-              :i_m_t_member, :g_d_r_member,
-              :invitation_needed, :visa_needed,
-              :arrival_date, :departure_date,
-              :funding_requests, :special_requests,
-              :talk_proposal_attributes
-            ].each do |attr|
-              value = original_hash[attr.to_s]
-              h[attr] = value unless value.empty?
-            end
-          end
-          talk_proposal_attributes = {}.tap do |h|
-            original_hash = participant_attributes[:talk_proposal_attributes]
-            [:title, :abstract].each do |attr|
-              value = original_hash[attr.to_s]
-              h[attr] = value unless value.empty?
-            end
-          end
-          participant_attributes[:talk_proposal_attributes] =
-            talk_proposal_attributes
-          participant_attributes[:approved] = false
-          @participant = Participant.new(participant_attributes)
-          @participant.generate_pin
+        # Filter attributes before mass assignement
+        participant_attributes =
+          participant_registration_attributes_from_param_hash(params[:participant])
+        params[:debug] = participant_attributes
+        @participant = Participant.new(participant_attributes)
+        @participant.generate_pin
 
-          if @participant.save
-            # Send a notification to the organisers
-            email_subject =
-              "CTT 2013:  #{ @participant.full_name_with_affiliation }"\
-              "  has registered"
-            email_html_body =
-              haml(:'/email/registration_notification.html', :layout => false)
-            email_contents = { :subject   => email_subject,
-                               :body      => @participant.to_yaml,
-                               :html_body => email_html_body }
+        if @participant.save
+          # Send a notification to the organisers
+          notifiy_organizers_by_email_about_registration_of(@participant)
 
-            email_attributes = EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES.dup
-            email_attributes.merge!(email_contents)
-            Pony.mail email_attributes
+          # Send a confirmation to the participant
+          confirm_by_email_registration_of(@participant)
 
-            # Send a confirmation to the participant
-            email_body =
-              ::File.read(
-                ::File.join(
-                  settings.views,
-                  "text/#{ locale }/registration_confirmation.md"),
-                :encoding => 'utf-8:utf-8')
-            email_html_body =
-              haml(:'/email/registration_confirmation.html', :layout => false)
-            email_contents = {
-              :subject   => "CTT 2013 registration confirmation",
-              :body      => email_body,
-              :html_body => email_html_body }
-
-            email_attributes = EMAIL_TO_PARTICIPANT_BASIC_ATTRIBUTES.dup
-            email_attributes.merge!(email_contents)
-            email_attributes[:to] = @participant.email
-
-            # XXX: for testing only
-            if development?
-              email_attributes[:to] = "#{ ENV['USER'] }@localhost"
-            end
-
-            Pony.mail email_attributes
-
-            # XXX: Registration is not ready to use in production
-            if self.class.production?
-              flash[:notice] =
-                "The registration is not open yet, please try again when the site is ready to use."
-            else
-              flash[:success] = t('flash.resources.participants.create.success')
-            end
-            redirect fixed_url("/#{ locale }/")
+          # XXX: Registration is not ready to use in production
+          if self.class.production?
+            flash[:notice] =
+              "The registration is not open yet, please try again when the site is ready to use."
           else
-            flash.now[:error] = t('flash.resources.participants.create.failure')
-            render_registration_page(locale)
+            flash[:success] = t('flash.resources.participants.create.success')
           end
+          redirect fixed_url("/#{ locale }/")
+        else
+          flash.now[:error] = t('flash.resources.participants.create.failure')
+          @conferences = @participant.participations.map(&:conference)
+          @participant.conferences = @conferences
+          render_registration_page
         end
       end
 
-      post "#{ REQUEST_BASE_URL }#{ l }org/login" do
+      post "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }login" do
         user = User.find_by_username(params[:username])
         if user && user.accept_password?(params[:password])
           log_in(user)
-          redirect fixed_url("/#{ locale }/org/")
+          redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }")
         else
           flash[:error] = t('flash.sessions.log_in.failure')
-          redirect fixed_url("/#{ locale }/org/login")
+          redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }login")
         end
       end
     end
@@ -533,7 +521,7 @@ class CTT2013 < Sinatra::Base
   LOCALES.each do |locale|
     LOCALE_URL_FRAGMENTS[locale].each do |l|
 
-      [:'org/participants/to_approve', :'org/participants'].each do |page|
+      [:"#{ ORG_PAGE_PREFIX }participants_to_approve", :"#{ ORG_PAGE_PREFIX }participants"].each do |page|
         put "#{ REQUEST_BASE_URL }#{ l }#{ page }/:id" do |id|
           require_organiser_login!
           @participant = Participant.find(id)
@@ -556,15 +544,15 @@ class CTT2013 < Sinatra::Base
           end
           @participant.save!
 
-          if page == :'org/participants/to_approve'
-            redirect fixed_url("/#{ locale }/org/participants/to_approve#participant_#{ @participant.id }")
+          if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
+            redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants_to_approve#participant_#{ @participant.id }")
           else
-            redirect fixed_url("/#{ locale }/org/participants#participant_#{ @participant.id }")
+            redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants#participant_#{ @participant.id }")
           end
         end
       end
 
-      put "#{ REQUEST_BASE_URL }#{ l }org/talk_proposals/:id" do |id|
+      put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talk_proposals/:id" do |id|
         require_main_organiser_login!
         @talk_proposal = TalkProposal.find(id)
         case params[:button]
@@ -578,10 +566,10 @@ class CTT2013 < Sinatra::Base
           @talk_proposal.update_attributes(talk_proposal_attributes)
         end
         @talk_proposal.save!
-        redirect fixed_url("/#{ locale }/org/participants#participant_#{ @talk_proposal.participant_id }")
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants#participant_#{ @talk_proposal.participant_id }")
       end
 
-      put "#{ REQUEST_BASE_URL }#{ l }org/talks/:id" do |id|
+      put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id" do |id|
         require_main_organiser_login!
         @talk = Talk.find(id)
         talk_attributes = params[:talk]
@@ -591,10 +579,10 @@ class CTT2013 < Sinatra::Base
         @talk.update_attributes(talk_attributes)
         @talk.save!
 
-        redirect fixed_url("/#{ locale }/org/talks#talk_#{ @talk.id }")
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }talks#talk_#{ @talk.id }")
       end
 
-      put "#{ REQUEST_BASE_URL }#{ l }org/hotels/:id" do |id|
+      put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/:id" do |id|
         require_main_organiser_login!
         @hotel = Hotel.find(id)
         hotel_attributes = params[:hotel]
@@ -604,7 +592,7 @@ class CTT2013 < Sinatra::Base
         @hotel.update_attributes(hotel_attributes)
         @hotel.save!
 
-        redirect fixed_url("/#{ locale }/org/hotels#hotel_#{ @hotel.id }")
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels#hotel_#{ @hotel.id }")
       end
     end
   end
@@ -614,7 +602,7 @@ class CTT2013 < Sinatra::Base
 
   LOCALES.each do |locale|
     LOCALE_URL_FRAGMENTS[locale].each do |l|
-      [:'org/participants/to_approve', :'org/participants'].each do |page|
+      [:"#{ ORG_PAGE_PREFIX }participants_to_approve", :"#{ ORG_PAGE_PREFIX }participants"].each do |page|
         delete "#{ REQUEST_BASE_URL }#{ l }#{ page }/:id" do |id|
           require_main_organiser_login!
           Participant.find(id).destroy
@@ -622,16 +610,16 @@ class CTT2013 < Sinatra::Base
         end
       end
 
-      delete "#{ REQUEST_BASE_URL }#{ l }org/talks/:id" do |id|
+      delete "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id" do |id|
         require_main_organiser_login!
         Talk.find(id).destroy
-        redirect fixed_url("/#{ locale }/org/talks")
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }talks")
       end
 
-      delete "#{ REQUEST_BASE_URL }#{ l }org/hotels/:id" do |id|
+      delete "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/:id" do |id|
         require_main_organiser_login!
         Hotel.find(id).destroy
-        redirect fixed_url("/#{ locale }/org/hotels")
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels")
       end
     end
   end
@@ -654,7 +642,8 @@ class CTT2013 < Sinatra::Base
     def set_page(page)
       @page = page
       @base_title = t('base_page_title')
-      @title = "#{ @base_title } | #{ t(@page, :scope => 'page_titles') }"
+      @title =
+        "#{ @base_title } | #{ t(:title, :scope => page_i18n_scope(@page)) }"
     end
 
     def locale_from_user_input(suggested_locale)
@@ -664,58 +653,59 @@ class CTT2013 < Sinatra::Base
 
     def page_from_user_input(suggested_page)
       suggested_page = suggested_page.to_s.downcase
-      PUBLIC_PAGES.find { |p| p.to_s == suggested_page } || DEFAULT_PAGE
+      PUBLIC_PAGES.find { |p| p.to_s == suggested_page } || DEFAULT_COMB_PAGE
     end
 
-    def render_registration_page(locale)
-      set_locale(locale)
+    def render_registration_page
       set_page(:registration)
+
+      if @conferences.nil? || @conferences.empty?
+        @conferences = Conference.default_order
+      end
 
       @field_labels = {}
 
-      [ :first_name, :last_name, :email, :affiliation, :academic_position,
-        :country, :city, :post_code, :street_address, :phone,
-        :invitation_needed, :visa_needed, :arrival_date, :departure_date,
-        :funding_requests, :special_requests
-      ].each do |attr|
-        @field_labels[attr] =
+      name = t('names.i_m_t')
+      link_attributes =
+        'href="http://www.math.univ-toulouse.fr/" target="_blank"'
+      @field_labels[:i_m_t_member] =
+        t('pages.registration.form.field_labels.i_m_t_member__for_html',
+          :link_to_i_m_t => "<a #{ link_attributes }>#{ name }</a>")
+
+      name = t('names.g_d_r_tresses')
+      link_attributes =
+        'href="http://tresses.math.cnrs.fr/" target="_blank"'
+      @field_labels[:g_d_r_member] =
+        t('pages.registration.form.field_labels.g_d_r_member__for_html',
+          :link_to_g_d_r => "<a #{ link_attributes }>#{ name }</a>")
+
+      PARTICIPANT_ATTRIBUTES[:registration].each do |attr|
+        @field_labels[attr] ||=
           t(attr, :scope => 'pages.registration.form.field_labels')
       end
 
-      name = t('names.i_m_t')
-      @field_labels[:i_m_t_member] =
-        t('pages.registration.form.field_labels.i_m_t_member',
-          :link_to_i_m_t =>
-            "<a href='http://www.math.univ-toulouse.fr/' target='_blank'>#{ name }</a>")
-
-      name = t('names.g_d_r_tresses')
-      @field_labels[:g_d_r_member] =
-        t('pages.registration.form.field_labels.g_d_r_member',
-          :link_to_g_d_r =>
-            "<a href='http://tresses.math.cnrs.fr' target='_blank'>#{ name }</a>")
-
-      haml :'/pages/registration.html', :layout => :layout
+      haml :'/pages/registration.html', :layout => :simple_layout
     end
 
-    def render_edit_participants
+    def render_co_m_b_edit_participants
       @field_labels = Hash.new do |h, k|
         h[k] = capitalize_first_letter_of(Participant.human_attribute_name(k))
       end
-      haml :'/pages/organiser_connexion/participants.html'
+      haml :"/pages/#{ ORG_PAGE_PREFIX }participants.html"
     end
 
-    def render_edit_talks
+    def render_co_m_b_edit_talks
       @field_labels = Hash.new do |h, k|
         h[k] = capitalize_first_letter_of(Talk.human_attribute_name(k))
       end
-      haml :'/pages/organiser_connexion/talks.html'
+      haml :"/pages/#{ ORG_PAGE_PREFIX }talks.html"
     end
 
-    def render_edit_hotels
+    def render_co_m_b_edit_hotels
       @field_labels = Hash.new do |h, k|
         h[k] = capitalize_first_letter_of(Hotel.human_attribute_name(k))
       end
-      haml :'/pages/organiser_connexion/hotels.html'
+      haml :"/pages/#{ ORG_PAGE_PREFIX }hotels.html"
     end
 
     def log_in(user)
@@ -743,7 +733,7 @@ class CTT2013 < Sinatra::Base
       unless organiser_logged_in?
         # halt [ 401, 'Not Authorized' ]
         flash[:error] = t('flash.filters.require_organiser_login')
-        redirect fixed_url('/org/login')
+        redirect fixed_url("/#{ ORG_PAGE_PREFIX }login")
       end
     end
 
@@ -751,8 +741,104 @@ class CTT2013 < Sinatra::Base
       unless main_organiser_logged_in?
         # halt [ 401, 'Not Authorized' ]
         flash[:error] = t('flash.filters.require_main_organiser_login')
-        redirect fixed_url('/org/login')
+        redirect fixed_url("/#{ ORG_PAGE_PREFIX }login")
       end
+    end
+
+    def participant_registration_attributes_from_param_hash(hash)
+      participant_attributes = {}.tap do |h|
+        PARTICIPANT_ATTRIBUTES[:registration].each do |attr|
+          value = hash[attr.to_s]
+          h[attr] = value unless value.empty?
+        end
+      end
+
+      participations_attributes = [].tap do |a|
+        hash[:participations_attributes].each do |original_hash|
+          unless original_hash['conference_id'].nil?
+            a << {}.tap do |h|
+              [:conference_id, :arrival_date, :departure_date].each do |attr|
+                value = original_hash[attr.to_s]
+                h[attr] = value unless value.empty?
+              end
+              h[:approved] = false
+            end
+          end
+        end
+      end
+
+      @co_m_b_conference ||= Conference.co_m_b_conf
+
+      co_m_b_participation_attributes =
+        participations_attributes.find { |attributes|
+          attributes[:conference_id].to_i == @co_m_b_conference.id
+        }
+
+      if co_m_b_participation_attributes
+        co_m_b_talk_proposal_attributes = {}.tap do |h|
+          original_hash = hash['co_m_b_participation_attributes']['talk_proposal_attributes']
+          [:title, :abstract].each do |attr|
+            value = original_hash[attr.to_s]
+            h[attr] = value unless value.empty?
+          end
+        end
+        co_m_b_participation_attributes[:talk_proposal_attributes] =
+          co_m_b_talk_proposal_attributes
+      end
+
+      participant_attributes[:participations_attributes] =
+        participations_attributes
+
+      participant_attributes
+    end
+
+    def conferences_from_conference_ids_in_param_array(conference_ids)
+      conference_ids = [] unless conference_ids.is_a?(Array)
+      conference_ids.map!(&:to_i)
+      Conference.default_order.select { |conf|
+        conference_ids.include? conf.id
+      }
+    end
+
+    def notifiy_organizers_by_email_about_registration_of(participant)
+      email_subject =
+        "CTT 2013:  #{ participant.full_name_with_affiliation }"\
+        "  has registered"
+      email_html_body =
+        haml(:'/email/registration_notification.html', :layout => false)
+      email_contents = { :subject   => email_subject,
+                         :body      => participant.to_yaml,
+                         :html_body => email_html_body }
+
+      email_attributes = EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES.dup
+      email_attributes.merge!(email_contents)
+      Pony.mail email_attributes
+    end
+
+    def confirm_by_email_registration_of(participant)
+      email_body =
+        ::File.read(
+          ::File.join(
+            settings.views,
+            "text/#{ @locale }/registration_confirmation.md"),
+          :encoding => 'utf-8:utf-8')
+      email_html_body =
+        haml(:'/email/registration_confirmation.html', :layout => false)
+      email_contents = {
+        :subject   => "CTT 2013 registration confirmation",
+        :body      => email_body,
+        :html_body => email_html_body }
+
+      email_attributes = EMAIL_TO_PARTICIPANT_BASIC_ATTRIBUTES.dup
+      email_attributes.merge!(email_contents)
+      email_attributes[:to] = participant.email
+
+      # XXX: for testing only
+      if self.class.development?
+        email_attributes[:to] = "#{ ENV['USER'] }@localhost"
+      end
+
+      Pony.mail email_attributes
     end
 
 end

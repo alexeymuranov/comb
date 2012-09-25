@@ -1,0 +1,21 @@
+%form{:'accept-charset' => 'UTF-8', :method => 'post'}
+  - if @participant.errors.any?
+    #form_error_explanation
+      %h2
+        - if @participant.errors.count == 1
+          = t('activerecord.errors.template.header.one',
+              :model => Participant.model_name.human)
+        - else
+          = t('activerecord.errors.template.header.other',
+              :count => @participant.errors.count,
+              :model => Participant.model_name.human)
+
+      %ul
+        - @participant.errors.full_messages.each do |msg|
+          %li= msg
+
+  = haml :'pages/_co_m_b_talk_proposal_fields'
+
+  .actions
+    %button.create{:type => 'submit', :name => 'button', :value => 'create'}
+      = t 'pages.registration.form.buttons.submit'
