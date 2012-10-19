@@ -38,29 +38,9 @@ class CTT2013 < Sinatra::Base
     # For IMT web site
     BASE_URL = '/top-geom-conf-2013/'
     REQUEST_BASE_URL = '/'
-    # EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
-    #   { :to   => 'comb@math.univ-toulouse.fr',
-    #     :from => 'no-reply.ctt2013-registration@math.univ-toulouse.fr',
-    #     :via  => :smtp }
-    EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
-      { :to   => 'muranov@math.univ-toulouse.fr',
-        :from => 'no-reply.ctt2013-registration@math.univ-toulouse.fr',
-        :via  => :smtp }
-    EMAIL_TO_PARTICIPANT_BASIC_ATTRIBUTES =
-      { :from     => 'no-reply.ctt2013-registration@math.univ-toulouse.fr',
-        :reply_to => 'comb@math.univ-toulouse.fr',
-        :via      => :smtp }
   else
     # For localhost
     REQUEST_BASE_URL = BASE_URL = '/'
-    EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
-      { :to   => "#{ ENV['USER'] }@localhost",
-        :from => 'no-reply@localhost',
-        :via  => :sendmail }
-    EMAIL_TO_PARTICIPANT_BASIC_ATTRIBUTES =
-      { :from     => 'no-reply@localhost',
-        :reply_to => 'comb@math.univ-toulouse.fr',
-        :via      => :sendmail }
   end
 
   configure do
@@ -800,7 +780,49 @@ class CTT2013 < Sinatra::Base
       }
     end
 
+    if production?
+      # XXX: do not forget to uncomment when published
+      # EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
+      #   { :from => 'no-reply.ctt2013-registration@math.univ-toulouse.fr',
+      #     :via  => :smtp }
+      # COMB_ORGANISERS_EMAIL = 'comb@math.univ-toulouse.fr'
+      # OTHER_ORGNISERS_EMAIL = 'barraud@math.univ-toulouse.fr, ' \
+      #                        'klaus.niederkrueger@math.univ-toulouse.fr'
+
+      # XXX: do not forget to replace when published
+      EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
+        { :from => 'no-reply.ctt2013-registration@math.univ-toulouse.fr',
+          :via  => :smtp }
+      COMB_ORGANISERS_EMAIL = 'muranov@math.univ-toulouse.fr'
+      OTHER_ORGNISERS_EMAIL = 'alexey.muranov@math.univ-toulouse.fr'
+    else
+      EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
+        { :from => 'no-reply@localhost',
+          :via  => :sendmail }
+      COMB_ORGANISERS_EMAIL = "#{ ENV['USER'] }@localhost"
+      OTHER_ORGNISERS_EMAIL = COMB_ORGANISERS_EMAIL
+    end
+
+    def organizer_notification_email_addresses(participations)
+      co_m_b_conference_id = Conference.co_m_b_conf.id
+      other_conference_ids =
+        Set[:intro_conf, :g_e_s_t_a_conf, :llagone_conf].map { |idenitfier|
+          Conference.public_send(idenitfier).id
+        }
+      addresses = []
+      conference_ids = participations.map(&:conference_id)
+      if conference_ids.any? { |id| other_conference_ids.include?(id) }
+        addresses << OTHER_ORGNISERS_EMAIL
+      end
+      if conference_ids.include?(co_m_b_conference_id)
+        addresses << COMB_ORGANISERS_EMAIL
+      end
+      addresses.join(', ')
+    end
+
     def notifiy_organizers_by_email_about_registration_of(participant)
+      email_addresses =
+        organizer_notification_email_addresses(participant.participations)
       email_subject =
         "CTT 2013:  #{ participant.full_name_with_affiliation }"\
         "  has registered"
@@ -812,7 +834,20 @@ class CTT2013 < Sinatra::Base
 
       email_attributes = EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES.dup
       email_attributes.merge!(email_contents)
+      email_attributes[:to] = email_addresses
       Pony.mail email_attributes
+    end
+
+    if production?
+      EMAIL_TO_PARTICIPANT_BASIC_ATTRIBUTES =
+        { :from     => 'no-reply.ctt2013-registration@math.univ-toulouse.fr',
+          :reply_to => 'comb@math.univ-toulouse.fr',
+          :via      => :smtp }
+    else
+      EMAIL_TO_PARTICIPANT_BASIC_ATTRIBUTES =
+        { :from     => 'no-reply@localhost',
+          :reply_to => 'comb@math.univ-toulouse.fr',
+          :via      => :sendmail }
     end
 
     def confirm_by_email_registration_of(participant)
