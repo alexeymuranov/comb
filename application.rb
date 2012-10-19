@@ -197,12 +197,6 @@ class CTT2013 < Sinatra::Base
   HOTEL_ATTRIBUTES[:show] = HOTEL_ATTRIBUTES[:index] =
     [:name, :address, :phone, :web_site]
 
-  helpers do
-    def page_i18n_scope(page)
-      'pages.' + page.to_s.gsub(?/, ?.)
-    end
-  end
-
   # Handlers
   # ========
   #

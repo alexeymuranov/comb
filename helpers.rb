@@ -26,5 +26,10 @@ class CTT2013
     def fixed_url(path)
       url(path, false, false).sub(/\A\//, BASE_URL)
     end
+
+    # Parse page name to determine I18n localisation scope
+    def page_i18n_scope(page)
+      'pages.' + page.to_s.gsub(?/, ?.)
+    end
   end
 end
