@@ -628,6 +628,7 @@ class CTT2013 < Sinatra::Base
   # ============
   #
   require_relative 'helpers'
+  helpers Helpers
 
   # Private methods
   # ===============

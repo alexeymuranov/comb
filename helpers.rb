@@ -3,7 +3,7 @@
 require 'i18n' # Internationalisation
 
 class CTT2013
-  helpers do
+  module Helpers
     # Delegate translation helper to I18n
     def t(*args); I18n.t(*args) end
 
