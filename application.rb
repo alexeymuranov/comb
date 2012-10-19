@@ -201,6 +201,8 @@ class CTT2013 < Sinatra::Base
   # ========
   #
 
+  COMMON_HOME_PAGE = :'common/index.php'
+
   COMB_PAGE_PREFIX = :'ldtg-mb/'
   ORG_PAGE_PREFIX = :'org/'
 
@@ -265,11 +267,10 @@ class CTT2013 < Sinatra::Base
   end
 
 
-  # XXX: this is a temporary redirect
   LOCALES.each do |locale|
     LOCALE_URL_FRAGMENTS[locale].each do |l|
       get "#{ REQUEST_BASE_URL }#{ l }" do
-        redirect fixed_url("/#{ l }#{ DEFAULT_COMB_PAGE }")
+        redirect fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ locale }")
       end
     end
   end
