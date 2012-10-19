@@ -641,7 +641,7 @@ class CTT2013 < Sinatra::Base
 
     def set_page(page)
       @page = page
-      @base_title = t('base_page_title')
+      @base_title = t('base_co_m_b_page_title')
       @title =
         "#{ @base_title } | #{ t(:title, :scope => page_i18n_scope(@page)) }"
     end

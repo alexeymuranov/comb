@@ -75,7 +75,7 @@ en:
     g_d_r_tresses   : "GDR \"Tresses\""
     u_p_s           : "Paul Sabatier University"
 
-  base_page_title: "CTT 2013"
+  base_co_m_b_page_title: "LDTGT 2013"
 
   header:
     title_conf: *conference_title

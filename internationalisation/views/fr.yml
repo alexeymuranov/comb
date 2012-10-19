@@ -75,7 +75,7 @@ fr:
     g_d_r_tresses   : "GDR « Tresses »"
     u_p_s           : "Université Paul Sabatier"
 
-  base_page_title: "CTT 2013"
+  base_co_m_b_page_title: "TGPDT 2013"
 
   header:
     title_conf: *conference_title
