@@ -4,6 +4,10 @@ require 'digest' # hash function
 
 require './lib/attribute_types' # my custom module
 
+# Internationalisation
+# NOTE: normally should be used only in decorators and presenters
+require 'i18n'
+
 class Conference < ActiveRecord::Base
   self.table_name = :conferences
 
@@ -38,9 +42,18 @@ class Conference < ActiveRecord::Base
   end
 
   # Public instance methods
-  def title(locale)
+  # NOTE: should probably be accessed through a decorator
+  def title(locale = I18n.locale)
     title_attr_name = "#{ locale }_title"
     respond_to?(title_attr_name) ? public_send(title_attr_name) : en_title
+  end
+
+  # NOTE: should probably be accessed through a decorator
+  def title_with_details(locale = I18n.locale)
+     "#{ title(locale) }" \
+       " (#{ location }," \
+       " #{ I18n.l(start_date, :locale => locale) }" \
+       " — #{ I18n.l(end_date, :locale => locale) })"
   end
 end
 

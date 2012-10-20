@@ -32,10 +32,8 @@
                        :type    => :checkbox,
                        :value   => conf.id,
                        :checked => @participant.conferences.include?(conf)}
-                %span
-                  = conf.title(@locale)
-                %span
-                  = "(#{ conf.location }, #{ l(conf.start_date) } -- #{ l(conf.end_date) })"
+                %span<
+                  = conf.title_with_details(@locale)
               %dl.fields
                 - [:arrival_date, :departure_date].each do |attr|
                   .field

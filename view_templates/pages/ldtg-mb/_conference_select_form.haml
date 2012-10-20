@@ -12,10 +12,8 @@
                      :type     => 'checkbox',
                      :value    => conf.id,
                      :checked  => conf_class_method == :co_m_b_conf}
-              %span
-                = conf.title(@locale)
-              %span
-                = "(#{ conf.location }, #{ l(conf.start_date) } -- #{ l(conf.end_date) })"
+              %span<
+                = conf.title_with_details(@locale)
 
   .actions
     %button.create{:type => 'submit', :name => 'button', :value => 'create'}
