@@ -39,7 +39,7 @@
                   .field
                     %dt.label
                       %label{:for => "participant_conference_#{ conf.id }_participation_#{ attr }"}
-                        = @field_labels[attr]
+                        = t(attr, :scope => 'pages.registration.form.field_labels.participations.field_labels')
                     %dd.input
                       %input{:id    => "participant_conference_#{ conf.id }_participation_#{ attr }",
                              :name  => "participant[participations_attributes][][#{ attr }]",
