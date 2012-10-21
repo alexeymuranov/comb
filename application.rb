@@ -482,6 +482,7 @@ class CTT2013 < Sinatra::Base
           confirm_by_email_registration_of(@participant)
 
           # XXX: Registration is not ready to use in production
+          # XXX: do not forget to change when the registration is ready
           if self.class.production?
             flash[:notice] =
               "The registration is not open yet, please try again when the site is ready to use."
