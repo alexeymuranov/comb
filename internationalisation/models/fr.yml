@@ -4,13 +4,23 @@
 fr:
   activerecord:
     models:
-      participant  : "participant(e)"
-      talk         : "exposé"
-      plenary_talk : "exposé plénière"
-      parallel_talk: "exposé parallel"
-      hotel        : "hôtel"
-      talk_proposal: "exposé proposé"
+      conference   : &conference_model    "colloque"
+      participant  : &participant_model   "participant(e)"
+      talk         : &talk_model          "exposé"
+      plenary_talk : &plenary_talk_model  "exposé plénière"
+      parallel_talk: &parallel_talk_model "exposé parallel"
+      talk_proposal: &talk_proposal_model "exposé proposé"
+      hotel        : &hotel_model         "hôtel"
+      accommodation: &accommodation       "logement"
     attributes:
+      conference:
+        en_title  : "titre en anglais"
+        fr_title  : "titre en français"
+        title     : "titre"
+        start_date: "date du début"
+        end_date  : "date de la fin "
+        location  : "endroit"
+        comments  : "remarques"
       participant:
         last_name             : "nom"
         first_name            : "prénom"
@@ -39,6 +49,17 @@ fr:
         special_requests      : "demandes spéciales"
         approved              : "accepté(e) par le comité"
         committee_comments    : "remarques du comité"
+      participation:
+        conference            : *conference_model
+        participant           : *participant_model
+        approved              : "accepté(e) par le comité"
+        plenary_speaker       : "orateur/oratrice plénière"
+        invited_speaker       : "orateur/oratrice invité(e)"
+        speaker               : "orateur/oratrice"
+        arrival_date          : "date d'arrivée"
+        departure_date        : "date de départ"
+        registration_fee_payed: "frais d'inscription payés"
+        committee_comments    : "remarques du comité"
       talk: &talk_attributes
         type                : "type"
         translated_type_name: "type"
@@ -59,7 +80,7 @@ fr:
       parallel_talk:
         <<: *talk_attributes
       talk_proposal:
-        participant     : "participant"
+        participant     : *participant_model
         duration_minutes: "durée (minutes)"
         type            : "type"
         title           : "titre"

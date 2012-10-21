@@ -4,13 +4,23 @@
 en:
   activerecord:
     models:
-      participant  : "participant"
-      talk         : "talk"
-      plenary_talk : "plenary talk"
-      parallel_talk: "parallel talk"
-      hotel        : "hotel"
-      talk_proposal: "talk proposal"
+      conference   : &conference_model    "conference"
+      participant  : &participant_model   "participant"
+      talk         : &talk_model          "talk"
+      plenary_talk : &plenary_talk_model  "plenary talk"
+      parallel_talk: &parallel_talk_model "parallel talk"
+      talk_proposal: &talk_proposal_model "talk proposal"
+      hotel        : &hotel_model         "hotel"
+      accommodation: &accommodation       "accommodation"
     attributes:
+      conference:
+        en_title  : "English title"
+        fr_title  : "French title"
+        title     : "title"
+        start_date: "start date"
+        end_date  : "end date"
+        location  : "location"
+        comments  : "comments"
       participant:
         last_name             : "last name"
         first_name            : "first name"
@@ -39,6 +49,17 @@ en:
         special_requests      : "funding requests"
         approved              : "approved by the committee"
         committee_comments    : "committee comments"
+      participation:
+        conference            : *conference_model
+        participant           : *participant_model
+        approved              : "approved by the committee"
+        plenary_speaker       : "plenary speaker"
+        invited_speaker       : "invited speaker"
+        speaker               : "speaker"
+        arrival_date          : "arrival date"
+        departure_date        : "departure date"
+        registration_fee_payed: "registration fee paid"
+        committee_comments    : "committee comments"
       talk: &talk_attributes
         type                : "type"
         translated_type_name: "type"
@@ -59,7 +80,7 @@ en:
       parallel_talk:
         <<: *talk_attributes
       talk_proposal:
-        participant     : "participant"
+        participant     : *participant_model
         duration_minutes: "duration (minutes)"
         type            : "type"
         title           : "title"
