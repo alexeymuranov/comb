@@ -25,14 +25,13 @@
         %dd.input
           %ol
             - @conferences.each do |conf|
-              - participation = @participant.participations.where(:conference_id => conf.id).first
               %input{:type => :hidden, :name => 'conference_ids[]', :value => conf.id}
               %li
                 %input{:id      => "participant_conference_#{ conf.id }_participation_conference_id",
                        :name    => 'participant[participations_attributes][][conference_id]',
                        :type    => :checkbox,
                        :value   => conf.id,
-                       :checked => participation}
+                       :checked => @participant.conferences.include?(conf)}
                 %span
                   = conf.title(@locale)
                 %span
