@@ -274,6 +274,18 @@ class CTT2013 < Sinatra::Base
     end
   end
 
+  LOCALES.each do |locale|
+    LOCALE_URL_FRAGMENTS[locale].each do |l|
+      get "#{ REQUEST_BASE_URL }#{ l }registration" do
+        set_locale(locale)
+        @conferences = conferences_from_conference_ids_in_param_array(
+                         params[:conference_ids])
+        @participant = Participant.new(:conferences => @conferences)
+        render_registration_page
+      end
+    end
+  end
+
   STATIC_PUBLIC_PAGES.each do |page|
     page_file = :"/pages/#{ page }.html"
     LOCALES.each do |locale|
@@ -285,18 +297,6 @@ class CTT2013 < Sinatra::Base
             haml page_file, :layout => :layout
           end
         end
-      end
-    end
-  end
-
-  LOCALES.each do |locale|
-    LOCALE_URL_FRAGMENTS[locale].each do |l|
-      get "#{ REQUEST_BASE_URL }#{ l }registration" do
-        set_locale(locale)
-        @conferences = conferences_from_conference_ids_in_param_array(
-                         params[:conference_ids])
-        @participant = Participant.new(:conferences => @conferences)
-        render_registration_page
       end
     end
   end
@@ -468,7 +468,8 @@ class CTT2013 < Sinatra::Base
 
         # Filter attributes before mass assignement
         participant_attributes =
-          participant_registration_attributes_from_param_hash(params[:participant])
+          participant_registration_attributes_from_param_hash(
+            params[:participant])
         params[:debug] = participant_attributes
         @participant = Participant.new(participant_attributes)
         @participant.generate_pin
@@ -515,7 +516,9 @@ class CTT2013 < Sinatra::Base
   LOCALES.each do |locale|
     LOCALE_URL_FRAGMENTS[locale].each do |l|
 
-      [:"#{ ORG_PAGE_PREFIX }participants_to_approve", :"#{ ORG_PAGE_PREFIX }participants"].each do |page|
+      [:"#{ ORG_PAGE_PREFIX }participants_to_approve",
+       :"#{ ORG_PAGE_PREFIX }participants"
+      ].each do |page|
         put "#{ REQUEST_BASE_URL }#{ l }#{ page }/:id" do |id|
           require_organiser_login!
           @participant = Participant.find(id)
