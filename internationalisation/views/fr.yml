@@ -92,6 +92,9 @@ fr:
           participations:
             caption    : "Inscription simultanée pour 1 à 4 semaines"
             which_weeks: "À quelles semaines voulez-vous vous inscrire ?"
+            field_labels:
+              arrival_date  : "Date d'arrivée :"
+              departure_date: "Date de départ :"
           last_name             : "Votre nom :"
           first_name            : "Votre prénom :"
           name_title            : "Titre :"

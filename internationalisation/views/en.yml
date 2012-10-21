@@ -92,6 +92,9 @@ en:
           participations:
             caption    : "Simultaneous registration for 1 to 4 weeks"
             which_weeks: "For which weeks would you like to register?"
+            field_labels:
+              arrival_date  : "Arrival date:"
+              departure_date: "Departure date:"
           last_name             : "Your last name:"
           first_name            : "Your first name:"
           name_title            : "Title:"
