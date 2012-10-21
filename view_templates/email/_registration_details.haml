@@ -1,9 +1,18 @@
 %dl
-  - [ :last_name, :first_name, :email, :affiliation,
-      :academic_position, :country, :city, :post_code, :street_address,
-      :phone, :i_m_t_member,
-      :g_d_r_member, :visa_needed,
-      :funding_requests, :special_requests ].each do |attr|
+  %dt
+    = t 'email.registration.fields.conferences'
+  %dd
+    %ol
+      - @participant.participations.each do |participation|
+        %li
+          = participation.conference.title_with_details
+          %dl
+            - [:arrival_date, :departure_date].each do |attr|
+              %dt
+                = Participation.human_attribute_name(attr)
+              %dd
+                = participation.public_send(attr)
+  - PARTICIPANT_ATTRIBUTES[:registration].each do |attr|
     %dt
       = t attr, :scope  => 'email.registration.fields'
     %dd
@@ -13,7 +22,7 @@
         = v
 
   %dt
-    = t 'email.registration.fields.talk_proposed?'
+    = t 'email.registration.fields.co_m_b_talk_proposed?'
   %dd
     - if (participation = @participant.co_m_b_participation) && (talk_proposal = participation.talk_proposal)
       %strong
@@ -23,7 +32,7 @@
         - [:title, :abstract].each do |attr|
           %dt
             = t attr,
-                :scope => 'email.registration.fields.talk_proposal_fields'
+                :scope => 'email.registration.fields.co_m_b_talk_proposal_fields'
           %dd
             = talk_proposal.public_send(attr)
     - else
