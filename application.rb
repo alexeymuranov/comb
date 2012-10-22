@@ -221,9 +221,9 @@ class CTT2013 < Sinatra::Base
 
   # LOCALE_URL_FRAGMENT_MAP = { 'fr' => :fr, 'en' => :en, '' => :fr } # this is not used yet
 
-  DEFAULT_COMB_PAGE = PUBLIC_PAGES[0]
+  COMB_HOME_PAGE = PUBLIC_PAGES[0]
   PAGE_URL_FRAGMENTS = {}.tap { |h| PUBLIC_PAGES.each { |p| h[p] = [p.to_s] } }
-  PAGE_URL_FRAGMENTS[DEFAULT_COMB_PAGE] << COMB_PAGE_PREFIX
+  PAGE_URL_FRAGMENTS[COMB_HOME_PAGE] << COMB_PAGE_PREFIX
 
   # Cache control
   before do
@@ -633,7 +633,7 @@ class CTT2013 < Sinatra::Base
 
     def page_from_user_input(suggested_page)
       suggested_page = suggested_page.to_s.downcase
-      PUBLIC_PAGES.find { |p| p.to_s == suggested_page } || DEFAULT_COMB_PAGE
+      PUBLIC_PAGES.find { |p| p.to_s == suggested_page } || COMB_HOME_PAGE
     end
 
     def render_registration_page
