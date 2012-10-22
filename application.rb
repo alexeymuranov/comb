@@ -464,14 +464,7 @@ class CTT2013 < Sinatra::Base
           # Send a confirmation to the participant
           confirm_by_email_registration_of(@participant)
 
-          # XXX: Registration is not ready to use in production
-          # XXX: do not forget to change when the registration is ready
-          if self.class.production?
-            flash.now[:notice] =
-              "The registration is not open yet, please try again when the site is ready to use."
-          else
-            flash.now[:success] = t('flash.resources.participants.create.success')
-          end
+          flash.now[:success] = t('flash.resources.participants.create.success')
           haml :'/pages/registration_confirmation.html', :layout => :simple_layout
         else
           flash.now[:error] = t('flash.resources.participants.create.failure')
@@ -783,20 +776,12 @@ class CTT2013 < Sinatra::Base
     end
 
     if production?
-      # XXX: do not forget to uncomment when published
-      # EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
-      #   { :from => 'no-reply.ctt2013-registration@math.univ-toulouse.fr',
-      #     :via  => :smtp }
-      # COMB_ORGANISERS_EMAIL = 'comb@math.univ-toulouse.fr'
-      # OTHER_ORGNISERS_EMAIL = 'barraud@math.univ-toulouse.fr, ' \
-      #                        'klaus.niederkrueger@math.univ-toulouse.fr'
-
-      # XXX: do not forget to replace when published
       EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
-        { :from => 'no-reply.ctt2013-registration@math.univ-toulouse.fr',
+        { :from => 'no-reply.top-geom-conf-2013@math.univ-toulouse.fr',
           :via  => :smtp }
-      COMB_ORGANISERS_EMAIL = 'muranov@math.univ-toulouse.fr'
-      OTHER_ORGNISERS_EMAIL = 'alexey.muranov@math.univ-toulouse.fr'
+      COMB_ORGANISERS_EMAIL = 'comb@math.univ-toulouse.fr'
+      OTHER_ORGNISERS_EMAIL =
+        'barraud@math.univ-toulouse.fr, niederkr@math.univ-toulouse.fr'
     else
       EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
         { :from => 'no-reply@localhost',
@@ -843,7 +828,7 @@ class CTT2013 < Sinatra::Base
 
     if production?
       EMAIL_TO_PARTICIPANT_BASIC_ATTRIBUTES =
-        { :from     => 'no-reply.ctt2013-registration@math.univ-toulouse.fr',
+        { :from     => 'no-reply.top-geom-conf-2013@math.univ-toulouse.fr',
           :reply_to => 'comb@math.univ-toulouse.fr',
           :via      => :smtp }
     else

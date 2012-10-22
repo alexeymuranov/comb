@@ -1,3 +1,9 @@
-%strong{:style => 'color:red;font-size:200%'}
-  The registration is not open yet, please try again when the site is ready to use.
 = haml :'pages/_registration_form'
+
+%ul
+  %li
+    %a{:href => fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ @locale }")}
+      = t 'names.t_s_c_spring_conf'
+  %li
+    %a{:href => fixed_url("/#{ @locale }/#{ COMB_HOME_PAGE }")}
+      = t 'names.co_m_b_conf'
