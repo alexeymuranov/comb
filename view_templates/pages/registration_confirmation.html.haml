@@ -1,0 +1,9 @@
+= haml(:"/pages/_registration_details")
+
+%ul
+  %li
+    %a{:href => fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ @locale }")}
+      = t 'names.t_s_c_spring_conf'
+  %li
+    %a{:href => fixed_url("/#{ @locale }/#{ COMB_HOME_PAGE }")}
+      = t 'names.co_m_b_conf'

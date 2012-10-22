@@ -467,12 +467,12 @@ class CTT2013 < Sinatra::Base
           # XXX: Registration is not ready to use in production
           # XXX: do not forget to change when the registration is ready
           if self.class.production?
-            flash[:notice] =
+            flash.now[:notice] =
               "The registration is not open yet, please try again when the site is ready to use."
           else
-            flash[:success] = t('flash.resources.participants.create.success')
+            flash.now[:success] = t('flash.resources.participants.create.success')
           end
-          redirect fixed_url("/#{ locale }/")
+          haml :'/pages/registration_confirmation.html', :layout => :simple_layout
         else
           flash.now[:error] = t('flash.resources.participants.create.failure')
           @conferences = @participant.participations.map(&:conference)
