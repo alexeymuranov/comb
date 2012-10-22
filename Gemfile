@@ -24,6 +24,9 @@ gem 'haml'
 gem 'redcarpet'
 gem 'sass'
 
+# HTML to Markdown
+gem 'reverse_markdown'
+
 # Mixin library for Sass:
 gem 'bourbon'
 

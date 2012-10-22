@@ -30,6 +30,8 @@ class CTT2013 < Sinatra::Base
 
   require 'debugger' if development? # for debugging
 
+  require 'reverse_markdown' # HTML to markdown for text email body
+
   # Settings
   # ========
 
@@ -828,8 +830,9 @@ class CTT2013 < Sinatra::Base
         "  has registered"
       email_html_body =
         haml(:'/email/registration_notification.html', :layout => false)
+      email_body = ReverseMarkdown.parse email_html_body
       email_contents = { :subject   => email_subject,
-                         :body      => participant.to_yaml,
+                         :body      => email_body,
                          :html_body => email_html_body }
 
       email_attributes = EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES.dup
@@ -851,14 +854,9 @@ class CTT2013 < Sinatra::Base
     end
 
     def confirm_by_email_registration_of(participant)
-      email_body =
-        ::File.read(
-          ::File.join(
-            settings.views,
-            "text/#{ @locale }/registration_confirmation.md"),
-          :encoding => 'utf-8:utf-8')
       email_html_body =
         haml(:'/email/registration_confirmation.html', :layout => false)
+      email_body = ReverseMarkdown.parse email_html_body
       email_contents = {
         :subject   => "CTT 2013 registration confirmation",
         :body      => email_body,
