@@ -6,7 +6,7 @@ The following have agreed to give plenary talks at the conference:
 * [D. Cooper](http://www.math.ucsb.edu/~cooper/)
 * [S. Friedl](http://math.rice.edu/~friedl/)
 * [D. Gabai](http://www.math.princeton.edu/directory/david-gabai)
-* V. Guéritaud
+* F. Guéritaud
 * [S. Kerckhoff](http://en.wikipedia.org/wiki/Steven_Kerckhoff)
 * [T. Li](https://www2.bc.edu/~taoli/)
 * [Y. Ni](http://www.its.caltech.edu/~yini/)
