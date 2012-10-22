@@ -70,15 +70,16 @@ fr:
           failure: "L'inscription n'a pas pu être supprimée."
 
   names:
-    conference_title: &conference_title "Topologie et Géométrie en petite dimension à Toulouse"
-    i_m_t           : "Institut de Mathématiques de Toulouse"
-    g_d_r_tresses   : "GDR « Tresses »"
-    u_p_s           : "Université Paul Sabatier"
+    t_s_c_spring_conf: "Printemps Topologique, Symplectique et de Contact"
+    co_m_b_conf      : &co_m_b_conf "Topologie et Géométrie en petite dimension à Toulouse"
+    i_m_t            : "Institut de Mathématiques de Toulouse"
+    g_d_r_tresses    : "GDR « Tresses »"
+    u_p_s            : "Université Paul Sabatier"
 
   base_co_m_b_page_title: "TGPDT 2013"
 
   header:
-    title_conf: *conference_title
+    title_conf: *co_m_b_conf
     michel: "à l'occasion des 60 ans de Michel Boileau"
 
   footer: ~

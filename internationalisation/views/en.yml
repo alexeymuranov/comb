@@ -70,15 +70,16 @@ en:
           failure: "The registration could not be deleted."
 
   names:
-    conference_title: &conference_title "Low-dimensional Topology and Geometry in Toulouse"
-    i_m_t           : "Toulouse Mathematics Institute"
-    g_d_r_tresses   : "GDR \"Tresses\""
-    u_p_s           : "Paul Sabatier University"
+    t_s_c_spring_conf: "Topological, Symplectic and Contact Spring"
+    co_m_b_conf      : &co_m_b_conf "Low-dimensional Topology and Geometry in Toulouse"
+    i_m_t            : "Toulouse Mathematics Institute"
+    g_d_r_tresses    : "GDR \"Tresses\""
+    u_p_s            : "Paul Sabatier University"
 
   base_co_m_b_page_title: "LDTGT 2013"
 
   header:
-    title_conf: *conference_title
+    title_conf: *co_m_b_conf
     michel: "on the occasion of Michel Boileau's 60th birthday"
 
   footer: ~
