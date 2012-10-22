@@ -5,8 +5,8 @@
   %body
     %section
       = markdown(:"/text/#{ @locale }/registration_confirmation").force_encoding('utf-8')
-      %p= t 'email.registration.confirmation.your_pin_code_is', :code => @participant.new_pin
+      %p= t 'pages.registration_confirmation.confirmation.your_pin_code_is', :code => @participant.new_pin
     %section
       %h6
-        = t 'email.registration.confirmation.details.header'
+        = t 'pages.registration_confirmation.confirmation.details.header'
       = haml(:"/pages/_registration_details")
