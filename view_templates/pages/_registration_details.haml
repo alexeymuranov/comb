@@ -21,20 +21,21 @@
       - else
         = v
 
-  %dt
-    = t 'pages.registration_confirmation.fields.co_m_b_talk_proposed?'
-  %dd
-    - if (participation = @participant.co_m_b_participation) && (talk_proposal = participation.talk_proposal)
-      %strong
-        ✓
-        = t 'yes'
-      %dl
-        - [:title, :abstract].each do |attr|
-          %dt
-            = t attr,
-                :scope => 'pages.registration_confirmation.fields.co_m_b_talk_proposal_fields'
-          %dd
-            = talk_proposal.public_send(attr)
-    - else
-      ∅
-      = t 'no'
+  - if participation = @participant.co_m_b_participation
+    %dt
+      = t 'pages.registration_confirmation.fields.co_m_b_talk_proposed?'
+    %dd
+      - if talk_proposal = participation.talk_proposal
+        %strong
+          ✓
+          = t 'yes'
+        %dl
+          - [:title, :abstract].each do |attr|
+            %dt
+              = t attr,
+                  :scope => 'pages.registration_confirmation.fields.co_m_b_talk_proposal_fields'
+            %dd
+              = talk_proposal.public_send(attr)
+      - else
+        ∅
+        = t 'no'
