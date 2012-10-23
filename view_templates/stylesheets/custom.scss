@@ -114,6 +114,10 @@ nav.main_menu > ul.menu {
   @include tabs;
 }
 
+footer {
+  text-align: center;
+}
+
 #form_error_explanation {
   border: 2px solid Firebrick;
   @include border-radius(8px);
