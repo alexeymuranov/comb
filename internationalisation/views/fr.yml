@@ -70,7 +70,7 @@ fr:
           failure: "L'inscription n'a pas pu être supprimée."
 
   names:
-    t_s_c_spring_conf: "Printemps Topologique, Symplectique et de Contact"
+    t_s_c_spring_conf: "Printemps Topologique, Symplectique et de Contact à Toulouse"
     co_m_b_conf      : &co_m_b_conf "Topologie et Géométrie en petite dimension à Toulouse"
     i_m_t            : "Institut de Mathématiques de Toulouse"
     g_d_r_tresses    : "GDR « Tresses »"

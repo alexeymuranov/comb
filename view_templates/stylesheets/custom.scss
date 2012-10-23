@@ -116,6 +116,21 @@ nav.main_menu > ul.menu {
 
 footer {
   text-align: center;
+
+  a#link_to_common_home_page {
+    display: inline-block;
+    font-weight: bold;
+    @include border-radius(8px);
+    // border: none;
+    padding: 8px;
+    border: solid 1px $main-border-color;
+
+    &:hover {
+      color: White;
+      background-color: Blue;
+      text-decoration: none;
+    }
+  }
 }
 
 #form_error_explanation {
