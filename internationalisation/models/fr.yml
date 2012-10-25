@@ -22,6 +22,9 @@ fr:
         location  : "endroit"
         comments  : "remarques"
       participant:
+        # Associations:
+        conferences           : "colloques"
+        # Attributes:
         last_name             : "nom"
         first_name            : "prénom"
         name_title            : "titre"
@@ -50,8 +53,10 @@ fr:
         approved              : "accepté(e) par le comité"
         committee_comments    : "remarques du comité"
       participation:
+        # Associations:
         conference            : *conference_model
         participant           : *participant_model
+        # Attributes:
         approved              : "accepté(e) par le comité"
         plenary_speaker       : "orateur/oratrice plénière"
         invited_speaker       : "orateur/oratrice invité(e)"

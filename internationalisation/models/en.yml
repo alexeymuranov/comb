@@ -22,6 +22,9 @@ en:
         location  : "location"
         comments  : "comments"
       participant:
+        # Associations:
+        conferences           : "conferences"
+        # Attributes:
         last_name             : "last name"
         first_name            : "first name"
         name_title            : "title"
@@ -50,8 +53,10 @@ en:
         approved              : "approved by the committee"
         committee_comments    : "committee comments"
       participation:
+        # Associations:
         conference            : *conference_model
         participant           : *participant_model
+        # Attributes:
         approved              : "approved by the committee"
         plenary_speaker       : "plenary speaker"
         invited_speaker       : "invited speaker"
