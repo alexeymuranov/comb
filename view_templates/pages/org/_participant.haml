@@ -41,7 +41,7 @@
         - elsif participant.approved? && main_organiser_logged_in?
           %form.inline{ :action => fixed_url("/#{ @locale }/oc/talk_proposals/#{ talk_proposal.id }"),
                         :method => 'post' }
-            %input{:type => "hidden", :name => "_method", :value => "put"}
+            %input{:type => 'hidden', :name => '_method', :value => 'put'}
             %button.off.toggle_on.accept{ :type  => 'submit',
                                           :name  => 'button',
                                           :value => 'accept' }
