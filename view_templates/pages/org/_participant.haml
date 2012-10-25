@@ -27,7 +27,21 @@
     %dt
       = capitalize_first_letter_of(Participant.human_attribute_name(:conferences))
     %dd
-      = participant.conferences.map(&:identifier).join(', ')
+      %table
+        - participation_attr_iterator = [:arrival_date, :departure_date].each
+        %thead
+          %td
+          - participation_attr_iterator.each do |attr|
+            %th
+              = Participation.human_attribute_name(attr)
+        %tbody
+          - participant.participations.each do |participation|
+            %tr
+              %th{:scope => :row}
+                = participation.conference.identifier
+              - participation_attr_iterator.each do |attr|
+                %td
+                  = participation.public_send(attr)
     - @attributes.each do |attr|
       %dt
         = capitalize_first_letter_of(Participant.human_attribute_name(attr))
