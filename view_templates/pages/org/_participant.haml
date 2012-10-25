@@ -8,15 +8,15 @@
   = Participant.human_attribute_name(:approved)
 %br/
 %form.inline{ :action => fixed_url("/#{ @locale }/#{ @page }/#{ participant.id }"),
-              :method => 'post' }
-  %input{:type => "hidden", :name => "_method", :value => "put"}
+              :method => :post }
+  %input{:type => :hidden, :name => "_method", :value => "put"}
   - if participant.approved?
-    %button.on.toggle_off.deauthorize{ :type  => 'submit',
+    %button.on.toggle_off.deauthorize{ :type  => :submit,
                                        :name  => 'button',
                                        :value => 'disapprove' }
       = t 'buttons.do_not_accept'
   - else
-    %button.off.toggle_on.authorize{ :type  => 'submit',
+    %button.off.toggle_on.authorize{ :type  => :submit,
                                      :name  => 'button',
                                      :value => 'approve' }
       = t 'buttons.accept'
