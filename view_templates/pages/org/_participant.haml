@@ -24,6 +24,10 @@
 %input.style_control{:type => :checkbox}
 .hide_if_checkbox_unchecked
   %dl
+    %dt
+      = capitalize_first_letter_of(Participant.human_attribute_name(:conferences))
+    %dd
+      = participant.conferences.map(&:identifier).join(', ')
     - @attributes.each do |attr|
       %dt
         = capitalize_first_letter_of(Participant.human_attribute_name(attr))
