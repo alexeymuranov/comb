@@ -208,6 +208,10 @@ class Participant < ActiveRecord::Base
 
   alias_method :approved?, :approved
 
+  def approved=(bool)
+    participations.each do |p| p.approved = bool end
+  end
+
   # CoMB related
   def co_m_b_participation
     participations.where(:conference_id => Conference.co_m_b_conf.id).first
