@@ -28,7 +28,9 @@
       = capitalize_first_letter_of(Participant.human_attribute_name(:conferences))
     %dd
       %table
-        - participation_attr_iterator = [:arrival_date, :departure_date].each
+        - participation_attr_iterator = [ :arrival_date,
+                                          :departure_date,
+                                          :committee_comments ].each
         %thead
           %td
           - participation_attr_iterator.each do |attr|

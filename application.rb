@@ -168,7 +168,7 @@ class CTT2013 < Sinatra::Base
       :invitation_needed, :visa_needed,
       # :arrival_date, :departure_date,
       :funding_requests, :special_requests,
-      :approved, :co_m_b_committee_comments ]
+      :approved ]
 
   TALK_ATTRIBUTES = {}
   TALK_ATTRIBUTES[:show] = TALK_ATTRIBUTES[:index] =
