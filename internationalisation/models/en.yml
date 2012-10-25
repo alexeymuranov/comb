@@ -24,6 +24,7 @@ en:
       participant:
         # Associations:
         conferences           : "conferences"
+        participations        : "conference participations"
         # Attributes:
         last_name             : "last name"
         first_name            : "first name"
