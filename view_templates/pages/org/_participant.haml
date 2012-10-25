@@ -39,7 +39,7 @@
           ✓
           = TalkProposal.human_attribute_name(:accepted)
         - elsif participant.approved? && main_organiser_logged_in?
-          %form.inline{ :action => fixed_url("/#{ @locale }/oc/talk_proposals/#{ talk_proposal.id }"),
+          %form.inline{ :action => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talk_proposals/#{ talk_proposal.id }"),
                         :method => 'post' }
             %input{:type => 'hidden', :name => '_method', :value => 'put'}
             %button.off.toggle_on.accept{ :type  => 'submit',

@@ -158,6 +158,6 @@
   .actions
     %button.update{:type => 'submit', :name => 'button', :value => 'update'}
       = t 'buttons.submit'
-    %a.button.cancel{ :href => fixed_url("/#{ @locale }/oc/participants\#participant_#{participant.id}"),
+    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants\#participant_#{ participant.id }"),
                       :role => 'button' }
       = t 'buttons.cancel'
