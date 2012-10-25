@@ -307,7 +307,8 @@ class CTT2013 < Sinatra::Base
           set_locale(locale)
           set_page(participants_page)
 
-          @participants = Participant.approved.default_order.all
+          @participants =
+            Conference.co_m_b_conf.participants.approved.default_order.all
 
           haml :"/pages/#{ participants_page }.html", :layout => :layout
         end
