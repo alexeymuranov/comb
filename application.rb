@@ -323,7 +323,7 @@ class CTT2013 < Sinatra::Base
       get "#{ REQUEST_BASE_URL }#{ l }logout" do
         cache_control :no_cache
         log_out
-        redirect fixed_url("/#{ locale }/")
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }login")
       end
 
       get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }" do
