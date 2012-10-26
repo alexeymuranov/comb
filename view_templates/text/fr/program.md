@@ -10,6 +10,7 @@ Les mathématiciens suivants ont accepté de donner une conférence plénière a
 * [S. Kerckhoff](http://en.wikipedia.org/wiki/Steven_Kerckhoff)
 * [T. Li](https://www2.bc.edu/~taoli/)
 * [Y. Ni](http://www.its.caltech.edu/~yini/)
+* [J. Purcell](http://www.math.byu.edu/~jpurcell/)
 * [A. Reid](http://www.ma.utexas.edu/users/areid/)
 * [H. Rubinstein](http://www.ms.unimelb.edu.au/~rubin/)
 * [P. Shalen](http://homepages.math.uic.edu/~shalen/)
