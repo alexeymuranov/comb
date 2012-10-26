@@ -8,8 +8,9 @@
             = page_title
       - else
         %li{:role => 'tab'}>
-          %a{:href => fixed_url("/#{ @locale }/#{ p }")}
+          %a{:href => fixed_url("/#{ @locale }/#{ p }")}<>
             = page_title
     - if self.class.development?
       %li{:role => 'tab'}>
-        %a{:href => fixed_url("/#{ @locale }/org/login")} CO
+        %a{:href => fixed_url("/#{ @locale }/org/login")}<>
+          Org

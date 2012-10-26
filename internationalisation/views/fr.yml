@@ -207,13 +207,13 @@ fr:
       login:
         title: "Connexion organisateur"
       participants:
-        title: "CO : Participants"
+        title: "Org : Participants"
       participants_to_approve:
-        title: "CO : Participants non validés"
+        title: "Org : Participants non validés"
       talks:
-        title: "CO : Exposés"
+        title: "Org : Exposés"
       hotels:
-        title: "CO : Hôtels"
+        title: "Org : Hôtels"
     login:
       title:
       header: "Connexion pour les organisateurs"

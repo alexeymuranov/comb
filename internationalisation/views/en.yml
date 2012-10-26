@@ -207,13 +207,13 @@ en:
       login:
         title: "Organiser login"
       participants:
-        title: "OC : Participants"
+        title: "Org : Participants"
       participants_to_approve:
-        title: "OC : Unapproved participants"
+        title: "Org : Unapproved participants"
       talks:
-        title: "OC : Talks"
+        title: "Org : Talks"
       hotels:
-        title: "OC : Hotels"
+        title: "Org : Hotels"
     login:
       title: "Organiser login"
       header: "Organiser login"
