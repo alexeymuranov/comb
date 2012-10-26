@@ -24,9 +24,9 @@
 %input.style_control{:type => :checkbox}
 .hide_if_checkbox_unchecked
   %dl
-    %dt
+    %dt.associations
       = capitalize_first_letter_of(Participant.human_attribute_name(:conferences))
-    %dd
+    %dd.associations
       %table
         - participation_attr_iterator = [ :arrival_date,
                                           :departure_date,
@@ -43,17 +43,19 @@
                 = participation.conference.identifier
               - participation_attr_iterator.each do |attr|
                 %td
-                  = participation.public_send(attr)
+                  - if value = participation.public_send(attr)
+                    %span.attribute.value
+                      = value
     - @attributes.each do |attr|
-      %dt
+      %dt.attribute
         = capitalize_first_letter_of(Participant.human_attribute_name(attr))
-      %dd
+      %dd.attribute
         - if (v = participant.public_send(attr)).in?(true, false)
           = text_from_boolean(v)
         - else
           = v
     - if talk_proposal = participant.co_m_b_talk_proposal
-      %dt
+      %dt.association
         = capitalize_first_letter_of(TalkProposal.model_name.human)
         - if talk_proposal.accepted?
           ✓
@@ -66,12 +68,12 @@
                                           :name  => 'button',
                                           :value => 'accept' }
               = t 'buttons.accept'
-      %dd
+      %dd.association
         %dl
           - [:title, :abstract].each do |attr|
-            %dt
+            %dt.attribute
               = TalkProposal.human_attribute_name(attr)
-            %dd
+            %dd.attribute
               = talk_proposal.public_send(attr)
   - if main_organiser_logged_in?
     %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ @page }/edit/#{ participant.id }\#participant_#{ participant.id }"),

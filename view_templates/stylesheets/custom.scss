@@ -234,6 +234,14 @@ a.button, a[role=button] {
   }
 }
 
+dd.attribute, .attribute.value {
+  display: inline-block;
+  @include border-radius(8px);
+  padding: 4px;
+  background-color: LightGreen;
+  color: Black;
+}
+
 // DL-based forms that look like TABLEs
 // form > dl.fields {
 //   display: table;
