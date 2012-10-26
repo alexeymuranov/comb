@@ -125,7 +125,6 @@ footer {
     display: inline-block;
     font-weight: bold;
     @include border-radius(8px);
-    // border: none;
     padding: 8px;
     border: solid 1px $main-border-color;
 
