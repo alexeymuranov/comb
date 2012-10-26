@@ -29,7 +29,7 @@
   %body
     %header
 
-      = haml :'layout/_header'
+      = haml :'layout_partials/_header'
 
     - flash.each do |name, msg|
       %div{:class => ['flash', name]}
@@ -41,7 +41,7 @@
 
     %footer
 
-      = haml :'layout/_footer'
+      = haml :'layout_partials/_footer'
 
     - if self.class.development? && ENV['USER'] == 'alexey'
       #debug_params.debug
