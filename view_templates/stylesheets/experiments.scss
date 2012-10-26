@@ -44,6 +44,19 @@ div#banner_shade {
   }
 }
 
+footer {
+  a#link_to_common_home_page {
+    background-image: footer_home_button_background_url();
+    background-position:center;
+    opacity: 0.8;
+    // font-size: 1.2em;
+    text-shadow: black 1.5px 1.5px 2px;
+    margin-top: 3px;
+    margin-bottom: 1px;
+    color: Ivory;
+  }
+}
+
 hgroup#main_heading {
   display: inline-block;
   pointer-events: none;

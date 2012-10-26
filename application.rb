@@ -129,6 +129,12 @@ class CTT2013 < Sinatra::Base
         "url('#{ BASE_URL }images/bannerToulouse.jpg');"
       )
     end
+
+    def footer_home_button_background_url
+      ::Sass::Script::String.new(
+        "url('#{ BASE_URL }images/capitole.jpg');"
+      )
+    end
   end
 
   # Sessions
