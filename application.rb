@@ -730,11 +730,11 @@ class CTT2013 < Sinatra::Base
       end
 
       participations_attributes = [].tap do |a|
-        hash[:participations_attributes].each do |original_hash|
-          unless original_hash['conference_id'].nil?
+        hash['participations_attributes'].each_value do |participation_hash|
+          unless participation_hash['conference_id'].nil?
             a << {}.tap do |h|
-              [:conference_id, :arrival_date, :departure_date].each do |attr|
-                value = original_hash[attr.to_s]
+              [:conference_id, :arrival_date, :departure_date, :_destroy].each do |attr|
+                value = participation_hash[attr.to_s]
                 h[attr] = value unless value.empty?
               end
               h[:approved] = false

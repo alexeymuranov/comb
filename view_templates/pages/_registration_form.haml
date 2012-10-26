@@ -1,6 +1,8 @@
-%form{:'accept-charset' => 'UTF-8', :method => 'post'}
+%form{ :'accept-charset' => 'UTF-8',
+       :action           => fixed_url("/#{ @locale }/#{ @page }"),
+       :method           => :post }
   -# JavaScript and CSS for JQuery UI date picker (http://jqueryui.com/)
-  = haml :'_jquery_ui_for_forms'
+  = haml :_jquery_ui_for_forms
 
   - if @participant.errors.any?
     #form_error_explanation
@@ -25,26 +27,32 @@
         %dd.input
           %ol
             - @conferences.each do |conf|
-              %input{:type => :hidden, :name => 'conference_ids[]', :value => conf.id}
+              %input{ :type  => :hidden,
+                      :name  => "participant[participations_attributes][#{ conf.id }][conference_id]",
+                      :value => conf.id }
               %li
-                %input{:id      => "participant_conference_#{ conf.id }_participation_conference_id",
-                       :name    => 'participant[participations_attributes][][conference_id]',
-                       :type    => :checkbox,
-                       :value   => conf.id,
-                       :checked => @participant.conferences.include?(conf)}
-                %span<
+                -# Hidden field to pass a value when the checkbox is not checked
+                %input{ :name  => "participant[participations_attributes][#{ conf.id }][_destroy]",
+                        :type  => :hidden,
+                        :value => 1 }
+                %input{ :id      => "participant_conference_#{ conf.id }_participation__destroy",
+                        :name    => "participant[participations_attributes][#{ conf.id }][_destroy]",
+                        :type    => :checkbox,
+                        :value   => 0,
+                        :checked => @participant.conferences.include?(conf) }
+                %label{:for => "participant_conference_#{ conf.id }_participation__destroy"}<
                   = conf.title_with_details(@locale)
-              %dl.fields
-                - [:arrival_date, :departure_date].each do |attr|
-                  .field
-                    %dt.label
-                      %label{:for => "participant_conference_#{ conf.id }_participation_#{ attr }"}
-                        = t(attr, :scope => 'pages.registration.form.field_labels.participations.field_labels')
-                    %dd.input
-                      %input{:id    => "participant_conference_#{ conf.id }_participation_#{ attr }",
-                             :name  => "participant[participations_attributes][][#{ attr }]",
-                             :type  => 'date',
-                             :value => @participant.public_send(attr)}
+                %dl.fields
+                  - [:arrival_date, :departure_date].each do |attr|
+                    .field
+                      %dt.label
+                        %label{:for => "participant_conference_#{ conf.id }_participation_#{ attr }"}
+                          = t attr, :scope => 'pages.registration.form.field_labels.participations.field_labels'
+                      %dd.input
+                        %input{ :id    => "participant_conference_#{ conf.id }_participation_#{ attr }",
+                                :name  => "participant[participations_attributes][#{ conf.id }][#{ attr }]",
+                                :type  => :date,
+                                :value => @participant.public_send(attr) }
 
   %dl.fields
     - [:first_name, :last_name].each do |attr|
@@ -53,47 +61,49 @@
           %label{:for => "participant_#{ attr }"}
             = @field_labels[attr] + '*'
         %dd.input
-          %input{:id       => "participant_#{ attr }",
-                 :name     => "participant[#{ attr }]",
-                 :required => 'required',
-                 :type     => 'text',
-                 :value    => @participant.public_send(attr)}
+          %input{ :id       => "participant_#{ attr }",
+                  :name     => "participant[#{ attr }]",
+                  :required => :required,
+                  :type     => :text,
+                  :value    => @participant.public_send(attr) }
 
     .field.required
       %dt.label
         %label{:for => 'participant_email'}
           = @field_labels[:email] + '*'
       %dd.input
-        %input{:id       => 'participant_email',
-               :name     => 'participant[email]',
-               :required => 'required',
-               :type     => 'email',
-               :value    => @participant.email}
+        %input{ :id       => 'participant_email',
+                :name     => 'participant[email]',
+                :required => :required,
+                :type     => :email,
+                :value    => @participant.email }
 
     .field
       %dt.label
         %label{:for => 'participant_affiliation'}
           = t 'pages.registration.form.field_labels.affiliation'
       %dd.input
-        %input{:id    => 'participant_affiliation',
-               :name  => 'participant[affiliation]',
-               :type  => 'text',
-               :value => @participant.affiliation}
+        %input{ :id    => 'participant_affiliation',
+                :name  => 'participant[affiliation]',
+                :type  => :text,
+                :value => @participant.affiliation }
 
     .field
       %dt.label
-        %label{:for => 'participant_academic_position'}
+        %label{ :for => 'participant_academic_position'}
           = t 'pages.registration.form.field_labels.academic_position'
       %dd.input
-        %select{:id   => 'participant_academic_position',
-               :name  => 'participant[academic_position]',
-               :value => @participant.academic_position}
+        %select{ :id    => 'participant_academic_position',
+                 :name  => 'participant[academic_position]',
+                 :value => @participant.academic_position }
           %option
           - t('pages.registration.form.select_options.academic_positions').each do |p|
             - if p == @participant.academic_position
-              %option{:selected => 'selected'}= p
+              %option{:selected => :selected}
+                = p
             - else
-              %option= p
+              %option
+                = p
 
     - [:country, :city, :post_code, :street_address, :phone].each do |attr|
       .field
@@ -101,10 +111,10 @@
           %label{:for => "participant_#{ attr }"}
             = @field_labels[attr]
         %dd.input
-          %input{:id    => "participant_#{ attr }",
-                 :name  => "participant[#{ attr }]",
-                 :type  => 'text',
-                 :value => @participant.public_send(attr)}
+          %input{ :id    => "participant_#{ attr }",
+                  :name  => "participant[#{ attr }]",
+                  :type  => :text,
+                  :value => @participant.public_send(attr) }
 
     - [:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed].each do |attr|
       .field
@@ -114,15 +124,16 @@
         %dd.input
           - name = "participant[#{ attr }]"
           -# Hidden field to pass a value when the checkbox is not checked
-          %input{:name  => name,
-                 :type  => 'hidden',
-                 :value => 0}
-          %input{:id      => "participant_#{ attr }",
-                 :name    => name,
-                 :type    => 'checkbox',
-                 :value   => 1,
-                 :checked => @participant.public_send(attr)}
-          %span= t 'yes'
+          %input{ :name  => name,
+                  :type  => :hidden,
+                  :value => 0 }
+          %input{ :id      => "participant_#{ attr }",
+                  :name    => name,
+                  :type    => :checkbox,
+                  :value   => 1,
+                  :checked => @participant.public_send(attr) }
+          %span
+            = t 'yes'
 
     - [:funding_requests, :special_requests].each do |attr|
       .field
@@ -130,8 +141,8 @@
           %label{:for => "participant_#{ attr }"}
             = @field_labels[attr]
         %dd.input
-          %textarea{:id   => "participant_#{ attr }",
-                    :name => "participant[#{ attr }]"}
+          %textarea{ :id   => "participant_#{ attr }",
+                     :name => "participant[#{ attr }]" }
             &= @participant.public_send(attr)
 
   - if @conferences.map(&:id).include? Conference.co_m_b_conf.id
@@ -143,5 +154,5 @@
       = haml :'pages/_co_m_b_talk_proposal_fields'
 
   .actions
-    %button.create{:type => 'submit', :name => 'button', :value => 'create'}
+    %button.create{:type => :submit, :name => 'button', :value => 'create'}
       = t 'pages.registration.form.buttons.submit'
