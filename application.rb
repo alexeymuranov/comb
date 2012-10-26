@@ -232,6 +232,9 @@ class CTT2013 < Sinatra::Base
     cache_control :public, :must_revalidate, :max_age => 60
   end
 
+  before %r{/#{ ORG_PAGE_PREFIX }} do
+    cache_control :no_cache
+  end
 
   # Handle unmatched requests
   # -------------------------
