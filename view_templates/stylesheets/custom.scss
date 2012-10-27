@@ -299,10 +299,10 @@ a[role=button] {
   &.edit,
   &.delete,
   &.cancel {
-    @include button(pill, Black);
+    @include button(pill, Gray);
 
     &:hover {
-      @include button(pill, Gray);
+      @include button(pill, Black);
     }
   }
 
