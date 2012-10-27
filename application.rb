@@ -118,24 +118,7 @@ class CTT2013 < Sinatra::Base
   # Sass
   # ----
 
-  # Needed for Bourbon SCSS library to be used correctly by `scss`:
-  require ::File.join(settings.views, 'stylesheets/bourbon/lib/bourbon')
-
-  # Custom sass functions
-  #
-  module ::Sass::Script::Functions
-    def banner_url
-      ::Sass::Script::String.new(
-        "url('#{ BASE_URL }images/bannerToulouse.jpg');"
-      )
-    end
-
-    def footer_home_button_background_url
-      ::Sass::Script::String.new(
-        "url('#{ BASE_URL }images/capitole.jpg');"
-      )
-    end
-  end
+  require_relative 'lib_for_sass'
 
   # Sessions
   # --------
