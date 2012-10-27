@@ -63,17 +63,22 @@ a:hover {
   text-decoration: underline;
 }
 
-button, input[type="submit"] {
+button,
+input[type="submit"] {
   @include button;
+
   &._post_:hover {
     @include button(Purple);
   }
+
   &._put_:hover, &._delete_:hover {
     @include button(Red);
   }
 }
 
-button._get_, a.button, a[role=button] {
+button._get_,
+a.button,
+a[role=button] {
   @include button(pill, Blue);
 }
 
@@ -154,6 +159,7 @@ footer {
 
 button[type="submit"].log_in {
   @include button(shiny, Silver);
+
   &:hover {
     @include button(shiny, Yellow);
   }
@@ -162,6 +168,7 @@ button[type="submit"].log_in {
 #log_out_button {
   @include button(shiny, Silver);
   @include border-radius(16px);
+
   &:hover {
     @include button(shiny, Aqua);
     @include border-radius(16px);
@@ -175,15 +182,18 @@ button[type="submit"] {
     }
   }
 
-  &.update, &.destroy {
+  &.update,
+  &.destroy {
     &:hover {
       @include button(Red);
     }
   }
 
-  &.toggle_on, &.toggle_off {
+  &.toggle_on,
+  &.toggle_off {
     @include button(pill, Blue);
     @include border-radius(3px);
+
     &:hover {
       @include button(pill, Red);
       @include border-radius(3px);
@@ -203,9 +213,14 @@ button[type="submit"] {
   }
 }
 
-a.button, a[role=button] {
-  &.new, &.edit, &.delete, &.cancel {
+a.button,
+a[role=button] {
+  &.new,
+  &.edit,
+  &.delete,
+  &.cancel {
     @include button(pill, Black);
+
     &:hover {
       @include button(pill, Gray);
     }
@@ -234,7 +249,8 @@ a.button, a[role=button] {
   }
 }
 
-dd.attribute, .attribute.value {
+dd.attribute,
+.attribute.value {
   @include border-radius(8px);
   padding: 4px;
   background-color: LightGreen;
