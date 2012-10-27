@@ -17,17 +17,15 @@ describe 'Test CTT2013 application' do
 
   describe 'Static public pages' do
     app::STATIC_PUBLIC_PAGES.each do |page|
-      app::LOCALES.each do |locale|
-        app::LOCALE_URL_FRAGMENTS[locale].each do |l|
-          app::PAGE_URL_FRAGMENTS[page].each do |p|
-            url = "#{ app::REQUEST_BASE_URL }#{ l }#{ p }"
-            it "#{ url } should respond OK" do
-              get url
-              assert last_response.ok?,
-                "GET #{ url } should have responded OK, but reponded #{ last_response.status }."
-              assert last_response.body.include?('Michel'),
-                "GET #{ url } response should have contained 'Michel', but did not."
-            end
+      app::LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
+        app::PAGE_URL_FRAGMENTS[page].each do |p|
+          url = "#{ app::REQUEST_BASE_URL }#{ l }#{ p }"
+          it "#{ url } should respond OK" do
+            get url
+            assert last_response.ok?,
+              "GET #{ url } should have responded OK, but reponded #{ last_response.status }."
+            assert last_response.body.include?('Michel'),
+              "GET #{ url } response should have contained 'Michel', but did not."
           end
         end
       end
@@ -40,17 +38,15 @@ describe 'Test CTT2013 application' do
     end
 
     [:participants, :registration].each do |page|
-      app::LOCALES.each do |locale|
-        app::LOCALE_URL_FRAGMENTS[locale].each do |l|
-          app::PAGE_URL_FRAGMENTS[:"#{ app::COMB_PAGE_PREFIX }#{ page }"].each do |p|
-            url = "#{ app::REQUEST_BASE_URL }#{ l }#{ p }"
-            it "#{ url } should respond OK" do
-              get url
-              assert last_response.ok?,
-                "GET #{ url } should have responded OK, but reponded #{ last_response.status }."
-              assert last_response.body.include?('Michel'),
-                "GET #{ url } response should have contained 'Michel', but did not."
-            end
+      app::LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
+        app::PAGE_URL_FRAGMENTS[:"#{ app::COMB_PAGE_PREFIX }#{ page }"].each do |p|
+          url = "#{ app::REQUEST_BASE_URL }#{ l }#{ p }"
+          it "#{ url } should respond OK" do
+            get url
+            assert last_response.ok?,
+              "GET #{ url } should have responded OK, but reponded #{ last_response.status }."
+            assert last_response.body.include?('Michel'),
+              "GET #{ url } response should have contained 'Michel', but did not."
           end
         end
       end
