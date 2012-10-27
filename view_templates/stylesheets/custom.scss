@@ -7,8 +7,12 @@
 // $active-tab-text-color: Blue;
 // $current-tab-bg-color: DarkBlue;
 // $current-tab-text-color: White;
+
+$html-bg-color: #B8CAE1;
 $body-bg-color: AliceBlue;
 $main-border-color: #527ACC;
+
+$banner-height: 200px;
 
 ////
 // Sass mixins
@@ -89,10 +93,77 @@ fieldset {
 
 table {
   width: auto;
+
+  thead {
+    th {
+      // background-color: transparent;
+    }
+  }
+}
+
+////
+// Global element styles
+
+html {
+  background: $html-bg-color;
+  font-size: 100%;
+}
+
+body {
+  background: $body-bg-color;
+  border: 2px solid $main-border-color;
+  @include border-radius(10px);
+  font-size: 90%;
+  font-family: trebuchet ms, "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 ////
 // Special element styles
+
+div#banner {
+  @include border-top-radius(8px);
+  border-bottom: 1px solid $main-border-color;
+
+  background-color: DimGrey;
+  background-image: banner_url(); // custom function defined in some Ruby file
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+div#banner_shade {
+  @include border-top-radius(8px);
+  background-color: $html-bg-color;
+  opacity: 0.65;
+  @include transition (opacity 2.0s ease-in-out);
+
+  &:hover {
+    opacity: 0;
+    @include transition (opacity 2.5s ease-in-out);
+  }
+}
+
+hgroup#main_heading {
+  display: inline-block;
+  pointer-events: none;
+
+  h1 {
+    color: Cornsilk;//Tomato;
+    // text-shadow: black 0.2px 0px 0.2px, black 0px 0.2px 0.2px, black -0.2px 0px 0.2px, black 0px -0.2px 0.2px;
+    text-shadow: black 1.5px 1.5px 2px;
+    line-height: 1;
+    font-size: 3em;
+    span { pointer-events: visiblePainted; }
+  }
+
+  h2 {
+    color: Ivory; // #2DB82D; #00CC00; Cornsilk; #E68A00; MediumSpringGreen;
+    text-shadow: black 1.5px 1.5px 1px;
+    line-height: 1;
+    font-size: 2em;
+    span { pointer-events: visiblePainted; }
+  }
+}
 
 nav#lang_select {
   @include border-radius(10px);
@@ -128,10 +199,19 @@ footer {
 
   a#link_to_common_home_page {
     display: inline-block;
-    font-weight: bold;
-    @include border-radius(8px);
+    margin-top: 3px;
+    margin-bottom: 1px;
     padding: 8px;
+    @include border-radius(8px);
     border: solid 1px $main-border-color;
+
+    background-image: footer_home_button_background_url();
+    background-position: center;
+    opacity: 0.8;
+
+    font-weight: bold;
+    text-shadow: Black 1.5px 1.5px 2px;
+    color: Ivory;
 
     &:hover {
       color: White;
@@ -259,6 +339,15 @@ dd.attribute,
 
 dd.attribute {
   display: inline-block;
+}
+
+dd.association,
+dd.associations,
+.associaion.data,
+.associations.data {
+  // @include border-radius(8px);
+  // padding: 8px;
+  // background-color: LightGray;
 }
 
 // DL-based forms that look like TABLEs
