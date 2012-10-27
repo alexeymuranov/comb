@@ -235,11 +235,14 @@ a.button, a[role=button] {
 }
 
 dd.attribute, .attribute.value {
-  display: inline-block;
   @include border-radius(8px);
   padding: 4px;
   background-color: LightGreen;
   color: Black;
+}
+
+dd.attribute {
+  display: inline-block;
 }
 
 // DL-based forms that look like TABLEs
