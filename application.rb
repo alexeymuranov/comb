@@ -388,7 +388,9 @@ class CTT2013 < Sinatra::Base
       render_co_m_b_edit_hotels
     end
 
-    [:"#{ ORG_PAGE_PREFIX }participants_to_approve", :"#{ ORG_PAGE_PREFIX }participants"].each do |page|
+    [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
+      :"#{ ORG_PAGE_PREFIX }participants"
+    ].each do |page|
       get "#{ REQUEST_BASE_URL }#{ l }#{ page }/delete/:id" do |id|
         require_main_organiser_login!
         set_locale(locale)
@@ -551,10 +553,12 @@ class CTT2013 < Sinatra::Base
   end
 
   # DELETE requests
-  # ------------
+  # ---------------
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-    [:"#{ ORG_PAGE_PREFIX }participants_to_approve", :"#{ ORG_PAGE_PREFIX }participants"].each do |page|
+    [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
+      :"#{ ORG_PAGE_PREFIX }participants"
+    ].each do |page|
       delete "#{ REQUEST_BASE_URL }#{ l }#{ page }/:id" do |id|
         require_main_organiser_login!
         Participant.find(id).destroy
@@ -709,7 +713,9 @@ class CTT2013 < Sinatra::Base
         hash['participations_attributes'].each_value do |participation_hash|
           unless participation_hash['conference_id'].nil?
             a << {}.tap do |h|
-              [:conference_id, :arrival_date, :departure_date, :_destroy].each do |attr|
+              [ :conference_id, :arrival_date, :departure_date,
+                :_destroy
+              ].each do |attr|
                 value = participation_hash[attr.to_s]
                 h[attr] = value unless value.empty?
               end
@@ -728,7 +734,8 @@ class CTT2013 < Sinatra::Base
 
       if co_m_b_participation_attributes
         co_m_b_talk_proposal_attributes = {}.tap do |h|
-          original_hash = hash['co_m_b_participation_attributes']['talk_proposal_attributes']
+          original_hash =
+            hash['co_m_b_participation_attributes']['talk_proposal_attributes']
           [:title, :abstract].each do |attr|
             value = original_hash[attr.to_s]
             h[attr] = value unless value.empty?
