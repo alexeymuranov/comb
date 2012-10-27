@@ -1,22 +1,21 @@
 # encoding: UTF-8 (magic comment)
 
 require 'sass'
+require_relative 'helpers'
 
-# Needed for Bourbon SCSS library to be used correctly by `scss`:
+# For Bourbon SCSS library to be used correctly by `scss`:
 require ::File.join(CTT2013.settings.views, 'stylesheets/bourbon/lib/bourbon')
 
 # Custom sass functions
 #
 module ::Sass::Script::Functions
   def banner_url
-    ::Sass::Script::String.new(
-      "url('#{ CTT2013::BASE_URL }images/bannerToulouse.jpg');"
-    )
+    url = CTT2013::Helpers.simple_fixed_url('/images/bannerToulouse.jpg')
+    ::Sass::Script::String.new("url('#{ url }');")
   end
 
   def footer_home_button_background_url
-    ::Sass::Script::String.new(
-      "url('#{ CTT2013::BASE_URL }images/capitole.jpg');"
-    )
+    url = CTT2013::Helpers.simple_fixed_url('/images/capitole.jpg')
+    ::Sass::Script::String.new("url('#{ url }');")
   end
 end
