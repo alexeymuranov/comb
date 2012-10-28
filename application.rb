@@ -522,7 +522,7 @@ class CTT2013 < Sinatra::Base
         @talk_proposal.update_attributes(talk_proposal_attributes)
       end
       @talk_proposal.save!
-      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants#participant_#{ @talk_proposal.participant_id }")
+      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants#participant_#{ @talk_proposal.participant.id }")
     end
 
     put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id" do |id|

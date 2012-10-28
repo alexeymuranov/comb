@@ -257,7 +257,7 @@ class Talk < AbstractSmarterModel
                               :inverse_of  => :talk
 
   # Validations
-  validates :type, :participant_id, :title, :presence => true
+  validates :type, :participation_id, :title, :presence => true
 
   validates :type, :inclusion => { :in => %w[PlenaryTalk ParallelTalk] }
 
