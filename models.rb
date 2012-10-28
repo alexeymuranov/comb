@@ -382,9 +382,9 @@ class TalkProposal < AbstractSmarterModel
   # Other instance methods
   def accept
     if talk.nil?
-      create_talk!(:participation_id => participation_id,
+      create_talk! :participation_id => participation_id,
                    :title            => title,
-                   :abstract         => abstract)
+                   :abstract         => abstract
     end
   end
 end
