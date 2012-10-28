@@ -161,28 +161,26 @@ class Participant < AbstractSmarterModel
                                                  :update_only   => true
 
   # Validations
-  validates_presence_of :first_name,
-                        :last_name
+  validates :first_name, :last_name, :presence => true
 
-  validates_length_of :first_name, :last_name,
-                      :maximum => 32
+  validates :first_name, :last_name, :length => { :maximum => 32 }
 
-  validates_length_of :name_title, :maximum   => 16,
-                                   :allow_nil => true
+  validates :name_title, :length    => { :maximum   => 16 },
+                         :allow_nil => true
 
   validates :email, :email_format => true
 
-  validates_inclusion_of :gender,
-                         :in        => ['female', 'male', :female, :male],
-                         :allow_nil => true
+  validates :gender,
+            :inclusion => { :in => ['female', 'male', :female, :male] },
+            :allow_nil => true
 
-  validates_uniqueness_of :first_name, :scope         => :last_name,
-                                       :case_sesitive => false
+  validates :first_name, :uniqueness => { :scope         => :last_name,
+                                          :case_sesitive => false }
 
-  validates_uniqueness_of :email
+  validates :email, :uniqueness => true
 
   # Validaton of assocaitions
-  validates_presence_of :participations
+  validates :participations, :presence => true
 
   # Scopes
   scope :default_order, order("UPPER(#{ table_name }.last_name) ASC").
@@ -259,11 +257,9 @@ class Talk < AbstractSmarterModel
                               :inverse_of  => :talk
 
   # Validations
-  validates_presence_of :type,
-                        :participant_id,
-                        :title
+  validates :type, :participant_id, :title, :presence => true
 
-  validates_inclusion_of :type, :in => %w[PlenaryTalk ParallelTalk]
+  validates :type, :inclusion => { :in => %w[PlenaryTalk ParallelTalk] }
 
   # Readonly attributes
   attr_readonly :participation_id
@@ -323,7 +319,7 @@ class Hotel < AbstractSmarterModel
                           :source  => :participant
 
   # Validations
-  validates_presence_of :name
+  validates :name, :presence => true
 
   # Scopes
   scope :default_order, order("UPPER(hotels.name) ASC")
@@ -342,8 +338,7 @@ class Accommodation < AbstractSmarterModel
                      :inverse_of  => :accommodations
 
   # Validations
-  validates_presence_of :participant_id,
-                        :hotel_id
+  validates :participant_id, :hotel_id, :presence => true
 
   # Readonly attributes
   attr_readonly :participant_id, :hotel_id
