@@ -11,12 +11,12 @@ require 'i18n'
 # A custom ancestor class for all or most models
 class AbstractSmarterModel < ActiveRecord::Base
   self.abstract_class = true
+
+  include AttributeTypes
 end
 
 class Conference < AbstractSmarterModel
   self.table_name = :conferences
-
-  include AttributeTypes
 
   # Associations
   has_many :participations, :class_name  => :Participation,
@@ -64,8 +64,6 @@ end
 
 class Participation < AbstractSmarterModel
   self.table_name = :participations
-
-  include AttributeTypes
 
   # Associations
   belongs_to :participant, :class_name  => :Participant,
@@ -129,8 +127,6 @@ end
 
 class Participant < AbstractSmarterModel
   self.table_name = :participants
-
-  include AttributeTypes
 
   # Associations
   has_many :participations, :class_name  => :Participation,
@@ -246,8 +242,6 @@ class Talk < AbstractSmarterModel
   self.table_name = :talks
   self.inheritance_column = :type
 
-  include AttributeTypes
-
   # Associations
   belongs_to :conference_speaker, :class_name  => :Participation,
                                   :foreign_key => :participation_id,
@@ -320,8 +314,6 @@ end
 class Hotel < AbstractSmarterModel
   self.table_name = :hotels
 
-  include AttributeTypes
-
   # Associations
   has_many :accommodations, :class_name  => :Accommodation,
                             :foreign_key => :hotel_id,
@@ -339,8 +331,6 @@ end
 
 class Accommodation < AbstractSmarterModel
   self.table_name = :accommodations
-
-  include AttributeTypes
 
   # Associations
   belongs_to :participant, :class_name  => :Participant,
@@ -362,8 +352,6 @@ end
 class ConferenceDinnerReservation < AbstractSmarterModel
   self.table_name = :conference_dinner_reservations
 
-  include AttributeTypes
-
   # Associations
   belongs_to :participation, :class_name  => :Participation,
                              :foreign_key => :participation_id,
@@ -375,8 +363,6 @@ end
 
 class TalkProposal < AbstractSmarterModel
   self.table_name = :talk_proposals
-
-  include AttributeTypes
 
   # Associations
   belongs_to :participation, :class_name  => :Participation,
