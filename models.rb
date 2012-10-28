@@ -265,7 +265,7 @@ class Talk < AbstractSmarterModel
   attr_readonly :participation_id
 
   # Scopes
-  scope :default_order, order("UPPER(talks.title) ASC")
+  scope :default_order, order("UPPER(#{ table_name }.title) ASC")
 
   # Virtual attributes
   def speaker_name
@@ -322,7 +322,7 @@ class Hotel < AbstractSmarterModel
   validates :name, :presence => true
 
   # Scopes
-  scope :default_order, order("UPPER(hotels.name) ASC")
+  scope :default_order, order("UPPER(#{ table_name }.name) ASC")
 end
 
 class Accommodation < AbstractSmarterModel
