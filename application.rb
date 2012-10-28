@@ -836,9 +836,9 @@ class CTT2013 < Sinatra::Base
       email_attributes[:to] = participant.email
 
       # XXX: for testing only
-      if self.class.development?
-        email_attributes[:to] = "#{ ENV['USER'] }@localhost"
-      end
+      # if self.class.development?
+      #   email_attributes[:to] = "#{ ENV['USER'] }@localhost"
+      # end
 
       Pony.mail email_attributes
     end
