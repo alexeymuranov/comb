@@ -8,7 +8,12 @@ require './lib/attribute_types' # my custom module
 # NOTE: normally should be used only in decorators and presenters
 require 'i18n'
 
-class Conference < ActiveRecord::Base
+# A custom ancestor class for all or most models
+class AbstractSmarterModel < ActiveRecord::Base
+  self.abstract_class = true
+end
+
+class Conference < AbstractSmarterModel
   self.table_name = :conferences
 
   include AttributeTypes
@@ -57,7 +62,7 @@ class Conference < ActiveRecord::Base
   end
 end
 
-class Participation < ActiveRecord::Base
+class Participation < AbstractSmarterModel
   self.table_name = :participations
 
   include AttributeTypes
@@ -122,7 +127,7 @@ class Participation < ActiveRecord::Base
   end
 end
 
-class Participant < ActiveRecord::Base
+class Participant < AbstractSmarterModel
   self.table_name = :participants
 
   include AttributeTypes
@@ -237,7 +242,7 @@ class Participant < ActiveRecord::Base
   end
 end
 
-class Talk < ActiveRecord::Base
+class Talk < AbstractSmarterModel
   self.table_name = :talks
   self.inheritance_column = :type
 
@@ -312,7 +317,7 @@ class ParallelTalk < Talk
 
 end
 
-class Hotel < ActiveRecord::Base
+class Hotel < AbstractSmarterModel
   self.table_name = :hotels
 
   include AttributeTypes
@@ -332,7 +337,7 @@ class Hotel < ActiveRecord::Base
   scope :default_order, order("UPPER(hotels.name) ASC")
 end
 
-class Accommodation < ActiveRecord::Base
+class Accommodation < AbstractSmarterModel
   self.table_name = :accommodations
 
   include AttributeTypes
@@ -354,7 +359,7 @@ class Accommodation < ActiveRecord::Base
   attr_readonly :participant_id, :hotel_id
 end
 
-class ConferenceDinnerReservation < ActiveRecord::Base
+class ConferenceDinnerReservation < AbstractSmarterModel
   self.table_name = :conference_dinner_reservations
 
   include AttributeTypes
@@ -368,7 +373,7 @@ class ConferenceDinnerReservation < ActiveRecord::Base
   attr_readonly :participatioin_id
 end
 
-class TalkProposal < ActiveRecord::Base
+class TalkProposal < AbstractSmarterModel
   self.table_name = :talk_proposals
 
   include AttributeTypes
