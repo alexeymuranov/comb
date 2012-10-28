@@ -158,6 +158,7 @@ class CTT2013 < Sinatra::Base
       # :arrival_date, :departure_date,
       :funding_requests, :special_requests,
       :approved ]
+  PARTICIPANT_ATTRIBUTES[:update] = PARTICIPANT_ATTRIBUTES[:show]
 
   TALK_ATTRIBUTES = {}
   TALK_ATTRIBUTES[:show] = TALK_ATTRIBUTES[:index] =
@@ -438,7 +439,7 @@ class CTT2013 < Sinatra::Base
       participant_attributes =
         participant_registration_attributes_from_param_hash(
           params[:participant])
-      params[:debug] = participant_attributes
+      # params[:debug] = participant_attributes
       @participant = Participant.new(participant_attributes)
       @participant.generate_pin
 
@@ -488,23 +489,26 @@ class CTT2013 < Sinatra::Base
           @participant.approved = false
         when 'update'
           require_main_organiser_login!
-          participant_attributes = params[:participant]
-          participant_attributes.each_pair { |k, v|
-            participant_attributes[k] = nil if v.empty?
-          }
-          participant_attributes[:talk_proposal_attributes].tap { |h|
-            h.delete_if { |_, v| v.empty? }
-            h[:_destroy] = true if h.empty?
-          }
+
+          participant_attributes =
+            participant_update_attributes_from_param_hash(
+              params[:participant])
+
           @participant.update_attributes(participant_attributes)
+          participations_attributes =
+            participations_update_attributes_from_param_hash(
+              params[:participations])
+          participations_attributes.each do |attributes|
+            participation = Participation.find(attributes[:id])
+            if participation.participant_id = @participant.id
+              participation.update_attributes(attributes)
+              participation.save!
+            end
+          end
         end
         @participant.save!
 
-        if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
-          redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants_to_approve#participant_#{ @participant.id }")
-        else
-          redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants#participant_#{ @participant.id }")
-        end
+        redirect fixed_url("/#{ locale }/#{ page }#participant_#{ @participant.id }")
       end
     end
 
@@ -516,7 +520,7 @@ class CTT2013 < Sinatra::Base
         @talk_proposal.accept
       when 'update'
         talk_proposal_attributes = params[:talk_proposal]
-        talk_proposal_attributes.each_paire { |k, v|
+        talk_proposal_attributes.each_pair { |k, v|
           talk_proposal_attributes[k] = nil if v.empty?
         }
         @talk_proposal.update_attributes(talk_proposal_attributes)
@@ -705,8 +709,10 @@ class CTT2013 < Sinatra::Base
     end
 
     def participant_registration_attributes_from_param_hash(hash)
+      attr_names = PARTICIPANT_ATTRIBUTES[:registration]
+
       participant_attributes = {}.tap do |h|
-        PARTICIPANT_ATTRIBUTES[:registration].each do |attr|
+        attr_names.each do |attr|
           value = hash[attr.to_s]
           h[attr] = value unless value.empty?
         end
@@ -752,6 +758,51 @@ class CTT2013 < Sinatra::Base
         participations_attributes
 
       participant_attributes
+    end
+
+    def participant_update_attributes_from_param_hash(hash)
+      participant_attributes = {}
+
+      PARTICIPANT_ATTRIBUTES[:update].each do |attr|
+        value = hash[attr.to_s]
+        participant_attributes[attr] = value unless value.nil? || value.empty?
+      end
+
+      participant_attributes
+    end
+
+    def participations_update_attributes_from_param_hash(hash)
+      participations_attributes = []
+      hash.each_pair do |id, attributes|
+        h = { :id => id.to_i }
+
+        [ :arrival_date, :departure_date,
+          :committee_comments,
+          :_destroy
+        ].each do |attr|
+          value = attributes[attr.to_s]
+          h[attr] = value unless value.nil? || value.empty?
+        end
+
+        original_talk_proposal_attributes =
+          attributes['talk_proposal_attributes']
+
+        if original_talk_proposal_attributes
+          talk_proposal_attributes = {}
+
+          [:title, :abstract].each do |attr|
+            value = original_talk_proposal_attributes[attr.to_s]
+            talk_proposal_attributes[attr] = value unless
+              value.nil? || value.empty?
+          end
+
+          h[:talk_proposal_attributes] = talk_proposal_attributes
+        end
+
+        participations_attributes << h
+      end
+
+      participations_attributes
     end
 
     def conferences_from_conference_ids_in_param_array(conference_ids)

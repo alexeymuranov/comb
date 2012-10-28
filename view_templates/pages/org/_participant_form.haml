@@ -1,4 +1,4 @@
--# Parameters:
+-# Local variables that must be set:
 -#   participant
 
 %form{ :'accept-charset' => 'UTF-8',
@@ -24,44 +24,56 @@
           %li
             = msg
 
+  %fieldset
+    %legend
+      = attribute_name_as_label(Participant, :participations)
+    %ol.fields
+      - participant.participations.each do |participation|
+        - conf = participation.conference
+        %li
+          = conf.title_with_details(@locale)
+          %dl.fields
+            - [:arrival_date, :departure_date].each do |attr|
+              .field
+                %dt.label
+                  %label{ :for => "participations_#{ participation.id }_#{ attr }" }
+                    = attribute_name_as_label(Participation, attr)
+                %dd.input
+                  %input{ :id    => "participations_#{ participation.id }_#{ attr }",
+                          :name  => "participations[#{ participation.id }][#{ attr }]",
+                          :type  => :date,
+                          :value => participation.public_send(attr) }
+            .field
+              %dt.label
+                %label{ :for => "participations_#{ participation.id }_committee_comments" }
+                  = attribute_name_as_label(Participation, :committee_comments)
+              %dd.input
+                %textarea{ :id   => "participations_#{ participation.id }_committee_comments",
+                           :name => "participations[#{ participation.id }][committee_comments]" }<
+                  = preserve do
+                    &= participation.committee_comments
+
   %dl.fields
-    - [:first_name, :last_name].each do |attr|
-      .field.required
+    - [:first_name, :last_name,  :email, :affiliation].each do |attr|
+      - required = Participant.attribute_constraints_on(attr)[:required]
+      - label_html_classes = []
+      - label_html_classes << 'required' if required
+      .field
         %dt.label
-          %label{ :for => "participant_#{ attr }" }
-            = @field_labels[attr] + '*'
+          %label{ :for   => "participant_#{ attr }",
+                  :class => label_html_classes }
+            = attribute_name_as_label(Participant, attr)
         %dd.input
           %input{ :id       => "participant_#{ attr }",
                   :name     => "participant[#{ attr }]",
-                  :required => true,
-                  :type     => :text,
+                  :required => required,
+                  :type     => attribute_input_html_type(Participant, attr),
                   :value    => participant.public_send(attr) }
-
-    .field.required
-      %dt.label
-        %label{ :for => :participant_email }
-          = @field_labels[:email] + '*'
-      %dd.input
-        %input{ :id       => 'participant_email',
-                :name     => 'participant[email]',
-                :required => true,
-                :type     => :email,
-                :value    => participant.email }
-
-    .field
-      %dt.label
-        %label{ :for => 'participant_affiliation' }
-          = @field_labels[:affiliation]
-      %dd.input
-        %input{ :id    => 'participant_affiliation',
-                :name  => 'participant[affiliation]',
-                :type  => :text,
-                :value => participant.affiliation }
 
     .field
       %dt.label
         %label{ :for => 'participant_academic_position' }
-          = @field_labels[:academic_position]
+          = attribute_name_as_label(Participant, :academic_position)
       %dd.input
         %select{ :id    => 'participant_academic_position',
                  :name  => 'participant[academic_position]',
@@ -79,18 +91,18 @@
       .field
         %dt.label
           %label{ :for => "participant_#{ attr }" }
-            = @field_labels[attr]
+            = attribute_name_as_label(Participant, attr)
         %dd.input
           %input{ :id    => "participant_#{ attr }",
                   :name  => "participant[#{ attr }]",
-                  :type  => :text,
+                  :type  => attribute_input_html_type(Participant, attr),
                   :value => participant.public_send(attr) }
 
     - [:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed].each do |attr|
       .field
         %dt.label
           %label{ :for => "participant_#{ attr }" }
-            = @field_labels[attr]
+            = attribute_name_as_label(Participant, attr)
         %dd.input
           - name = "participant[#{ attr }]"
           -# Hidden field to pass a value when the checkbox is not checked
@@ -104,62 +116,46 @@
                   :checked => participant.public_send(attr) }
           %span= t 'yes'
 
-    - [:arrival_date, :departure_date].each do |attr|
-      .field
-        %dt.label
-          %label{ :for => "participant_#{ attr }" }
-            = @field_labels[attr]
-        %dd.input
-          %input{ :id    => "participant_#{ attr }",
-                  :name  => "participant[#{ attr }]",
-                  :type  => :date,
-                  :value => participant.public_send(attr) }
-
     - [:funding_requests, :special_requests].each do |attr|
       .field
         %dt.label
           %label{ :for => "participant_#{ attr }" }
-            = @field_labels[attr]
+            = attribute_name_as_label(Participant, attr)
         %dd.input
           %textarea{ :id   => "participant_#{ attr }",
                      :name => "participant[#{ attr }]" }<
             = preserve do
               &= participant.public_send(attr)
-    .field
-      %dt.label
-        %label{ :for => 'participant_committee_comments' }
-          = @field_labels[:committee_comments]
-      %dd.input
-        %textarea{ :id   => 'participant_committee_comments',
-                   :name => 'participant[committee_comments]' }<
-          = preserve do
-            &= participant.committee_comments
-    %fieldset
-      %legend
-        = capitalize_first_letter_of(TalkProposal.model_name.human)
-        - if participant.talk_proposal
-          - proposed_talk_title = participant.talk_proposal.title
-          - proposed_talk_abstract = participant.talk_proposal.abstract
+
+  %fieldset
+    %legend
+      = attribute_name_as_label(Participation, :talk_proposal)
+
+    %dl.fields
+      - if participation = participant.co_m_b_participation
+        - if talk_proposal = participation.talk_proposal
+          - title = talk_proposal.title
+          - abstract = talk_proposal.abstract
         - else
-          - proposed_talk_abstract = proposed_talk_title = nil
-      .field
-        %dt.label
-          %label{ :for => 'talk_proposal_attributes_title' }
-            = TalkProposal.human_attribute_name(:title)
-        %dd.input
-          %input.long_string{ :id    => 'participant_talk_proposal_attributes_title',
-                              :name  => 'participant[talk_proposal_attributes][title]',
-                              :type  => :text,
-                              :value => proposed_talk_title }
-      .field
-        %dt.label
-          %label{ :for => 'talk_proposal_attributes_abstract' }
-            = TalkProposal.human_attribute_name(:abstract)
-        %dd.input
-          %textarea{ :id   => 'participant_talk_proposal_attributes_abstract',
-                     :name => 'participant[talk_proposal_attributes][abstract]' }<
-            = preserve do
-              &= proposed_talk_abstract
+          - abstract = title = nil
+        .field
+          %dt.label
+            %label{ :for => "participations_#{ participation.id }_talk_proposal_attributes_title" }
+              = attribute_name_as_label(TalkProposal, :title)
+          %dd.input
+            %input.long_string{ :id    => "participations_#{ participation.id }_talk_proposal_attributes_title",
+                                :name  => "participations[#{ participation.id }][talk_proposal_attributes][title]",
+                                :type  => :text,
+                                :value => title }
+        .field
+          %dt.label
+            %label{ :for => "participations_#{ participation.id }_talk_proposal_attributes_abstract" }
+              = attribute_name_as_label(TalkProposal, :abstract)
+          %dd.input
+            %textarea{ :id   => "participations_#{ participation.id }_talk_proposal_attributes_abstract",
+                       :name => "participations[#{ participation.id }][talk_proposal_attributes][abstract]" }<
+              = preserve do
+                &= abstract
 
   .actions
     %button.update{ :type => :submit, :name => 'button', :value => 'update' }
