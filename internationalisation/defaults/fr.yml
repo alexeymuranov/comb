@@ -207,6 +207,8 @@ fr:
       even: "doit être pair"
       taken: "est déjà pris(e)"
       record_invalid: "La validation a échoué : %{errors}"
+      # Custom:
+      email_format: "n'est pas bien formée"
 
     template: &errors_template
       header:

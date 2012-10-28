@@ -2,7 +2,8 @@
 
 require 'digest' # hash function
 
-require './lib/attribute_types' # my custom module
+require './lib/attribute_types'
+require './lib/email_format_validator'
 
 # Internationalisation
 # NOTE: normally should be used only in decorators and presenters
@@ -169,8 +170,7 @@ class Participant < AbstractSmarterModel
   validates_length_of :name_title, :maximum   => 16,
                                    :allow_nil => true
 
-  validates_format_of :email,
-                      :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+  validates :email, :email_format => true
 
   validates_inclusion_of :gender,
                          :in        => ['female', 'male', :female, :male],
