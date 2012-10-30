@@ -8,11 +8,12 @@
           - [:intro_conf, :g_e_s_t_a_conf, :llagone_conf, :co_m_b_conf].each do |conf_class_method|
             - conf = Conference.public_send(conf_class_method)
             %li
-              %input{:name     => 'conference_ids[]',
-                     :type     => 'checkbox',
-                     :value    => conf.id,
-                     :checked  => conf_class_method == :co_m_b_conf}
-              %span<
+              %input{ :id       => "conference_#{ conf.id }",
+                      :name     => 'conference_ids[]',
+                      :type     => 'checkbox',
+                      :value    => conf.id,
+                      :checked  => conf.id == Conference.co_m_b_conf.id }
+              %label{:for => "conference_#{ conf.id }"}<
                 = conf.title_with_details(@locale)
 
   .actions
