@@ -145,7 +145,7 @@ en:
         first_name             : "First name:"
         name_title             : "title:"
         email                  : "E-mail:"
-        affiliation            : "Affiliation (universitu or institute):"
+        affiliation            : "Affiliation (university or institute):"
         academic_position      : "Academic position:"
         country                : "Country:"
         city                   : "City:"
