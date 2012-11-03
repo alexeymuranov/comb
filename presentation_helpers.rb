@@ -30,35 +30,33 @@ class CTT2013
 
         value = object.public_send(attribute)
 
+        html_classes = []
+
         case column_type
         when :boolean
-          html_class = :boolean
+          html_classes << :boolean
           value_html = value.nil? ? nil : text_from_boolean(value)
         when :date, :datetime
-          html_class = column_type
+          html_classes << column_type
           value_html = l value, :format => :custom
         when :time
-          html_class = :time
+          html_classes << :time
           value_html = l value, :format => :time_of_the_day
         when :integer
-          html_class = :number
+          html_classes << :number
           value_html = value
         else
-          html_class = column_type
+          html_classes << column_type
           value_html = value
         end
 
         readonly = object_class.readonly_attributes.include?(attribute.to_s)
-        if readonly
-          value_html =
-            haml :'/helper_partials/abstract_smarter_model/_readonly_value_in_description',
-                 :locals => { :value => value_html }
-        end
+        html_classes << :readonly if readonly
 
         haml :'/helper_partials/abstract_smarter_model/_attribute_in_description',
-             :locals => { :name       => name_html,
-                          :value      => value_html,
-                          :html_class => html_class }
+             :locals => { :name         => name_html,
+                          :value        => value_html,
+                          :html_classes => html_classes }
       end
 
       def singular_association_in_description(object, attr)
