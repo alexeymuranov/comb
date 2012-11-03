@@ -48,7 +48,7 @@
                       %span.attribute.value
                         = value
     - @attributes.each do |attr|
-      = attribute_in_description_list(participant, attr)
+      = attribute_in_description(participant, attr)
     - if talk_proposal = participant.co_m_b_talk_proposal
       .item
         %dt.association

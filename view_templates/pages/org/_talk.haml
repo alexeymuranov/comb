@@ -9,7 +9,7 @@
 .hide_if_checkbox_unchecked
   %dl
     - @attributes.each do |attr|
-      = attribute_in_description_list(talk, attr)
+      = attribute_in_description(talk, attr)
 
   - if main_organiser_logged_in?
     %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ @page }/edit/#{ talk.id }\#talk_#{ talk.id }"),

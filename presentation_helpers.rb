@@ -5,7 +5,7 @@ require 'i18n' # Internationalisation
 class CTT2013
   module PresentationHelpers
     module AbstractSmarterModelHelpers
-      def attribute_in_description_list(object, attribute, hints = {})
+      def attribute_in_description(object, attribute, hints = {})
         object_class = object.class
 
         unless column_type = hints[:column_type]
@@ -51,21 +51,21 @@ class CTT2013
         readonly = object_class.readonly_attributes.include?(attribute.to_s)
         if readonly
           value_html =
-            haml :'/helper_partials/abstract_smarter_model/_readonly_value_in_description_list',
+            haml :'/helper_partials/abstract_smarter_model/_readonly_value_in_description',
                  :locals => { :value => value_html }
         end
 
-        haml :'/helper_partials/abstract_smarter_model/_attribute_in_description_list',
+        haml :'/helper_partials/abstract_smarter_model/_attribute_in_description',
              :locals => { :name       => name_html,
                           :value      => value_html,
                           :html_class => html_class }
       end
 
-      def singular_association_in_description_list(object, attr)
+      def singular_association_in_description(object, attr)
         fail # TODO: implement me
       end
 
-      def collection_association_in_description_list(object, attr)
+      def collection_association_in_description(object, attr)
         fail # TODO: implement me
       end
 
