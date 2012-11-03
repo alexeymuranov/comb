@@ -351,6 +351,10 @@ dd.associations,
   // background-color: LightGray;
 }
 
+label.required:after {
+  content: "*";
+}
+
 // DL-based forms that look like TABLEs
 // form > dl.fields {
 //   display: table;
