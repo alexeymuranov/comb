@@ -3,6 +3,7 @@
 require 'digest' # hash function
 
 require './lib/attribute_types'
+require './lib/attribute_constraints'
 require './lib/email_format_validator'
 
 # Internationalisation
@@ -14,6 +15,7 @@ class AbstractSmarterModel < ActiveRecord::Base
   self.abstract_class = true
 
   include AttributeTypes
+  include AttributeConstraints
 end
 
 class Conference < AbstractSmarterModel
