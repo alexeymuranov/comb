@@ -9,13 +9,8 @@
 .hide_if_checkbox_unchecked
   %dl
     - @attributes.each do |attr|
-      %dt
-        = capitalize_first_letter_of(Talk.human_attribute_name(attr))
-      %dd
-        - if (v = talk.public_send(attr)).in?(true, false)
-          = text_from_boolean(v)
-        - else
-          = v
+      = attribute_in_description_list(talk, attr)
+
   - if main_organiser_logged_in?
     %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ @page }/edit/#{ talk.id }\#talk_#{ talk.id }"),
                     :role => 'button' }

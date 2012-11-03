@@ -6,7 +6,7 @@ require './lib/attribute_types'
 require './lib/email_format_validator'
 
 # Internationalisation
-# NOTE: normally should be used only in decorators and presenters
+# NOTE: normally should be used only in helpers or presenters
 require 'i18n'
 
 # A custom ancestor class for all or most models
@@ -206,6 +206,10 @@ class Participant < AbstractSmarterModel
   end
 
   alias_method :approved?, :approved
+
+  # The following method is defined in the custom `AttributeTypes` module
+  add_attribute_types :approved  => :boolean,
+                      :approved? => :boolean
 
   def approved=(bool)
     participations.each do |p| p.approved = bool end
