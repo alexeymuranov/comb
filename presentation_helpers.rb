@@ -4,6 +4,25 @@ require 'i18n' # Internationalisation
 
 class CTT2013
   module PresentationHelpers
+    def model_attribute_name_as_label(model, attribute, column_type = nil)
+      # NOTE: assumes that `AttributeTypes` module is included
+      column_type ||= model.attribute_type(attribute)
+
+      human_attribute_name =
+        capitalize_first_letter_of(
+          model.human_attribute_name(attribute))
+
+      format_localisation_key =
+        case column_type
+        when :boolean
+          'formats.attribute_name?'
+        else
+          'formats.attribute_name:'
+        end
+
+      t(format_localisation_key, :attribute => human_attribute_name)
+    end
+
     module AbstractSmarterModelHelpers
       def attribute_in_description(object, attribute, hints = {})
         object_class = object.class
@@ -13,20 +32,8 @@ class CTT2013
           column_type = object_class.attribute_type(attribute)
         end
 
-        human_attribute_name =
-          capitalize_first_letter_of(
-            object_class.human_attribute_name(attribute))
-
-        format_localisation_key =
-          case column_type
-          when :boolean
-            'formats.attribute_name?'
-          else
-            'formats.attribute_name:'
-          end
-
         name_html =
-          t(format_localisation_key, :attribute => human_attribute_name)
+          model_attribute_name_as_label(object_class, attribute, column_type)
 
         value = object.public_send(attribute)
 
