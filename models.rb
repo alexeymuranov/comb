@@ -163,7 +163,7 @@ class Participant < AbstractSmarterModel
                                                  :update_only   => true
 
   # Validations
-  validates :first_name, :last_name, :presence => true
+  validates :first_name, :last_name, :email, :presence => true
 
   validates :first_name, :last_name, :length => { :maximum => 32 }
 
