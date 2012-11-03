@@ -55,42 +55,25 @@
                                 :value => @participant.public_send(attr) }
 
   %dl.fields
-    - [:first_name, :last_name].each do |attr|
-      .field.required
+    - [:first_name, :last_name, :email, :affiliation].each do |attr|
+      - required = Participant.attribute_constraints_on(attr)[:required]
+      - label_html_classes = []
+      - label_html_classes << 'required' if required
+      .field
         %dt.label
-          %label{:for => "participant_#{ attr }"}
-            = @field_labels[attr] + '*'
+          %label{ :for   => "participant_#{ attr }",
+                  :class => label_html_classes }<
+            = @field_labels[attr]
         %dd.input
           %input{ :id       => "participant_#{ attr }",
                   :name     => "participant[#{ attr }]",
-                  :required => :required,
-                  :type     => :text,
+                  :required => required ? :required : nil,
+                  :type     => attribute_input_html_type(Participant, attr),
                   :value    => @participant.public_send(attr) }
 
-    .field.required
-      %dt.label
-        %label{:for => 'participant_email'}
-          = @field_labels[:email] + '*'
-      %dd.input
-        %input{ :id       => 'participant_email',
-                :name     => 'participant[email]',
-                :required => :required,
-                :type     => :email,
-                :value    => @participant.email }
-
     .field
       %dt.label
-        %label{:for => 'participant_affiliation'}
-          = t 'pages.registration.form.field_labels.affiliation'
-      %dd.input
-        %input{ :id    => 'participant_affiliation',
-                :name  => 'participant[affiliation]',
-                :type  => :text,
-                :value => @participant.affiliation }
-
-    .field
-      %dt.label
-        %label{ :for => 'participant_academic_position'}
+        %label{ :for => 'participant_academic_position' }<
           = t 'pages.registration.form.field_labels.academic_position'
       %dd.input
         %select{ :id    => 'participant_academic_position',
@@ -108,7 +91,7 @@
     - [:country, :city, :post_code, :street_address, :phone].each do |attr|
       .field
         %dt.label
-          %label{:for => "participant_#{ attr }"}
+          %label{:for => "participant_#{ attr }"}<
             = @field_labels[attr]
         %dd.input
           %input{ :id    => "participant_#{ attr }",
@@ -119,7 +102,7 @@
     - [:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed].each do |attr|
       .field
         %dt.label
-          %label{:for => "participant_#{ attr }"}
+          %label{ :for => "participant_#{ attr }" }<
             = @field_labels[attr]
         %dd.input
           - name = "participant[#{ attr }]"
@@ -138,7 +121,7 @@
     - [:funding_requests, :special_requests].each do |attr|
       .field
         %dt.label
-          %label{:for => "participant_#{ attr }"}
+          %label{ :for => "participant_#{ attr }" }<
             = @field_labels[attr]
         %dd.input
           %textarea{ :id   => "participant_#{ attr }",
