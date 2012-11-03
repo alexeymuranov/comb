@@ -4,26 +4,52 @@ require 'i18n' # Internationalisation
 
 class CTT2013
   module PresentationHelpers
-    def model_attribute_name_as_label(model, attribute, column_type = nil)
-      # NOTE: assumes that `AttributeTypes` module is included
-      column_type ||= model.attribute_type(attribute)
+    module AbstractSmarterModelHelpers
+      def attribute_name_as_label(model, attribute, column_type = nil)
+        # NOTE: it is assumed that `AttributeTypes` module is included
+        column_type ||= model.attribute_type(attribute)
 
-      human_attribute_name =
-        capitalize_first_letter_of(
-          model.human_attribute_name(attribute))
+        human_attribute_name =
+          capitalize_first_letter_of(
+            model.human_attribute_name(attribute))
 
-      format_localisation_key =
+        format_localisation_key =
+          case column_type
+          when :boolean
+            'formats.attribute_name?'
+          else
+            'formats.attribute_name:'
+          end
+
+        t(format_localisation_key, :attribute => human_attribute_name)
+      end
+
+      def attribute_input_html_type(model, attribute, column_type = nil)
+        # NOTE: it is assumed that `AttributeTypes` and
+        # `AttributeConstraints` modules are included
+        column_type ||= model.attribute_type(attribute)
+
         case column_type
         when :boolean
-          'formats.attribute_name?'
+          :checkbox
+        when :date, :time, :datetime
+          column_type
+        when :integer
+          :number
+        when :string
+          case model.attribute_constraints_on(attribute)[:format]
+          when :email
+            :email
+          else
+            :text
+          end
+        when :text
+          :text_area
         else
-          'formats.attribute_name:'
+          :text
         end
+      end
 
-      t(format_localisation_key, :attribute => human_attribute_name)
-    end
-
-    module AbstractSmarterModelHelpers
       def attribute_in_description(object, attribute, hints = {})
         object_class = object.class
 
@@ -33,7 +59,7 @@ class CTT2013
         end
 
         name_html =
-          model_attribute_name_as_label(object_class, attribute, column_type)
+          attribute_name_as_label(object_class, attribute, column_type)
 
         value = object.public_send(attribute)
 
