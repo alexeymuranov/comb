@@ -1,41 +1,41 @@
 <!doctype html>
-%html.no-js{:lang => @locale}
+%html.no-js{ :lang => @locale }
   %head
-    %meta{:charset => 'utf-8'}/
+    %meta{ :charset => 'utf-8' }/
     %title= @title
-    %meta{:content => 'IE=edge,chrome=1', :'http-equiv' => 'X-UA-Compatible'}/
-    %meta{:content => 'width=device-width', :name => 'viewport'}/
+    %meta{ :content      => 'IE=edge,chrome=1',
+           :'http-equiv' => 'X-UA-Compatible' }/
+    %meta{ :content => 'width=device-width', :name => 'viewport' }/
     -# %link{ :href  => fixed_url('/stylesheets/html5reset.css'),
-    -#        :rel   => 'stylesheet',
+    -#        :rel   => :stylesheet,
     -#        :type  => 'text/css' }/
     %link{ :type  => 'text/css',
            :href  => fixed_url('/css/blueprint/screen.css'),
            :media => 'screen, projection',
-           :rel   => 'stylesheet' }/
+           :rel   => :stylesheet }/
     %link{ :type  => 'text/css',
            :href  => fixed_url('/css/blueprint/print.css'),
            :media => 'print',
-           :rel   => 'stylesheet' }/
-    <!--[if IE]>
-    %link{ :type  => 'text/css',
-           :rel   => 'stylesheet',
-           :href  => fixed_url('/stylesheets/blueprint/ie.css'),
-           :media => 'screen, projection' }/
-    <![endif]-->
+           :rel   => :stylesheet }/
+    /[if IE]
+      %link{ :type  => 'text/css',
+             :rel   => :stylesheet,
+             :href  => fixed_url('/stylesheets/blueprint/ie.css'),
+             :media => 'screen, projection' }/
     %link{ :type => 'text/css',
            :href => fixed_url('/stylesheets/application.css'),
-           :rel  => 'stylesheet' }/
-    %link{:rel  => 'shortcut icon', :href => fixed_url('/favicon.ico')}/
+           :rel  => :stylesheet }/
+    %link{ :rel  => 'shortcut icon', :href => fixed_url('/favicon.ico') }/
   %body
     %header
 
       -# = haml :'layout_partials/_header'
 
     - flash.each do |name, msg|
-      %div{:class => ['flash', name]}
+      %div{ :class => ['flash', name] }
         = msg
 
-    %div.container{:role => 'main'}
+    %div.container{ :role => :main }
 
       = yield
 
