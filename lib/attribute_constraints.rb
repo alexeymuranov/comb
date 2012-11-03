@@ -1,4 +1,5 @@
 require 'set'
+require './lib/email_format_validator' # custom validator
 
 module AttributeConstraints # TESTME
   def self.included(base_class)
@@ -22,38 +23,42 @@ module AttributeConstraints # TESTME
       @validator_classes_on[attr]
     end
 
-    def attribute_constraints; @attribute_constraints end
-
-    def validator_classes_on; @validator_classes_on end
-
     def add_attribute_constraints(attribute_constraints)
       @attribute_constraints.merge! attribute_constraints
     end
 
-    def attribute_constraint(attr)
-      attribute_constraints[attr]
+    def attribute_constraints_on(attr)
+      @attribute_constraints[attr]
     end
 
     private
 
       def initialize_attribute_constraints
-        @attribute_constraints = Hash.new { |hash, attr|
-          hash[attr] = Hash.new { |h, c|
-            case c
-            when :required
-              h[c] = validator_classes_on(attr).include?(
-                ActiveModel::Validations::PresenceValidator)
-            when :allowed_values
-              inclusion_validator = validators_on(attr).find { |v|
-                v.is_a?(ActiveModel::Validations::InclusionValidator)
-              }
-              h[c] = inclusion_validator ?
-                inclusion_validator.options[:in] : :all
-            end
-          }
-        }
         @validator_classes_on = Hash.new { |hash, attr|
           hash[attr] = validators_on(attr).map(&:class).to_set
+        }
+        @attribute_constraints = Hash.new { |hash, attr|
+          h = {}
+
+          h[:required] = validator_classes_on(attr).include?(
+                           ActiveModel::Validations::PresenceValidator)
+          inclusion_validator = validators_on(attr).find { |v|
+            v.is_a?(ActiveModel::Validations::InclusionValidator)
+          }
+
+          if validator_classes_on(attr).include?(
+               EmailFormatValidator)
+            h[:format] = :email
+          end
+
+          inclusion_validator = validators_on(attr).find { |v|
+            v.is_a?(ActiveModel::Validations::InclusionValidator)
+          }
+          if inclusion_validator
+            h[:allowed_values] = inclusion_validator.options[:in]
+          end
+
+          hash[attr] = h
         }
       end
 
