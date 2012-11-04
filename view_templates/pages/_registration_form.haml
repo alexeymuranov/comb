@@ -21,7 +21,7 @@
 
   %fieldset
     %dl.fields
-      .field.required
+      .field
         %dt.label
           = t 'pages.registration.form.field_labels.participations.which_weeks'
         %dd.input
@@ -49,10 +49,11 @@
                         %label{ :for => "participant_conference_#{ conf.id }_participation_#{ attr }" }
                           = t attr, :scope => 'pages.registration.form.field_labels.participations.field_labels'
                       %dd.input
+                        -# FIXME: set `:value =>`
                         %input{ :id    => "participant_conference_#{ conf.id }_participation_#{ attr }",
                                 :name  => "participant[participations_attributes][#{ conf.id }][#{ attr }]",
                                 :type  => :date,
-                                :value => @participant.public_send(attr) }
+                                :value => nil }
 
   %dl.fields
     - [:first_name, :last_name, :email, :affiliation].each do |attr|
