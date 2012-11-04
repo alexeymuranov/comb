@@ -40,13 +40,13 @@
                         :type    => :checkbox,
                         :value   => 0,
                         :checked => @participant.conferences.include?(conf) }
-                %label{:for => "participant_conference_#{ conf.id }_participation__destroy"}<
+                %label{ :for => "participant_conference_#{ conf.id }_participation__destroy" }<
                   = conf.title_with_details(@locale)
                 %dl.fields
                   - [:arrival_date, :departure_date].each do |attr|
                     .field
                       %dt.label
-                        %label{:for => "participant_conference_#{ conf.id }_participation_#{ attr }"}
+                        %label{ :for => "participant_conference_#{ conf.id }_participation_#{ attr }" }
                           = t attr, :scope => 'pages.registration.form.field_labels.participations.field_labels'
                       %dd.input
                         %input{ :id    => "participant_conference_#{ conf.id }_participation_#{ attr }",
@@ -67,7 +67,7 @@
         %dd.input
           %input{ :id       => "participant_#{ attr }",
                   :name     => "participant[#{ attr }]",
-                  :required => required ? :required : nil,
+                  :required => required,
                   :type     => attribute_input_html_type(Participant, attr),
                   :value    => @participant.public_send(attr) }
 
@@ -139,4 +139,4 @@
 
   .actions
     %button.create{:type => :submit, :name => 'button', :value => 'create'}
-      = t 'pages.registration.form.buttons.submit'
+      = t 'buttons.submit'
