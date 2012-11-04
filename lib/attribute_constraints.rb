@@ -1,5 +1,5 @@
 require 'set'
-require './lib/email_format_validator' # custom validator
+require './lib/format_validators' # custom validator
 
 module AttributeConstraints # TESTME
   def self.included(base_class)
@@ -46,9 +46,10 @@ module AttributeConstraints # TESTME
             v.is_a?(ActiveModel::Validations::InclusionValidator)
           }
 
-          if validator_classes_on(attr).include?(
-               EmailFormatValidator)
+          if validator_classes_on(attr).include?(EmailFormatValidator)
             h[:format] = :email
+          elsif validator_classes_on(attr).include?(TelephoneFormatValidator)
+            h[:format] = :telephone
           end
 
           inclusion_validator = validators_on(attr).find { |v|

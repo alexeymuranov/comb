@@ -40,6 +40,8 @@ class CTT2013
           case model.attribute_constraints_on(attribute)[:format]
           when :email
             :email
+          when :telephone
+            :tel
           else
             :text
           end

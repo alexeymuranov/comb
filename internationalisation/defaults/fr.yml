@@ -213,7 +213,8 @@ fr:
       taken: "est déjà pris(e)"
       record_invalid: "La validation a échoué : %{errors}"
       # Custom:
-      email_format: "n'est pas bien formée"
+      email_format: "ne semble pas être une vraie adresse email"
+      telephone_format: "ne semble pas être un vrai numéro de téléphone"
 
     template: &errors_template
       header:

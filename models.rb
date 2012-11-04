@@ -4,7 +4,7 @@ require 'digest' # hash function
 
 require './lib/attribute_types'
 require './lib/attribute_constraints'
-require './lib/email_format_validator'
+require './lib/format_validators'
 
 # Internationalisation
 # NOTE: normally should be used only in helpers or presenters
@@ -171,6 +171,8 @@ class Participant < AbstractSmarterModel
                          :allow_nil => true
 
   validates :email, :email_format => true
+
+  validates :phone, :telephone_format => true
 
   validates :gender,
             :inclusion => { :in => ['female', 'male', :female, :male] },

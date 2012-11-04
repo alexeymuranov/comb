@@ -96,7 +96,7 @@
         %dd.input
           %input{ :id    => "participant_#{ attr }",
                   :name  => "participant[#{ attr }]",
-                  :type  => :text,
+                  :type  => attribute_input_html_type(Participant, attr),
                   :value => @participant.public_send(attr) }
 
     - [:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed].each do |attr|
