@@ -73,9 +73,9 @@ class Participation < AbstractSmarterModel
                            :foreign_key => :participant_id,
                            :inverse_of  => :participations
 
-  belongs_to :conference, :class_name   => :Conference,
-                           :foreign_key => :conference_id,
-                           :inverse_of  => :participations
+  belongs_to :conference, :class_name  => :Conference,
+                          :foreign_key => :conference_id,
+                          :inverse_of  => :participations
 
   has_many :talks, :class_name  => :Talk,
                    :foreign_key => :participation_id,
@@ -192,7 +192,8 @@ class Participant < AbstractSmarterModel
 
   scope :approved, joins(:participations).merge(Participation.approved).uniq
 
-  scope :not_all_participations_approved, joins(:participations).merge(Participation.not_approved).uniq
+  scope :not_all_participations_approved,
+        joins(:participations).merge(Participation.not_approved).uniq
 
   # Virtual attributes
   def full_name
