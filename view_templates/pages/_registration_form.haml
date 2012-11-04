@@ -125,8 +125,9 @@
             = @field_labels[attr]
         %dd.input
           %textarea{ :id   => "participant_#{ attr }",
-                     :name => "participant[#{ attr }]" }
-            &= @participant.public_send(attr)
+                     :name => "participant[#{ attr }]" }<
+            = preserve do
+              &= @participant.public_send(attr)
 
   - if @conferences.map(&:id).include? Conference.co_m_b_conf.id
     %fieldset

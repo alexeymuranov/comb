@@ -78,6 +78,9 @@ class CTT2013
         when :integer
           html_classes << :number
           value_html = value
+        when :text
+          html_classes << :text
+          value_html = value
         else
           html_classes << column_type
           value_html = value

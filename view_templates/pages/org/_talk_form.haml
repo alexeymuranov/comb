@@ -40,9 +40,10 @@
         %label{:for => 'talk_abstract'}
           = @field_labels[:abstract]
       %dd.input
-        %textarea{:id   => 'talk_abstract',
-                  :name => 'talk[abstract]'}
-          &= talk.abstract
+        %textarea{ :id   => 'talk_abstract',
+                   :name => 'talk[abstract]' }<
+          = preserve do
+            &= talk.abstract
 
     .disabled.field
       %dt

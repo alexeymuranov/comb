@@ -18,6 +18,7 @@
     %label{:for => 'participant_co_m_b_participation_attributes_talk_proposal_attributes_abstract'}
       = t 'pages.registration.form.field_labels.co_m_b_talk_proposal.abstract'
   %dd.input
-    %textarea{:id   => 'participant_co_m_b_participation_attributes_talk_proposal_attributes_abstract',
-              :name => 'participant[co_m_b_participation_attributes][talk_proposal_attributes][abstract]'}
-      &= proposed_talk_abstract
+    %textarea{ :id   => 'participant_co_m_b_participation_attributes_talk_proposal_attributes_abstract',
+               :name => 'participant[co_m_b_participation_attributes][talk_proposal_attributes][abstract]' }<
+      = preserve do
+        &= proposed_talk_abstract

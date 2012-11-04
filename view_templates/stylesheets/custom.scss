@@ -340,6 +340,10 @@ dd.attribute,
 
 dd.attribute {
   display: inline-block;
+
+  &.text {
+    white-space: pre-wrap;
+  }
 }
 
 dd.association,

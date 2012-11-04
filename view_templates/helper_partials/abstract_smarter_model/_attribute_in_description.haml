@@ -1,5 +1,6 @@
 .item
   %dt.attribute<
-    #{ name }
+    = name
   %dd{ :class => [:attribute, *html_classes] }<
-    #{ value }
+    = preserve do
+      &= value
