@@ -99,6 +99,9 @@ class Participation < AbstractSmarterModel
 
   # Validations
 
+  # Readonly attributes
+  attr_readonly :participant_id, :conference_id
+
   # Scopes
   scope :approved, where(:approved => true)
   scope :not_approved, where(:approved => false)
