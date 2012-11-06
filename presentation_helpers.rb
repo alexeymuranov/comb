@@ -5,6 +5,10 @@ require 'i18n' # Internationalisation
 class CTT2013
   module PresentationHelpers
     module AbstractSmarterModelHelpers
+      def model_name_as_title(model)
+        capitalize_first_letter_of(model.model_name.human)
+      end
+
       def attribute_name_as_label(model, attribute, column_type = nil)
         # NOTE: it is assumed that `AttributeTypes` module is included
         column_type ||= model.attribute_type(attribute)
