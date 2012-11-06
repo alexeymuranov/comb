@@ -67,10 +67,7 @@
         %dd.association
           %dl
             - [:title, :abstract].each do |attr|
-              %dt.attribute
-                = TalkProposal.human_attribute_name(attr)
-              %dd.attribute
-                = talk_proposal.public_send(attr)
+              = attribute_in_description(talk_proposal, attr)
   - if main_organiser_logged_in?
     %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ @page }/edit/#{ participant.id }\#participant_#{ participant.id }"),
                     :role => 'button' }
