@@ -5,11 +5,11 @@ require 'i18n' # Internationalisation
 class CTT2013
   module PresentationHelpers
     module AbstractSmarterModelHelpers
-      def model_name_as_title(model)
+      def title_from_model_name(model)
         capitalize_first_letter_of(model.model_name.human)
       end
 
-      def attribute_name_as_label(model, attribute, column_type = nil)
+      def label_from_attribute_name(model, attribute, column_type = nil)
         # NOTE: it is assumed that `AttributeTypes` module is included
         column_type ||= model.attribute_type(attribute)
 
@@ -28,7 +28,7 @@ class CTT2013
         t(format_localisation_key, :attribute => human_attribute_name)
       end
 
-      def attribute_input_html_type(model, attribute, column_type = nil)
+      def input_html_type_for_attribute(model, attribute, column_type = nil)
         # NOTE: it is assumed that `AttributeTypes` and
         # `AttributeConstraints` modules are included
         column_type ||= model.attribute_type(attribute)
@@ -65,7 +65,7 @@ class CTT2013
         end
 
         name_html =
-          attribute_name_as_label(object_class, attribute, column_type)
+          label_from_attribute_name(object_class, attribute, column_type)
 
         value = object.public_send(attribute)
 

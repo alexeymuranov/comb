@@ -26,7 +26,7 @@
 
   %fieldset
     %legend
-      = attribute_name_as_label(Participant, :participations)
+      = label_from_attribute_name(Participant, :participations)
     %ol.fields
       - participant.participations.each do |participation|
         - conf = participation.conference
@@ -37,7 +37,7 @@
               .field
                 %dt.label
                   %label{ :for => "participations_#{ participation.id }_#{ attr }" }
-                    = attribute_name_as_label(Participation, attr)
+                    = label_from_attribute_name(Participation, attr)
                 %dd.input
                   %input{ :id    => "participations_#{ participation.id }_#{ attr }",
                           :name  => "participations[#{ participation.id }][#{ attr }]",
@@ -46,7 +46,7 @@
             .field
               %dt.label
                 %label{ :for => "participations_#{ participation.id }_committee_comments" }
-                  = attribute_name_as_label(Participation, :committee_comments)
+                  = label_from_attribute_name(Participation, :committee_comments)
               %dd.input
                 %textarea{ :id   => "participations_#{ participation.id }_committee_comments",
                            :name => "participations[#{ participation.id }][committee_comments]" }<
@@ -62,18 +62,18 @@
         %dt.label
           %label{ :for   => "participant_#{ attr }",
                   :class => label_html_classes }
-            = attribute_name_as_label(Participant, attr)
+            = label_from_attribute_name(Participant, attr)
         %dd.input
           %input{ :id       => "participant_#{ attr }",
                   :name     => "participant[#{ attr }]",
                   :required => required,
-                  :type     => attribute_input_html_type(Participant, attr),
+                  :type     => input_html_type_for_attribute(Participant, attr),
                   :value    => participant.public_send(attr) }
 
     .field
       %dt.label
         %label{ :for => 'participant_academic_position' }
-          = attribute_name_as_label(Participant, :academic_position)
+          = label_from_attribute_name(Participant, :academic_position)
       %dd.input
         %select{ :id    => 'participant_academic_position',
                  :name  => 'participant[academic_position]',
@@ -91,18 +91,18 @@
       .field
         %dt.label
           %label{ :for => "participant_#{ attr }" }
-            = attribute_name_as_label(Participant, attr)
+            = label_from_attribute_name(Participant, attr)
         %dd.input
           %input{ :id    => "participant_#{ attr }",
                   :name  => "participant[#{ attr }]",
-                  :type  => attribute_input_html_type(Participant, attr),
+                  :type  => input_html_type_for_attribute(Participant, attr),
                   :value => participant.public_send(attr) }
 
     - [:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed].each do |attr|
       .field
         %dt.label
           %label{ :for => "participant_#{ attr }" }
-            = attribute_name_as_label(Participant, attr)
+            = label_from_attribute_name(Participant, attr)
         %dd.input
           - name = "participant[#{ attr }]"
           -# Hidden field to pass a value when the checkbox is not checked
@@ -120,7 +120,7 @@
       .field
         %dt.label
           %label{ :for => "participant_#{ attr }" }
-            = attribute_name_as_label(Participant, attr)
+            = label_from_attribute_name(Participant, attr)
         %dd.input
           %textarea{ :id   => "participant_#{ attr }",
                      :name => "participant[#{ attr }]" }<
@@ -129,7 +129,7 @@
 
   %fieldset
     %legend
-      = attribute_name_as_label(Participation, :talk_proposal)
+      = label_from_attribute_name(Participation, :talk_proposal)
 
     %dl.fields
       - if participation = participant.co_m_b_participation
@@ -141,7 +141,7 @@
         .field
           %dt.label
             %label{ :for => "participations_#{ participation.id }_talk_proposal_attributes_title" }
-              = attribute_name_as_label(TalkProposal, :title)
+              = label_from_attribute_name(TalkProposal, :title)
           %dd.input
             %input.long_string{ :id    => "participations_#{ participation.id }_talk_proposal_attributes_title",
                                 :name  => "participations[#{ participation.id }][talk_proposal_attributes][title]",
@@ -150,7 +150,7 @@
         .field
           %dt.label
             %label{ :for => "participations_#{ participation.id }_talk_proposal_attributes_abstract" }
-              = attribute_name_as_label(TalkProposal, :abstract)
+              = label_from_attribute_name(TalkProposal, :abstract)
           %dd.input
             %textarea{ :id   => "participations_#{ participation.id }_talk_proposal_attributes_abstract",
                        :name => "participations[#{ participation.id }][talk_proposal_attributes][abstract]" }<
