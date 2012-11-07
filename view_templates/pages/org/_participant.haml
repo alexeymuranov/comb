@@ -26,7 +26,7 @@
   %dl
     .item
       %dt.associations
-        = capitalize_first_letter_of(Participant.human_attribute_name(:conferences))
+        = label_from_attribute_name(Participant, :participations)
       %dd.associations
         %table
           - participation_attr_iterator = [ :arrival_date,
@@ -36,7 +36,7 @@
             %td
             - participation_attr_iterator.each do |attr|
               %th
-                = Participation.human_attribute_name(attr)
+                = label_from_attribute_name(Participation, attr)
           %tbody
             - participant.participations.each do |participation|
               %tr
@@ -52,7 +52,7 @@
     - if talk_proposal = participant.co_m_b_talk_proposal
       .item
         %dt.association
-          = capitalize_first_letter_of(TalkProposal.model_name.human)
+          = label_from_attribute_name(Participation, :talk_proposal)
           - if talk_proposal.accepted?
             ✓
             = TalkProposal.human_attribute_name(:accepted)
