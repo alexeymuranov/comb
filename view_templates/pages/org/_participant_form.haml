@@ -127,12 +127,12 @@
             = preserve do
               &= participant.public_send(attr)
 
-  %fieldset
-    %legend
-      = label_from_attribute_name(Participation, :talk_proposal)
+  - if participation = participant.co_m_b_participation
+    %fieldset
+      %legend
+        = label_from_attribute_name(Participation, :talk_proposal)
 
-    %dl.fields
-      - if participation = participant.co_m_b_participation
+      %dl.fields
         - if talk_proposal = participation.talk_proposal
           - title = talk_proposal.title
           - abstract = talk_proposal.abstract
