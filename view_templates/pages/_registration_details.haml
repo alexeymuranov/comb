@@ -9,12 +9,12 @@
           %dl
             - [:arrival_date, :departure_date].each do |attr|
               %dt
-                = Participation.human_attribute_name(attr)
+                = label_from_attribute_name(Participation, attr)
               %dd
                 = participation.public_send(attr)
   - PARTICIPANT_ATTRIBUTES[:registration].each do |attr|
     %dt
-      = t attr, :scope  => 'pages.registration_confirmation.fields'
+      = label_from_attribute_name(Participant, attr)
     %dd
       - if (v = @participant.public_send(attr)).in?(true, false)
         = text_from_boolean(v)
@@ -32,8 +32,7 @@
         %dl
           - [:title, :abstract].each do |attr|
             %dt
-              = t attr,
-                  :scope => 'pages.registration_confirmation.fields.co_m_b_talk_proposal_fields'
+              = label_from_attribute_name(TalkProposal, attr)
             %dd
               = talk_proposal.public_send(attr)
       - else
