@@ -50,7 +50,7 @@ en:
         registration_fee_payed: "registration fee paid"
         office_at_i_m_t       : "office number at IMT"
         funding_requests      : "funding requests"
-        special_requests      : "funding requests"
+        special_requests      : "special requests"
         approved              : "approved by the committee"
         committee_comments    : "committee comments"
       participation:
