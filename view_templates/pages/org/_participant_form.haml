@@ -36,7 +36,7 @@
             - [:arrival_date, :departure_date].each do |attr|
               .field
                 %dt.label
-                  %label{ :for => "participations_#{ participation.id }_#{ attr }" }
+                  %label{ :for => "participations_#{ participation.id }_#{ attr }" }<
                     = label_from_attribute_name(Participation, attr)
                 %dd.input
                   %input{ :id    => "participations_#{ participation.id }_#{ attr }",
@@ -45,7 +45,7 @@
                           :value => participation.public_send(attr) }
             .field
               %dt.label
-                %label{ :for => "participations_#{ participation.id }_committee_comments" }
+                %label{ :for => "participations_#{ participation.id }_committee_comments" }<
                   = label_from_attribute_name(Participation, :committee_comments)
               %dd.input
                 %textarea{ :id   => "participations_#{ participation.id }_committee_comments",
@@ -61,7 +61,7 @@
       .field
         %dt.label
           %label{ :for   => "participant_#{ attr }",
-                  :class => label_html_classes }
+                  :class => label_html_classes }<
             = label_from_attribute_name(Participant, attr)
         %dd.input
           %input{ :id       => "participant_#{ attr }",
@@ -72,7 +72,7 @@
 
     .field
       %dt.label
-        %label{ :for => 'participant_academic_position' }
+        %label{ :for => 'participant_academic_position' }<
           = label_from_attribute_name(Participant, :academic_position)
       %dd.input
         %select{ :id    => 'participant_academic_position',
@@ -90,7 +90,7 @@
     - [:country, :city, :post_code, :street_address, :phone].each do |attr|
       .field
         %dt.label
-          %label{ :for => "participant_#{ attr }" }
+          %label{ :for => "participant_#{ attr }" }<
             = label_from_attribute_name(Participant, attr)
         %dd.input
           %input{ :id    => "participant_#{ attr }",
@@ -101,7 +101,7 @@
     - [:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed].each do |attr|
       .field
         %dt.label
-          %label{ :for => "participant_#{ attr }" }
+          %label{ :for => "participant_#{ attr }" }<
             = label_from_attribute_name(Participant, attr)
         %dd.input
           - name = "participant[#{ attr }]"
@@ -119,7 +119,7 @@
     - [:funding_requests, :special_requests].each do |attr|
       .field
         %dt.label
-          %label{ :for => "participant_#{ attr }" }
+          %label{ :for => "participant_#{ attr }" }<
             = label_from_attribute_name(Participant, attr)
         %dd.input
           %textarea{ :id   => "participant_#{ attr }",
@@ -140,7 +140,7 @@
           - abstract = title = nil
         .field
           %dt.label
-            %label{ :for => "participations_#{ participation.id }_talk_proposal_attributes_title" }
+            %label{ :for => "participations_#{ participation.id }_talk_proposal_attributes_title" }<
               = label_from_attribute_name(TalkProposal, :title)
           %dd.input
             %input.long_string{ :id    => "participations_#{ participation.id }_talk_proposal_attributes_title",
@@ -149,7 +149,7 @@
                                 :value => title }
         .field
           %dt.label
-            %label{ :for => "participations_#{ participation.id }_talk_proposal_attributes_abstract" }
+            %label{ :for => "participations_#{ participation.id }_talk_proposal_attributes_abstract" }<
               = label_from_attribute_name(TalkProposal, :abstract)
           %dd.input
             %textarea{ :id   => "participations_#{ participation.id }_talk_proposal_attributes_abstract",
