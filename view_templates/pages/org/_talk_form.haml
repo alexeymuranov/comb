@@ -4,9 +4,9 @@
 %form{ :'accept-charset' => 'UTF-8',
        :action           => fixed_url("/#{ @locale }/#{ @page }/#{ talk.id }"),
        :method           => 'post' }
-  %input{:type => 'hidden', :name => '_method', :value => 'put'}
+  %input{ :type => :hidden, :name => :_method, :value => :put }
 
-  = haml :'_jquery_ui_for_forms'
+  = haml :_jquery_ui_for_forms
 
   - if talk.errors.any?
     #form_error_explanation
@@ -21,24 +21,33 @@
 
       %ul
         - talk.errors.full_messages.each do |msg|
-          %li= msg
+          %li
+            = msg
 
   %dl.fields
-    .field.required
-      %dt.label
-        %label{:for => 'talk_title'}
-          = @field_labels[:title] + '*'
-      %dd.input
-        %input{:id    => 'talk_title',
-               :name  => 'talk[title]',
-               :required => 'required',
-               :type  => :text,
-               :value => talk.title}
-
+    - required = Talk.attribute_constraints_on(:title)[:required]
+    - label_html_classes = []
+    - label_html_classes << 'required' if required
     .field
       %dt.label
-        %label{:for => 'talk_abstract'}
-          = @field_labels[:abstract]
+        %label{ :for   => 'talk_title',
+                :class => label_html_classes }<
+          = label_from_attribute_name(Talk, :title)
+      %dd.input
+        %input{ :id       => 'talk_title',
+                :name     => 'talk[title]',
+                :required => required,
+                :type     => :text,
+                :value    => talk.title }
+
+    - required = Talk.attribute_constraints_on(:abstract)[:required]
+    - label_html_classes = []
+    - label_html_classes << 'required' if required
+    .field
+      %dt.label
+        %label{ :for   => 'talk_abstract',
+                :class => label_html_classes }<
+          = label_from_attribute_name(Talk, :abstract)
       %dd.input
         %textarea{ :id   => 'talk_abstract',
                    :name => 'talk[abstract]' }<
@@ -47,39 +56,25 @@
 
     .disabled.field
       %dt
-        = @field_labels[:type]
+        = label_from_attribute_name(Talk, :type)
       %dd
         = talk.translated_type_name
 
-    .field
-      %dt.label
-        %label{:for => :talk_date}
-          = @field_labels[:date]
-      %dd.input
-        %input{:id    => 'talk_date',
-               :name  => 'talk[date]',
-               :type  => 'date',
-               :value => talk.date}
-
-    .field
-      %dt.label
-        %label{:for => :talk_time}
-          = @field_labels[:time]
-      %dd.input
-        %input{:id    => 'talk_time',
-               :name  => 'talk[time]',
-               :type  => 'time',
-               :value => talk.time}
-
-    .field
-      %dt.label
-        %label{:for => :talk_room_or_auditorium}
-          = @field_labels[:room_or_auditorium]
-      %dd.input
-        %input{:id    => 'talk_room_or_auditorium',
-               :name  => 'talk[room_or_auditorium]',
-               :type  => 'text',
-               :value => talk.room_or_auditorium}
+    - [:date, :time, :room_or_auditorium].each do |attr|
+      - required = Talk.attribute_constraints_on(attr)[:required]
+      - label_html_classes = []
+      - label_html_classes << 'required' if required
+      .field
+        %dt.label
+          %label{ :for   => "talk_#{ attr }",
+                  :class => label_html_classes }<
+            = label_from_attribute_name(Talk, attr)
+        %dd.input
+          %input{ :id       => "talk_#{ attr }",
+                  :name     => "talk[#{ attr }]",
+                  :required => required,
+                  :type     => input_html_type_for_attribute(Talk, attr),
+                  :value    => talk.public_send(attr) }
 
   .actions
     %button.update{:type => 'submit', :name => 'button', :value => 'update'}
