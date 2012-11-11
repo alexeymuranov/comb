@@ -651,23 +651,14 @@ class CTT2013 < Sinatra::Base
     end
 
     def render_co_m_b_edit_participants
-      @field_labels = Hash.new do |h, k|
-        h[k] = capitalize_first_letter_of(Participant.human_attribute_name(k))
-      end
       haml :"/pages/#{ ORG_PAGE_PREFIX }participants.html"
     end
 
     def render_co_m_b_edit_talks
-      @field_labels = Hash.new do |h, k|
-        h[k] = capitalize_first_letter_of(Talk.human_attribute_name(k))
-      end
       haml :"/pages/#{ ORG_PAGE_PREFIX }talks.html"
     end
 
     def render_co_m_b_edit_hotels
-      @field_labels = Hash.new do |h, k|
-        h[k] = capitalize_first_letter_of(Hotel.human_attribute_name(k))
-      end
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotels.html"
     end
 
