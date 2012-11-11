@@ -139,7 +139,7 @@ en:
     registration_confirmation: &registration_confirmation_page
       fields:
         conferences            : "Registered for the following conferences:"
-        "co_m_b_talk_proposed?": "30 min talk proposed?"
+        "co_m_b_talk_proposed?": "A 30 min talk proposed for LDTG?"
       confirmation:
         your_pin_code_is: "Your PIN code is \"%{code}\"."
         details:

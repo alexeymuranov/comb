@@ -139,7 +139,7 @@ fr:
     registration_confirmation: &registration_confirmation_page
       fields:
         conferences            : "S'est inscrit(e) pour les colloques suivants :"
-        "co_m_b_talk_proposed?": "Exposé de 30 min proposé ?"
+        "co_m_b_talk_proposed?": "Exposé de 30 min proposé pour TGPD ?"
       confirmation:
         your_pin_code_is: "Votre code NIP est « %{code} »."
         details:
