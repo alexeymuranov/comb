@@ -48,7 +48,7 @@ class CTT2013 < Sinatra::Base
   configure do
     set :app_file, __FILE__
     set :root, File.dirname(__FILE__)
-    set :views, File.join(settings.root, 'view_templates')
+    set :views, File.join(settings.root, 'views')
     set :public_folder, File.join(settings.root, 'public_folder')
 
     set :method_override, true # enable the POST _method hack

@@ -1,0 +1,19 @@
+-# FIXME: WIP not ready to use, filled more or less randomly
+
+.item.field
+  %dt.label<
+    %label{ :for => input_id }
+      #{ name }
+  %dd{ :class => [:input, *html_classes] }<
+    - case input_type
+    - when :text_area
+      %textarea{ :id   => input_id,
+                 :name => field_name }<
+        = preserve do
+          &= value
+    - else
+      %input{ :id       => input_id,
+              :name     => field_name,
+              :type     => input_type,
+              :required => required,
+              :value    => value }

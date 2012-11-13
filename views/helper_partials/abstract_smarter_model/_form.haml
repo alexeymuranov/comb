@@ -1,0 +1,21 @@
+-# FIXME: WIP not ready to use, filled more or less randomly
+
+%form{ html_form_attributes }
+
+  - if object.errors.any?
+    #form_error_explanation
+      %h2
+        - if object.errors.count == 1
+          = t 'activerecord.errors.template.header.one',
+              :model => object.class.model_name.human
+        - else
+          = t 'activerecord.errors.template.header.other',
+              :count => object.errors.count,
+              :model => object.class.model_name.human
+
+      %ul
+        - object.errors.full_messages.each do |msg|
+          %li
+            = msg
+
+  #{ fields }
