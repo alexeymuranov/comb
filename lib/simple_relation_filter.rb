@@ -118,7 +118,7 @@ class SimpleRelationFilter
   end
 end
 
-class FriendlySimpleRelationFilter < SimpleRelationFilter
+class FriendlyRelationFilter < SimpleRelationFilter
 
   def set_filtering_values_from_text_hash(filtering_text_hash)
 

@@ -330,7 +330,7 @@ class CTT2013 < Sinatra::Base
         @participants = Participant.scoped
 
         if participants_filter_values = params[:filter]
-          participants_filter = FriendlySimpleRelationFilter.new(Participant)
+          participants_filter = FriendlyRelationFilter.new(Participant)
           participants_filter.filtering_attributes = @attributes
           participants_filter.set_filtering_values_from_text_hash(
             participants_filter_values)
@@ -341,7 +341,7 @@ class CTT2013 < Sinatra::Base
 
           if participations_filter_values
             participations_filter =
-              FriendlySimpleRelationFilter.new(Participation)
+              FriendlyRelationFilter.new(Participation)
             participations_filter.filtering_attributes =
               [:conference_id, :approved]
             participations_filter.set_filtering_values_from_text_hash(
