@@ -499,7 +499,12 @@ class CTT2013 < Sinatra::Base
       user = User.find_by_username(params[:username])
       if user && user.accept_password?(params[:password])
         log_in(user)
-        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }")
+        if session.key?(:return_to)
+          redirect fixed_url(session[:return_to])
+          session.delete(:return_to)
+        else
+          redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }")
+        end
       else
         flash[:error] = t('flash.sessions.log_in.failure')
         redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }login")
@@ -722,6 +727,7 @@ class CTT2013 < Sinatra::Base
       unless organiser_logged_in?
         # halt [ 401, 'Not Authorized' ]
         flash[:error] = t('flash.filters.require_organiser_login')
+        session[:return_to] = request.fullpath if request.get?
         redirect fixed_url("/#{ ORG_PAGE_PREFIX }login")
       end
     end
