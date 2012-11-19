@@ -139,6 +139,7 @@ class CTT2013 < Sinatra::Base
   # ======
   #
   require_relative 'models'
+  require './lib/simple_relation_filter'
 
   PARTICIPANT_ATTRIBUTES = {}
   PARTICIPANT_ATTRIBUTES[:registration] =
@@ -327,6 +328,29 @@ class CTT2013 < Sinatra::Base
         @attributes = PARTICIPANT_ATTRIBUTES[:index]
 
         @participants = Participant.scoped
+
+        if participants_filter_values = params[:filter]
+          participants_filter = FriendlySimpleRelationFilter.new(Participant)
+          participants_filter.filtering_attributes = @attributes
+          participants_filter.set_filtering_values_from_text_hash(
+            participants_filter_values)
+          @participants = @participants.merge(participants_filter.to_scope)
+
+          participations_filter_values =
+            participants_filter_values[:participations_attributes_exist]
+
+          if participations_filter_values
+            participations_filter =
+              FriendlySimpleRelationFilter.new(Participation)
+            participations_filter.filtering_attributes =
+              [:conference_id, :approved]
+            participations_filter.set_filtering_values_from_text_hash(
+              participations_filter_values)
+            @participants =
+              @participants.joins(:participations).
+                            merge(participations_filter.to_scope).uniq
+          end
+        end
 
         if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
           @participants = @participants.not_all_participations_approved
