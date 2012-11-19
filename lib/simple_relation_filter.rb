@@ -19,9 +19,9 @@ class SimpleRelationFilter
 
   def to_scope
 
-    table_name = @model.table_name
-
     model_scope = @model.scoped
+
+    table_name = @model.table_name
 
     @filtering_attributes.each do |attr|
 
