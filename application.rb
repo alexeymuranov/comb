@@ -323,12 +323,17 @@ class CTT2013 < Sinatra::Base
         require_organiser_login!
         set_locale(locale)
         set_page(page)
+
         @attributes = PARTICIPANT_ATTRIBUTES[:index]
+
         @participants = Participant.scoped
+
         if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
           @participants = @participants.not_all_participations_approved
         end
+
         @participants = @participants.default_order.all
+
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants.html"
       end
     end
@@ -358,13 +363,19 @@ class CTT2013 < Sinatra::Base
         require_main_organiser_login!
         set_locale(locale)
         set_page(page)
+
         @attributes = PARTICIPANT_ATTRIBUTES[:index]
+
         @participants = Participant.scoped
+
         if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
           @participants = @participants.not_all_participations_approved
         end
+
         @participants = @participants.default_order.all
+
         @form_participant_id = id.to_i
+
         render_co_m_b_edit_participants
       end
     end
