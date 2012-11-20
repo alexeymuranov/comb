@@ -6,7 +6,7 @@ spectaculaires ces dernières années (conjecture de Poincaré, conjecture de
 Thurston de géométrisation, classification des variétés hyperboliques,
 conjecture de Marden, nombres de Betti virtuels infinis, conjecture de
 fibration virtuelle, homologie de Heegaard-Floer, invariants quantiques,
-complexes de courbes…). Le colloque international **Topologie et Géométrie
+complexes de courbes…). Le colloque international **Topologie et géométrie
 en petite dimension à Toulouse**, qui aura lieu à l'occasion des 60 ans de
 Michel Boileau, sera consacré à certains de ces aspects. Les thèmes
 principaux du colloque seront :

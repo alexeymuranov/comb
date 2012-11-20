@@ -48,7 +48,7 @@ class CreateConferences < ActiveRecord::Migration
       :identifier => 'CoMB',
       :number     => 4,
       :en_title   => 'Low-dimensional Topology and Geometry in Toulouse',
-      :fr_title   => 'Topologie et Géométrie en petite dimension à Toulouse',
+      :fr_title   => 'Topologie et géométrie en petite dimension à Toulouse',
       :start_date => '2013-06-24',
       :end_date   => '2013-06-28',
       :location   => 'IMT')
