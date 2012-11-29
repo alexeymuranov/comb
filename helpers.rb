@@ -9,6 +9,11 @@ class CTT2013
       url(path, false, false).sub(/\A\//, BASE_URL)
     end
 
+    def input_tag(type, name, value = nil, options = {})
+      options.update :type => type, :name => name, :value => value
+      haml "%input{options}", :locals => { :options => options }
+    end
+
     module_function
 
       # Delegate translation helper to I18n
