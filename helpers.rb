@@ -50,6 +50,10 @@ class CTT2013
         end
       end
 
+      def html_id_from_param_name(name)
+        name.to_s.gsub('[]','_').gsub(']','').gsub(/[^-a-zA-Z0-9:._]/, "_")
+      end
+
       # Parse page name to determine I18n localisation scope
       def page_i18n_scope(page)
         'pages.' + page.to_s.gsub(?/, ?.)

@@ -28,6 +28,13 @@ class CTT2013
         t(format_localisation_key, :attribute => human_attribute_name)
       end
 
+      def css_class_from_column_type(column_type)
+        { :string  => 'text',
+          :boolean => 'boolean',
+          :integer => 'number',
+          :date    => 'date' }[column_type]
+      end
+
       def input_html_type_for_attribute(model, attribute, column_type = nil)
         # NOTE: it is assumed that `AttributeTypes` and
         # `AttributeConstraints` modules are included
