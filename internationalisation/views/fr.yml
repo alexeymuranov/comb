@@ -4,6 +4,7 @@
 fr:
   "yes"   : "oui"
   "no"    : "non"
+  all     : "tous"
   other   : "autre"
   password: "mot de passe"
 

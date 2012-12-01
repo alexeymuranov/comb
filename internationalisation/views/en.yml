@@ -4,6 +4,7 @@
 en:
   "yes"   : "yes"
   "no"    : "no"
+  all     : "all"
   other   : "other"
   password: "password"
 
