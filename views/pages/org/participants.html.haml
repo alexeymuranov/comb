@@ -1,6 +1,6 @@
 %ol
   - @participants.each do |participant|
-    %li{:id => "participant_#{ participant.id }"}
+    %li{ :id => "participant_#{ participant.id }" }
       - if participant.id == @form_participant_id
         = haml :'pages/org/_participant_form',
                :locals => { :participant => participant }

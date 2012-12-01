@@ -5,9 +5,9 @@
   = t 'resources.actions.delete.confirmation_question',
       :resource_name => Talk.model_name.human,
       :item_name     => talk_title
-%form.inline{:action => fixed_url("/#{ @locale }/#{ @page }/#{ @talk.id }"), :method => 'post'}
-  %input{:type => 'hidden', :name => '_method', :value => 'delete'}
-  %button.destroy{:type => 'submit', :name => 'button', :value => 'destroy'}
+%form.inline{ :action => fixed_url("/#{ @locale }/#{ @page }/#{ @talk.id }"), :method => :post }
+  %input{ :type => :hidden, :name => :_method, :value => :delete }
+  %button.destroy{ :type => :submit, :name => 'button', :value => 'destroy' }
     = t 'buttons.yes-delete'
 %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ @page }"),
                   :role => 'button'}

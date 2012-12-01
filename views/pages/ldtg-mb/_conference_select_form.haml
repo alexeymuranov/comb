@@ -1,4 +1,4 @@
-%form{:action => fixed_url("/#{ @locale }/registration"), :'accept-charset' => 'UTF-8', :method => 'get'}
+%form{ :action => fixed_url("/#{ @locale }/registration"), :'accept-charset' => 'UTF-8', :method => :get }
   %dl.fields
     .field
       %dt.label
@@ -10,12 +10,12 @@
             %li
               %input{ :id       => "conference_#{ conf.id }",
                       :name     => 'conference_ids[]',
-                      :type     => 'checkbox',
+                      :type     => :checkbox,
                       :value    => conf.id,
                       :checked  => conf.id == Conference.co_m_b_conf.id }
-              %label{:for => "conference_#{ conf.id }"}<
+              %label{ :for => "conference_#{ conf.id }" }<
                 = conf.title_with_details(@locale)
 
   .actions
-    %button.create{:type => 'submit', :name => 'button', :value => 'create'}
+    %button.create{ :type => :submit, :name => 'button', :value => 'create' }
       = t 'buttons.continue'
