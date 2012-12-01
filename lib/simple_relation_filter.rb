@@ -116,6 +116,82 @@ class SimpleRelationFilter
 
     model_scope
   end
+
+  def filtering_attributes_as_simple_nested_hash
+
+    filtering_simple_hash = {}
+
+    @filtering_attributes.each do |attr|
+
+      filtering_value = @filtering_values[attr]
+
+      next if filtering_value.nil?
+
+      filtering_column_type = @model.attribute_type(attr)
+
+      case filtering_column_type
+      when :string
+        filtering_simple_hash[attr] = filtering_value
+
+      when :boolean
+        filtering_simple_hash[attr] = filtering_value
+
+      when :integer
+        case filtering_value
+        when Hash
+          filtering_simple_hash[attr] = {}
+          if filtering_value.key?(:min)
+            unless filtering_value[:min] == -Float::INFINITY
+              filtering_simple_hash[attr][:min] = filtering_value[:min]
+            end
+          end
+          if filtering_value.key?(:max)
+            unless filtering_value[:max] == Float::INFINITY
+              filtering_simple_hash[attr][:max] = filtering_value[:max]
+            end
+          end
+        when Set
+          filtering_simple_hash[attr] = filtering_value.to_a
+        when Range
+          filtering_simple_hash[attr] = {}
+          unless filtering_value.first == -Float::INFINITY
+            filtering_simple_hash[attr][:min] = filtering_value.first
+          end
+          unless filtering_value.last == Float::INFINITY
+            filtering_simple_hash[attr][:max] = filtering_value.last
+          end
+        else
+          filtering_simple_hash[attr] = filtering_value
+        end
+
+      when :date
+        case filtering_value
+        when Hash
+          filtering_simple_hash[attr] = {}
+          if filtering_value.key?(:from)
+            filtering_simple_hash[attr][:from] = filtering_value[:from]
+          end
+          if filtering_value.key?(:until)
+            filtering_simple_hash[attr][:until] = filtering_value[:until]
+          end
+        when Set
+          filtering_simple_hash[attr] = filtering_value.to_a
+        when Range
+          filtering_simple_hash[attr] = {}
+          unless filtering_value.first == -Float::INFINITY
+            filtering_simple_hash[attr][:from] = filtering_value.first
+          end
+          unless filtering_value.last == Float::INFINITY
+            filtering_simple_hash[attr][:until] = filtering_value.last
+          end
+        else
+          filtering_simple_hash[attr] = filtering_value
+        end
+      end
+    end
+
+    filtering_simple_hash
+  end
 end
 
 class FriendlyRelationFilter < SimpleRelationFilter
