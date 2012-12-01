@@ -1,4 +1,9 @@
 %ol
+  = filtering_form Participant,
+                   [:last_name, :first_name, :invitation_needed, :visa_needed],
+                   [[:participations, :approved]],
+                   @filtering_values || {}
+
   - @participants.each do |participant|
     %li{ :id => "participant_#{ participant.id }" }
       - if participant.id == @form_participant_id

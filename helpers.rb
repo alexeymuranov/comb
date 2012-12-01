@@ -30,6 +30,46 @@ class CTT2013
       hidden_field_tags.join
     end
 
+    def filtering_form(model,
+                       attributes,
+                       association_attributes = [],
+                       filtering_values       = {})
+
+      haml :'helper_partials/_filtering_form',
+           :locals => { :model                  => model,
+                        :attributes             => attributes,
+                        :association_attributes => association_attributes,
+                        :filtering_values       => filtering_values }
+    end
+
+    def filtering_field(filter_form_id,
+                        attr,
+                        column_type,
+                        value_or_values,
+                        name_prefix = 'filter',
+                        select_from = nil)
+
+      partial_locals = { :filter_form_id  => filter_form_id,
+                         :attr            => attr,
+                         :column_type     => column_type,
+                         :value_or_values => value_or_values,
+                         :name_prefix     => name_prefix,
+                         :id_prefix       => html_id_from_param_name(name_prefix) }
+      if select_from
+        partial_name = :'helper_partials/_filtering_select_field'
+        partial_locals[:select_from] = select_from
+      else
+        partial_name = :'helper_partials/_filtering_input_field'
+      end
+      haml partial_name, :locals => partial_locals
+    end
+
+    def filtering_value(column_type, value_or_values)
+      haml :'helper_partials/_filtering_value',
+           :locals => { :column_type     => column_type,
+                        :value_or_values => value_or_values }
+    end
+
     module_function
 
       # Delegate translation helper to I18n

@@ -1,0 +1,75 @@
+-# Locals:
+-#   model
+-#   attributes
+-#   association_attributes
+-#   filtering_values
+
+%form#filter_form{ :action => '#filter' }
+
+%form#clear_filter_form{ :action => '#filter' }
+
+%table#filter.filter{ :class => (filtering_values.blank? ? nil : 'filtered') }
+  %thead
+    %tr
+      - attributes.each do |attr|
+        %th<
+          = label_from_attribute_name(model, attr)
+
+      - association_attributes.each do |assoc, attr|
+        - assoc_model = model.reflect_on_association(assoc).klass
+        %th<
+          = label_from_attribute_name(assoc_model, attr)
+
+    %tr
+      - attributes.each do |attr|
+        - attribute_type = model.attribute_type(attr)
+        %td.field{ :class => css_class_from_column_type(attribute_type) }<
+          = filtering_field 'filter_form',
+                            attr,
+                            model.attribute_type(attr),
+                            filtering_values[attr],
+                            'filter',
+                            model.attribute_constraints_on(attr)[:allowed_values]
+
+      - association_attributes.each do |assoc, attr|
+        - assoc_model = model.reflect_on_association(assoc).klass
+        - attribute_type = assoc_model.attribute_type(attr)
+        - assoc_filtering_values = filtering_values["#{ assoc }_attributes_exist"] || {}
+        %td.field{ :class => css_class_from_column_type(attribute_type) }<
+          = filtering_field 'filter_form',
+                            attr,
+                            assoc_model.attribute_type(attr),
+                            assoc_filtering_values[attr],
+                            "filter[#{ assoc }_attributes_exist]",
+                            assoc_model.attribute_constraints_on(attr)[:allowed_values]
+
+    - unless filtering_values.blank?
+      %tr
+        - attributes.each do |attr|
+          - attribute_type = model.attribute_type(attr)
+          - if filtering_values.key?(attr)
+            %td.filtering_value{ :class => css_class_from_column_type(attribute_type) }<
+              = filtering_value(attribute_type, filtering_values[attr])
+          - else
+            %td/
+
+        - association_attributes.each do |assoc, attr|
+          - assoc_model = model.reflect_on_association(assoc).klass
+          - attribute_type = assoc_model.attribute_type(attr)
+          - assoc_filtering_values = filtering_values["#{ assoc }_attributes_exist"] || {}
+          - if assoc_filtering_values.key?(attr)
+            %td.filtering_value{ :class => css_class_from_column_type(attribute_type) }<
+              = filtering_value(attribute_type,
+                                filtering_values["#{ assoc }_attributes_exist"][attr])
+          - else
+            %td/
+
+    %tr
+      %td.actions{ :colspan => attributes.size + association_attributes.size }<
+        %button{ :type  => :submit,
+                 :form  => 'filter_form' }
+          = t 'buttons.filter'
+
+        %button{ :type  => :submit,
+                 :form  => 'clear_filter_form' }
+          = t 'buttons.clear'

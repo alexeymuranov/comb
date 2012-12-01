@@ -1,0 +1,84 @@
+-# Locals:
+-#   filter_form_id
+-#   attr
+-#   column_type
+-#   value_or_values
+-#   name_prefix
+-#   id_prefix
+
+- case column_type
+- when :string
+  %input{ :type  => :search,
+          :name  => "#{ name_prefix }[#{ attr }]",
+          :value => value_or_values,
+          :form  => filter_form_id }
+- when :boolean
+  %input{ :id      => "#{ id_prefix }_#{ attr }_yes",
+          :type    => :radio,
+          :name    => "#{ name_prefix }[#{ attr }]",
+          :value   => 'yes',
+          :checked => value_or_values,
+          :form    => filter_form_id }
+  %label{ :for => "filter_#{ attr }_yes" }
+    = t 'yes'
+  %br>
+
+  %input{ :id      => "#{ id_prefix }_#{ attr }_no",
+          :type    => :radio,
+          :name    => "#{ name_prefix }[#{ attr }]",
+          :value   => 'no',
+          :checked => value_or_values == false,
+          :form    => filter_form_id }
+  %label{ :for => "filter_#{ attr }_no" }
+    = t 'no'
+  %br>
+
+  %input{ :id      => "#{ id_prefix }_#{ attr }",
+          :type    => :radio,
+          :name    => "#{ name_prefix }[#{ attr }]",
+          :value   => '',
+          :checked => value_or_values.nil?,
+          :form    => filter_form_id }
+  %label{ :for => "filter_#{ attr }_all" }
+    = t 'all'
+
+- when :integer
+  - value_or_values ||= {}
+  %label{ :for => "filter_#{ attr }_min" }
+    = t 'formats.attribute_name:', :attribute => 'min'
+  %input{ :id           => "#{ id_prefix }_#{ attr }_min",
+          :type         => :number,
+          :name         => "#{ name_prefix }[#{ attr }][min]",
+          :value        => value_or_values[:min],
+          :form         => filter_form_id,
+          :autocomplete => :off,
+          :size         => 6 }
+  %br>
+  %label{ :for => "filter_#{ attr }_max" }
+    = t 'formats.attribute_name:', :attribute => 'max'
+  %input{ :id           => "#{ id_prefix }_#{ attr }_max",
+          :type         => :number,
+          :name         => "#{ name_prefix }[#{ attr }][max]",
+          :value        => value_or_values[:max],
+          :form         => filter_form_id,
+          :autocomplete => :off,
+          :size         => 6 }
+- when :date
+  - value_or_values ||= {}
+  %label{ :for => "filter_#{ attr }_from" }
+    = t 'formats.attribute_name:', :attribute => t('date.from')
+  %input{ :id           => "#{ id_prefix }_#{ attr }_from",
+          :type         => :date,
+          :name         => "#{ name_prefix }[#{ attr }][from]",
+          :value        => value_or_values[:from],
+          :form         => filter_form_id,
+          :autocomplete => :off }
+  %br>
+  %label{ :for => "filter_#{ attr }_until" }
+    = t 'formats.attribute_name:', :attribute => t('date.until')
+  %input{ :id           => "#{ id_prefix }_#{ attr }_until",
+          :type         => :date,
+          :name         => "#{ name_prefix }[#{ attr }][until]",
+          :value        => value_or_values[:until],
+          :form         => filter_form_id,
+          :autocomplete => :off }

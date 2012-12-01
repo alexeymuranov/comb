@@ -1,0 +1,23 @@
+-# Locals:
+-#   filter_form_id
+-#   attr
+-#   column_type
+-#   select_from
+-#   value_or_values
+-#   name_prefix
+-#   id_prefix
+
+- case column_type
+- when :string
+  - if value_or_values.is_a?(String)
+    -# - value_or_values = value_or_values.sub(/\%\z/, '')
+    - value_or_values = select_from.find { |c|      |
+        c.mb_chars.upcase.to_s == value_or_values } |
+
+%select{ :name => "#{ name_prefix }[#{ attr }]",
+         :form => filter_form_id }
+  %option
+  - select_from.each do |value|
+    %option{ :value    => value,
+             :selected => (value == value_or_values) }
+      = value

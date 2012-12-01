@@ -356,6 +356,18 @@ label.required:after {
   content: "*";
 }
 
+table.filter {
+  border: 1px solid;
+
+  td.actions{
+    text-align: center;
+  }
+
+  &.filtered {
+    @include box-shadow(0 0 4px 0 Red);
+  }
+}
+
 // DL-based forms that look like TABLEs
 // form > dl.fields {
 //   display: table;
