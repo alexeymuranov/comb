@@ -87,7 +87,7 @@ a[role=button] {
 }
 
 fieldset {
-  @include border-radius(8px);
+  border-radius: 8px;
   border-color: $main-border-color;
 }
 
@@ -112,7 +112,7 @@ html {
 body {
   background: $body-bg-color;
   border: 2px solid $main-border-color;
-  @include border-radius(10px);
+  border-radius: 10px;
   font-size: 90%;
   font-family: trebuchet ms, "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
@@ -166,7 +166,7 @@ hgroup#main_heading {
 }
 
 nav#lang_select {
-  @include border-radius(10px);
+  border-radius: 10px;
   border: solid 2px $main-border-color;
   background-color: $body-bg-color;
 
@@ -177,7 +177,7 @@ nav#lang_select {
       & > a {
         display: inline-block;
         font-weight: bold;
-        @include border-radius(8px);
+        border-radius: 8px;
         border: none;
 
         &:hover {
@@ -202,7 +202,7 @@ footer {
     margin-top: 3px;
     margin-bottom: 1px;
     padding: 8px;
-    @include border-radius(8px);
+    border-radius: 8px;
     border: solid 1px $main-border-color;
 
     background-image: footer_home_button_background_url();
@@ -224,7 +224,7 @@ footer {
 
 #form_error_explanation {
   border: 2px solid Firebrick;
-  @include border-radius(8px);
+  border-radius: 8px;
 
   h2 {
     background-color: Firebrick;
@@ -248,11 +248,11 @@ button[type="submit"].log_in {
 
 #log_out_button {
   @include button(shiny, Silver);
-  @include border-radius(16px);
+  border-radius: 16px;
 
   &:hover {
     @include button(shiny, Aqua);
-    @include border-radius(16px);
+    border-radius: 16px;
   }
 }
 
@@ -273,11 +273,11 @@ button[type="submit"] {
   &.toggle_on,
   &.toggle_off {
     @include button(pill, Blue);
-    @include border-radius(3px);
+    border-radius: 3px;
 
     &:hover {
       @include button(pill, Red);
-      @include border-radius(3px);
+      border-radius: 3px;
     }
   }
 
@@ -332,7 +332,7 @@ a[role=button] {
 
 dd.attribute,
 .attribute.value {
-  @include border-radius(8px);
+  border-radius: 8px;
   padding: 4px;
   background-color: LightGreen;
   color: Black;
@@ -347,7 +347,7 @@ dd.association,
 dd.associations,
 .associaion.data,
 .associations.data {
-  // @include border-radius(8px);
+  // border-radius: 8px;
   // padding: 8px;
   // background-color: LightGray;
 }
