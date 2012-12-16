@@ -65,9 +65,23 @@ class CTT2013
     end
 
     def filtering_value(column_type, value_or_values)
-      haml :'helper_partials/_filtering_value',
-           :locals => { :column_type     => column_type,
-                        :value_or_values => value_or_values }
+      case column_type
+      when :boolean
+        text_from_boolean(value_or_values)
+      when :integer
+        "#{ value_or_values[:min] }..#{ value_or_values[:max] }"
+      when :date
+        parts = []
+        if value_or_values.key?(:from)
+          parts << "#{ t 'date.from' } #{ value_or_values[:from] }"
+        end
+        if value_or_values.key?(:until)
+          parts << "#{ t 'date.until' } #{ value_or_values[:until] }"
+        end
+        parts.join(" ")
+      else
+        value_or_values
+      end
     end
 
     module_function
