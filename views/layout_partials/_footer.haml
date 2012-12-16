@@ -1,3 +1,6 @@
+%nav
+  %a#link_to_common_home_page{:href => fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ @locale }")}
+    = t 'names.t_s_c_spring_conf'
 .logos
   %a{:href => 'http://www.math.univ-toulouse.fr'}<
     %img{:src => fixed_url('/images/logo_offi_imt.jpg'), :alt => '', :title => t('names.i_m_t'), :height => '70px'}
@@ -9,6 +12,3 @@
     %img{:src => fixed_url('/images/logo_cimi.jpg'), :alt => '', :title => 'CIMI', :height => '70px'}
   %a{:href => 'http://tresses.math.cnrs.fr/'}<
     %img{:src => fixed_url('/images/logo_tresse.png'), :alt => '', :title => t('names.g_d_r_tresses'), :height => '70px'}
-%nav
-  %a#link_to_common_home_page{:href => fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ @locale }")}
-    = t 'names.t_s_c_spring_conf'
