@@ -28,7 +28,7 @@ class CTT2013
         t(format_localisation_key, :attribute => human_attribute_name)
       end
 
-      def css_class_from_column_type(column_type)
+      def html_class_from_column_type(column_type)
         { :string  => 'text',
           :boolean => 'boolean',
           :integer => 'number',

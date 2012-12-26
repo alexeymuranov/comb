@@ -1,23 +1,22 @@
 -# Locals:
 -#   filter_form_id
--#   attr
 -#   column_type
 -#   select_from
--#   value_or_values
--#   name_prefix
+-#   selected_value
+-#   param_key
 -#   id_prefix
 
 - case column_type
 - when :string
-  - if value_or_values.is_a?(String)
-    -# - value_or_values = value_or_values.sub(/\%\z/, '')
-    - value_or_values = select_from.find { |c|      |
-        c.mb_chars.upcase.to_s == value_or_values } |
+  - if selected_value.is_a?(String)
+    -# selected_values = selected_values.sub(/\%\z/, '')
+    - selected_value = select_from.find { |c|      |
+        c.mb_chars.upcase.to_s == selected_value } |
 
-%select{ :name => "#{ name_prefix }[#{ attr }]",
+%select{ :name => param_key,
          :form => filter_form_id }
   %option
   - select_from.each do |value|
     %option{ :value    => value,
-             :selected => (value == value_or_values) }
+             :selected => (value == selected_value) }
       = value
