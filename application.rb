@@ -359,7 +359,13 @@ class CTT2013 < Sinatra::Base
           end
         end
 
+        @filtering_parameters =
+          [ :last_name, :invitation_needed, :visa_needed,
+            [:participations, :approved],
+            [:participations, :conference, { :name_attribute => :identifier }] ]
+
         if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
+          @filtering_parameters.delete([:participations, :approved])
           @participants = @participants.not_all_participations_approved
         end
 
