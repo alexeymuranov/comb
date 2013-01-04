@@ -1,4 +1,3 @@
-<!-- Topology Conference in Toulouse -->
 ### [Toulouse Mathematics Institute](http://math.univ-toulouse.fr), 24th-28th of June 2013
 
 Over the last few years, spectacular progress has been made in the areas
@@ -14,7 +13,7 @@ main general topics of the conference will be:
 * **low-dimensional topology** (especially dimension 3)
 * **hyperbolic and differential geometry**
 * **knot theory**
-* **applications of geometric group theory and representation theory**
+* **applications of geometric group theory and representation varieties**
 
 The conference will form part of the scientific activites of the thematic
 month [Topology, Symplectic and Contact Geometry in

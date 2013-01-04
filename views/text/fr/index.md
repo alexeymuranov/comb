@@ -1,4 +1,3 @@
-<!-- Topology Conference in Toulouse -->
 ### [Institut de Mathématiques de Toulouse](http://math.univ-toulouse.fr), 24 au 28 juin 2013
 
 La géométrie et topologie de petite dimension ont connu des avancés
@@ -14,7 +13,7 @@ principaux du colloque seront :
 * **topologie de petite dimension** (notamment en dimension trois)
 * **géométrie hyperbolique et différentielle**
 * **théorie des n&oelig;uds**
-* **applications de la théorie géométrique des groupes et de la théorie des représentations**
+* **applications de la théorie géométrique des groupes et des variétés de représentations**
 
 Le colloque fera partie des manifestations scientifiques du mois thématique
 [Topologie, Géométrie Symplectique et de Contact à
