@@ -414,7 +414,7 @@ class CTT2013 < Sinatra::Base
 
         @form_participant_id = id.to_i
 
-        render_co_m_b_edit_participants
+        haml :"/pages/#{ ORG_PAGE_PREFIX }participants.html"
       end
     end
 
@@ -425,7 +425,7 @@ class CTT2013 < Sinatra::Base
       @attributes = TALK_ATTRIBUTES[:index]
       @talks = Talk.default_order.all
       @form_talk_id = id.to_i
-      render_co_m_b_edit_talks
+      haml :"/pages/#{ ORG_PAGE_PREFIX }talks.html"
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/edit/:id" do |id|
@@ -435,7 +435,7 @@ class CTT2013 < Sinatra::Base
       @attributes = HOTEL_ATTRIBUTES[:index]
       @hotels = Hotel.default_order.all
       @form_hotel_id = id.to_i
-      render_co_m_b_edit_hotels
+      haml :"/pages/#{ ORG_PAGE_PREFIX }hotels.html"
     end
 
     [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
@@ -702,18 +702,6 @@ class CTT2013 < Sinatra::Base
       end
 
       haml :'/pages/registration.html', :layout => :simple_layout
-    end
-
-    def render_co_m_b_edit_participants
-      haml :"/pages/#{ ORG_PAGE_PREFIX }participants.html"
-    end
-
-    def render_co_m_b_edit_talks
-      haml :"/pages/#{ ORG_PAGE_PREFIX }talks.html"
-    end
-
-    def render_co_m_b_edit_hotels
-      haml :"/pages/#{ ORG_PAGE_PREFIX }hotels.html"
     end
 
     def log_in(user)
