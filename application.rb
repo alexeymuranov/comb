@@ -412,7 +412,7 @@ class CTT2013 < Sinatra::Base
 
         @participants = @participants.default_order.all
 
-        @form_participant_id = id.to_i
+        @participant_to_edit = Participant.find(id)
 
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants.html"
       end

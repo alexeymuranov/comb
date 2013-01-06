@@ -2,11 +2,17 @@
   - if @filtering_parameters
     = filtering_form Participant, @filtering_parameters, @filtering_values
 
-  - @participants.each do |participant|
-    %li{ :id => "participant_#{ participant.id }" }
-      - if participant.id == @form_participant_id
-        = haml :'pages/org/_participant_form',
-               :locals => { :participant => participant }
-      - else
+  - if @participant_to_edit
+    - @participants.each do |participant|
+      %li{ :id => "participant_#{ participant.id }" }
+        - if @participant_to_edit.id == participant.id
+          = haml :'pages/org/_participant_form',
+                 :locals => { :participant => @participant_to_edit }
+        - else
+          = haml :'pages/org/_participant',
+                 :locals => { :participant => participant }
+  - else
+    - @participants.each do |participant|
+      %li{ :id => "participant_#{ participant.id }" }
         = haml :'pages/org/_participant',
                :locals => { :participant => participant }
