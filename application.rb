@@ -560,9 +560,29 @@ class CTT2013 < Sinatra::Base
             end
           end
         end
-        @participant.save!
 
-        redirect fixed_url("/#{ locale }/#{ page }#participant_#{ @participant.id }")
+        if @participant.save
+          flash[:success] = t('flash.resources.participants.update.success')
+          redirect fixed_url("/#{ locale }/#{ page }#participant_#{ @participant.id }")
+        else
+          set_locale(locale)
+          set_page(page)
+
+          flash.now[:error] = t('flash.resources.participants.update.failure')
+          @attributes = PARTICIPANT_ATTRIBUTES[:index]
+
+          @participants = Participant.scoped
+
+          if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
+            @participants = @participants.not_all_participations_approved
+          end
+
+          @participants = @participants.default_order.all
+
+          @participant_to_edit = @participant
+
+          haml :"/pages/#{ ORG_PAGE_PREFIX }participants.html"
+        end
       end
     end
 
