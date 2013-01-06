@@ -182,8 +182,8 @@ class Participant < AbstractSmarterModel
             :inclusion => { :in => ['female', 'male', :female, :male] },
             :allow_nil => true
 
-  validates :first_name, :uniqueness => { :scope         => :last_name,
-                                          :case_sesitive => false }
+  # validates :first_name, :uniqueness => { :scope         => :last_name,
+  #                                         :case_sesitive => false }
 
   validates :email, :uniqueness => true
 
