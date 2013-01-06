@@ -39,6 +39,7 @@
 
       = haml :'layout_partials/_footer'
 
+    -# For debugging only:
     - if self.class.development? && ENV['USER'] == 'alexey'
       #debug_params.debug
         %pre
