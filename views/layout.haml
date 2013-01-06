@@ -31,10 +31,6 @@
 
       = haml :'layout_partials/_header'
 
-    - flash.each do |name, msg|
-      %div{ :class => ['flash', name] }
-        = msg
-
     %div.container{ :role => :main }
 
       = yield

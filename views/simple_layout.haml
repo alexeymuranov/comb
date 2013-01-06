@@ -31,9 +31,7 @@
 
       -# = haml :'layout_partials/_header'
 
-    - flash.each do |name, msg|
-      %div{ :class => ['flash', name] }
-        = msg
+    = haml :'layout_partials/_flash'
 
     %div.container{ :role => :main }
 
