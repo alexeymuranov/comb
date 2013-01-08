@@ -1,7 +1,7 @@
-Les mathématiciens suivants ont accepté de donner une conférence plénière au colloque :
+Il y aura quinze conférences plénières d'une heure et trente-quatre exposés de 30 minutes. Les mathématiciens suivants ont accepté de donner une conférence plénière au colloque :
 
 * [I. Agol](http://math.berkeley.edu/~ianagol/) (sous reserve)
-* [D. Calegari](http://www.its.caltech.edu/~dannyc/)
+* [D. Calegari](http://math.uchicago.edu/~dannyc/)
 * [V. Colin](http://www.math.sciences.univ-nantes.fr/~vcolin/)
 * [D. Cooper](http://www.math.ucsb.edu/~cooper/)
 * [S. Friedl](http://math.rice.edu/~friedl/)
