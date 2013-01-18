@@ -285,6 +285,17 @@ class CTT2013 < Sinatra::Base
     end
   end
 
+  # Plain participant lists
+  get "#{ REQUEST_BASE_URL }data/participants/by_conference/:conf_identifier" do |conf_identifier|
+    unless conference = Conference.where(:identifier => conf_identifier).first
+      halt
+    end
+
+    @participants = conference.participants.approved.default_order.all
+
+    haml :"/pages/data/_participants", :layout => false
+  end
+
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
     participants_page = :"#{ COMB_PAGE_PREFIX }participants"
     PAGE_URL_FRAGMENTS[participants_page].each do |p|
