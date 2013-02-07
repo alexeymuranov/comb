@@ -2,7 +2,7 @@
 -#   participant
 
 %strong
-  = participant.full_name_with_affiliation
+  &= participant.full_name_with_affiliation
 - if participant.approved?
   ✓
   = Participant.human_attribute_name(:approved)

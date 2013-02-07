@@ -9,4 +9,5 @@
   %section#registered_participants
     %ol
       - @participants.each do |s|
-        %li= s.full_name_with_affiliation
+        %li
+          &= s.full_name_with_affiliation
