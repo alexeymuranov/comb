@@ -184,6 +184,10 @@ fr:
     org:
       login:
         title: "Connexion organisateur"
+        header: "Connexion pour les organisateurs"
+        form_labels:
+          username: "Nom d'utilisateur :"
+          password: "Mot de passe :"
       participants:
         title: "Org : Participants"
       participants_to_approve:
@@ -192,12 +196,6 @@ fr:
         title: "Org : Exposés"
       hotels:
         title: "Org : Hôtels"
-    login:
-      title:
-      header: "Connexion pour les organisateurs"
-      form_labels:
-        username: "Nom d'utilisateur :"
-        password: "Mot de passe :"
 
   resources:
     actions:

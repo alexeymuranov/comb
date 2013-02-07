@@ -184,6 +184,10 @@ en:
     org:
       login:
         title: "Organiser login"
+        header: "Organiser login"
+        form_labels:
+          username: "Username:"
+          password: "Password:"
       participants:
         title: "Org : Participants"
       participants_to_approve:
@@ -192,12 +196,6 @@ en:
         title: "Org : Talks"
       hotels:
         title: "Org : Hotels"
-    login:
-      title: "Organiser login"
-      header: "Organiser login"
-      form_labels:
-        username: "Username:"
-        password: "Password:"
 
   resources:
     actions:
