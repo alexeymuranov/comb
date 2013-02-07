@@ -196,6 +196,13 @@ en:
         title: "Org : Talks"
       hotels:
         title: "Org : Hotels"
+      utilities:
+        title: "Org : Utilities"
+        tabs:
+          graduate_students_approved:
+            title: "Approved graduate students"
+          graduate_students_not_all_participations_approved:
+            title: "Graduate students not approved for all weeks"
 
   resources:
     actions:

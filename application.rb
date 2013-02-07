@@ -206,8 +206,16 @@ class CTT2013 < Sinatra::Base
   ORGANISER_CONNEXION_PAGES = [ :participants_to_approve,
                                 :participants,
                                 :talks,
-                                :hotels
+                                :hotels,
+                                :utilities
                               ].map { |p| :"#{ ORG_PAGE_PREFIX }#{ p }" }
+
+
+  ORGANISER_CONNEXION_UTILITY_TABS = {
+    :graduate_students_approved =>
+      'email_lists/graduate_students/approved',
+    :graduate_students_not_all_participations_approved =>
+      'email_lists/graduate_students/not_all_participations_approved' }
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT = {}.tap do |h|
     LOCALES.each do |locale|
@@ -403,6 +411,37 @@ class CTT2013 < Sinatra::Base
       @attributes = HOTEL_ATTRIBUTES[:index]
       @hotels = Hotel.default_order.all
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotels.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }utilities" do
+      require_organiser_login!
+      set_locale(locale)
+      set_page(:"#{ ORG_PAGE_PREFIX }utilities")
+      haml :"/pages/#{ ORG_PAGE_PREFIX }utilities.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }utilities/email_lists/graduate_students/:status" do |status|
+      require_organiser_login!
+      set_locale(locale)
+      set_page(:"#{ ORG_PAGE_PREFIX }utilities")
+
+      @participants = Participant.
+        where(:academic_position => ['graduate student', 'doctorant(e)']).
+        default_order
+
+      case status
+      when 'approved'
+        @utility_tab = :graduate_students_approved
+        @participants = @participants.approved
+      when 'not_all_participations_approved'
+        @utility_tab = :graduate_students_not_all_participations_approved
+        @participants = @participants.not_all_participations_approved
+      end
+
+      @utility_tab_content =
+        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/email_list",
+             :layout => :simple_layout
+      haml :"/pages/#{ ORG_PAGE_PREFIX }utilities.html"
     end
 
     [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",

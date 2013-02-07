@@ -1,0 +1,14 @@
+%nav
+  %ul.menu{ :role => 'tablist' }
+    - ORGANISER_CONNEXION_UTILITY_TABS.each_pair do |t, url_suffix|
+      - tab_title = t("pages.org.utilities.tabs.#{ t }.title")
+      - if t == @utility_tab
+        %li.current{ :role => 'tab' }>
+          %span
+            = tab_title
+      - else
+        %li{ :role => 'tab' }>
+          %a{ :href => fixed_url("/#{ @locale }/#{ @page }/#{ url_suffix }") }
+            = tab_title
+
+= @utility_tab_content

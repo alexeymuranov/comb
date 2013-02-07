@@ -196,6 +196,13 @@ fr:
         title: "Org : Exposés"
       hotels:
         title: "Org : Hôtels"
+      utilities:
+        title: "Org : Outils pratiques"
+        tabs:
+          graduate_students_approved:
+            title: "Doctorants validés"
+          graduate_students_not_all_participations_approved:
+            title: "Doctorants non validés pour toutes les semaines"
 
   resources:
     actions:
