@@ -495,7 +495,7 @@ class CTT2013 < Sinatra::Base
     post "#{ REQUEST_BASE_URL }#{ l }registration" do
       set_locale(locale)
 
-      # Filter attributes before mass assignement
+      # Filter attributes before mass assignment
       participant_attributes =
         participant_registration_attributes_from_param_hash(
           params[:participant])
