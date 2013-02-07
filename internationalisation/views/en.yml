@@ -134,6 +134,7 @@ en:
         select_options:
           academic_positions:
             - "graduate student"
+            - "recent PhD"
             - "postdoc"
             - "professor/faculty"
             - "other (explain in the comments)"

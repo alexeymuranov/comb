@@ -134,6 +134,7 @@ fr:
         select_options:
           academic_positions:
             - "doctorant(e)"
+            - "docteur ès mathématiques récemment diplômé(e)"
             - "post-doctorant(e)"
             - "enseignant(e)-chercheur(se)"
             - "autre (à préciser dans les remarques)"
