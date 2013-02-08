@@ -190,7 +190,11 @@ nav#lang_select {
   }
 }
 
-nav.main_menu > ul.menu {
+// nav.main_menu > ul.menu {
+//   @include tabs;
+// }
+
+ul[role=tablist] {
   @include tabs;
 }
 
