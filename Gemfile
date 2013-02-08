@@ -47,4 +47,9 @@ group :development do
   when '1.9'
     gem 'debugger'
   end
+
+  # Better error pages in development:
+  gem 'better_errors'
+  # Causes the server fail to start:
+  # gem 'binding_of_caller' # used by better_errors
 end

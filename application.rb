@@ -28,9 +28,12 @@ class CTT2013 < Sinatra::Base
 
   require 'sinatra/flash' # Session-based flash
 
-  require 'debugger' if development? # for debugging
-
   require 'reverse_markdown' # HTML to markdown for text email body
+
+  if development?
+    require 'debugger'      # Ruby debugger
+    require 'better_errors' # better error pages
+  end
 
   # Settings
   # ========
@@ -60,6 +63,11 @@ class CTT2013 < Sinatra::Base
     # set :bind, 'localhost' # server hostname or IP address
     # set :port, 4567        # server port
     # set :lock, true        # ensure single request concurrency with a mutex lock
+  end
+
+  configure :development do
+    use BetterErrors::Middleware
+    BetterErrors.application_root = File.expand_path('..', __FILE__)
   end
 
   # Authentication
