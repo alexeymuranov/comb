@@ -208,6 +208,13 @@ class Participant < AbstractSmarterModel
     affiliation ? "#{ full_name } (#{ affiliation })" : full_name
   end
 
+  def full_name_with_affiliation_and_position
+    [ full_name,
+      lambda { |x| "(#{ x })" unless x.empty? }.
+        call([affiliation, academic_position].compact.join(', '))
+    ].join(' ')
+  end
+
   def new_pin; @new_pin end
 
   def approved
