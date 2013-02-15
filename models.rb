@@ -227,8 +227,16 @@ class Participant < AbstractSmarterModel
   add_attribute_types :approved  => :boolean,
                       :approved? => :boolean
 
-  def approved=(bool)
-    participations.each do |p| p.approved = bool end
+  # def approved=(bool)
+  #   participations.each do |p| p.approved = bool end
+  # end
+
+  def approve!
+    participations.each do |p| p.approved = true end
+  end
+
+  def disapprove!
+    participations.each do |p| p.approved = false end
   end
 
   # CoMB related

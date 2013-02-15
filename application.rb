@@ -596,9 +596,9 @@ class CTT2013 < Sinatra::Base
         @participant = Participant.find(id)
         case params[:button]
         when 'approve'
-          @participant.approved = true
+          @participant.approve!
         when 'disapprove'
-          @participant.approved = false
+          @participant.disapprove!
         when 'update'
           require_main_organiser_login!
 
