@@ -66,6 +66,7 @@ fr:
         departure_date        : "date de départ"
         registration_fee_payed: "frais d'inscription payés"
         committee_comments    : "remarques du comité"
+        talk_proposed         : "exposé proposé"
       talk: &talk_attributes
         type                : "type"
         translated_type_name: "type"

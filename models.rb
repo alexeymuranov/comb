@@ -129,6 +129,18 @@ class Participation < AbstractSmarterModel
       write_attribute(:speaker, true)
     end
   end
+
+  # Virtual attributes
+  def talk_proposed
+    !!talk_proposal
+  end
+
+  alias_method :talk_proposed?, :talk_proposed
+
+  # The following method is defined in the custom `AttributeTypes` module
+  add_attribute_types :talk_proposed  => :boolean,
+                      :talk_proposed? => :boolean
+
 end
 
 class Participant < AbstractSmarterModel
