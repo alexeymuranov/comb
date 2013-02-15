@@ -53,7 +53,7 @@ class CTT2013
 
         loop do
           if (ref = mod.reflect_on_association(attr)).nil?
-            attribute_type = model.attribute_type(attr)
+            attribute_type = mod.attribute_type(attr)
             field[:header] = label_from_attribute_name(mod, attr)
             if !val.nil? && val.key?(attr)
               selected_values = val[attr]
@@ -90,7 +90,7 @@ class CTT2013
                 field[:shown_selected_values] =
                   selected_values.map { |id|
                     assoc_mod.find(id).public_send(name_attribute)
-                  }.join(", ")
+                  }.join(', ')
               end
               param_key = param_key_pref + "[#{ ref.foreign_key }]"
               field[:html_class] = 'association'
