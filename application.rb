@@ -448,7 +448,7 @@ class CTT2013 < Sinatra::Base
 
       @utility_tab_content =
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/email_list",
-             :layout => :simple_layout
+             :layout => false
       haml :"/pages/#{ ORG_PAGE_PREFIX }utilities.html"
     end
 
