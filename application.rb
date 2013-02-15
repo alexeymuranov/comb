@@ -223,7 +223,9 @@ class CTT2013 < Sinatra::Base
     :graduate_students_approved =>
       'email_lists/graduate_students/approved',
     :graduate_students_not_all_participations_approved =>
-      'email_lists/graduate_students/not_all_participations_approved' }
+      'email_lists/graduate_students/not_all_participations_approved',
+    :participants_with_talk_proposals =>
+      'participants_with_talk_proposals' }
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT = {}.tap do |h|
     LOCALES.each do |locale|
@@ -449,6 +451,20 @@ class CTT2013 < Sinatra::Base
       @utility_tab_content =
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/email_list",
              :layout => false
+      haml :"/pages/#{ ORG_PAGE_PREFIX }utilities.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }utilities/participants_with_talk_proposals" do
+      require_organiser_login!
+      set_locale(locale)
+      set_page(:"#{ ORG_PAGE_PREFIX }utilities")
+
+      @attributes = [:email]
+      @participants = Participant.joins(:talk_proposals).uniq.default_order
+      @utility_tab = :participants_with_talk_proposals
+
+      @utility_tab_content =
+        haml :"/pages/#{ ORG_PAGE_PREFIX }participants.html", :layout => false
       haml :"/pages/#{ ORG_PAGE_PREFIX }utilities.html"
     end
 

@@ -203,6 +203,8 @@ en:
             title: "Approved graduate students"
           graduate_students_not_all_participations_approved:
             title: "Graduate students not approved for all weeks"
+          participants_with_talk_proposals:
+            title: "Participants who proposed a short talk"
 
   resources:
     actions:

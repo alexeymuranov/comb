@@ -203,6 +203,8 @@ fr:
             title: "Doctorants validés"
           graduate_students_not_all_participations_approved:
             title: "Doctorants non validés pour toutes les semaines"
+          participants_with_talk_proposals:
+            title: "Participants qui ont porposé un court exposé"
 
   resources:
     actions:
