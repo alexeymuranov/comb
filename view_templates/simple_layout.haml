@@ -6,8 +6,8 @@
     %meta{ :content      => 'IE=edge,chrome=1',
            :'http-equiv' => 'X-UA-Compatible' }/
     %meta{ :content => 'width=device-width', :name => 'viewport' }/
-    -# %link{ :href  => fixed_url('/css/html5reset.css'),
-    -#        :rel   => 'stylesheet',
+    -# %link{ :href  => fixed_url('/stylesheets/html5reset.css'),
+    -#        :rel   => :stylesheet,
     -#        :type  => 'text/css' }/
     %link{ :type  => 'text/css',
            :href  => fixed_url('/css/blueprint/screen.css'),
@@ -20,8 +20,8 @@
     /[if IE]
       %link{ :type  => 'text/css',
              :rel   => :stylesheet,
-             :href  => fixed_url('/css/blueprint/ie.css'),
-             :media => 'screen, :projection' }/
+             :href  => fixed_url('/stylesheets/blueprint/ie.css'),
+             :media => 'screen, projection' }/
     %link{ :type => 'text/css',
            :href => fixed_url('/stylesheets/application.css'),
            :rel  => :stylesheet }/
@@ -29,7 +29,9 @@
   %body
     %header
 
-      = haml :'layout_partials/_header'
+      -# = haml :'layout_partials/_header'
+
+    = haml :'layout_partials/_flash'
 
     %div.container{ :role => :main }
 
@@ -37,20 +39,20 @@
 
     %footer
 
-      = haml :'layout_partials/_footer'
+      -# = haml :'layout_partials/_footer'
 
-    -# For debugging only:
     - if self.class.development? && ENV['USER'] == 'alexey'
       #debug_params.debug
         %pre
           = preserve do
             %strong= 'params:'
             = params.to_yaml
-      #debug_session.debug
-        %pre
-          = preserve do
-            %strong= 'session:'
-            = session.to_yaml
+      -# This raises an error after registration, maybe there is a bug in a recent version of Sinatra
+      -# #debug_session.debug
+      -#   %pre
+      -#     = preserve do
+      -#       %strong= 'session:'
+      -#       = session.to_yaml
       .debug
         %pre
           = preserve do
