@@ -11,4 +11,4 @@
           %a{ :href => fixed_url("/#{ @locale }/#{ @page }/#{ url_suffix }") }
             = tab_title
 
-= @utility_tab_content
+= yield

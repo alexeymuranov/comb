@@ -174,7 +174,7 @@ class CTT2013 < Sinatra::Base
       require_organiser_login!
       set_locale(locale)
       set_page(:"#{ ORG_PAGE_PREFIX }utilities")
-      haml :"/pages/#{ ORG_PAGE_PREFIX }utilities.html"
+      render :haml, :"/pages/#{ ORG_PAGE_PREFIX }utilities_layout" do nil end
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }utilities/email_lists/graduate_students/:status" do |status|
@@ -195,10 +195,10 @@ class CTT2013 < Sinatra::Base
         @participants = @participants.not_all_participations_approved
       end
 
-      @utility_tab_content =
+      render :haml, :"/pages/#{ ORG_PAGE_PREFIX }utilities_layout" do
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/email_list",
              :layout => false
-      haml :"/pages/#{ ORG_PAGE_PREFIX }utilities.html"
+      end
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }utilities/participants_with_talk_proposals" do
@@ -210,9 +210,9 @@ class CTT2013 < Sinatra::Base
       @participants = Participant.joins(:talk_proposals).uniq.default_order
       @utility_tab = :participants_with_talk_proposals
 
-      @utility_tab_content =
+      render :haml, :"/pages/#{ ORG_PAGE_PREFIX }utilities_layout" do
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants.html", :layout => false
-      haml :"/pages/#{ ORG_PAGE_PREFIX }utilities.html"
+      end
     end
 
     [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
