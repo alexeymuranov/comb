@@ -33,7 +33,14 @@
 
     %div.container{ :role => :main }
 
-      = yield
+      - if organiser_logged_in?
+        %section.organiser_interface
+
+          = yield
+
+      - else
+
+        = yield
 
     %footer
 
