@@ -1,0 +1,8 @@
+%ol
+  - if @filtering_parameters
+    = filtering_form Participant, @filtering_parameters, @filtering_values
+
+  - @participants.each do |participant|
+    %li{ :id => "participant_#{ participant.id }" }
+      = haml :'pages/org/participants/_participant_with_talk_proposal',
+             :locals => { :participant => participant }

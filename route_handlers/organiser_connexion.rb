@@ -226,7 +226,7 @@ class CTT2013 < Sinatra::Base
       @utility_tab = :participants_with_talk_proposals
 
       render :haml, :"/pages/#{ ORG_PAGE_PREFIX }utilities_layout" do
-        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/index_all.html", :layout => false
+        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/participants_with_talk_proposals.html", :layout => false
       end
     end
 
