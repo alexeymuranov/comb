@@ -1,0 +1,5 @@
+%ol
+  - @talks.each do |talk|
+    %li{:id => "talk_#{ talk.id }"}
+      = haml :'pages/org/talks/_talk_in_index',
+             :locals => { :talk => talk }

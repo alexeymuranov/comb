@@ -2,7 +2,7 @@
 -#   talk
 
 %form{ :'accept-charset' => 'UTF-8',
-       :action           => fixed_url("/#{ @locale }/#{ @page }/#{ talk.id }"),
+       :action           => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }"),
        :method           => 'post' }
   %input{ :type => :hidden, :name => :_method, :value => :put }
 
@@ -79,7 +79,7 @@
   .actions
     %button.update{ :type => :submit, :name => 'button', :value => 'update' }
       = t 'buttons.submit'
-    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks\#talk_#{ talk.id }"),
+    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }"),
                       :role => 'button' }
       = t 'buttons.cancel'
 

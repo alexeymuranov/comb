@@ -1,11 +1,11 @@
 -# Parameters:
 -#   participant
 
-%strong
-  &= participant.full_name_with_affiliation_and_position
+%a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }") }
+  %strong
+    &= participant.full_name_with_affiliation_and_position
 - if participant.approved?
-  ✓
-  = Participant.human_attribute_name(:approved)
+  ✓ #{ Participant.human_attribute_name(:approved) }
 %br/
 %form.inline{ :action => fixed_url("/#{ @locale }/#{ @page }/#{ participant.id }"),
               :method => :post }
@@ -69,9 +69,9 @@
             - [:title, :abstract].each do |attr|
               = attribute_in_description(talk_proposal, attr)
   - if main_organiser_logged_in?
-    %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ @page }/edit/#{ participant.id }\#participant_#{ participant.id }"),
+    %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }/edit"),
                     :role => 'button' }
       = t 'db_actions.update'
-    %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ @page }/delete/#{ participant.id }"),
+    %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }/delete"),
                       :role => 'button' }
       = t 'db_actions.delete'

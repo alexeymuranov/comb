@@ -1,26 +1,23 @@
--# Local variables that must be set:
--#   participant
-
 %form{ :'accept-charset' => 'UTF-8',
-       :action           => fixed_url("/#{ @locale }/#{ @page }/#{ participant.id }"),
+       :action           => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"),
        :method           => :post }
   %input{ :type => :hidden, :name => :_method, :value => :put }
 
   = haml :_jquery_ui_for_forms
 
-  - if participant.errors.any?
+  - if @participant.errors.any?
     #form_error_explanation
       %h2
-        - if participant.errors.count == 1
+        - if @participant.errors.count == 1
           = t 'activerecord.errors.template.header.one',
               :model => Participant.model_name.human
         - else
           = t 'activerecord.errors.template.header.other',
-              :count => participant.errors.count,
+              :count => @participant.errors.count,
               :model => Participant.model_name.human
 
       %ul
-        - participant.errors.full_messages.each do |msg|
+        - @participant.errors.full_messages.each do |msg|
           %li
             = msg
 
@@ -28,7 +25,7 @@
     %legend
       = label_from_attribute_name(Participant, :participations)
     %ol.fields
-      - participant.participations.each do |participation|
+      - @participant.participations.each do |participation|
         - conf = participation.conference
         %li
           = conf.title_with_details(@locale)
@@ -68,7 +65,7 @@
                   :name     => "participant[#{ attr }]",
                   :required => required,
                   :type     => input_html_type_for_attribute(Participant, attr),
-                  :value    => participant.public_send(attr) }
+                  :value    => @participant.public_send(attr) }
 
     .field
       %dt.label
@@ -77,10 +74,10 @@
       %dd.input
         %select{ :id    => 'participant_academic_position',
                  :name  => 'participant[academic_position]',
-                 :value => participant.academic_position }
+                 :value => @participant.academic_position }
           %option
           - t('pages.registration.form.select_options.academic_positions').each do |p|
-            - if p == participant.academic_position
+            - if p == @participant.academic_position
               %option{ :selected => true }
                 = p
             - else
@@ -96,7 +93,7 @@
           %input{ :id    => "participant_#{ attr }",
                   :name  => "participant[#{ attr }]",
                   :type  => input_html_type_for_attribute(Participant, attr),
-                  :value => participant.public_send(attr) }
+                  :value => @participant.public_send(attr) }
 
     - [:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed].each do |attr|
       .field
@@ -113,7 +110,7 @@
                   :name    => name,
                   :type    => :checkbox,
                   :value   => 1,
-                  :checked => participant.public_send(attr) }
+                  :checked => @participant.public_send(attr) }
           %span= t 'yes'
 
     - [:funding_requests, :special_requests].each do |attr|
@@ -125,9 +122,9 @@
           %textarea{ :id   => "participant_#{ attr }",
                      :name => "participant[#{ attr }]" }<
             = preserve do
-              &= participant.public_send(attr)
+              &= @participant.public_send(attr)
 
-  - if participation = participant.co_m_b_participation
+  - if participation = @participant.co_m_b_participation
     %fieldset
       %legend
         = label_from_attribute_name(Participation, :talk_proposal)
@@ -160,6 +157,6 @@
   .actions
     %button.update{ :type => :submit, :name => 'button', :value => 'update' }
       = t 'buttons.submit'
-    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants\#participant_#{ participant.id }"),
+    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"),
                       :role => :button }
       = t 'buttons.cancel'

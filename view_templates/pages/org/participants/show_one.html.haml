@@ -1,0 +1,71 @@
+%a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants\#participant_#{ @participant.id }") }
+  %strong
+    &= @participant.full_name_with_affiliation
+- if @participant.approved?
+  ✓ #{ Participant.human_attribute_name(:approved) }
+%br/
+%form.inline{ :action => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"),
+              :method => :post }
+  %input{ :type => :hidden, :name => :_method, :value => :put }
+  - if @participant.approved?
+    %button.on.toggle_off.deauthorize{ :type  => :submit,
+                                       :name  => 'button',
+                                       :value => 'disapprove' }
+      = t 'buttons.do_not_accept'
+  - else
+    %button.off.toggle_on.authorize{ :type  => :submit,
+                                     :name  => 'button',
+                                     :value => 'approve' }
+      = t 'buttons.accept'
+%dl
+  .item
+    %dt.associations
+      = label_from_attribute_name(Participant, :participations)
+    %dd.associations
+      %table
+        - participation_attr_iterator = [ :arrival_date,
+                                          :departure_date,
+                                          :committee_comments ].each
+        %thead
+          %td
+          - participation_attr_iterator.each do |attr|
+            %th
+              = label_from_attribute_name(Participation, attr)
+        %tbody
+          - @participant.participations.each do |participation|
+            %tr
+              %th{:scope => :row}
+                = participation.conference.identifier
+              - participation_attr_iterator.each do |attr|
+                %td
+                  - if value = participation.public_send(attr)
+                    %span.attribute.value
+                      = value
+  - @attributes.each do |attr|
+    = attribute_in_description(@participant, attr)
+  - if talk_proposal = @participant.co_m_b_talk_proposal
+    .item
+      %dt.association
+        = label_from_attribute_name(Participation, :talk_proposal)
+        - if talk_proposal.accepted?
+          ✓
+          = TalkProposal.human_attribute_name(:accepted)
+        - elsif @participant.approved? && main_organiser_logged_in?
+          %form.inline{ :action => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talk_proposals/#{ talk_proposal.id }"),
+                        :method => 'post' }
+            %input{ :type => :hidden, :name => :_method, :value => :put }
+            %button.off.toggle_on.accept{ :type  => 'submit',
+                                          :name  => 'button',
+                                          :value => 'accept' }
+              = t 'buttons.accept'
+      %dd.association
+        %dl
+          - [:title, :abstract].each do |attr|
+            = attribute_in_description(talk_proposal, attr)
+- if main_organiser_logged_in?
+  %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }/edit"),
+                  :role => 'button' }
+    = t 'db_actions.update'
+  %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }/delete"),
+                    :role => 'button' }
+    = t 'db_actions.delete'
