@@ -120,6 +120,12 @@ body {
 ////
 // Special element styles
 
+.organiser_interface {
+  font-size: 12px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  // font-family: "Lucida Console", Monaco, monospace;
+}
+
 div#banner {
   @include border-top-radius(8px);
   border-bottom: 1px solid $main-border-color;
