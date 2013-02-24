@@ -138,6 +138,7 @@ class CTT2013 < Sinatra::Base
         @filtering_parameters =
           [ :last_name,
             [:participations, :conference, { :name_attribute => :identifier }],
+            :academic_position,
             :invitation_needed, :visa_needed,
             [:participations, :approved] ]
 
