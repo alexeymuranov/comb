@@ -23,7 +23,7 @@
         - filtering_fields.each do |field|
           - if field.key?(:shown_selected_values)
             %td.filtering_value{ :class => field[:html_class] }<
-              = field[:shown_selected_values]
+              &= field[:shown_selected_values]
           - else
             %td
 

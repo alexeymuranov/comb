@@ -2,21 +2,20 @@
 -#   filter_form_id
 -#   column_type
 -#   select_from
--#   selected_value
+-#   selected_values
 -#   param_key
 -#   id_prefix
 
-- case column_type
-- when :string
-  - if selected_value.is_a?(String)
-    -# selected_values = selected_values.sub(/\%\z/, '')
-    - selected_value = select_from.find { |c|      |
-        c.mb_chars.upcase.to_s == selected_value } |
-
-%select{ :name => param_key,
-         :form => filter_form_id }
-  %option
-  - select_from.each do |value|
-    %option{ :value    => value,
-             :selected => (value == selected_value) }
-      = value
+%select{ :multiple => true,
+         :size     => select_from.size,
+         :name     => "#{ param_key }[]",
+         :form     => filter_form_id }
+  - if selected_values
+    - select_from.each do |value|
+      %option{ :value    => value,
+               :selected => selected_values.include?(value) }
+        &= value
+  - else
+    - select_from.each do |value|
+      %option{ :value => value }
+        &= value
