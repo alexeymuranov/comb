@@ -133,6 +133,7 @@ fr:
             abstract: "le résumé :"
         select_options:
           academic_positions:
+            # Attention! The order must be the same in all languages. The spelling must stay fixed.
             - "doctorant(e)"
             - "docteur ès mathématiques récemment diplômé(e)"
             - "post-doctorant(e)"

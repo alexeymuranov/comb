@@ -194,6 +194,18 @@ class Participant < AbstractSmarterModel
             :inclusion => { :in => ['female', 'male', :female, :male] },
             :allow_nil => true
 
+  validates :academic_position,
+            :inclusion => [ "graduate student",
+                            "doctorant(e)",
+                            "recent PhD",
+                            "docteur ès mathématiques récemment diplômé(e)",
+                            "postdoc",
+                            "post-doctorant(e)",
+                            "professor/faculty",
+                            "enseignant(e)-chercheur(se)",
+                            "other (explain in the comments)",
+                            "autre (à préciser dans les remarques)" ]
+
   # validates :first_name, :uniqueness => { :scope         => :last_name,
   #                                         :case_sesitive => false }
 
