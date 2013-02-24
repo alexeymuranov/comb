@@ -37,8 +37,14 @@ class SimpleRelationFilter
 
       case filtering_column_type
       when :string
-        model_scope =
-          model_scope.where("UPPER(#{ column_sql }) LIKE ?", filtering_value)
+        case filtering_value
+        when Set
+          model_scope =
+            model_scope.where("#{ column_sql } IN (?)", filtering_value)
+        else
+          model_scope =
+            model_scope.where("UPPER(#{ column_sql }) LIKE ?", filtering_value)
+        end
 
       when :boolean
         model_scope =
@@ -131,7 +137,12 @@ class SimpleRelationFilter
 
       case filtering_column_type
       when :string
-        filtering_simple_hash[attr] = filtering_value
+        case filtering_value
+        when Set
+          filtering_simple_hash[attr] = filtering_value.to_a
+        else
+          filtering_simple_hash[attr] = filtering_value
+        end
 
       when :boolean
         filtering_simple_hash[attr] = filtering_value
@@ -211,19 +222,23 @@ class FriendlyRelationFilter < SimpleRelationFilter
 
       case column.type
       when :string
-        unless value.blank?
-          filtering_values[attr] =
-            value.mb_chars.upcase.to_s.sub(/\%*\z/, '%')
+        case value
+        when Set, Array
+          filtering_values[attr] = value.map!(&:to_s).to_set
+        else
+          unless value.blank?
+            filtering_values[attr] =
+              value.mb_chars.upcase.to_s.sub(/\%*\z/, '%')
+          end
         end
 
       when :boolean
-        unless value.nil?
-          case value
-          when true, /\Ayes\z/i, /\Atrue\z/i, /\Ay\z/i, /\At\z/i, 1, '1'
-            filtering_values[attr] = true
-          when false, /\Ano\z/i, /\Afalse\z/i, /\An\z/i, /\Af\z/i, 0, '0'
-            filtering_values[attr] = false
-          end
+        case value
+        when nil
+        when true, /\Ayes\z/i, /\Atrue\z/i, /\Ay\z/i, /\At\z/i, 1, '1'
+          filtering_values[attr] = true
+        when false, /\Ano\z/i, /\Afalse\z/i, /\An\z/i, /\Af\z/i, 0, '0'
+          filtering_values[attr] = false
         end
 
       when :integer
