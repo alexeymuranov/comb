@@ -1,9 +1,7 @@
 # encoding: UTF-8 (magic comment)
 
-require 'i18n' # Internationalisation
-
 class CTT2013
-  module PresentationHelpers
+  module ModelPresentationHelpers
     module AbstractSmarterModelHelpers
       def title_from_model_name(model)
         capitalize_first_letter_of(model.model_name.human)

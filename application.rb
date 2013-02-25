@@ -115,14 +115,10 @@ class CTT2013 < Sinatra::Base
     cache_control :public, :must_revalidate, :max_age => 60
   end
 
-  # View helpers
+  # Helpers
   # ============
   #
-  require_relative 'helpers/complex'
-  helpers Helpers
-
-  require_relative 'helpers/presentation'
-  helpers PresentationHelpers
+  require_relative 'helpers/init'
 
 end
 
