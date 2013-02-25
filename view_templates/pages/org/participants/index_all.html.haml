@@ -1,7 +1,7 @@
-%ol
-  - if @filtering_parameters
-    = filtering_form Participant, @filtering_parameters, @filtering_values
+- if @filtering_parameters
+  = filtering_form Participant, @filtering_parameters, @filtering_values
 
+%ol
   - @participants.each do |participant|
     %li{ :id => "participant_#{ participant.id }" }
       = haml :'pages/org/participants/_participant_in_index',
