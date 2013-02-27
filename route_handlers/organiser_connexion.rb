@@ -103,14 +103,14 @@ class CTT2013 < Sinatra::Base
 
         @attributes = PARTICIPANT_ATTRIBUTES[:index]
 
-        @participants = Participant.scoped
+        @filtered_participants = Participant.scoped
 
         if participants_filter_values = params[:filter]
           participants_filter = FriendlyRelationFilter.new(Participant)
           participants_filter.filtering_attributes = @attributes
           participants_filter.set_filtering_values_from_text_hash(
             participants_filter_values)
-          @participants = @participants.merge(participants_filter.to_scope)
+          @filtered_participants = @filtered_participants.merge(participants_filter.to_scope)
 
           @filtering_values =
             participants_filter.filtering_attributes_as_simple_nested_hash
@@ -125,8 +125,8 @@ class CTT2013 < Sinatra::Base
               [:conference_id, :approved]
             participations_filter.set_filtering_values_from_text_hash(
               participations_filter_values)
-            @participants =
-              @participants.joins(:participations).
+            @filtered_participants =
+              @filtered_participants.joins(:participations).
                             merge(participations_filter.to_scope).uniq
 
             @filtering_values['participations_attributes_exist'] =
@@ -144,21 +144,22 @@ class CTT2013 < Sinatra::Base
 
         if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
           @filtering_parameters.delete([:participations, :approved])
-          @participants = @participants.not_all_participations_approved
+          @filtered_participants = @filtered_participants.not_all_participations_approved
         end
 
-        @participants = @participants.default_order
+        @filtered_participants = @filtered_participants.default_order
+        @filtered_participants_count = @filtered_participants.count
 
         # Pagination
         @view_parameters = params[:view] || {}
         per_page = (@view_parameters[:per_page] || 20).to_i
         active_page = (@view_parameters[:page] || 1).to_i
         @view_parameters = {
-          :page_count => ((@participants.count - 1) / per_page) + 1,
+          :page_count => ((@filtered_participants_count - 1) / per_page) + 1,
           :per_page   => per_page,
           :page       => active_page }
         @participants =
-          @participants.limit(per_page).offset(per_page * (active_page - 1))
+          @filtered_participants.limit(per_page).offset(per_page * (active_page - 1))
 
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/index_all.html"
       end
