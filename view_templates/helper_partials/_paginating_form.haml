@@ -1,0 +1,45 @@
+-# Locals:
+-#   params_key_from_hash_key # this is a lambda or a hash
+-#   per_page
+-#   active_page
+-#   page_ranges_before
+-#   page_ranges_after
+-#   hidden_parameters (optional)
+
+-# Initialize hidden_parameters with nil if it does not exist.
+- hidden_parameters = hidden_parameters
+
+%form#pagination_form{ :action => '#pagination_form' }
+  - if hidden_parameters
+    = hidden_fields_from_nested_hash hidden_parameters
+
+  %label{ :for => 'repaginate' }
+    = t 'formats.attribute_name:', :attribute => t('labels.per_page')
+  %input#repaginate{ :type         => :number,
+                     :align        => 'right',
+                     :min          => 1,
+                     :step         => 1,
+                     :autocomplete => 'off',
+                     :name         => params_key_from_hash_key[:per_page],
+                     :value        => per_page }
+  %button{ :type  => :submit }
+    = t 'buttons.repaginate'
+
+  %br
+  %label
+    = t 'formats.attribute_name:', :attribute => t('labels.pages')
+  %nav.pagination.inline{ :style => 'display:inline' }
+    - [page_ranges_before, page_ranges_after].each do |page_ranges|
+      - page_ranges.each do |range|
+        - range.each do |page|
+          %button.get.page{ :type  => :submit,
+                            :name  => params_key_from_hash_key[:page],
+                            :value => page }
+            = page
+        - unless range == page_ranges.last
+          %span
+            …
+      - unless page_ranges == page_ranges_after
+        %span
+          %strong
+            = active_page

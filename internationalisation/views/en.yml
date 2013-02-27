@@ -24,11 +24,16 @@ en:
     filter       : "Filter"
     clear        : "Clear"
     paginate     : "Paginate"
+    repaginate   : "Repaginate"
     continue     : "Continue"
     accept       : "Accept"
     do_not_accept: "Do not accept"
     log_in       : "Log in"
     log_out      : "Log out"
+
+  labels:
+    per_page: "Per page"
+    pages:    "Pages"
 
   db_actions:
     create: "Write"

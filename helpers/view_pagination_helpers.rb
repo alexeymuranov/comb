@@ -3,14 +3,35 @@
 class CTT2013
   module ViewPaginationHelpers
     def paginating_form(paginating_parameters = {}, options = {})
-      per_page = paginating_parameters[:per_page] || 20
-      page     = paginating_parameters[:page] || 1
+      page_count = paginating_parameters[:page_count]
+      per_page   = paginating_parameters[:per_page] || 20
+      page       = paginating_parameters[:page] || 1
       params_key_prefix = options[:params_key_prefix] || 'view'
+      params_key_from_hash_key =
+        if params_key_prefix.empty?
+          lambda { |key| key.to_s }
+        else
+          lambda { |key| "#{ params_key_prefix }[#{ key }]" }
+        end
+      page_ranges_before =
+        if page > 5
+          [[1], (page - 2)..(page - 1)]
+        else
+          [1..(page - 1)]
+        end
+      page_ranges_after  =
+        if page < page_count - 4
+          [(page + 1)..(page + 2), [page_count]]
+        else
+          [(page + 1)..page_count]
+        end
       haml :'helper_partials/_paginating_form',
-           :locals => { :params_key_prefix => params_key_prefix,
-                        :per_page          => per_page,
-                        :page              => page,
-                        :hidden_parameters => options[:hidden_parameters] }
+           :locals => { :params_key_from_hash_key => params_key_from_hash_key,
+                        :per_page                 => per_page,
+                        :active_page              => page,
+                        :page_ranges_before       => page_ranges_before,
+                        :page_ranges_after        => page_ranges_after,
+                        :hidden_parameters        => options[:hidden_parameters] }
     end
   end
 end
