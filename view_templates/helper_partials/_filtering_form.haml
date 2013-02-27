@@ -1,10 +1,20 @@
 -# Locals:
 -#   filtering_fields
 -#   filter_applied
+-#   hidden_parameters (optional)
+
+-# Initialize hidden_parameters with nil if it does not exist.
+- hidden_parameters = hidden_parameters
 
 %form#filter_form{ :action => '#filter' }
 
 %form#clear_filter_form{ :action => '#filter' }
+
+- if hidden_parameters
+  -# It seems that browsers do not yet allow to specify multiple
+  -# space separated forms ids at once.
+  - ['filter_form', 'clear_filter_form'].each do |form_id|
+    = hidden_fields_from_nested_hash hidden_parameters, :form => form_id
 
 %table#filter.filter{ :class => (filter_applied ? 'filtered' : nil) }
   %thead
