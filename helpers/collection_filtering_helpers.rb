@@ -85,6 +85,7 @@ class CTT2013
       haml :'helper_partials/_filtering_form',
            :locals => { :filtering_fields  => fields,
                         :filter_applied    => !filtering_values.blank?,
+                        :action_url        => options[:action_url],
                         :hidden_parameters => options[:hidden_parameters] }
     end
 

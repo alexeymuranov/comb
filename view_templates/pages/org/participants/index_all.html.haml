@@ -1,11 +1,13 @@
 - if @filtering_parameters
   = filtering_form Participant, @filtering_parameters, @filtering_values,
                    :params_key_prefix => 'filter',
+                   :action_url        => fixed_url("/#{ @locale }/#{ @page }"),
                    :hidden_parameters => @view_parameters[:per_page] ? { 'view' => { :per_page => @view_parameters[:per_page] } } : {}
 
 - if @view_parameters
   = paginating_form @view_parameters,
                     :params_key_prefix => 'view',
+                    :action_url        => fixed_url("/#{ @locale }/#{ @page }"),
                     :hidden_parameters => @filtering_values ? { 'filter' => @filtering_values } : {}
 
 %ol

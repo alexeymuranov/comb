@@ -1,14 +1,15 @@
 -# Locals:
 -#   filtering_fields
 -#   filter_applied
+-#   action_url
 -#   hidden_parameters (optional)
 
 -# Initialize hidden_parameters with nil if it does not exist.
 - hidden_parameters = hidden_parameters
 
-%form#filter_form{ :action => '#filter' }
+%form#filter_form{ :action => "#{ action_url }#filter" }
 
-%form#clear_filter_form{ :action => '#filter' }
+%form#clear_filter_form{ :action => "#{ action_url }#filter" }
 
 - if hidden_parameters
   -# It seems that browsers do not yet allow to specify multiple
