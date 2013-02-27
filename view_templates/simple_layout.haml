@@ -42,34 +42,30 @@
       -# = haml :'layout_partials/_footer'
 
     - if self.class.development? && ENV['USER'] == 'alexey'
-      #debug_params.debug
-        %pre
+      .debug
+        %pre#debug_params.debug
           = preserve do
             %strong= 'params:'
             = params.to_yaml
-      -# This raises an error after registration, maybe there is a bug in a recent version of Sinatra
-      -# #debug_session.debug
-      -#   %pre
-      -#     = preserve do
-      -#       %strong= 'session:'
-      -#       = session.to_yaml
-      .debug
-        %pre
+        -# This raises an error after registration, maybe there is a bug in a recent version of Sinatra
+        -# #debug_session.debug
+        -#   %pre#debug_session.debug
+        -#     = preserve do
+        -#       %strong= 'session:'
+        -#       = session.to_yaml
+        %pre.debug
           = preserve do
             %strong= 'request.path:'
             = request.path.inspect
-      .debug
-        %pre
+        %pre.debug
           = preserve do
             %strong= 'environment:'
             = settings.environment.inspect
-      .debug
-        %pre
+        %pre.debug
           = preserve do
             %strong= 'defined?(PhusionPassenger):'
             = defined?(PhusionPassenger)
-      .debug
-        %pre
+        %pre.debug
           = preserve do
             %strong= 'defined?(Thin):'
             = defined?(Thin)

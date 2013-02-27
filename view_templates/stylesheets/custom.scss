@@ -417,3 +417,31 @@ form.inline {
 input[type=checkbox].style_control:not(:checked) + .hide_if_checkbox_unchecked {
   display: none;
 }
+
+////
+// Styles for technical info
+
+.technical {
+  color: Brown;
+}
+
+pre.technical, code.technical {
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+code.technical {
+  color: Green;
+}
+
+////
+// Styles for debugging output
+
+.debug {
+  color: Red;
+}
+
+pre.debug, code.debug {
+  white-space: pre-wrap;
+  margin: 0;
+}

@@ -48,33 +48,28 @@
 
     -# For debugging only:
     - if self.class.development? && ENV['USER'] == 'alexey'
-      #debug_params.debug
-        %pre
+      .debug
+        %pre#debug_params.debug
           = preserve do
             %strong= 'params:'
             = params.to_yaml
-      -# #debug_session.debug
-      -#   %pre
-      -#     = preserve do
-      -#       %strong= 'session:'
-      -#       = session.to_yaml
-      .debug
-        %pre
+        -#   %pre#debug_session.debug
+        -#     = preserve do
+        -#       %strong= 'session:'
+        -#       = session.to_yaml
+        %pre.debug
           = preserve do
             %strong= 'request.path:'
             = request.path.inspect
-      .debug
-        %pre
+        %pre.debug
           = preserve do
             %strong= 'environment:'
             = settings.environment.inspect
-      .debug
-        %pre
+        %pre.debug
           = preserve do
             %strong= 'defined?(PhusionPassenger):'
             = defined?(PhusionPassenger)
-      .debug
-        %pre
+        %pre.debug
           = preserve do
             %strong= 'defined?(Thin):'
             = defined?(Thin)
