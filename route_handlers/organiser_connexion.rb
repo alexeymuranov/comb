@@ -147,7 +147,18 @@ class CTT2013 < Sinatra::Base
           @participants = @participants.not_all_participations_approved
         end
 
-        @participants = @participants.default_order.all
+        @participants = @participants.default_order
+
+        # Pagination
+        @view_parameters = params[:view] || {}
+        per_page = (@view_parameters[:per_page] || 20).to_i
+        active_page = (@view_parameters[:page] || 1).to_i
+        @view_parameters = {
+          :page_count => (@participants.count / per_page) + 1,
+          :per_page   => per_page,
+          :page       => active_page }
+        @participants =
+          @participants.limit(per_page).offset(per_page * (active_page - 1))
 
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/index_all.html"
       end
