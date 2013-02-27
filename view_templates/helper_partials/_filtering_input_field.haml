@@ -7,10 +7,11 @@
 
 - case column_type
 - when :string
-  %input{ :type  => :search,
-          :name  => param_key,
-          :value => selected_values,
-          :form  => filter_form_id }
+  %input{ :type         => :search,
+          :name         => param_key,
+          :value        => selected_values,
+          :form         => filter_form_id,
+          :autocomplete => :off }
 - when :boolean
   %input{ :id      => "#{ id_prefix }_yes",
           :type    => :radio,

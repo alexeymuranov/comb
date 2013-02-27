@@ -17,12 +17,13 @@
   %label{ :for => 'repaginate' }
     = t 'formats.attribute_name:', :attribute => t('labels.per_page')
   %input#repaginate{ :type         => :number,
+                     :name         => params_key_from_hash_key[:per_page],
+                     :value        => per_page,
                      :align        => 'right',
                      :min          => 1,
                      :step         => 1,
-                     :autocomplete => 'off',
-                     :name         => params_key_from_hash_key[:per_page],
-                     :value        => per_page }
+                     :autocomplete => :off,
+                     :size         => 3 }
   %button{ :type  => :submit }
     = t 'buttons.repaginate'
 
