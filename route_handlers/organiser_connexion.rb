@@ -154,7 +154,7 @@ class CTT2013 < Sinatra::Base
         per_page = (@view_parameters[:per_page] || 20).to_i
         active_page = (@view_parameters[:page] || 1).to_i
         @view_parameters = {
-          :page_count => (@participants.count / per_page) + 1,
+          :page_count => ((@participants.count - 1) / per_page) + 1,
           :per_page   => per_page,
           :page       => active_page }
         @participants =
