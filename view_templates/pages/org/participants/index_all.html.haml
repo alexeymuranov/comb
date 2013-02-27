@@ -1,4 +1,5 @@
 - if @filtering_parameters
+  #{ @filtered_participants_count } / #{ Participant.count }
   = filtering_form Participant, @filtering_parameters, @filtering_values,
                    :params_key_prefix => 'filter',
                    :action_url        => fixed_url("/#{ @locale }/#{ @page }"),
@@ -9,6 +10,12 @@
                     :params_key_prefix => 'view',
                     :action_url        => fixed_url("/#{ @locale }/#{ @page }"),
                     :hidden_parameters => @filtering_values ? { 'filter' => @filtering_values } : {}
+
+.technical
+  %pre.technical
+    SQL:
+  %code.technical
+    = @participants.to_sql
 
 %ol
   - @participants.each do |participant|
