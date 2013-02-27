@@ -14,14 +14,14 @@ class CTT2013
           lambda { |key| "#{ params_key_prefix }[#{ key }]" }
         end
       page_ranges_before =
-        if page > 5
-          [[1], (page - 2)..(page - 1)]
+        if page > 12
+          [[1], (page - 9)..(page - 1)]
         else
           [1..(page - 1)]
         end
       page_ranges_after  =
-        if page < page_count - 4
-          [(page + 1)..(page + 2), [page_count]]
+        if page < page_count - 11
+          [(page + 1)..(page + 9), [page_count]]
         else
           [(page + 1)..page_count]
         end
