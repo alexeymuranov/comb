@@ -14,21 +14,6 @@
   - if hidden_parameters
     = hidden_fields_from_nested_hash hidden_parameters
 
-  .actions
-    .repaginate
-      %label{ :for => 'repaginate' }
-        = t 'formats.attribute_name:', :attribute => t('labels.per_page')
-      %input#repaginate{ :type         => :number,
-                         :name         => params_key_from_hash_key[:per_page],
-                         :value        => per_page,
-                         :align        => 'right',
-                         :min          => 1,
-                         :step         => 1,
-                         :autocomplete => :off,
-                         :size         => 3 }
-      %button._get_.present{ :type  => :submit }
-        = t 'buttons.repaginate'
-
     %nav.pagination
       %label
         = t 'formats.attribute_name:', :attribute => t('labels.pages')
@@ -46,3 +31,20 @@
         - unless page_ranges == page_ranges_after
           %span.page.active<>
             %strong= active_page
+
+  .actions
+    .repaginate
+      %label{ :for => 'repaginate' }
+        = t 'formats.attribute_name:', :attribute => t('labels.per_page')
+      %strong= per_page
+      \->
+      %input#repaginate{ :type         => :number,
+                         :name         => params_key_from_hash_key[:per_page],
+                         :value        => per_page,
+                         :align        => 'right',
+                         :min          => 1,
+                         :step         => 1,
+                         :autocomplete => :off,
+                         :size         => 3 }
+      %button._get_.present{ :type  => :submit }
+        = t 'buttons.repaginate'
