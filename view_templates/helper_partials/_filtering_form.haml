@@ -7,13 +7,15 @@
 -# Initialize hidden_parameters with nil if it does not exist.
 - hidden_parameters = hidden_parameters
 
-%form#filter_form{ :action => "#{ action_url }#filter" }
+%form{ :id     => 'filter_form',
+       :action => "#{ action_url }#filter" }
 
-%form#clear_filter_form{ :action => "#{ action_url }#filter" }
+%form{ :id     => 'clear_filter_form',
+       :action => "#{ action_url }#filter" }
 
 - if hidden_parameters
   -# It seems that browsers do not yet allow to specify multiple
-  -# space separated forms ids at once.
+  -# space separated form ids at once.
   - ['filter_form', 'clear_filter_form'].each do |form_id|
     = hidden_fields_from_nested_hash hidden_parameters, :form => form_id
 
