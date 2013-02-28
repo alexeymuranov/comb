@@ -8,6 +8,7 @@ nav.pagination {
   }
 
   button.page {
+    @include box-sizing(inherit);
     line-height: inherit;
     font-family: inherit;
     font-size: inherit;
