@@ -116,14 +116,14 @@ table {
 
 html {
   background: $html-bg-color;
-  font-size: 16px;
 }
 
 body {
+  line-height: 1.2;
   background: $body-bg-color;
   border: 2px solid $main-border-color;
   border-radius: 10px;
-  font-size: 90%;
+  font-size: 15px;
   font-family: trebuchet ms, "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
