@@ -14,34 +14,35 @@
   - if hidden_parameters
     = hidden_fields_from_nested_hash hidden_parameters
 
-  %label{ :for => 'repaginate' }
-    = t 'formats.attribute_name:', :attribute => t('labels.per_page')
-  %input#repaginate{ :type         => :number,
-                     :name         => params_key_from_hash_key[:per_page],
-                     :value        => per_page,
-                     :align        => 'right',
-                     :min          => 1,
-                     :step         => 1,
-                     :autocomplete => :off,
-                     :size         => 3 }
-  %button{ :type  => :submit }
-    = t 'buttons.repaginate'
+  .actions
+    .repaginate
+      %label{ :for => 'repaginate' }
+        = t 'formats.attribute_name:', :attribute => t('labels.per_page')
+      %input#repaginate{ :type         => :number,
+                         :name         => params_key_from_hash_key[:per_page],
+                         :value        => per_page,
+                         :align        => 'right',
+                         :min          => 1,
+                         :step         => 1,
+                         :autocomplete => :off,
+                         :size         => 3 }
+      %button._get_.present{ :type  => :submit }
+        = t 'buttons.repaginate'
 
-  %br
-  %label
-    = t 'formats.attribute_name:', :attribute => t('labels.pages')
-  %nav.pagination.inline{ :style => 'display:inline' }
-    - [page_ranges_before, page_ranges_after].each do |page_ranges|
-      - page_ranges.each do |range|
-        - range.each do |page|
-          %button.get.page{ :type  => :submit,
-                            :name  => params_key_from_hash_key[:page],
-                            :value => page }
-            = page
-        - unless range == page_ranges.last
-          %span
-            …
-      - unless page_ranges == page_ranges_after
-        %span
-          %strong
-            = active_page
+    %nav.pagination
+      %label
+        = t 'formats.attribute_name:', :attribute => t('labels.pages')
+
+      - [page_ranges_before, page_ranges_after].each do |page_ranges|
+        - page_ranges.each do |range|
+          - range.each do |page|
+            %button._get_.page{ :type  => :submit,
+                                :name  => params_key_from_hash_key[:page],
+                                :value => page }<>
+              = page
+          - unless range == page_ranges.last
+            %span.ellipsis<>
+              ⋯
+        - unless page_ranges == page_ranges_after
+          %span.page.active<>
+            %strong= active_page
