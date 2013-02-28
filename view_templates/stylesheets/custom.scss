@@ -67,6 +67,10 @@ a:hover {
   text-decoration: underline;
 }
 
+input[type="number"] {
+  text-align: right;
+}
+
 button,
 input[type="submit"] {
   @include button(Blue);
