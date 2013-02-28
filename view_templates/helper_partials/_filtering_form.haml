@@ -42,10 +42,10 @@
 
     %tr
       %td.actions{ :colspan => filtering_fields.size }<
-        %button{ :type  => :submit,
-                 :form  => 'filter_form' }
+        %button._get_{ :type  => :submit,
+                       :form  => 'filter_form' }
           = t 'buttons.filter'
 
-        %button{ :type  => :submit,
-                 :form  => 'clear_filter_form' }
+        %button._get_{ :type  => :submit,
+                       :form  => 'clear_filter_form' }
           = t 'buttons.clear'
