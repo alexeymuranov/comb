@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+table.filter {
+  border: 1px solid;
+
+  td.actions{
+    text-align: center;
+  }
+
+  &.filtered {
+    @include box-shadow(0 0 4px 0 Red);
+  }
+}
+
+.filtering_value {
+  color: Red;
+}
