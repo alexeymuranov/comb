@@ -89,7 +89,11 @@ input[type="submit"] {
 button._get_,
 a.button,
 a[role=button] {
-  @include button(pill, Blue);
+  @include button(pill, Silver);
+
+  &:hover {
+    @include button(pill, Green);
+  }
 }
 
 fieldset {
