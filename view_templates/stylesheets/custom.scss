@@ -69,7 +69,9 @@ a:hover {
 
 button,
 input[type="submit"] {
-  @include button;
+  @include button(Blue);
+
+  margin: 2px;
 
   &._post_:hover {
     @include button(Purple);
@@ -407,7 +409,7 @@ table.filter {
 ////
 // Presentational styles
 
-form.inline {
+.inline {
   display: inline-block;
 }
 
