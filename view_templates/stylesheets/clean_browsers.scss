@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+////
+// For Moszilla:
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner {
+  padding: 0;
+  border:  0;
+}
