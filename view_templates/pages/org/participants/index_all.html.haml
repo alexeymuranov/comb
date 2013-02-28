@@ -1,9 +1,10 @@
 - if @filtering_parameters
-  #{ @filtered_participants_count } / #{ Participant.count }
   = filtering_form Participant, @filtering_parameters, @filtering_values,
                    :params_key_prefix => 'filter',
                    :action_url        => fixed_url("/#{ @locale }/#{ @page }"),
                    :hidden_parameters => @view_parameters[:per_page] ? { 'view' => { :per_page => @view_parameters[:per_page] } } : {}
+
+  %strong #{ @filtered_participants_count } / #{ Participant.count }
 
 - if @view_parameters
   = paginating_form @view_parameters,
