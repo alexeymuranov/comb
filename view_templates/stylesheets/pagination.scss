@@ -1,19 +1,22 @@
 @charset "UTF-8";
 
 nav.pagination {
-  // button.page {
-  //   @include button(pill, Blue);
-  // }
-
   .page, .ellipsis {
     padding: 5px 8px;
     margin: 2px;
     font-weight: bold;
   }
 
+  button.page {
+    line-height: inherit;
+    font-family: inherit;
+    font-size: inherit;
+  }
+
   span.page {
-    border-width: 1px; // FIXME: this has no effect
-    border-radius: 8px;
+    display: inline-block;
+    border: 1px solid;
+    border-radius: 20px;
 
     &.active {
       background-color: White;
