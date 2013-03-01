@@ -18,19 +18,19 @@
       %label
         = t 'formats.attribute_name:', :attribute => t('labels.pages')
 
-      - [page_ranges_before, page_ranges_after].each do |page_ranges|
-        - page_ranges.each do |range|
+      - [page_ranges_before, page_ranges_after].each_with_index do |page_ranges, i|
+        - unless i.zero?
+          %span.page.active<>
+            %strong= active_page
+        - page_ranges.each_with_index do |range, i|
+          - unless i.zero?
+            %span.ellipsis<>
+              ⋯
           - range.each do |page|
             %button._get_.page{ :type  => :submit,
                                 :name  => params_key_from_hash_key[:page],
                                 :value => page }<>
               = page
-          - unless range == page_ranges.last
-            %span.ellipsis<>
-              ⋯
-        - unless page_ranges == page_ranges_after
-          %span.page.active<>
-            %strong= active_page
 
   .actions
     .repaginate
