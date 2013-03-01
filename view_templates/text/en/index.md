@@ -12,4 +12,4 @@ The main central theme will be **low-dimensional topology** (especially dimensio
 
 The conference will form part of the scientific activites of the thematic month [Topology, Symplectic and Contact Geometry in Toulouse](http://www.math.univ-toulouse.fr/top-geom-conf-2013/common/index.php?lang=en),
 organised by the [International Center of Mathematics and Computer Science in Toulouse (CIMI)](http://www.cimi.univ-toulouse.fr/). The meeting will
-also receive financial support from the [Toulouse Mathematics Institute](http://www.math.univ-toulouse.fr/), [Paul Sabatier University](http://www.univ-tlse3.fr/) and the [GDR "Tresses"](http://tresses.math.cnrs.fr/).
+also receive financial support from the [Toulouse Mathematics Institute](http://www.math.univ-toulouse.fr/), [Paul Sabatier University](http://www.univ-tlse3.fr/), the [GDR "Tresses"](http://tresses.math.cnrs.fr/) and the [GEAR Network](http://gear.math.illinois.edu).
