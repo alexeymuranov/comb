@@ -16,5 +16,5 @@ organisées par le [Centre International de Mathématiques et Informatique de
 Toulouse (CIMI)](http://www.cimi.univ-toulouse.fr/). Il sera soutenu par
 l'[Institut de Mathématiques de
 Toulouse](http://www.math.univ-toulouse.fr/), l'[Université Paul
-Sabatier](http://www.univ-tlse3.fr/) et le [GDR « Tresses
-»](http://tresses.math.cnrs.fr/).
+Sabatier](http://www.univ-tlse3.fr/), le [GDR « Tresses
+»](http://tresses.math.cnrs.fr/) et le réseau [GEAR](http://gear.math.illinois.edu).
