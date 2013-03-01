@@ -4,7 +4,7 @@ There will be fifteen one hour plenary talks, and thirty-four 30-minute talks. T
 * [D. Calegari](http://math.uchicago.edu/~dannyc/)
 * [V. Colin](http://www.math.sciences.univ-nantes.fr/~vcolin/)
 * [D. Cooper](http://www.math.ucsb.edu/~cooper/)
-* [S. Friedl](http://math.rice.edu/~friedl/)
+* [S. Friedl](http://www.mi.uni-koeln.de/~stfriedl/)
 * [D. Gabai](http://www.math.princeton.edu/directory/david-gabai)
 * F. Guéritaud
 * [S. Kerckhoff](http://en.wikipedia.org/wiki/Steven_Kerckhoff)
