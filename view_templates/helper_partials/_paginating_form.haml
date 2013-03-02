@@ -29,7 +29,7 @@
           - range.each do |page|
             %button._get_.page{ :type  => :submit,
                                 :name  => params_key_from_hash_key[:page],
-                                :value => page }<>
+                                :value => page }>
               = page
 
   .actions
@@ -37,7 +37,8 @@
       %label{ :for => 'repaginate' }
         = t 'formats.attribute_name:', :attribute => t('labels.per_page')
       %strong= per_page
-      \->
+      %button._get_.present{ :type  => :submit }
+        = t 'formats.attribute_name:', :attribute => t('buttons.repaginate')
       %input#repaginate{ :type         => :number,
                          :name         => params_key_from_hash_key[:per_page],
                          :value        => per_page,
@@ -45,5 +46,3 @@
                          :step         => 1,
                          :autocomplete => :off,
                          :size         => 3 }
-      %button._get_.present{ :type  => :submit }
-        = t 'buttons.repaginate'
