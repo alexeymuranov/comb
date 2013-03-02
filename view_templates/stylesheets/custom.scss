@@ -216,29 +216,29 @@ ul[role=tablist] {
 
 footer {
   text-align: center;
+}
 
-  a#link_to_common_home_page {
-    display: inline-block;
-    margin-top: 3px;
-    margin-bottom: 1px;
-    padding: 8px;
-    border-radius: 8px;
-    border: solid 1px $main-border-color;
+a#link_to_common_home_page {
+  display: inline-block;
+  margin-top: 3px;
+  margin-bottom: 1px;
+  padding: 8px;
+  border-radius: 8px;
+  border: solid 1px $main-border-color;
 
-    background-image: footer_home_button_background_url();
-    background-position: center;
-    opacity: 0.8;
+  background-image: footer_home_button_background_url();
+  background-position: center;
+  opacity: 0.8;
 
-    font-weight: bold;
-    text-shadow: Black 1.5px 1.5px 2px;
-    color: Ivory;
+  font-weight: bold;
+  text-shadow: Black 1.5px 1.5px 2px;
+  color: Ivory;
 
-    &:hover {
-      color: White;
-      background-color: Blue;
-      text-decoration: none;
-      opacity: 1;
-    }
+  &:hover {
+    color: White;
+    background-color: Blue;
+    text-decoration: none;
+    opacity: 1;
   }
 }
 
