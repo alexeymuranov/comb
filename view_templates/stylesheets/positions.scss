@@ -126,6 +126,18 @@ input[type="text"].long_string {
   padding: 10px;
 }
 
+header a#link_to_common_home_page {
+  position: absolute;
+  border-radius: 0;
+  border-top-left-radius: 8px;
+  border-right-width: 0;
+  border-bottom-width: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  right: 0;
+  bottom: 0;
+}
+
 #form_error_explanation {
   margin: 15px;
   padding: 0;
