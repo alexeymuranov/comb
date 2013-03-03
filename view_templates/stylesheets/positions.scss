@@ -198,3 +198,14 @@ button[type="submit"] {
   margin: 0;
   padding: 0;
 }
+
+////
+// Styles for debugging output
+
+pre.debug, code.debug {
+  margin: 0;
+}
+
+#debug {
+  position:absolute;
+}
