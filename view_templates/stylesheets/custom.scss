@@ -190,12 +190,14 @@ nav#lang_select {
     & > li {
       display: inline-block;
 
-      & > a {
+      a.locale, span.locale {
         display: inline-block;
         font-weight: bold;
         border-radius: 8px;
         border: none;
+      }
 
+      a.locale {
         &:hover {
           color: White;
           background-color: Blue;

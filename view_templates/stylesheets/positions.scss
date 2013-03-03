@@ -113,7 +113,7 @@ nav#lang_select {
 
     & > li {
 
-      & > a {
+      a.locale, span.locale {
         margin: 0;
         padding: 5px;
       }
