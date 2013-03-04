@@ -187,13 +187,17 @@ nav#lang_select {
   background-color: $body-bg-color;
 
   & > ul {
+    // border-radius is needed because in some browsers rounded
+    // corners of a non-statically positioned element do not clip well.
+    border-radius: 8px;
+    overflow: hidden;
+
     & > li {
       display: inline-block;
 
       a.locale, span.locale {
         display: inline-block;
         font-weight: bold;
-        border-radius: 8px;
         border: none;
       }
 
