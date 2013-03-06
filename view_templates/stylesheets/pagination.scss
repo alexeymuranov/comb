@@ -7,14 +7,36 @@ nav.pagination {
     font-weight: bold;
   }
 
+  .per_page {
+    padding: 2px 15px;
+    margin: 2px;
+  }
+
   button.page {
-    @include box-sizing(inherit);
+    @include box-sizing(content-box);
     line-height: inherit;
     font-family: inherit;
     font-size: inherit;
   }
 
   span.page {
+    display: inline-block;
+    border: 1px solid;
+    border-radius: 20px;
+
+    &.active {
+      background-color: White;
+    }
+  }
+
+  button.per_page {
+    @include box-sizing(content-box);
+    line-height: inherit;
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  span.per_page {
     display: inline-block;
     border: 1px solid;
     border-radius: 20px;

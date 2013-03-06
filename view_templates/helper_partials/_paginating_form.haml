@@ -14,35 +14,44 @@
   - if hidden_parameters
     = hidden_fields_from_nested_hash hidden_parameters
 
-    %nav.pagination
-      %label
-        = t 'formats.attribute_name:', :attribute => t('labels.pages')
+  %nav.pagination
+    %label
+      = t 'formats.attribute_name:', :attribute => t('labels.pages')
 
-      - [page_ranges_before, page_ranges_after].each_with_index do |page_ranges, i|
+    - [page_ranges_before, page_ranges_after].each_with_index do |page_ranges, i|
+      - unless i.zero?
+        %span.page.active<>
+          %strong= active_page
+      - page_ranges.each_with_index do |range, i|
         - unless i.zero?
-          %span.page.active<>
-            %strong= active_page
-        - page_ranges.each_with_index do |range, i|
-          - unless i.zero?
-            %span.ellipsis<>
-              ⋯
-          - range.each do |page|
-            %button._get_.page{ :type  => :submit,
-                                :name  => params_key_from_hash_key[:page],
-                                :value => page }>
-              = page
+          %span.ellipsis<>
+            ⋯
+        - range.each do |page|
+          %button._get_.page{ :type  => :submit,
+                              :name  => params_key_from_hash_key[:page],
+                              :value => page }>
+            = page
 
-  .actions
-    .repaginate
-      %label{ :for => 'repaginate' }
-        = t 'formats.attribute_name:', :attribute => t('labels.per_page')
-      %strong= per_page
-      %button._get_.present{ :type  => :submit }
-        = t 'formats.attribute_name:', :attribute => t('buttons.repaginate')
-      %input#repaginate{ :type         => :number,
-                         :name         => params_key_from_hash_key[:per_page],
-                         :value        => per_page,
-                         :min          => 1,
-                         :step         => 1,
-                         :autocomplete => :off,
-                         :size         => 3 }
+    .actions
+      .repaginate
+        %label{ :for => 'repaginate' }
+          = t 'formats.attribute_name:', :attribute => t('labels.per_page')
+        %strong= per_page
+        %button._get_.present{ :type  => :submit }
+          = t 'formats.attribute_name:', :attribute => t('buttons.repaginate')
+        %input.repaginate{ :type         => :number,
+                           :name         => params_key_from_hash_key[:per_page],
+                           :value        => per_page,
+                           :min          => 1,
+                           :step         => 1,
+                           :autocomplete => :off,
+                           :size         => 3 }
+        - [10, 20, 30, 40, 50, 100].each do |new_per_page|
+          - if new_per_page == per_page
+            %span.per_page.active<>
+              = new_per_page
+          - else
+            %button._get_.present.per_page{ :type  => :submit,
+                                            :name  => params_key_from_hash_key[:per_page],
+                                            :value => new_per_page }<>
+              = new_per_page
