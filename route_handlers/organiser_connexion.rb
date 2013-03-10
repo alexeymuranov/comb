@@ -264,6 +264,27 @@ class CTT2013 < Sinatra::Base
 
         @attributes = PARTICIPANT_ATTRIBUTES[:update]
 
+        if only = params[:only]
+          @attributes = []
+          if only_attributes = only[:attributes]
+            only_attributes = only_attributes.to_set
+            PARTICIPANT_ATTRIBUTES[:update].each do |attr|
+              @attributes << attr if only_attributes.include?(attr.to_s)
+            end
+          end
+
+          @associations = []
+          if only_associations = only[:associations]
+            only_associations = only_associations.to_set
+            if only_associations.include? 'participations'
+              @associations << :participations
+            end
+          end
+        else
+          @attributes   = PARTICIPANT_ATTRIBUTES[:update]
+          @associations = [:participations]
+        end
+
         @participant = Participant.find(id)
 
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
