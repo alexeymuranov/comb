@@ -16,10 +16,10 @@
         %dd.input
           %ol
             - @conferences.each do |conf|
-              %input{ :type  => :hidden,
-                      :name  => "participant[participations_attributes][#{ conf.id }][conference_id]",
-                      :value => conf.id }
               %li
+                %input{ :type  => :hidden,
+                        :name  => "participant[participations_attributes][#{ conf.id }][conference_id]",
+                        :value => conf.id }
                 -# Hidden field to pass a value when the checkbox is not checked
                 %input{ :name  => "participant[participations_attributes][#{ conf.id }][_destroy]",
                         :type  => :hidden,
