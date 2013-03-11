@@ -1,0 +1,32 @@
+%fieldset
+  %legend
+    = label_from_attribute_name(Participant, :participations)
+  %ol.fields
+    - @participant.participations.each do |participation|
+      - conf = participation.conference
+      %li
+        = conf.title_with_details(@locale)
+        %dl.fields
+          - [:arrival_date, :departure_date].each do |attr|
+            .field
+              %dt.label
+                %label{ :for => "participations_#{ participation.id }_#{ attr }" }<
+                  = label_from_attribute_name(Participation, attr)
+              %dd.input
+                %input{ :id    => "participations_#{ participation.id }_#{ attr }",
+                        :name  => "participations[#{ participation.id }][#{ attr }]",
+                        :type  => :date,
+                        :value => participation.public_send(attr) }
+          .field
+            %dt.label
+              %label{ :for => "participations_#{ participation.id }_committee_comments" }<
+                = label_from_attribute_name(Participation, :committee_comments)
+            %dd.input
+              %textarea{ :id   => "participations_#{ participation.id }_committee_comments",
+                         :name => "participations[#{ participation.id }][committee_comments]" }<
+                = preserve do
+                  &= participation.committee_comments
+
+        - if conf == Conference.co_m_b_conf
+          = haml :'pages/org/participants/_co_m_b_talk_proposal_fields',
+                 :locals => { :participation => participation }

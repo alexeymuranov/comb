@@ -9,35 +9,6 @@
     = haml :'shared_partials/_form_errors',
            :locals => { :object => @participant }
 
-  %fieldset
-    %legend
-      = label_from_attribute_name(Participant, :participations)
-    %ol.fields
-      - @participant.participations.each do |participation|
-        - conf = participation.conference
-        %li
-          = conf.title_with_details(@locale)
-          %dl.fields
-            - [:arrival_date, :departure_date].each do |attr|
-              .field
-                %dt.label
-                  %label{ :for => "participations_#{ participation.id }_#{ attr }" }<
-                    = label_from_attribute_name(Participation, attr)
-                %dd.input
-                  %input{ :id    => "participations_#{ participation.id }_#{ attr }",
-                          :name  => "participations[#{ participation.id }][#{ attr }]",
-                          :type  => :date,
-                          :value => participation.public_send(attr) }
-            .field
-              %dt.label
-                %label{ :for => "participations_#{ participation.id }_committee_comments" }<
-                  = label_from_attribute_name(Participation, :committee_comments)
-              %dd.input
-                %textarea{ :id   => "participations_#{ participation.id }_committee_comments",
-                           :name => "participations[#{ participation.id }][committee_comments]" }<
-                  = preserve do
-                    &= participation.committee_comments
-
   %dl.fields
     - [:first_name, :last_name,  :email, :affiliation].each do |attr|
       - required = Participant.attribute_constraints_on(attr)[:required]
@@ -112,35 +83,7 @@
             = preserve do
               &= @participant.public_send(attr)
 
-  - if participation = @participant.co_m_b_participation
-    %fieldset
-      %legend
-        = label_from_attribute_name(Participation, :talk_proposal)
-
-      %dl.fields
-        - if talk_proposal = participation.talk_proposal
-          - title = talk_proposal.title
-          - abstract = talk_proposal.abstract
-        - else
-          - abstract = title = nil
-        .field
-          %dt.label
-            %label{ :for => "participations_#{ participation.id }_talk_proposal_attributes_title" }<
-              = label_from_attribute_name(TalkProposal, :title)
-          %dd.input
-            %input.long_string{ :id    => "participations_#{ participation.id }_talk_proposal_attributes_title",
-                                :name  => "participations[#{ participation.id }][talk_proposal_attributes][title]",
-                                :type  => :text,
-                                :value => title }
-        .field
-          %dt.label
-            %label{ :for => "participations_#{ participation.id }_talk_proposal_attributes_abstract" }<
-              = label_from_attribute_name(TalkProposal, :abstract)
-          %dd.input
-            %textarea{ :id   => "participations_#{ participation.id }_talk_proposal_attributes_abstract",
-                       :name => "participations[#{ participation.id }][talk_proposal_attributes][abstract]" }<
-              = preserve do
-                &= abstract
+  = haml :'pages/org/participants/_participations_fields'
 
   .actions
     %button.update{ :type => :submit, :name => 'button', :value => 'update' }
