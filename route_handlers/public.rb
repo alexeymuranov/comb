@@ -311,9 +311,7 @@ class CTT2013 < Sinatra::Base
     def conferences_from_conference_ids_in_param_array(conference_ids)
       conference_ids = [] unless conference_ids.is_a?(Array)
       conference_ids.map!(&:to_i)
-      Conference.default_order.select { |conf|
-        conference_ids.include? conf.id
-      }
+      Conference.where(:id => conference_ids).default_order
     end
 
     if production?
