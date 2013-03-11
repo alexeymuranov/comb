@@ -9,20 +9,8 @@
   = haml :'shared_partials/_jquery_ui_for_forms'
 
   - if talk.errors.any?
-    #form_error_explanation
-      %h2
-        - if talk.errors.count == 1
-          = t('activerecord.errors.template.header.one',
-              :model => Talk.model_name.human)
-        - else
-          = t('activerecord.errors.template.header.other',
-              :count => talk.errors.count,
-              :model => Talk.model_name.human)
-
-      %ul
-        - talk.errors.full_messages.each do |msg|
-          %li
-            = msg
+    = haml :'shared_partials/_form_errors',
+           :locals => { :object => talk }
 
   %dl.fields
     - required = Talk.attribute_constraints_on(:title)[:required]

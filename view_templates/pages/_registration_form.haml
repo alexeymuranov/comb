@@ -5,19 +5,8 @@
   = haml :'shared_partials/_jquery_ui_for_forms'
 
   - if @participant.errors.any?
-    #form_error_explanation
-      %h2
-        - if @participant.errors.count == 1
-          = t 'activerecord.errors.template.header.one',
-              :model => Participant.model_name.human
-        - else
-          = t 'activerecord.errors.template.header.other',
-              :count => @participant.errors.count,
-              :model => Participant.model_name.human
-
-      %ul
-        - @participant.errors.full_messages.each do |msg|
-          %li= msg
+    = haml :'shared_partials/_form_errors',
+           :locals => { :object => @participant }
 
   %fieldset
     %dl.fields
