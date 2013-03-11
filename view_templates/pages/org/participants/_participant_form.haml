@@ -34,8 +34,7 @@
         %select{ :id    => 'participant_academic_position',
                  :name  => 'participant[academic_position]',
                  :value => @participant.academic_position }
-          %option
-          - t('pages.registration.form.select_options.academic_positions').each do |p|
+          - Participant.attribute_constraints_on(:academic_position)[:allowed_values].each do |p|
             - if p == @participant.academic_position
               %option{ :selected => true }
                 = p
