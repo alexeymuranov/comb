@@ -263,51 +263,6 @@ class CTT2013 < Sinatra::Base
       participant_attributes
     end
 
-    def participant_update_attributes_from_param_hash(hash)
-      participant_attributes = {}
-
-      PARTICIPANT_ATTRIBUTES[:update].each do |attr|
-        value = hash[attr.to_s]
-        participant_attributes[attr] = value unless value.nil? || value.empty?
-      end
-
-      participant_attributes
-    end
-
-    def participations_update_attributes_from_param_hash(hash)
-      participations_attributes = []
-      hash.each_pair do |id, attributes|
-        h = { :id => id.to_i }
-
-        [ :arrival_date, :departure_date,
-          :committee_comments,
-          :_destroy
-        ].each do |attr|
-          value = attributes[attr.to_s]
-          h[attr] = value unless value.nil? || value.empty?
-        end
-
-        original_talk_proposal_attributes =
-          attributes['talk_proposal_attributes']
-
-        if original_talk_proposal_attributes
-          talk_proposal_attributes = {}
-
-          [:title, :abstract].each do |attr|
-            value = original_talk_proposal_attributes[attr.to_s]
-            talk_proposal_attributes[attr] = value unless
-              value.nil? || value.empty?
-          end
-
-          h[:talk_proposal_attributes] = talk_proposal_attributes
-        end
-
-        participations_attributes << h
-      end
-
-      participations_attributes
-    end
-
     def conferences_from_conference_ids_in_param_array(conference_ids)
       conference_ids = [] unless conference_ids.is_a?(Array)
       conference_ids.map!(&:to_i)
