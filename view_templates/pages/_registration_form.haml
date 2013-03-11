@@ -2,7 +2,7 @@
        :action           => fixed_url("/#{ @locale }/#{ @page }"),
        :method           => :post }
   -# JavaScript and CSS for JQuery UI date picker (http://jqueryui.com/)
-  = haml :_jquery_ui_for_forms
+  = haml :'shared_partials/_jquery_ui_for_forms'
 
   - if @participant.errors.any?
     #form_error_explanation

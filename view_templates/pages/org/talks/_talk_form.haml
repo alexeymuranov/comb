@@ -6,7 +6,7 @@
        :method           => 'post' }
   %input{ :type => :hidden, :name => :_method, :value => :put }
 
-  = haml :_jquery_ui_for_forms
+  = haml :'shared_partials/_jquery_ui_for_forms'
 
   - if talk.errors.any?
     #form_error_explanation
