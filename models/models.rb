@@ -80,7 +80,7 @@ class Participation < AbstractSmarterModel
   has_many :talks, :class_name  => :Talk,
                    :foreign_key => :participation_id,
                    :dependent   => :nullify,
-                   :inverse_of  => :participation
+                   :inverse_of  => :conference_participation
 
   has_one :talk_proposal, :class_name  => :TalkProposal,
                           :foreign_key => :participation_id,
@@ -293,14 +293,14 @@ class Talk < AbstractSmarterModel
   self.inheritance_column = :type
 
   # Associations
-  belongs_to :conference_speaker, :class_name  => :Participation,
-                                  :foreign_key => :participation_id,
-                                  :inverse_of  => :talks
+  belongs_to :conference_participation, :class_name  => :Participation,
+                                        :foreign_key => :participation_id,
+                                        :inverse_of  => :talks
 
-  has_one :conference, :through => :conference_speaker,
+  has_one :conference, :through => :conference_participation,
                        :source  => :conference
 
-  has_one :speaker, :through => :conference_speaker,
+  has_one :speaker, :through => :conference_participation,
                     :source  => :participant
 
   has_one :original_proposal, :class_name  => :TalkProposal,
