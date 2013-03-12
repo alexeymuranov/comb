@@ -93,9 +93,7 @@ class Participation < AbstractSmarterModel
           :dependent   => :destroy,
           :inverse_of  => :participation
 
-  accepts_nested_attributes_for :talk_proposal, :reject_if     => :all_blank,
-                                                :allow_destroy => true,
-                                                :update_only   => true
+  accepts_nested_attributes_for :talk_proposal, :allow_destroy => true
 
   # Validations
 
@@ -175,9 +173,7 @@ class Participant < AbstractSmarterModel
            :through => :participations,
            :source  => :conference_dinner_reservation
 
-  accepts_nested_attributes_for :participations, :reject_if     => :all_blank,
-                                                 :allow_destroy => true,
-                                                 :update_only   => true
+  accepts_nested_attributes_for :participations, :allow_destroy => true
 
   # Validations
   validates :first_name, :last_name, :email, :presence => true

@@ -287,6 +287,19 @@ class CTT2013 < Sinatra::Base
 
         @participant = Participant.find(id)
 
+        if @associations.include?(:participations)
+          @participations = []
+          Conference.default_order.each do |conf|
+            participation =
+              @participant.participations.where(:conference_id => conf.id).
+                                          first
+            if participation.nil?
+              participation = conf.participations.build
+            end
+            @participations << participation
+          end
+        end
+
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
       end
     end
@@ -543,45 +556,59 @@ class CTT2013 < Sinatra::Base
       end
 
       participant_attributes[:participations_attributes] =
-        participations_attributes_from_params
+        participant_participations_attributes_from_params
 
       participant_attributes
     end
 
-    def participations_attributes_from_params
+    def participant_participations_attributes_from_params
       submitted_atributes = params[:participations]
 
-      participations_attributes = []
-      submitted_atributes.each_pair do |id, attributes|
-        h = { :id => id.to_i }
+      {}.tap do |participations_attributes|
+        submitted_atributes.each_pair do |key, attributes|
+          participations_attributes[key] = {}.tap do |h|
 
-        [ :arrival_date, :departure_date,
-          :committee_comments,
-          :_destroy
-        ].each do |attr|
-          value = attributes[attr.to_s]
-          h[attr] = value unless value.nil? || value.empty?
-        end
-
-        original_talk_proposal_attributes =
-          attributes['talk_proposal_attributes']
-
-        if original_talk_proposal_attributes
-          talk_proposal_attributes = {}
-
-          [:title, :abstract].each do |attr|
-            value = original_talk_proposal_attributes[attr.to_s]
-            talk_proposal_attributes[attr] = value unless
-              value.nil? || value.empty?
+            [ :id, :conference_id,
+              :arrival_date, :departure_date,
+              :committee_comments,
+              :_destroy
+            ].each do |attr|
+              value = attributes[attr.to_s]
+              h[attr] = value unless value.nil? || value.empty?
+            end
           end
-
-          h[:talk_proposal_attributes] = talk_proposal_attributes
         end
 
-        participations_attributes << h
-      end
+        talk_proposals_attributes =
+          participation_talk_proposals_attributes_from_params
 
-      participations_attributes
+        talk_proposals_attributes.each do |t_p_aa|
+          participations_attributes[t_p_aa.delete(:_participation_key)] \
+                                   [:talk_proposal_attributes] = t_p_aa
+        end
+      end.values
+    end
+
+    def participation_talk_proposals_attributes_from_params
+      submitted_atributes = params[:talk_proposals]
+
+      {}.tap do |talk_proposals_attributes|
+        submitted_atributes.each_pair do |key, attributes|
+          talk_proposals_attributes[key] = {}.tap do |h|
+            [ :id, :participation_id,
+              :title, :abstract,
+              :_destroy, :_participation_key
+            ].each do |attr|
+              value = attributes[attr.to_s]
+              h[attr] = value unless value.nil? || value.empty?
+            end
+
+            if [:title, :abstract].all? { |a| h[a].nil? }
+              h[:_destroy] = true
+            end
+          end
+        end
+      end.values
     end
 
 end
