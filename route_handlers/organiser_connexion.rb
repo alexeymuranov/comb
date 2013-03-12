@@ -400,10 +400,6 @@ class CTT2013 < Sinatra::Base
             participant_update_attributes_from_param_hash(
               params[:participant])
 
-          participant_attributes[:participations_attributes] =
-            participations_update_attributes_from_param_hash(
-              params[:participations])
-
           @participant.update_attributes(participant_attributes)
 
           redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"
@@ -545,6 +541,10 @@ class CTT2013 < Sinatra::Base
         value = hash[attr.to_s]
         participant_attributes[attr] = value unless value.nil? || value.empty?
       end
+
+      participant_attributes[:participations_attributes] =
+        participations_update_attributes_from_param_hash(
+          params[:participations])
 
       participant_attributes
     end
