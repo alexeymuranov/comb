@@ -400,17 +400,12 @@ class CTT2013 < Sinatra::Base
             participant_update_attributes_from_param_hash(
               params[:participant])
 
-          @participant.update_attributes(participant_attributes)
-          participations_attributes =
+          participant_attributes[:participations_attributes] =
             participations_update_attributes_from_param_hash(
               params[:participations])
-          participations_attributes.each do |attributes|
-            participation = Participation.find(attributes[:id])
-            if participation.participant_id = @participant.id
-              participation.update_attributes(attributes)
-              participation.save!
-            end
-          end
+
+          @participant.update_attributes(participant_attributes)
+
           redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"
         end
 
