@@ -32,7 +32,7 @@
             %th
               = label_from_attribute_name(Participation, attr)
         %tbody
-          - @participant.participations.each do |participation|
+          - @participant.participations.order_by_conference.each do |participation|
             %tr
               %th{:scope => :row}
                 = participation.conference.identifier

@@ -2,7 +2,7 @@
   %legend
     = label_from_attribute_name(Participant, :participations)
   %ol.fields
-    - @participant.participations.each do |participation|
+    - @participant.participations.order_by_conference.each do |participation|
       - conf = participation.conference
       %li
         = conf.title_with_details(@locale)

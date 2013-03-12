@@ -110,6 +110,8 @@ class Participation < AbstractSmarterModel
   scope :non_speakers, where(:speaker => false)
   scope :invited_speakers, where(:invited_speaker => true)
 
+  scope :order_by_conference, joins(:conference).merge(Conference.default_order).uniq
+
   # Overwrite default accessors
   def speaker=(bool)
     unless write_attribute(:speaker, bool)
