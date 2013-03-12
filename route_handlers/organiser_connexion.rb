@@ -397,8 +397,7 @@ class CTT2013 < Sinatra::Base
           require_main_organiser_login!
 
           participant_attributes =
-            participant_update_attributes_from_param_hash(
-              params[:participant])
+            participant_attributes_from_params_for(:update)
 
           @participant.update_attributes(participant_attributes)
 
@@ -534,24 +533,26 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    def participant_update_attributes_from_param_hash(hash)
+    def participant_attributes_from_params_for(action)
+      submitted_atributes = params[:participant]
       participant_attributes = {}
 
-      PARTICIPANT_ATTRIBUTES[:update].each do |attr|
-        value = hash[attr.to_s]
+      PARTICIPANT_ATTRIBUTES[action].each do |attr|
+        value = submitted_atributes[attr.to_s]
         participant_attributes[attr] = value unless value.nil? || value.empty?
       end
 
       participant_attributes[:participations_attributes] =
-        participations_update_attributes_from_param_hash(
-          params[:participations])
+        participations_attributes_from_params
 
       participant_attributes
     end
 
-    def participations_update_attributes_from_param_hash(hash)
+    def participations_attributes_from_params
+      submitted_atributes = params[:participations]
+
       participations_attributes = []
-      hash.each_pair do |id, attributes|
+      submitted_atributes.each_pair do |id, attributes|
         h = { :id => id.to_i }
 
         [ :arrival_date, :departure_date,
