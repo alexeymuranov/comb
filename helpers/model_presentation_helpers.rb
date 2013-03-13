@@ -82,19 +82,20 @@ class CTT2013
           value_html = value.nil? ? nil : text_from_boolean(value)
         when :date, :datetime
           html_classes << column_type
-          value_html = l value, :format => :custom
+          value_html = value.nil? ? nil : l(value, :format => :custom)
         when :time
           html_classes << :time
-          value_html = l value, :format => :time_of_the_day
+          value_html =
+            value.nil? ? nil : l(value, :format => :time_of_the_day)
         when :integer
           html_classes << :number
-          value_html = value
+          value_html = value.nil? ? nil : value
         when :text
           html_classes << :text
-          value_html = value
+          value_html = value.nil? ? nil : value
         else
           html_classes << column_type
-          value_html = value
+          value_html = value.nil? ? nil : value
         end
 
         readonly = object_class.readonly_attributes.include?(attribute.to_s)
