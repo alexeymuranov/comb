@@ -163,7 +163,7 @@ class CTT2013 < Sinatra::Base
 
         # Pagination
         @view_parameters = params[:view] || {}
-        per_page = (@view_parameters[:per_page] || 20).to_i
+        per_page = (@view_parameters[:per_page] || 10).to_i
         active_page = (@view_parameters[:page] || 1).to_i
         @view_parameters = {
           :page_count => ((@filtered_participants_count - 1) / per_page) + 1,
