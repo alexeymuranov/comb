@@ -57,6 +57,7 @@ en:
         # Associations:
         conference            : *conference_model
         participant           : *participant_model
+        talk_proposal         : *talk_proposal_model
         # Attributes:
         approved              : "approved by the committee"
         plenary_speaker       : "plenary speaker"
