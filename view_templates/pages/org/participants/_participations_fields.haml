@@ -3,43 +3,48 @@
     = label_from_attribute_name(Participant, :participations)
   %ol.fields
     - @participations.each do |participation|
+
       - conf = participation.conference
+      - conf_id = conf.id
+      - element_id_prefix = "participations_#{ conf_id }_"
+      - input_name_prefix = "participations[#{ conf_id }]"
+
       %li
         %input{ :type  => :hidden,
-                :name  => "participations[#{ conf.id }][conference_id]",
-                :value => conf.id }
+                :name  => input_name_prefix + "[conference_id]",
+                :value => conf_id }
         %input{ :type  => :hidden,
-                :name  => "participations[#{ conf.id }][id]",
+                :name  => input_name_prefix + "[id]",
                 :value => participation.id }
         -# Hidden field to pass a value when the checkbox is not checked
         %input{ :type  => :hidden,
-                :name  => "participations[#{ conf.id }][_destroy]",
+                :name  => input_name_prefix + "[_destroy]",
                 :value => 1 }
-        %input{ :id      => "participations_#{ conf.id }__destroy",
+        %input{ :id      => element_id_prefix + "_destroy",
                 :type    => :checkbox,
-                :name    => "participations[#{ conf.id }][_destroy]",
+                :name    => input_name_prefix + "[_destroy]",
                 :value   => 0,
                 :checked => @participant.participations.include?(participation) }
-        %label{ :for => "participations_#{ conf.id }__destroy" }<
+        %label{ :for => element_id_prefix + "_destroy" }<
           = conf.title_with_details(@locale)
         %dl.fields
           - [:arrival_date, :departure_date].each do |attr|
             .field
               %dt.label
-                %label{ :for => "participations_#{ conf.id }_#{ attr }" }<
+                %label{ :for => element_id_prefix + "#{ attr }" }<
                   = label_from_attribute_name(Participation, attr)
               %dd.input
-                %input{ :id    => "participations_#{ conf.id }_#{ attr }",
-                        :name  => "participations[#{ conf.id }][#{ attr }]",
+                %input{ :id    => element_id_prefix + "#{ attr }",
+                        :name  => input_name_prefix + "[#{ attr }]",
                         :type  => :date,
                         :value => participation.public_send(attr) }
           .field
             %dt.label
-              %label{ :for => "participations_#{ conf.id }_committee_comments" }<
+              %label{ :for => element_id_prefix + "committee_comments" }<
                 = label_from_attribute_name(Participation, :committee_comments)
             %dd.input
-              %textarea{ :id   => "participations_#{ conf.id }_committee_comments",
-                         :name => "participations[#{ conf.id }][committee_comments]" }<
+              %textarea{ :id   => element_id_prefix + "committee_comments",
+                         :name => input_name_prefix + "[committee_comments]" }<
                 = preserve do
                   &= participation.committee_comments
 
