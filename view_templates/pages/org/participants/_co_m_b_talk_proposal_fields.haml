@@ -1,36 +1,39 @@
 -# Locals
 -#   participtaion
 
-- co_m_b_conf_id = Conference.co_m_b_conf.id
+- conf_id = participation.conference.id
+- element_id_prefix = "talk_proposals_#{ conf_id }_"
+- input_name_prefix = "talk_proposals[#{ conf_id }]"
+
+- talk_proposal = participation.talk_proposal || participation.build_talk_proposal
 
 %fieldset
   %legend
     = label_from_attribute_name(Participation, :talk_proposal)
 
     %input{ :type  => :hidden,
-            :name  => "talk_proposals[#{ co_m_b_conf_id }][_participation_key]",
-            :value => co_m_b_conf_id }
+            :name  => input_name_prefix + "[_participation_key]",
+            :value => conf_id }
+
+    %input{ :type  => :hidden,
+            :name  => input_name_prefix + "[id]",
+            :value => talk_proposal.id }
   %dl.fields
-    - if talk_proposal = participation.talk_proposal
-      - title = talk_proposal.title
-      - abstract = talk_proposal.abstract
-    - else
-      - abstract = title = nil
     .field
       %dt.label
-        %label{ :for => "talk_proposals_#{ co_m_b_conf_id }_title" }<
+        %label{ :for => element_id_prefix + "title" }<
           = label_from_attribute_name(TalkProposal, :title)
       %dd.input
-        %input.long_string{ :id    => "talk_proposals_#{ co_m_b_conf_id }_title",
-                            :name  => "talk_proposals[#{ co_m_b_conf_id }][title]",
+        %input.long_string{ :id    => element_id_prefix + "title",
+                            :name  => input_name_prefix + "[title]",
                             :type  => :text,
-                            :value => title }
+                            :value => talk_proposal.title }
     .field
       %dt.label
-        %label{ :for => "talk_proposals_#{ co_m_b_conf_id }_abstract" }<
+        %label{ :for => element_id_prefix + "abstract" }<
           = label_from_attribute_name(TalkProposal, :abstract)
       %dd.input
-        %textarea{ :id   => "talk_proposals_#{ co_m_b_conf_id }_abstract",
-                   :name => "talk_proposals[#{ co_m_b_conf_id }][abstract]" }<
+        %textarea{ :id   => element_id_prefix + "abstract",
+                   :name => input_name_prefix + "[abstract]" }<
           = preserve do
-            &= abstract
+            &= talk_proposal.abstract

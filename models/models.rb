@@ -93,7 +93,8 @@ class Participation < AbstractSmarterModel
           :dependent   => :destroy,
           :inverse_of  => :participation
 
-  accepts_nested_attributes_for :talk_proposal, :allow_destroy => true
+  accepts_nested_attributes_for :talk_proposal, :allow_destroy => true,
+                                                :reject_if     => :all_blank
 
   # Validations
 
