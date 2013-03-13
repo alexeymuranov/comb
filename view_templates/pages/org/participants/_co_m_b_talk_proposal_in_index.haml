@@ -1,0 +1,20 @@
+-# Parameters:
+-#   participant
+-#   talk_proposal
+
+.association
+  %h4
+    = label_from_attribute_name(Participation, :talk_proposal)
+    - if talk_proposal.accepted?
+      ✓ #{ TalkProposal.human_attribute_name(:accepted) }
+    - elsif participant.approved? && main_organiser_logged_in?
+      %form.inline{ :action => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talk_proposals/#{ talk_proposal.id }"),
+                    :method => 'post' }
+        %input{ :type => :hidden, :name => :_method, :value => :put }
+        %button.off.toggle_on.accept{ :type  => 'submit',
+                                      :name  => 'button',
+                                      :value => 'accept' }
+          = t 'buttons.accept'
+  %dl
+    - [:title, :abstract].each do |attr|
+      = attribute_in_description(talk_proposal, attr)
