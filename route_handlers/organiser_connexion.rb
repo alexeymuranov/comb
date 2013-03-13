@@ -603,7 +603,7 @@ class CTT2013 < Sinatra::Base
               h[attr] = value unless value.nil? || value.empty?
             end
 
-            if [:title, :abstract].all? { |a| h[a].nil? }
+            unless [:title, :abstract].any? { |a| h.key?(a) }
               h[:_destroy] = true
             end
           end
