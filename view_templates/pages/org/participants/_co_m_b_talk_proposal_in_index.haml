@@ -14,7 +14,7 @@
         %button.off.toggle_on.accept{ :type  => 'submit',
                                       :name  => 'button',
                                       :value => 'accept' }
-          = t 'buttons.accept'
+          = t 'actions.accept'
   %dl
     - [:title, :abstract].each do |attr|
       = attribute_in_description(talk_proposal, attr)

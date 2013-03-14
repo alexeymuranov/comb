@@ -38,7 +38,7 @@
           = t 'formats.attribute_name:', :attribute => t('labels.per_page')
         %strong= per_page
         %button._get_.present{ :type  => :submit }
-          = t 'formats.attribute_name:', :attribute => t('buttons.repaginate')
+          = t 'formats.attribute_name:', :attribute => t('actions.repaginate')
         %input.repaginate{ :type         => :number,
                            :name         => params_key_from_hash_key[:per_page],
                            :value        => per_page,

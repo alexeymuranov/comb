@@ -1,7 +1,7 @@
 %nav.main_menu.organiser_interface
   %a.button#log_out_button{ :href => fixed_url("/#{ @locale }/logout"),
                             :role => 'button' }
-    = t 'buttons.log_out'
+    = t 'actions.log_out'
   %ul.menu#main_menu_for_organisers{:role => 'tablist'}
     - ORGANISER_CONNEXION_PAGES.each do |p|
       - page_title = t(:title, :scope => page_i18n_scope(p))

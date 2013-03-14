@@ -11,12 +11,12 @@
     %button.on.toggle_off.deauthorize{ :type  => :submit,
                                        :name  => 'button',
                                        :value => 'disapprove' }
-      = t 'buttons.do_not_accept'
+      = t 'actions.do_not_accept'
   - else
     %button.off.toggle_on.authorize{ :type  => :submit,
                                      :name  => 'button',
                                      :value => 'approve' }
-      = t 'buttons.accept'
+      = t 'actions.accept'
 %dl
   .item
     %dt.associations
@@ -57,7 +57,7 @@
             %button.off.toggle_on.accept{ :type  => 'submit',
                                           :name  => 'button',
                                           :value => 'accept' }
-              = t 'buttons.accept'
+              = t 'actions.accept'
       %dd.association
         %dl
           - [:title, :abstract].each do |attr|
@@ -65,7 +65,7 @@
 - if main_organiser_logged_in?
   %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }/edit"),
                   :role => 'button' }
-    = t 'db_actions.update'
+    = t 'actions.update'
   %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }/delete"),
                     :role => 'button' }
-    = t 'db_actions.delete'
+    = t 'actions.delete'

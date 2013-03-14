@@ -1,0 +1,38 @@
+en:
+
+  "yes"   : "yes"
+  "no"    : "no"
+  all     : "all"
+  other   : "other"
+  password: "password"
+
+  formats:
+    "attribute_name:": "%{attribute}:"
+    "attribute_name?": "%{attribute}?"
+
+  actions:
+    accept       : "Accept"
+    add          : "Add"
+    cancel       : "Cancel"
+    clear        : "Clear"
+    continue     : "Continue"
+    create       : "Create"
+    delete       : "Delete"
+    do_not_accept: "Do not accept"
+    filter       : "Filter"
+    ignore       : "Ignore"
+    log_in       : "Log in"
+    log_out      : "Log out"
+    paginate     : "Paginate"
+    repaginate   : "Repaginate"
+    save         : "Save"
+    show         : "Show"
+    submit       : "Submit"
+    update       : "Update"
+
+  action_confirmation:
+    questions:
+      "are_you_sure?": "Are you sure?"
+    answers:
+      no-cancel    : "No, cancel"
+      yes-delete   : "Yes, delete"

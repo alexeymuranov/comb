@@ -9,7 +9,7 @@
 %form.inline{ :action => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }"), :method => :post }
   %input{ :type => :hidden, :name => :_method, :value => :delete }
   %button.destroy{ :type => :submit, :name => 'button', :value => 'destroy' }
-    = t 'buttons.yes-delete'
+    = t 'action_confirmation.answers.yes-delete'
 %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }"),
                   :role => 'button'}
-  = t 'buttons.no-cancel'
+  = t 'action_confirmation.answers.no-cancel'

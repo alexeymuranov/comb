@@ -12,36 +12,11 @@ fr:
     "attribute_name:": "%{attribute} :"
     "attribute_name?": "%{attribute} ?"
 
-  buttons:
-    submit       : "Envoyer"
-    cancel       : "Annuler"
-    no-cancel    : "Non, annuler"
-    show         : "Afficher"
-    save         : "Enregistrer"
-    add          : "Ajouter"
-    delete       : "Supprimer"
-    yes-delete   : "Oui, supprimer"
-    filter       : "Filtrer"
-    clear        : "Effacer"
-    paginate     : "Paginer"
-    repaginate   : "Repaginer"
-    continue     : "Continuer"
-    accept       : "Accepter"
-    do_not_accept: "Ne pas accepter"
-    log_in       : "Se connecter"
-    log_out      : "Se déconnecter"
-
   labels:
     per_page: "Par page"
-    pages:    "Pages"
-
-  db_actions:
-    create: "Enregistrer"
-    update: "Mettre à jour"
-    delete: "Supprimer"
+    pages   : "Pages"
 
   questions:
-    "are_you_sure?": "Vous êtes sûr ?"
     "show_details?": "Détailler ?"
 
   flash:

@@ -1,0 +1,38 @@
+fr:
+
+  "yes"   : "oui"
+  "no"    : "non"
+  all     : "tous"
+  other   : "autre"
+  password: "mot de passe"
+
+  formats:
+    "attribute_name:": "%{attribute} :"
+    "attribute_name?": "%{attribute} ?"
+
+  actions:
+    accept       : "Accepter"
+    add          : "Ajouter"
+    cancel       : "Annuler"
+    clear        : "Effacer"
+    continue     : "Continuer"
+    create       : "Créer"
+    delete       : "Supprimer"
+    do_not_accept: "Ne pas accepter"
+    filter       : "Filtrer"
+    ignore       : "Ignorer"
+    log_in       : "Se connecter"
+    log_out      : "Se déconnecter"
+    paginate     : "Paginer"
+    repaginate   : "Repaginer"
+    save         : "Enregistrer"
+    show         : "Afficher"
+    submit       : "Envoyer"
+    update       : "Mettre à jour"
+
+  action_confirmation:
+    questions:
+      "are_you_sure?": "Vous êtes sûr ?"
+    answers:
+      no-cancel : "Non, annuler"
+      yes-delete: "Oui, supprimer"

@@ -33,7 +33,7 @@
   - if main_organiser_logged_in?
     %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }/edit"),
                     :role => 'button' }
-      = t 'db_actions.update'
+      = t 'actions.update'
     %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }/delete"),
                       :role => 'button' }
-      = t 'db_actions.delete'
+      = t 'actions.delete'
