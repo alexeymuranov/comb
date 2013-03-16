@@ -1,5 +1,5 @@
-#banner{:role => 'banner'}
+#banner{ :role => 'banner' }
   #banner_shade
   = haml :'layout_partials/_title'
-  %a#link_to_common_home_page{:href => fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ @locale }")}
+  %a#link_to_common_home_page{ :href => fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ @locale }") }
     = t 'names.t_s_c_spring_conf'

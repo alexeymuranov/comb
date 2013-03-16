@@ -4,4 +4,4 @@
       http://stackoverflow.com/questions/10341550/incompatible-character-encoding-in-simple-sinatra-app
     and
       https://github.com/rtomayko/tilt/issues/75
-  = markdown(:"/text/#{ @locale }/scientific_committee").force_encoding('utf-8')
+  = markdown(:"text/#{ @locale }/scientific_committee").force_encoding('utf-8')
