@@ -149,17 +149,7 @@ class CTT2013 < Sinatra::Base
 
         @filtered_participants = @filtered_participants.default_order
 
-        # This is a workaround for a bug causing the count to return the
-        # number of entires in the join table, that is the total number of
-        # pariticpations of each participant in each conference, see
-        # http://github.com/rails/rails/issues/9458
-        # Hopefully this will not be necessary with the next version of
-        # 'activerecord'.
-        #
-        # @filtered_participants_count = @filtered_participants.count
-        @filtered_participants_count =
-          @filtered_participants.
-            select("'#{ Participant.table_name }'.'id'").all.count
+        @filtered_participants_count = @filtered_participants.count
 
         # Pagination
         @view_parameters = params[:view] || {}
