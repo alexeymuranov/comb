@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 # Rake (like "make"), to use Rakefile (Makefile for Ruby):
 gem 'rake'
@@ -16,7 +16,7 @@ group :development, :test do
 end
 
 # Database interaction:
-gem 'activerecord'
+gem 'activerecord', '~> 3.2.13'
 gem 'sqlite3'
 
 # HTML/CSS from templates:
@@ -41,12 +41,7 @@ gem 'sinatra-flash'
 
 group :development do
   # Ruby Debugger:
-  case RUBY_VERSION[0..2]
-  when '1.8'
-    gem 'ruby-debug'
-  when '1.9'
-    gem 'debugger'
-  end
+  gem 'debugger'
 
   # Better error pages in development:
   gem 'better_errors'
