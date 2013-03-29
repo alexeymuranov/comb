@@ -285,20 +285,21 @@ class CTT2013 < Sinatra::Base
     end
 
     def organizer_notification_email_addresses(participations)
+      conference_ids       = participations.map(&:conference_id)
       co_m_b_conference_id = Conference.co_m_b_conf.id
       other_conference_ids =
         Set[:intro_conf, :g_e_s_t_a_conf, :llagone_conf].map { |idenitfier|
           Conference.public_send(idenitfier).id
         }
-      addresses = []
-      conference_ids = participations.map(&:conference_id)
-      if conference_ids.any? { |id| other_conference_ids.include?(id) }
-        addresses.concat(OTHER_ORGANISERS_EMAILS)
-      end
-      if conference_ids.include?(co_m_b_conference_id)
-        addresses.concat(COMB_ORGANISERS_EMAILS)
-      end
-      addresses.join(', ')
+
+      [].tap do |addresses|
+        if conference_ids.any? { |id| other_conference_ids.include?(id) }
+          addresses.concat(OTHER_ORGANISERS_EMAILS)
+        end
+        if conference_ids.include?(co_m_b_conference_id)
+          addresses.concat(COMB_ORGANISERS_EMAILS)
+        end
+      end.join(', ')
     end
 
     def notifiy_organizers_by_email_about_registration_of(participant)
