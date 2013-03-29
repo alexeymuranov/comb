@@ -274,14 +274,14 @@ class CTT2013 < Sinatra::Base
         { :from => 'no-reply.top-geom-conf-2013@math.univ-toulouse.fr',
           :via  => :smtp }
       COMB_ORGANISERS_EMAIL = 'comb@math.univ-toulouse.fr'
-      OTHER_ORGNISERS_EMAIL =
+      OTHER_ORGANISERS_EMAIL =
         'barraud@math.univ-toulouse.fr, niederkr@math.univ-toulouse.fr'
     else
       EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
         { :from => 'no-reply@localhost',
           :via  => :sendmail }
       COMB_ORGANISERS_EMAIL = "#{ ENV['USER'] }@localhost"
-      OTHER_ORGNISERS_EMAIL = COMB_ORGANISERS_EMAIL
+      OTHER_ORGANISERS_EMAIL = COMB_ORGANISERS_EMAIL
     end
 
     def organizer_notification_email_addresses(participations)
@@ -293,7 +293,7 @@ class CTT2013 < Sinatra::Base
       addresses = []
       conference_ids = participations.map(&:conference_id)
       if conference_ids.any? { |id| other_conference_ids.include?(id) }
-        addresses << OTHER_ORGNISERS_EMAIL
+        addresses << OTHER_ORGANISERS_EMAIL
       end
       if conference_ids.include?(co_m_b_conference_id)
         addresses << COMB_ORGANISERS_EMAIL
