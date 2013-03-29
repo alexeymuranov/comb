@@ -43,7 +43,7 @@ class SimpleRelationFilter
             model_scope.where("#{ column_sql } IN (?)", filtering_value)
         else
           model_scope =
-            model_scope.where("UPPER(#{ column_sql }) LIKE ?", filtering_value)
+            model_scope.where("#{ column_sql } LIKE ?", filtering_value)
         end
 
       when :boolean
@@ -227,8 +227,7 @@ class FriendlyRelationFilter < SimpleRelationFilter
           filtering_values[attr] = value.map!(&:to_s).to_set
         else
           unless value.blank?
-            filtering_values[attr] =
-              value.mb_chars.upcase.to_s.sub(/\%*\z/, '%')
+            filtering_values[attr] = value.sub(/\%*\z/, '%')
           end
         end
 
