@@ -15,4 +15,4 @@ organised by the [International Center of Mathematics and Computer Science in To
 also receive financial support from the [Toulouse Mathematics Institute](http://www.math.univ-toulouse.fr/), [Paul Sabatier University](http://www.univ-tlse3.fr/), the [GDR "Tresses"](http://tresses.math.cnrs.fr/) and the [GEAR Network](http://gear.math.illinois.edu).
 
 **The deadline for [applications for financial support](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/funding) is the <span style='color:#FF0000'>24th of March 2013</span>.**<br>
-**The deadline for [registration](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/registration) is the <span style='color:#FF0000'>30th of April 2013</span>.**
+**The deadline for [registration](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/registration) is the <span style='color:#FF0000'>10th of April 2013</span>.**
