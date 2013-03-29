@@ -273,15 +273,15 @@ class CTT2013 < Sinatra::Base
       EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
         { :from => 'no-reply.top-geom-conf-2013@math.univ-toulouse.fr',
           :via  => :smtp }
-      COMB_ORGANISERS_EMAIL = 'comb@math.univ-toulouse.fr'
-      OTHER_ORGANISERS_EMAIL =
-        'barraud@math.univ-toulouse.fr, niederkr@math.univ-toulouse.fr'
+      COMB_ORGANISERS_EMAILS = ['comb@math.univ-toulouse.fr']
+      OTHER_ORGANISERS_EMAILS = [ 'barraud@math.univ-toulouse.fr',
+                                  'niederkr@math.univ-toulouse.fr' ]
     else
       EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
         { :from => 'no-reply@localhost',
           :via  => :sendmail }
-      COMB_ORGANISERS_EMAIL = "#{ ENV['USER'] }@localhost"
-      OTHER_ORGANISERS_EMAIL = COMB_ORGANISERS_EMAIL
+      COMB_ORGANISERS_EMAILS = ["#{ ENV['USER'] }@localhost"]
+      OTHER_ORGANISERS_EMAILS = COMB_ORGANISERS_EMAILS
     end
 
     def organizer_notification_email_addresses(participations)
@@ -293,10 +293,10 @@ class CTT2013 < Sinatra::Base
       addresses = []
       conference_ids = participations.map(&:conference_id)
       if conference_ids.any? { |id| other_conference_ids.include?(id) }
-        addresses << OTHER_ORGANISERS_EMAIL
+        addresses.concat(OTHER_ORGANISERS_EMAILS)
       end
       if conference_ids.include?(co_m_b_conference_id)
-        addresses << COMB_ORGANISERS_EMAIL
+        addresses.concat(COMB_ORGANISERS_EMAILS)
       end
       addresses.join(', ')
     end
