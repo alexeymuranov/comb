@@ -264,7 +264,11 @@ class Participant < AbstractSmarterModel
 
   # CoMB related
   def co_m_b_participation
-    participations.where(:conference_id => Conference.co_m_b_conf.id).first
+    @co_m_b_conf_id ||= Conference.co_m_b_conf.id
+    # NOTE: if participations have not been saved, `where` will not find
+    # anything.
+    participations.where(:conference_id => @co_m_b_conf_id).first ||
+      participations.find { |p| p.conference_id ==  @co_m_b_conf_id }
   end
 
   def co_m_b_committee_comments
