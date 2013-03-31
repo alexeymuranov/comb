@@ -11,13 +11,14 @@
   %legend
     = label_from_attribute_name(Participation, :talk_proposal)
 
-    %input{ :type  => :hidden,
-            :name  => input_name_prefix + "[_participation_key]",
-            :value => conf_id }
+  %input{ :type  => :hidden,
+          :name  => input_name_prefix + "[_participation_key]",
+          :value => conf_id }
 
-    %input{ :type  => :hidden,
-            :name  => input_name_prefix + "[id]",
-            :value => talk_proposal.id }
+  %input{ :type  => :hidden,
+          :name  => input_name_prefix + "[id]",
+          :value => talk_proposal.id }
+
   %dl.fields
     .field
       %dt.label
