@@ -108,7 +108,7 @@
           %span
             = t 'yes'
 
-    - [:funding_requests, :special_requests].each do |attr|
+    - [:special_requests].each do |attr|
       .field
         %dt.label
           %label{ :for => "participant_#{ attr }" }<

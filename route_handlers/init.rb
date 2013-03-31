@@ -13,16 +13,16 @@ class CTT2013 < Sinatra::Base
       :country, :city, :post_code, :street_address, :phone,
       :i_m_t_member, :g_d_r_member,
       :invitation_needed, :visa_needed,
-      # :arrival_date, :departure_date,
-      :funding_requests, :special_requests ]
+      # :funding_requests,
+      :special_requests ]
   PARTICIPANT_ATTRIBUTES[:show] = PARTICIPANT_ATTRIBUTES[:index] =
     [ :first_name, :last_name, :email, :affiliation,
       :academic_position,
       :country, :city, :post_code, :street_address, :phone,
       :i_m_t_member, :g_d_r_member,
       :invitation_needed, :visa_needed,
-      # :arrival_date, :departure_date,
-      :funding_requests, :special_requests,
+      :funding_requests,
+      :special_requests,
       :approved ]
   PARTICIPANT_ATTRIBUTES[:update] = PARTICIPANT_ATTRIBUTES[:show]
 
