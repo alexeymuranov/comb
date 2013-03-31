@@ -97,6 +97,7 @@ class Participation < AbstractSmarterModel
                                                 :reject_if     => :all_blank
 
   # Validations
+  validates :conference_id, :uniqueness => { :scope => :participant_id }
 
   # Readonly attributes
   attr_readonly :participant_id, :conference_id
@@ -141,7 +142,6 @@ class Participation < AbstractSmarterModel
   # The following method is defined in the custom `AttributeTypes` module
   add_attribute_types :talk_proposed  => :boolean,
                       :talk_proposed? => :boolean
-
 end
 
 class Participant < AbstractSmarterModel
