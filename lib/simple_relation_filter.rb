@@ -29,11 +29,9 @@ class SimpleRelationFilter
 
       next if filtering_value.nil?
 
-      column_name = attr.to_s
+      filtering_column_type = @model.attribute_type(attr)
 
-      filtering_column_type = @model.columns_hash[column_name].type
-
-      column_sql = %'"#{ table_name }"."#{ column_name }"'
+      column_sql = %'"#{ table_name }"."#{ attr }"'
 
       case filtering_column_type
       when :string
@@ -211,16 +209,11 @@ class FriendlyRelationFilter < SimpleRelationFilter
 
     self.filtering_values = {}
 
-    columns_hash = model.columns_hash
-
     filtering_attributes.each do |attr|
 
-      next unless (value = filtering_text_hash[attr.to_s]) &&
-                  (column = columns_hash[attr.to_s])
+      next unless value = filtering_text_hash[attr.to_s]
 
-      attr = attr.to_sym
-
-      case column.type
+      case model.attribute_type(attr)
       when :string
         case value
         when Set, Array
