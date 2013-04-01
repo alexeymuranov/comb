@@ -48,6 +48,11 @@ class CTT2013 < Sinatra::Base
 
   private
 
+    def conference_ids_from_params
+      submitted_ids = params[:conference_ids]
+      submitted_ids.is_a?(Array) ? submitted_ids.map(&:to_i) : []
+    end
+
     def participant_attributes_from_params_for(action)
       submitted_atributes = params[:participant]
       participant_attributes = {}

@@ -61,8 +61,7 @@ class CTT2013 < Sinatra::Base
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
     get "#{ REQUEST_BASE_URL }#{ l }registration" do
       set_locale(locale)
-      @conferences = conferences_from_conference_ids_in_param_array(
-                       params[:conference_ids])
+      @conferences = Conference.find(conference_ids_from_params)
       @participant = Participant.new(:conferences => @conferences)
       render_registration_page
     end
@@ -261,12 +260,6 @@ class CTT2013 < Sinatra::Base
         participations_attributes
 
       participant_attributes
-    end
-
-    def conferences_from_conference_ids_in_param_array(conference_ids)
-      conference_ids = [] unless conference_ids.is_a?(Array)
-      conference_ids.map!(&:to_i)
-      Conference.where(:id => conference_ids).default_order
     end
 
     if production?
