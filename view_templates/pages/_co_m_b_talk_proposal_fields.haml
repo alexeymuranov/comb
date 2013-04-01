@@ -1,28 +1,40 @@
+-# Locals:
+-#   conference_id
+
+- element_id_prefix = "talk_proposals_#{ conference_id }_"
+- input_name_prefix = "talk_proposals[#{ conference_id }]"
+
+- participation   = @participant.co_m_b_participation
+- participation ||= Participation.new(:participant   => @participant,
+                                      :conference_id => conference_id)
+- talk_proposal   = participation.talk_proposal
+- talk_proposal ||= participation.build_talk_proposal
+
 %fieldset
   %legend
     = t 'pages.registration.form.field_labels.co_m_b_talk_proposal.caption',
         :co_m_b_conf_title => Conference.co_m_b_conf.title(@locale)
+
+  %input{ :type  => :hidden,
+          :name  => input_name_prefix + '[_participation_key]',
+          :value => conference_id }
+
   %dl.fields
-    - if (participation = @participant.co_m_b_participation) && (talk_proposal = participation.talk_proposal)
-      - proposed_talk_title = talk_proposal.title
-      - proposed_talk_abstract = talk_proposal.abstract
-    - else
-      - proposed_talk_abstract = proposed_talk_title = nil
     .field
       %dt.label
-        %label{ :for => 'participant_co_m_b_participation_talk_proposal_attributes_title' }<
+        %label{ :for => element_id_prefix + 'title' }<
           = t 'pages.registration.form.field_labels.co_m_b_talk_proposal.title'
       %dd.input
-        %input.long_string{ :id    => 'participant_co_m_b_participation_attributes_talk_proposal_attributes_title',
-                            :name  => 'participant[co_m_b_participation_attributes][talk_proposal_attributes][title]',
+        %input.long_string{ :id    => element_id_prefix + 'title',
+                            :name  => input_name_prefix + '[title]',
                             :type  => :text,
-                            :value => proposed_talk_title }
+                            :value => talk_proposal.title }
     .field
       %dt.label
-        %label{ :for => 'participant_co_m_b_participation_attributes_talk_proposal_attributes_abstract' }<
+        %label{ :for => element_id_prefix + 'abstract' }<
           = t 'pages.registration.form.field_labels.co_m_b_talk_proposal.abstract'
       %dd.input
-        %textarea{ :id   => 'participant_co_m_b_participation_attributes_talk_proposal_attributes_abstract',
-                   :name => 'participant[co_m_b_participation_attributes][talk_proposal_attributes][abstract]' }<
+        %textarea{ :id   => element_id_prefix + 'abstract',
+                   :name => input_name_prefix + '[abstract]' }<
           = preserve do
-            &= proposed_talk_abstract
+            &= talk_proposal.abstract

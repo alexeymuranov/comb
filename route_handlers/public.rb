@@ -61,8 +61,11 @@ class CTT2013 < Sinatra::Base
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
     get "#{ REQUEST_BASE_URL }#{ l }registration" do
       set_locale(locale)
+      @participant = Participant.new
       @conferences = Conference.find(conference_ids_from_params)
-      @participant = Participant.new(:conferences => @conferences)
+      @conferences.each do |conf|
+        @participant.participations.build(:conference => conf)
+      end
       render_registration_page
     end
   end
@@ -128,9 +131,8 @@ class CTT2013 < Sinatra::Base
 
       # Filter attributes before mass assignment
       participant_attributes =
-        participant_registration_attributes_from_param_hash(
-          params[:participant])
-      # params[:debug] = participant_attributes
+        participant_attributes_from_params_for(:registration)
+      # params[:debug_participant_attributes] = participant_attributes
       @participant = Participant.new(participant_attributes)
       @participant.generate_pin
 
@@ -145,8 +147,7 @@ class CTT2013 < Sinatra::Base
         haml :'/pages/registration_confirmation.html', :layout => :simple_layout
       else
         flash.now[:error] = t('flash.resources.participants.create.failure')
-        @conferences = @participant.participations.map(&:conference)
-        @participant.conferences = @conferences
+        @conferences = Conference.find(conference_ids_from_params)
         render_registration_page
       end
     end
@@ -208,58 +209,6 @@ class CTT2013 < Sinatra::Base
       end
 
       haml :'/pages/registration.html', :layout => :simple_layout
-    end
-
-    def participant_registration_attributes_from_param_hash(hash)
-      attr_names = PARTICIPANT_ATTRIBUTES[:registration]
-
-      participant_attributes = {}.tap do |h|
-        attr_names.each do |attr|
-          value = hash[attr.to_s]
-          h[attr] = value unless value.empty?
-        end
-      end
-
-      participations_attributes = [].tap do |a|
-        hash['participations_attributes'].each_value do |participation_hash|
-          unless participation_hash['conference_id'].nil?
-            a << {}.tap do |h|
-              [ :conference_id, :arrival_date, :departure_date,
-                :_destroy
-              ].each do |attr|
-                value = participation_hash[attr.to_s]
-                h[attr] = value unless value.empty?
-              end
-              h[:approved] = false
-            end
-          end
-        end
-      end
-
-      @co_m_b_conference ||= Conference.co_m_b_conf
-
-      co_m_b_participation_attributes =
-        participations_attributes.find { |attributes|
-          attributes[:conference_id].to_i == @co_m_b_conference.id
-        }
-
-      if co_m_b_participation_attributes
-        co_m_b_talk_proposal_attributes = {}.tap do |h|
-          original_hash =
-            hash['co_m_b_participation_attributes']['talk_proposal_attributes']
-          [:title, :abstract].each do |attr|
-            value = original_hash[attr.to_s]
-            h[attr] = value unless value.empty?
-          end
-        end
-        co_m_b_participation_attributes[:talk_proposal_attributes] =
-          co_m_b_talk_proposal_attributes
-      end
-
-      participant_attributes[:participations_attributes] =
-        participations_attributes
-
-      participant_attributes
     end
 
     if production?

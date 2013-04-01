@@ -9,37 +9,49 @@
            :locals => { :object => @participant }
 
   %fieldset
+    - selected_conference_ids = @participant.participations.map(&:conference_id).to_set
     %legend
       = t 'pages.registration.form.field_labels.participations.which_weeks'
     %ol
       - @conferences.each do |conf|
+
+        - conf_id = conf.id
+        - element_id_prefix = "participations_#{ conf_id }_"
+        - input_name_prefix = "participations[#{ conf_id }]"
+        - participation   = @participant.participations.find { |p| p.conference_id == conf_id }
+        - participation ||= Participation.new(:participant   => @participant,
+                                              :conference_id => conf_id)
+
         %li
           %input{ :type  => :hidden,
-                  :name  => "participant[participations_attributes][#{ conf.id }][conference_id]",
+                  :name  => 'conference_ids[]',
+                  :value => conf.id }
+          %input{ :type  => :hidden,
+                  :name  => input_name_prefix + "[conference_id]",
                   :value => conf.id }
           -# Hidden field to pass a value when the checkbox is not checked
-          %input{ :name  => "participant[participations_attributes][#{ conf.id }][_destroy]",
+          %input{ :name  => input_name_prefix + "[_destroy]",
                   :type  => :hidden,
                   :value => 1 }
-          %input{ :id      => "participant_conference_#{ conf.id }_participation__destroy",
-                  :name    => "participant[participations_attributes][#{ conf.id }][_destroy]",
+          %input{ :id      => element_id_prefix + "_destroy",
+                  :name    => input_name_prefix + "[_destroy]",
                   :type    => :checkbox,
                   :value   => 0,
-                  :checked => @participant.conferences.include?(conf) }
-          %label{ :for => "participant_conference_#{ conf.id }_participation__destroy" }<
+                  :checked => selected_conference_ids.include?(conf_id) }
+          %label{ :for => element_id_prefix + "_destroy" }<
             = conf.title_with_details(@locale)
           %dl.fields
             - [:arrival_date, :departure_date].each do |attr|
               .field
                 %dt.label
-                  %label{ :for => "participant_conference_#{ conf.id }_participation_#{ attr }" }<
+                  %label{ :for => element_id_prefix + "#{ attr }" }<
                     = t attr, :scope => 'pages.registration.form.field_labels.participations.field_labels'
                 %dd.input
                   -# FIXME: set `:value =>`
-                  %input{ :id    => "participant_conference_#{ conf.id }_participation_#{ attr }",
-                          :name  => "participant[participations_attributes][#{ conf.id }][#{ attr }]",
+                  %input{ :id    => element_id_prefix + "#{ attr }",
+                          :name  => input_name_prefix + "[#{ attr }]",
                           :type  => :date,
-                          :value => nil }
+                          :value => participation.public_send(attr) }
 
   %dl.fields
     - [:first_name, :last_name, :email, :affiliation].each do |attr|
@@ -116,9 +128,11 @@
             = preserve do
               &= @participant.public_send(attr)
 
-  - if @conferences.map(&:id).include? Conference.co_m_b_conf.id
+  - co_m_b_conf_id = Conference.co_m_b_conf.id
+  - if @conferences.map(&:id).include? co_m_b_conf_id
 
-    = haml :'pages/_co_m_b_talk_proposal_fields'
+    = haml :'pages/_co_m_b_talk_proposal_fields',
+           :locals => { :conference_id => co_m_b_conf_id }
 
   .actions
     %button.create{:type => :submit, :name => 'button', :value => 'create'}
