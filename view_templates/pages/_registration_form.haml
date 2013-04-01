@@ -9,40 +9,37 @@
            :locals => { :object => @participant }
 
   %fieldset
-    %dl.fields
-      .field
-        %dt.label
-          = t 'pages.registration.form.field_labels.participations.which_weeks'
-        %dd.input
-          %ol
-            - @conferences.each do |conf|
-              %li
-                %input{ :type  => :hidden,
-                        :name  => "participant[participations_attributes][#{ conf.id }][conference_id]",
-                        :value => conf.id }
-                -# Hidden field to pass a value when the checkbox is not checked
-                %input{ :name  => "participant[participations_attributes][#{ conf.id }][_destroy]",
-                        :type  => :hidden,
-                        :value => 1 }
-                %input{ :id      => "participant_conference_#{ conf.id }_participation__destroy",
-                        :name    => "participant[participations_attributes][#{ conf.id }][_destroy]",
-                        :type    => :checkbox,
-                        :value   => 0,
-                        :checked => @participant.conferences.include?(conf) }
-                %label{ :for => "participant_conference_#{ conf.id }_participation__destroy" }<
-                  = conf.title_with_details(@locale)
-                %dl.fields
-                  - [:arrival_date, :departure_date].each do |attr|
-                    .field
-                      %dt.label
-                        %label{ :for => "participant_conference_#{ conf.id }_participation_#{ attr }" }<
-                          = t attr, :scope => 'pages.registration.form.field_labels.participations.field_labels'
-                      %dd.input
-                        -# FIXME: set `:value =>`
-                        %input{ :id    => "participant_conference_#{ conf.id }_participation_#{ attr }",
-                                :name  => "participant[participations_attributes][#{ conf.id }][#{ attr }]",
-                                :type  => :date,
-                                :value => nil }
+    %legend
+      = t 'pages.registration.form.field_labels.participations.which_weeks'
+    %ol
+      - @conferences.each do |conf|
+        %li
+          %input{ :type  => :hidden,
+                  :name  => "participant[participations_attributes][#{ conf.id }][conference_id]",
+                  :value => conf.id }
+          -# Hidden field to pass a value when the checkbox is not checked
+          %input{ :name  => "participant[participations_attributes][#{ conf.id }][_destroy]",
+                  :type  => :hidden,
+                  :value => 1 }
+          %input{ :id      => "participant_conference_#{ conf.id }_participation__destroy",
+                  :name    => "participant[participations_attributes][#{ conf.id }][_destroy]",
+                  :type    => :checkbox,
+                  :value   => 0,
+                  :checked => @participant.conferences.include?(conf) }
+          %label{ :for => "participant_conference_#{ conf.id }_participation__destroy" }<
+            = conf.title_with_details(@locale)
+          %dl.fields
+            - [:arrival_date, :departure_date].each do |attr|
+              .field
+                %dt.label
+                  %label{ :for => "participant_conference_#{ conf.id }_participation_#{ attr }" }<
+                    = t attr, :scope => 'pages.registration.form.field_labels.participations.field_labels'
+                %dd.input
+                  -# FIXME: set `:value =>`
+                  %input{ :id    => "participant_conference_#{ conf.id }_participation_#{ attr }",
+                          :name  => "participant[participations_attributes][#{ conf.id }][#{ attr }]",
+                          :type  => :date,
+                          :value => nil }
 
   %dl.fields
     - [:first_name, :last_name, :email, :affiliation].each do |attr|
