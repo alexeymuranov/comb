@@ -440,9 +440,9 @@ class CTT2013 < Sinatra::Base
         @talk_proposal.accept
       when 'update'
         talk_proposal_attributes = params[:talk_proposal]
-        talk_proposal_attributes.each_pair { |k, v|
-          talk_proposal_attributes[k] = nil if v.empty?
-        }
+        talk_proposal_attributes.tap do |h|
+          h.each_pair do |k, v| h[k] = nil if v.empty? end
+        end
         @talk_proposal.update_attributes(talk_proposal_attributes)
       end
       @talk_proposal.save!
@@ -453,9 +453,9 @@ class CTT2013 < Sinatra::Base
       require_main_organiser_login!
       @talk = Talk.find(id)
       talk_attributes = params[:talk]
-      talk_attributes.each_pair { |k, v|
-        talk_attributes[k] = nil if v.empty?
-      }
+      talk_attributes.tap do |h|
+        h.each_pair do |k, v| h[k] = nil if v.empty? end
+      end
       @talk.update_attributes(talk_attributes)
       @talk.save!
 
@@ -466,9 +466,9 @@ class CTT2013 < Sinatra::Base
       require_main_organiser_login!
       @hotel = Hotel.find(id)
       hotel_attributes = params[:hotel]
-      hotel_attributes.each_pair { |k, v|
-        hotel_attributes[k] = nil if v.empty?
-      }
+      hotel_attributes.tap do |h|
+        h.each_pair do |k, v| h[k] = nil if v.empty? end
+      end
       @hotel.update_attributes(hotel_attributes)
       @hotel.save!
 
