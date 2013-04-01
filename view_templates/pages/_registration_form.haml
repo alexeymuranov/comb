@@ -120,12 +120,8 @@
               &= @participant.public_send(attr)
 
   - if @conferences.map(&:id).include? Conference.co_m_b_conf.id
-    %fieldset
-      %legend
-        = t 'pages.registration.form.field_labels.co_m_b_talk_proposal.caption',
-            :co_m_b_conf_title => Conference.co_m_b_conf.title(@locale)
 
-      = haml :'pages/_co_m_b_talk_proposal_fields'
+    = haml :'pages/_co_m_b_talk_proposal_fields'
 
   .actions
     %button.create{:type => :submit, :name => 'button', :value => 'create'}
