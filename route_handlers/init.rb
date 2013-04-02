@@ -55,17 +55,17 @@ class CTT2013 < Sinatra::Base
 
     def participant_attributes_from_params_for(action)
       submitted_atributes = params[:participant]
-      participant_attributes = {}
+      attributes = {}
 
       PARTICIPANT_ATTRIBUTES[action].each do |attr|
         value = submitted_atributes[attr.to_s]
-        participant_attributes[attr] = value unless value.nil? || value.empty?
+        attributes[attr] = value unless value.nil? || value.empty?
       end
 
-      participant_attributes[:participations_attributes] =
+      attributes[:participations_attributes] =
         participant_participations_attributes_from_params
 
-      participant_attributes
+      attributes
     end
 
     def participant_participations_attributes_from_params
