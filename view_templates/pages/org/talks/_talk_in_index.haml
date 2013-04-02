@@ -5,7 +5,7 @@
   &= talk.title_with_speaker
 %i= "(#{ talk.translated_type_name })"
 = t 'questions.show_details?'
-%input.style_control{:type => :checkbox}
+%input.style_control{ :type => 'checkbox' }
 .hide_if_checkbox_unchecked
   %dl
     - @attributes.each do |attr|

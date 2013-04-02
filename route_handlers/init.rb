@@ -74,7 +74,6 @@ class CTT2013 < Sinatra::Base
       {}.tap do |participations_attributes|
         submitted_atributes.each_pair do |key, attributes|
           participations_attributes[key] = {}.tap do |h|
-
             [ :id, :conference_id,
               :arrival_date, :departure_date,
               :committee_comments,
