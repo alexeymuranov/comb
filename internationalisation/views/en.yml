@@ -206,6 +206,10 @@ en:
             title: "Graduate students not approved for all weeks"
           participants_with_talk_proposals:
             title: "Participants who proposed a short talk"
+          talk_proposals_for_scientific_committee:
+            title: "Talk proposals for Scientific Committee"
+          miscellaneous:
+            title: "Miscellaneous"
 
   resources:
     actions:

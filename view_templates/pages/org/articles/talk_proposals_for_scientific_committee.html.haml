@@ -1,0 +1,22 @@
+%article
+  - @participants_with_talk_proposals.each_with_index do |participant, i|
+    - unless i.zero?
+      %hr
+    %section
+      %h4
+        &= participant.full_name
+        %samp
+          = surround '<', '>' do
+            %a{ :href => "mailto:#{ participant.email }" }<>
+              &= participant.email
+      - talk_proposal = participant.co_m_b_talk_proposal
+      %dl
+        %dt
+          %i<= label_from_attribute_name(TalkProposal, :title)
+        %dd
+          &= talk_proposal.title
+        %dt
+          %i<= label_from_attribute_name(TalkProposal, :abstract)
+        %dd
+          = preserve do
+            &= talk_proposal.abstract

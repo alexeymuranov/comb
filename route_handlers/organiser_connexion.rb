@@ -65,7 +65,9 @@ class CTT2013 < Sinatra::Base
     :graduate_students_not_all_participations_approved =>
       'email_lists/graduate_students/not_all_participations_approved',
     :participants_with_talk_proposals =>
-      'participants_with_talk_proposals' }
+      'participants_with_talk_proposals',
+    :talk_proposals_for_scientific_committee =>
+      'talk_proposals_for_scientific_committee' }
 
   # Cache control
   before %r{/#{ ORG_PAGE_PREFIX }} do
@@ -310,6 +312,22 @@ class CTT2013 < Sinatra::Base
       end
     end
 
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }utilities/talk_proposals_for_scientific_committee" do
+      require_organiser_login!
+
+      set_locale(locale)
+      set_page(:"#{ ORG_PAGE_PREFIX }utilities")
+      @utility_tab = :talk_proposals_for_scientific_committee
+
+      @participants_with_talk_proposals =
+        Participant.joins(:talk_proposals).uniq.default_order
+
+      haml :"/pages/#{ ORG_PAGE_PREFIX }utilities_layout" do
+        haml :"/pages/#{ ORG_PAGE_PREFIX }utilities/talk_proposals_for_scientific_committee.html",
+             :layout => false
+      end
+    end
+
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id/edit" do |id|
       require_main_organiser_login!
 
@@ -407,6 +425,18 @@ class CTT2013 < Sinatra::Base
 
       @hotel = Hotel.find(id)
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotel/delete_one.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }articles/talk_proposals_for_scientific_committee" do
+      require_organiser_login!
+
+      set_locale(locale)
+
+      @participants_with_talk_proposals =
+        Participant.joins(:talk_proposals).uniq.default_order
+
+      haml :"/pages/#{ ORG_PAGE_PREFIX }articles/talk_proposals_for_scientific_committee.html",
+           :layout => :simple_layout
     end
   end
 
