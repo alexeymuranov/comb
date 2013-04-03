@@ -426,19 +426,13 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talk_proposals/:id" do |id|
+    put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talk_proposals/:id" do |id| # TODO: improve this
       require_main_organiser_login!
 
       @talk_proposal = TalkProposal.find(id)
       case params[:button]
       when 'accept'
         @talk_proposal.accept
-      when 'update'
-        talk_proposal_attributes = params[:talk_proposal]
-        talk_proposal_attributes.tap do |h|
-          h.each_pair do |k, v| h[k] = nil if v.empty? end
-        end
-        @talk_proposal.update_attributes(talk_proposal_attributes)
       end
       @talk_proposal.save!
       redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants#participant_#{ @talk_proposal.participant.id }")
