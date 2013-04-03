@@ -49,6 +49,26 @@ fr:
         destroy:
           success: "L'inscription est supprimée."
           failure: "L'inscription n'a pas pu être supprimée."
+      talks:
+        create:
+          success: "L'exposé a été enregistré."
+          failure: "L'exposé n'a pas pu être enregistrée."
+        update:
+          success: "L'exposé est mise à jour."
+          failure: "L'exposé n'a pas pu être mise à jour."
+        destroy:
+          success: "L'exposé est supprimée."
+          failure: "L'exposé n'a pas pu être supprimée."
+      hotels:
+        create:
+          success: "L'hôtel a été enregistré."
+          failure: "L'hôtel n'a pas pu être enregistrée."
+        update:
+          success: "L'hôtel est mise à jour."
+          failure: "L'hôtel n'a pas pu être mise à jour."
+        destroy:
+          success: "L'hôtel est supprimée."
+          failure: "L'hôtel n'a pas pu être supprimée."
 
   names:
     t_s_c_spring_conf: "Printemps Topologique, Symplectique et de Contact à Toulouse"

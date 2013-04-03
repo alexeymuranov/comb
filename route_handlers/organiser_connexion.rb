@@ -442,27 +442,42 @@ class CTT2013 < Sinatra::Base
       require_main_organiser_login!
 
       @talk = Talk.find(id)
-      talk_attributes = params[:talk]
-      talk_attributes.tap do |h|
-        h.each_pair do |k, v| h[k] = nil if v.empty? end
-      end
+      talk_attributes = talk_attributes_from_params_for(:update)
       @talk.update_attributes(talk_attributes)
-      @talk.save!
 
-      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }")
+      if @talk.save
+        flash[:success] = t('flash.resources.talks.update.success')
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }")
+      else
+        set_locale(locale)
+        set_page(:"#{ ORG_PAGE_PREFIX }talks")
+
+        flash.now[:error] = t('flash.resources.talks.update.failure')
+        @attributes = TALK_ATTRIBUTES[:update]
+
+        haml :"/pages/#{ ORG_PAGE_PREFIX }talks/edit_one.html"
+      end
     end
 
     put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/:id" do |id|
       require_main_organiser_login!
 
       @hotel = Hotel.find(id)
-      hotel_attributes = params[:hotel]
-      hotel_attributes.tap do |h|
-        h.each_pair do |k, v| h[k] = nil if v.empty? end
-      end
+      hotel_attributes = hotel_attributes_from_params_for(:update)
       @hotel.update_attributes(hotel_attributes)
-      @hotel.save!
 
+      if @hotel.save
+        flash[:success] = t('flash.resources.hotels.update.success')
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }")
+      else
+        set_locale(locale)
+        set_page(:"#{ ORG_PAGE_PREFIX }hotels")
+
+        flash.now[:error] = t('flash.resources.hotels.update.failure')
+        @attributes = HOTEL_ATTRIBUTES[:update]
+
+        haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/edit_one.html"
+      end
       redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }")
     end
   end

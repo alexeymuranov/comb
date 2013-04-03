@@ -30,10 +30,14 @@ class CTT2013 < Sinatra::Base
   TALK_ATTRIBUTES[:show] = TALK_ATTRIBUTES[:index] =
     [ :translated_type_name, :speaker_name, :title, :abstract,
       :date, :time, :room_or_auditorium ]
+  TALK_ATTRIBUTES[:update] = TALK_ATTRIBUTES[:create] =
+    [ :type, :participant_id, :title, :abstract,
+      :date, :time, :room_or_auditorium ]
 
   HOTEL_ATTRIBUTES = {}
   HOTEL_ATTRIBUTES[:show] = HOTEL_ATTRIBUTES[:index] =
     [:name, :address, :phone, :web_site]
+  HOTEL_ATTRIBUTES[:update] = HOTEL_ATTRIBUTES[:create] = HOTEL_ATTRIBUTES[:show]
 
   # Internationalisation
   # ====================
@@ -115,6 +119,30 @@ class CTT2013 < Sinatra::Base
           end
         end
       end.values
+    end
+
+    def talk_attributes_from_params_for(action)
+      submitted_atributes = params[:talk]
+      attributes = {}
+
+      TALK_ATTRIBUTES[action].each do |attr|
+        value = submitted_atributes[attr.to_s]
+        attributes[attr] = value unless value.nil? || value.empty?
+      end
+
+      attributes
+    end
+
+    def hotel_attributes_from_params_for(action)
+      submitted_atributes = params[:hotel]
+      attributes = {}
+
+      HOTEL_ATTRIBUTES[action].each do |attr|
+        value = submitted_atributes[attr.to_s]
+        attributes[attr] = value unless value.nil? || value.empty?
+      end
+
+      attributes
     end
 
 end
