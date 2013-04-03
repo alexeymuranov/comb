@@ -1,7 +1,7 @@
 -# Parameters:
 -#   participant
 
-= participant.approved? ? '✓' : '✕'
+= participant.approved? ? '✓' : '-'
 
 %a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }") }
   %strong
