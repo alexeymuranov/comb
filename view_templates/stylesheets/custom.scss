@@ -322,14 +322,23 @@ button[type="submit"] {
 
 a.button,
 a[role=button] {
-  &.new,
   &.edit,
   &.delete,
+  &.new,
   &.cancel {
     @include button(pill, Gray);
+  }
 
+  &.edit,
+  &.delete {
     &:hover {
       @include button(pill, Black);
+    }
+  }
+
+  &.new {
+    &:hover {
+      @include button(pill, Orange);
     }
   }
 
