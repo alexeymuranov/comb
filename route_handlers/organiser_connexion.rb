@@ -255,55 +255,51 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
-      :"#{ ORG_PAGE_PREFIX }participants"
-    ].each do |page|
-      get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id/edit" do |id|
-        require_main_organiser_login!
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id/edit" do |id|
+      require_main_organiser_login!
 
-        set_locale(locale)
-        # set_page(page)
+      set_locale(locale)
+      # set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
-        @attributes = PARTICIPANT_ATTRIBUTES[:update]
+      @attributes = PARTICIPANT_ATTRIBUTES[:update]
 
-        if only = params[:only]
-          @attributes = []
-          if only_attributes = only[:attributes]
-            only_attributes = only_attributes.to_set
-            PARTICIPANT_ATTRIBUTES[:update].each do |attr|
-              @attributes << attr if only_attributes.include?(attr.to_s)
-            end
-          end
-
-          @associations = []
-          if only_associations = only[:associations]
-            only_associations = only_associations.to_set
-            if only_associations.include? 'participations'
-              @associations << :participations
-            end
-          end
-        else
-          @attributes   = PARTICIPANT_ATTRIBUTES[:update]
-          @associations = [:participations]
-        end
-
-        @participant = Participant.find(id)
-
-        if @associations.include?(:participations)
-          @participations = []
-          Conference.default_order.each do |conf|
-            participation =
-              @participant.participations.where(:conference_id => conf.id).
-                                          first
-            if participation.nil?
-              participation = conf.participations.build
-            end
-            @participations << participation
+      if only = params[:only]
+        @attributes = []
+        if only_attributes = only[:attributes]
+          only_attributes = only_attributes.to_set
+          PARTICIPANT_ATTRIBUTES[:update].each do |attr|
+            @attributes << attr if only_attributes.include?(attr.to_s)
           end
         end
 
-        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
+        @associations = []
+        if only_associations = only[:associations]
+          only_associations = only_associations.to_set
+          if only_associations.include? 'participations'
+            @associations << :participations
+          end
+        end
+      else
+        @attributes   = PARTICIPANT_ATTRIBUTES[:update]
+        @associations = [:participations]
       end
+
+      @participant = Participant.find(id)
+
+      if @associations.include?(:participations)
+        @participations = []
+        Conference.default_order.each do |conf|
+          participation =
+            @participant.participations.where(:conference_id => conf.id).
+                                        first
+          if participation.nil?
+            participation = conf.participations.build
+          end
+          @participations << participation
+        end
+      end
+
+      haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id/edit" do |id|
@@ -330,18 +326,14 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/edit_one.html"
     end
 
-    [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
-      :"#{ ORG_PAGE_PREFIX }participants"
-    ].each do |page|
-      get "#{ REQUEST_BASE_URL }#{ l }#{ page }/:id/delete" do |id|
-        require_main_organiser_login!
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id/delete" do |id|
+      require_main_organiser_login!
 
-        set_locale(locale)
-        set_page(page)
+      set_locale(locale)
+      # set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
-        @participant = Participant.find(id)
-        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/delete_one.html"
-      end
+      @participant = Participant.find(id)
+      haml :"/pages/#{ ORG_PAGE_PREFIX }participants/delete_one.html"
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id/delete" do |id|
@@ -400,48 +392,39 @@ class CTT2013 < Sinatra::Base
   # ------------
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-    [:"#{ ORG_PAGE_PREFIX }participants_to_approve",
-     :"#{ ORG_PAGE_PREFIX }participants"
-    ].each do |page|
-      put "#{ REQUEST_BASE_URL }#{ l }#{ page }/:id" do |id|
-        require_organiser_login!
+    put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id" do |id|
+      require_organiser_login!
 
-        @participant = Participant.find(id)
-        case params[:button]
-        when 'approve'
-          @participant.approve!
-          case page
-          when :"#{ ORG_PAGE_PREFIX }participants"
-            redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants\#participant_#{ @participant.id }"
-          when :"#{ ORG_PAGE_PREFIX }participants_to_approve"
-            redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants_to_approve"
-          end
-        when 'disapprove'
-          @participant.disapprove!
-          redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants\#participant_#{ @participant.id }"
-        when 'update'
-          require_main_organiser_login!
+      @participant = Participant.find(id)
+      case params[:button]
+      when 'approve'
+        @participant.approve!
+        redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants\#participant_#{ @participant.id }"
+      when 'disapprove'
+        @participant.disapprove!
+        redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants\#participant_#{ @participant.id }"
+      when 'update'
+        require_main_organiser_login!
 
-          participant_attributes =
-            participant_attributes_from_params_for(:update)
+        participant_attributes =
+          participant_attributes_from_params_for(:update)
 
-          @participant.update_attributes(participant_attributes)
+        @participant.update_attributes(participant_attributes)
 
-          redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"
-        end
+        redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"
+      end
 
-        if @participant.save
-          flash[:success] = t('flash.resources.participants.update.success')
-          redirect fixed_url(redirect_to_url)
-        else
-          set_locale(locale)
-          set_page(page)
+      if @participant.save
+        flash[:success] = t('flash.resources.participants.update.success')
+        redirect fixed_url(redirect_to_url)
+      else
+        set_locale(locale)
+        set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
-          flash.now[:error] = t('flash.resources.participants.update.failure')
-          @attributes = PARTICIPANT_ATTRIBUTES[:update]
+        flash.now[:error] = t('flash.resources.participants.update.failure')
+        @attributes = PARTICIPANT_ATTRIBUTES[:update]
 
-          haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
-        end
+        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
       end
     end
 
@@ -496,15 +479,11 @@ class CTT2013 < Sinatra::Base
   # ---------------
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-    [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
-      :"#{ ORG_PAGE_PREFIX }participants"
-    ].each do |page|
-      delete "#{ REQUEST_BASE_URL }#{ l }#{ page }/:id" do |id|
-        require_main_organiser_login!
+    delete "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id" do |id|
+      require_main_organiser_login!
 
-        Participant.find(id).destroy
-        redirect fixed_url("/#{ locale }/#{ page }")
-      end
+      Participant.find(id).destroy
+      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants")
     end
 
     delete "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id" do |id|
