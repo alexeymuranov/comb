@@ -21,5 +21,22 @@
 %ol
   - @participants.each do |participant|
     %li{ :id => "participant_#{ participant.id }" }
-      = haml :'pages/org/participants/_participant_details',
-             :locals => { :participant => participant }
+
+      %samp
+        %strong
+          = participant.approved? ? '✓' : '-'
+
+      %a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }") }
+        %strong
+          &= participant.full_name_with_affiliation_and_position
+
+      - if participant.approved?
+        (✓ #{ Participant.human_attribute_name(:approved) })
+
+      %br
+      = t 'questions.show_details?'
+      %input.style_control{ :type => 'checkbox' }
+      .hide_if_checkbox_unchecked
+
+        = haml :'pages/org/participants/_participant_details',
+               :locals => { :participant => participant }
