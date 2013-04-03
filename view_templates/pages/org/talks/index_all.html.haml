@@ -1,5 +1,20 @@
 %ol
   - @talks.each do |talk|
     %li{ :id => "talk_#{ talk.id }" }
-      = haml :'pages/org/talks/_talk_in_index',
-             :locals => { :talk => talk }
+      %a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }") }
+        %strong
+          &= talk.title_with_speaker
+        %i= "(#{ talk.translated_type_name })"
+
+      %br
+      = t 'questions.show_details?'
+      %input.style_control{ :type => 'checkbox' }
+      .hide_if_checkbox_unchecked
+
+        = haml :'pages/org/talks/_talk_details',
+               :locals => { :talk => talk }
+
+- if main_organiser_logged_in?
+  %a.button.new{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/new"),
+                 :role => 'button' }
+    = t 'actions.add'

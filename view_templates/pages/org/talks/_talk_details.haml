@@ -1,0 +1,16 @@
+-# Parameters:
+-#   talk
+
+- talk ||= @talk
+
+%dl
+  - @attributes.each do |attr|
+    = attribute_in_description(talk, attr)
+
+- if main_organiser_logged_in?
+  %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }/edit"),
+                  :role => 'button' }
+    = t 'actions.update'
+  %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }/delete"),
+                    :role => 'button' }
+    = t 'actions.delete'

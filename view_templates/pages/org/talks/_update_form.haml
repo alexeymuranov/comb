@@ -1,0 +1,26 @@
+%form{ :'accept-charset' => 'UTF-8',
+       :action           => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }"),
+       :method           => 'POST' }
+  %input{ :type => :hidden, :name => :_method, :value => 'PUT' }
+
+  = haml :'shared_partials/_jquery_ui_for_forms'
+
+  - if @talk.errors.any?
+    = haml :'shared_partials/_form_errors',
+           :locals => { :object => @talk }
+
+  %dl.fields
+    .disabled.field
+      %dt
+        = label_from_attribute_name(Talk, :type)
+      %dd
+        = @talk.translated_type_name
+
+    = haml :'pages/org/talks/_common_fields'
+
+  .actions
+    %button.update{ :type => :submit, :name => 'button' }
+      = t 'actions.submit'
+    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }"),
+                      :role => 'button' }
+      = t 'actions.cancel'

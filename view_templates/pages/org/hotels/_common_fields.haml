@@ -1,0 +1,15 @@
+- @attributes.each do |attr|
+  - required = Hotel.attribute_constraints_on(attr)[:required]
+  - label_html_classes = []
+  - label_html_classes << 'required' if required
+  .field
+    %dt.label
+      %label{ :for   => "hotel_#{ attr }",
+              :class => label_html_classes }<
+        = label_from_attribute_name(Hotel, attr)
+    %dd.input
+      %input{ :id       => "hotel_#{ attr }",
+              :name     => "hotel[#{ attr }]",
+              :required => required,
+              :type     => input_html_type_for_attribute(Hotel, attr),
+              :value    => @hotel.public_send(attr) }

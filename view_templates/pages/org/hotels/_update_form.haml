@@ -1,0 +1,21 @@
+%form{ :'accept-charset' => 'UTF-8',
+       :action           => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }"),
+       :method           => 'POST' }
+  %input{ :type => :hidden, :name => :_method, :value => 'PUT' }
+
+  = haml :'shared_partials/_jquery_ui_for_forms'
+
+  - if @hotel.errors.any?
+    = haml :'shared_partials/_form_errors',
+           :locals => { :object => @hotel }
+
+  %dl.fields
+
+    = haml :'pages/org/hotels/_common_fields'
+
+  .actions
+    %button.update{ :type => :submit, :name => 'button' }
+      = t 'actions.submit'
+    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }"),
+                      :role => 'button' }
+      = t 'actions.cancel'

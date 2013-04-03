@@ -1,0 +1,53 @@
+%form{ :'accept-charset' => 'UTF-8',
+       :action           => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/"),
+       :method           => 'POST' }
+
+  = haml :'shared_partials/_jquery_ui_for_forms'
+
+  - if @talk.errors.any?
+    = haml :'shared_partials/_form_errors',
+           :locals => { :object => @talk }
+
+  %dl.fields
+    - required = Talk.attribute_constraints_on(:type)[:required]
+    - label_html_classes = []
+    - label_html_classes << 'required' if required
+    .field
+      %dt.label
+        %label{ :for   => 'talk_type',
+                :class => label_html_classes }<
+          = label_from_attribute_name(Talk, :type)
+      %dd.input
+        %select{ :id       => 'talk_type',
+                 :name     => 'talk[type]',
+                 :required => required,
+                 :type     => 'text',
+                 :value    => @talk.type }
+          - ['ParallelTalk', 'PlenaryTalk'].each do |type|
+            %option{ :selected => (type == @talk.type) }
+              = type
+
+    %input{ :type  => 'hidden',
+            :name  => 'participation[conference_id]',
+            :value => Conference.co_m_b_conf.id }
+
+    .field
+      %dt.label
+        %label{ :for   => 'participation_participant_id',
+                :class => 'required' }<
+          = 'participant_id:'
+      %dd.input
+        %input{ :id       => 'participation_participant_id',
+                :name     => 'participation[participant_id]',
+                :required => true,
+                :type     => :number,
+                :value    => (@talk.conference_participation && @talk.conference_participation.participant_id) }
+
+    = haml :'pages/org/talks/_common_fields'
+
+  .actions
+    %button.create{ :type => :submit, :name => 'button' }
+      = t 'actions.submit'
+    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks"),
+                      :role => 'button' }
+      = t 'actions.cancel'

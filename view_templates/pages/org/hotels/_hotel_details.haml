@@ -1,0 +1,44 @@
+-# Parameters:
+-#   hotel
+
+- hotel ||= @hotel
+
+%dl
+  .item
+    %dt.attribute<
+      = label_from_attribute_name(Hotel, :name, :string)
+    %dd.attribute.string<
+      &= hotel.name
+
+  .item
+    %dt.attribute<
+      = label_from_attribute_name(Hotel, :address, :string)
+    %dd.attribute.string<
+      - address = hotel.address
+      - if address.nil? || address.empty?
+        = address
+      - else
+        %a{ :href => "http://maps.google.fr/maps?q=#{ hotel.address.gsub(' ', '+') }" }<>
+          = preserve do
+            &= hotel.address
+
+  .item
+    %dt.attribute<
+      = label_from_attribute_name(Hotel, :phone, :string)
+    %dd.attribute.string<
+      &= hotel.phone
+
+  .item
+    %dt.attribute<
+      = label_from_attribute_name(Hotel, :web_site, :string)
+    %dd.attribute.string<
+      %a{ :href => hotel.web_site }<>
+        &= hotel.web_site
+
+- if main_organiser_logged_in?
+  %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }/edit"),
+                  :role => 'button' }
+    = t 'actions.update'
+  %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }/delete"),
+                    :role => 'button' }
+    = t 'actions.delete'

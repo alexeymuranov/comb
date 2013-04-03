@@ -1,0 +1,19 @@
+%ol
+  - @hotels.each do |hotel|
+    %li{ :id => "hotel_#{ hotel.id }" }
+      %a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }") }
+        %strong
+          &= hotel.name
+
+      %br
+      = t 'questions.show_details?'
+      %input.style_control{ :type => 'checkbox' }
+      .hide_if_checkbox_unchecked
+
+        = haml :'pages/org/hotels/_hotel_details',
+               :locals => { :hotel => hotel }
+
+- if main_organiser_logged_in?
+  %a.button.new{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }hotels/new"),
+                 :role => 'button' }
+    = t 'actions.add'

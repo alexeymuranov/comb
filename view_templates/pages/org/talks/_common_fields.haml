@@ -1,0 +1,44 @@
+- required = Talk.attribute_constraints_on(:title)[:required]
+- label_html_classes = []
+- label_html_classes << 'required' if required
+.field
+  %dt.label
+    %label{ :for   => 'talk_title',
+            :class => label_html_classes }<
+      = label_from_attribute_name(Talk, :title)
+  %dd.input
+    %input{ :id       => 'talk_title',
+            :name     => 'talk[title]',
+            :required => required,
+            :type     => 'text',
+            :value    => @talk.title }
+
+- required = Talk.attribute_constraints_on(:abstract)[:required]
+- label_html_classes = []
+- label_html_classes << 'required' if required
+.field
+  %dt.label
+    %label{ :for   => 'talk_abstract',
+            :class => label_html_classes }<
+      = label_from_attribute_name(Talk, :abstract)
+  %dd.input
+    %textarea{ :id   => 'talk_abstract',
+               :name => 'talk[abstract]' }<
+      = preserve do
+        &= @talk.abstract
+
+- [:date, :time, :room_or_auditorium].each do |attr|
+  - required = Talk.attribute_constraints_on(attr)[:required]
+  - label_html_classes = []
+  - label_html_classes << 'required' if required
+  .field
+    %dt.label
+      %label{ :for   => "talk_#{ attr }",
+              :class => label_html_classes }<
+        = label_from_attribute_name(Talk, attr)
+    %dd.input
+      %input{ :id       => "talk_#{ attr }",
+              :name     => "talk[#{ attr }]",
+              :required => required,
+              :type     => input_html_type_for_attribute(Talk, attr),
+              :value    => @talk.public_send(attr) }

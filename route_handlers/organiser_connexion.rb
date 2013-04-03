@@ -195,6 +195,34 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/#{ ORG_PAGE_PREFIX }talks/index_all.html"
     end
 
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/new" do
+      require_organiser_login!
+
+      set_locale(locale)
+      # set_page(:#{ ORG_PAGE_PREFIX }talks)
+
+      @attributes = TALK_ATTRIBUTES[:create]
+
+      @talk = Talk.new
+
+      haml :"/pages/#{ ORG_PAGE_PREFIX }talks/new_one.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id" do |id|
+      require_organiser_login!
+
+      set_locale(locale)
+      # set_page(:#{ ORG_PAGE_PREFIX }talks)
+
+      id = id.to_i
+
+      @attributes = TALK_ATTRIBUTES[:show]
+
+      @talk = Talk.find(id)
+
+      haml :"/pages/#{ ORG_PAGE_PREFIX }talks/show_one.html"
+    end
+
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels" do
       require_organiser_login!
 
@@ -204,6 +232,34 @@ class CTT2013 < Sinatra::Base
       @attributes = HOTEL_ATTRIBUTES[:index]
       @hotels = Hotel.default_order.all
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/index_all.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/new" do
+      require_organiser_login!
+
+      set_locale(locale)
+      # set_page(:#{ ORG_PAGE_PREFIX }hotels)
+
+      @attributes = HOTEL_ATTRIBUTES[:create]
+
+      @hotel = Hotel.new
+
+      haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/new_one.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/:id" do |id|
+      require_organiser_login!
+
+      set_locale(locale)
+      # set_page(:#{ ORG_PAGE_PREFIX }hotels)
+
+      id = id.to_i
+
+      @attributes = HOTEL_ATTRIBUTES[:show]
+
+      @hotel = Hotel.find(id)
+
+      haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/show_one.html"
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }utilities" do
@@ -382,6 +438,45 @@ class CTT2013 < Sinatra::Base
       else
         flash[:error] = t('flash.sessions.log_in.failure')
         redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }login")
+      end
+    end
+
+    post "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/" do
+      require_main_organiser_login!
+
+      talk_attributes = talk_attributes_from_params_for(:create)
+      case talk_attributes[:type]
+      when 'ParallelTalk'
+        @talk = ParallelTalk.new(talk_attributes)
+      when 'PlenaryTalk'
+        @talk = PlenaryTalk.new(talk_attributes)
+      else
+        @talk = Talk.new(talk_attributes)
+      end
+
+      @talk.conference_participation =
+        Participation.where(params[:participation]).first
+
+      if @talk.save
+        flash[:success] = t('flash.resources.talks.create.success')
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }")
+      else
+        flash.now[:error] = t('flash.resources.talks.create.failure')
+        haml :"/pages/#{ ORG_PAGE_PREFIX }talks/new_one.html"
+      end
+    end
+
+    post "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/" do
+      require_main_organiser_login!
+
+      hotel_attributes = hotel_attributes_from_params_for(:create)
+      @hotel = Hotel.new(hotel_attributes)
+      if @hotel.save
+        flash[:success] = t('flash.resources.hotels.create.success')
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }")
+      else
+        flash.now[:error] = t('flash.resources.hotels.create.failure')
+        haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/new_one.html"
       end
     end
   end
