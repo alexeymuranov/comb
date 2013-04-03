@@ -172,7 +172,7 @@ class CTT2013 < Sinatra::Base
       require_organiser_login!
 
       set_locale(locale)
-      # set_page(page)
+      # set_page(:#{ ORG_PAGE_PREFIX }participants)
 
       id = id.to_i
 
@@ -306,11 +306,10 @@ class CTT2013 < Sinatra::Base
       require_main_organiser_login!
 
       set_locale(locale)
-      set_page(:"#{ ORG_PAGE_PREFIX }talks")
+      # set_page(:"#{ ORG_PAGE_PREFIX }talks")
 
-      @attributes = TALK_ATTRIBUTES[:index]
-      @talks = Talk.default_order.all
-      @form_talk_id = id.to_i
+      @attributes = TALK_ATTRIBUTES[:update]
+      @talk = Talk.find(id)
       haml :"/pages/#{ ORG_PAGE_PREFIX }talks/edit_one.html"
     end
 
@@ -318,11 +317,10 @@ class CTT2013 < Sinatra::Base
       require_main_organiser_login!
 
       set_locale(locale)
-      set_page(:"#{ ORG_PAGE_PREFIX }hotels")
+      # set_page(:"#{ ORG_PAGE_PREFIX }hotels")
 
-      @attributes = HOTEL_ATTRIBUTES[:index]
-      @hotels = Hotel.default_order.all
-      @form_hotel_id = id.to_i
+      @attributes = HOTEL_ATTRIBUTES[:update]
+      @hotel = Hotel.find(id)
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/edit_one.html"
     end
 
@@ -340,7 +338,7 @@ class CTT2013 < Sinatra::Base
       require_main_organiser_login!
 
       set_locale(locale)
-      set_page(:"#{ ORG_PAGE_PREFIX }talks")
+      # set_page(:"#{ ORG_PAGE_PREFIX }talks")
 
       @talk = Talk.find(id)
       haml :"/pages/#{ ORG_PAGE_PREFIX }talks/delete_one.html"
@@ -350,7 +348,7 @@ class CTT2013 < Sinatra::Base
       require_main_organiser_login!
 
       set_locale(locale)
-      set_page(:"#{ ORG_PAGE_PREFIX }hotels")
+      # set_page(:"#{ ORG_PAGE_PREFIX }hotels")
 
       @hotel = Hotel.find(id)
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotel/delete_one.html"

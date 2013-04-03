@@ -12,7 +12,7 @@
       = attribute_in_description(talk, attr)
 
   - if main_organiser_logged_in?
-    %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ @page }/#{ talk.id }/edit\#talk_#{ talk.id }"),
+    %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ @page }/#{ talk.id }/edit"),
                     :role => 'button' }
       = t 'actions.update'
     %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ @page }/#{ talk.id }/delete"),
