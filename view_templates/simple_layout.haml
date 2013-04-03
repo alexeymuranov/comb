@@ -27,9 +27,9 @@
            :rel  => :stylesheet }/
     %link{ :rel  => 'shortcut icon', :href => fixed_url('/favicon.ico') }/
   %body
-    %header
+    -# %header
 
-      -# = haml :'layout_partials/_header'
+    -#   = haml :'layout_partials/_header'
 
     = haml :'layout_partials/_flash'
 
@@ -37,12 +37,13 @@
 
       = yield
 
-    %footer
+    -# %footer
 
-      -# = haml :'layout_partials/_footer'
+    -#   = haml :'layout_partials/_footer'
 
+    -# For debugging only:
     - if self.class.development? && ENV['USER'] == 'alexey'
-      .debug
+      #debug
         %pre#debug_params.debug
           = preserve do
             %strong= 'params:'
