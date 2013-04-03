@@ -15,7 +15,7 @@
 %input.style_control{:type => :checkbox}
 .hide_if_checkbox_unchecked
 
-  = haml :'pages/org/participants/_participations_in_index',
+  = haml :'pages/org/participants/_participations_details',
          :locals => { :participant => participant }
 
   %br
@@ -26,7 +26,7 @@
   - if talk_proposal = participant.co_m_b_talk_proposal
     %br
 
-    = haml :'pages/org/participants/_co_m_b_talk_proposal_in_index',
+    = haml :'pages/org/participants/_co_m_b_talk_proposal_details',
            :locals => { :participant   => participant,
                         :talk_proposal => talk_proposal }
 

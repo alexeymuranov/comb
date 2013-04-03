@@ -21,5 +21,5 @@
 %ol
   - @participants.each do |participant|
     %li{ :id => "participant_#{ participant.id }" }
-      = haml :'pages/org/participants/_participant_in_index',
+      = haml :'pages/org/participants/_participant_details',
              :locals => { :participant => participant }
