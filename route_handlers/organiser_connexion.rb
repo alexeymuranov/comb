@@ -315,7 +315,7 @@ class CTT2013 < Sinatra::Base
       @attributes = TALK_ATTRIBUTES[:index]
       @talks = Talk.default_order.all
       @form_talk_id = id.to_i
-      haml :"/pages/#{ ORG_PAGE_PREFIX }talks.html"
+      haml :"/pages/#{ ORG_PAGE_PREFIX }talks/edit_one.html"
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/:id/edit" do |id|
@@ -327,7 +327,7 @@ class CTT2013 < Sinatra::Base
       @attributes = HOTEL_ATTRIBUTES[:index]
       @hotels = Hotel.default_order.all
       @form_hotel_id = id.to_i
-      haml :"/pages/#{ ORG_PAGE_PREFIX }hotels.html"
+      haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/edit_one.html"
     end
 
     [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
