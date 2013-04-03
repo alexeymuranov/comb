@@ -492,32 +492,34 @@ class CTT2013 < Sinatra::Base
       case params[:button]
       when 'approve'
         @participant.approve!
+        @participant.save!
         redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants\#participant_#{ @participant.id }"
+        redirect fixed_url(redirect_to_url)
       when 'disapprove'
         @participant.disapprove!
+        @participant.save!
         redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants\#participant_#{ @participant.id }"
+        redirect fixed_url(redirect_to_url)
       when 'update'
         require_main_organiser_login!
 
         participant_attributes =
           participant_attributes_from_params_for(:update)
 
-        @participant.update_attributes(participant_attributes)
-
         redirect_to_url = "/#{ locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"
-      end
 
-      if @participant.save
-        flash[:success] = t('flash.resources.participants.update.success')
-        redirect fixed_url(redirect_to_url)
-      else
-        set_locale(locale)
-        set_page(:"#{ ORG_PAGE_PREFIX }participants")
+        if @participant.update_attributes(participant_attributes)
+          flash[:success] = t('flash.resources.participants.update.success')
+          redirect fixed_url(redirect_to_url)
+        else
+          set_locale(locale)
+          set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
-        flash.now[:error] = t('flash.resources.participants.update.failure')
-        @attributes = PARTICIPANT_ATTRIBUTES[:update]
+          flash.now[:error] = t('flash.resources.participants.update.failure')
+          @attributes = PARTICIPANT_ATTRIBUTES[:update]
 
-        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
+          haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
+        end
       end
     end
 
@@ -538,9 +540,8 @@ class CTT2013 < Sinatra::Base
 
       @talk = Talk.find(id)
       talk_attributes = talk_attributes_from_params_for(:update)
-      @talk.update_attributes(talk_attributes)
 
-      if @talk.save
+      if @talk.update_attributes(talk_attributes)
         flash[:success] = t('flash.resources.talks.update.success')
         redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }")
       else
@@ -559,9 +560,8 @@ class CTT2013 < Sinatra::Base
 
       @hotel = Hotel.find(id)
       hotel_attributes = hotel_attributes_from_params_for(:update)
-      @hotel.update_attributes(hotel_attributes)
 
-      if @hotel.save
+      if @hotel.update_attributes(hotel_attributes)
         flash[:success] = t('flash.resources.hotels.update.success')
         redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }")
       else
