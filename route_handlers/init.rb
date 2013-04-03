@@ -65,12 +65,14 @@ class CTT2013 < Sinatra::Base
     end
 
     def participant_attributes_from_params_for(action)
-      submitted_atributes = params[:participant]
+      submitted_attributes = params[:participant]
       attributes = {}
 
       PARTICIPANT_ATTRIBUTES[action].each do |attr|
-        value = submitted_atributes[attr.to_s]
-        attributes[attr] = value unless value.nil? || value.empty?
+        if submitted_attributes.key?(key = attr.to_s)
+          value = submitted_attributes[key]
+          attributes[attr] = value == '' ? nil : value
+        end
       end
 
       attributes[:participations_attributes] =
@@ -80,18 +82,20 @@ class CTT2013 < Sinatra::Base
     end
 
     def participant_participations_attributes_from_params
-      submitted_atributes = params[:participations]
+      submitted_attributes = params[:participations]
 
       {}.tap do |participations_attributes|
-        submitted_atributes.each_pair do |key, attributes|
+        submitted_attributes.each_pair do |key, attributes|
           participations_attributes[key] = {}.tap do |h|
             [ :id, :conference_id,
               :arrival_date, :departure_date,
               :committee_comments,
               :_destroy
             ].each do |attr|
-              value = attributes[attr.to_s]
-              h[attr] = value unless value.nil? || value.empty?
+              if attributes.key?(key = attr.to_s)
+                value = attributes[key]
+                h[attr] = value == '' ? nil : value
+              end
             end
           end
         end
@@ -100,27 +104,31 @@ class CTT2013 < Sinatra::Base
           participation_talk_proposals_attributes_from_params
 
         talk_proposals_attributes.each do |t_p_aa|
-          participations_attributes[t_p_aa.delete(:_participation_key)] \
-                                   [:talk_proposal_attributes] = t_p_aa
+          participation_key = t_p_aa.delete(:_participation_key)
+          if participations_attributes.key?(participation_key)
+            participations_attributes[participation_key][:talk_proposal_attributes] = t_p_aa
+          end
         end
       end.values
     end
 
     def participation_talk_proposals_attributes_from_params
-      submitted_atributes = params[:talk_proposals]
+      submitted_attributes = params[:talk_proposals]
 
       {}.tap do |talk_proposals_attributes|
-        submitted_atributes.each_pair do |key, attributes|
+        submitted_attributes.each_pair do |key, attributes|
           talk_proposals_attributes[key] = {}.tap do |h|
             [ :id, :participation_id,
               :title, :abstract,
               :_destroy, :_participation_key
             ].each do |attr|
-              value = attributes[attr.to_s]
-              h[attr] = value unless value.nil? || value.empty?
+              if attributes.key?(key = attr.to_s)
+                value = attributes[key]
+                h[attr] = value == '' ? nil : value
+              end
             end
 
-            unless [:title, :abstract].any? { |a| h.key?(a) }
+            if [:title, :abstract].all? { |a| h[a].nil? }
               h[:_destroy] = true
             end
           end
@@ -129,24 +137,28 @@ class CTT2013 < Sinatra::Base
     end
 
     def talk_attributes_from_params_for(action)
-      submitted_atributes = params[:talk]
+      submitted_attributes = params[:talk]
       attributes = {}
 
       TALK_ATTRIBUTES[action].each do |attr|
-        value = submitted_atributes[attr.to_s]
-        attributes[attr] = value unless value.nil? || value.empty?
+        if submitted_attributes.key?(key = attr.to_s)
+          value = submitted_attributes[key]
+          attributes[attr] = value == '' ? nil : value
+        end
       end
 
       attributes
     end
 
     def hotel_attributes_from_params_for(action)
-      submitted_atributes = params[:hotel]
+      submitted_attributes = params[:hotel]
       attributes = {}
 
       HOTEL_ATTRIBUTES[action].each do |attr|
-        value = submitted_atributes[attr.to_s]
-        attributes[attr] = value unless value.nil? || value.empty?
+        if submitted_attributes.key?(key = attr.to_s)
+          value = submitted_attributes[key]
+          attributes[attr] = value == '' ? nil : value
+        end
       end
 
       attributes
