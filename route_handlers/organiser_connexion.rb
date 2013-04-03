@@ -488,7 +488,7 @@ class CTT2013 < Sinatra::Base
       @hotel.update_attributes(hotel_attributes)
       @hotel.save!
 
-      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels#hotel_#{ @hotel.id }")
+      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }")
     end
   end
 
