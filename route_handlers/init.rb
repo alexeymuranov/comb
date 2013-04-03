@@ -59,6 +59,14 @@ class CTT2013 < Sinatra::Base
 
   private
 
+    def pagination_parameters_from_params
+      view_parameters = params[:view] || {}
+      per_page    = (view_parameters[:per_page] || 10).to_i
+      active_page = (view_parameters[:page]     || 1 ).to_i
+      { :per_page   => per_page,
+        :page       => active_page }
+    end
+
     def conference_ids_from_params
       submitted_ids = params[:conference_ids]
       submitted_ids.is_a?(Array) ? submitted_ids.map(&:to_i) : []

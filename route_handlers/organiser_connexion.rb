@@ -154,15 +154,13 @@ class CTT2013 < Sinatra::Base
         @filtered_participants_count = @filtered_participants.count
 
         # Pagination
-        @view_parameters = params[:view] || {}
-        per_page = (@view_parameters[:per_page] || 10).to_i
-        active_page = (@view_parameters[:page] || 1).to_i
-        @view_parameters = {
-          :page_count => ((@filtered_participants_count - 1) / per_page) + 1,
-          :per_page   => per_page,
-          :page       => active_page }
+        @view_parameters = pagination_parameters_from_params
+        per_page    = @view_parameters[:per_page]
+        active_page = @view_parameters[:page]
         @participants =
           @filtered_participants.limit(per_page).offset(per_page * (active_page - 1))
+        @view_parameters[:page_count] =
+          ((@filtered_participants_count - 1) / per_page) + 1
 
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/index_all.html"
       end
