@@ -29,7 +29,6 @@ class CTT2013 < Sinatra::Base
                              :directions_to_get_here,
                              :funding,
                              :contacts,
-                             :accommodation,
                              :registration,
                              :useful_links
                            ].map { |p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
@@ -80,6 +79,21 @@ class CTT2013 < Sinatra::Base
           set_page(page)
           haml page_file, :layout => :layout
         end
+      end
+    end
+  end
+
+  co_m_b_accommodation_page = :"#{ COMB_PAGE_PREFIX }accommodation"
+  page_file = :"/pages/#{ co_m_b_accommodation_page }.html"
+  LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
+    PAGE_URL_FRAGMENTS[co_m_b_accommodation_page].each do |p|
+      get "#{ REQUEST_BASE_URL }#{ l }#{ p }" do
+        set_locale(locale)
+        set_page(co_m_b_accommodation_page)
+
+        @hotels = Hotel.default_order
+
+        haml page_file, :layout => :layout
       end
     end
   end
