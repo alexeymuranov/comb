@@ -14,9 +14,13 @@
     %dt.attribute<
       = label_from_attribute_name(Hotel, :address, :string)
     %dd.attribute.string<
-      - address = hotel.address
-      - if address.nil? || address.empty?
-        = address
+      - case address = hotel.address
+      - when nil
+        %samp<?
+      - when ''
+        %samp<∅
+      - when /\An\/a\z/i
+        %samp<N/A
       - else
         %a{ :href => map_url_for_address(hotel.address) }<>
           = preserve do
