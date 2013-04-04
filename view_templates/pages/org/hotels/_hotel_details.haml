@@ -18,7 +18,7 @@
       - if address.nil? || address.empty?
         = address
       - else
-        %a{ :href => "http://maps.google.fr/maps?q=#{ hotel.address.gsub(' ', '+') }" }<>
+        %a{ :href => map_url_for_address(hotel.address) }<>
           = preserve do
             &= hotel.address
 

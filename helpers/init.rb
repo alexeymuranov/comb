@@ -24,4 +24,7 @@ class CTT2013
 
   require_relative 'view_pagination_helpers'
   helpers ViewPaginationHelpers
+
+  require_relative 'google_maps_helpers'
+  helpers GoogleMapsHelpers
 end
