@@ -299,10 +299,10 @@ class CTT2013 < Sinatra::Base
 
       set_locale(locale)
       set_page(:"#{ ORG_PAGE_PREFIX }utilities")
+      @utility_tab = :participants_with_talk_proposals
 
       @attributes = [:email]
       @participants = Participant.joins(:talk_proposals).uniq.default_order
-      @utility_tab = :participants_with_talk_proposals
 
       haml :"/pages/#{ ORG_PAGE_PREFIX }utilities_layout" do
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/participants_with_talk_proposals.html", :layout => false
