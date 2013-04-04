@@ -305,7 +305,8 @@ class CTT2013 < Sinatra::Base
       @participants = Participant.joins(:talk_proposals).uniq.default_order
 
       haml :"/pages/#{ ORG_PAGE_PREFIX }utilities_layout" do
-        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/participants_with_talk_proposals.html", :layout => false
+        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/participants_with_talk_proposals.html",
+             :layout => false
       end
     end
 
