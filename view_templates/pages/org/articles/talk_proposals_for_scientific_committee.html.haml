@@ -7,7 +7,7 @@
         &= participant.full_name
         %samp
           = surround '<', '>' do
-            %a{ :href => "mailto:#{ participant.email }" }<>
+            %a{ :href => "mailto:#{ participant.email }?subject=Your talk proposal for Low-dimensional Topology and Geometry in Toulouse" }<>
               &= participant.email
       - talk_proposal = participant.co_m_b_talk_proposal
       %dl
