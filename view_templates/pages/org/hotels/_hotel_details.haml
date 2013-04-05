@@ -22,9 +22,9 @@
       - when /\An\/a\z/i
         %samp<N/A
       - else
-        %a{ :href => map_url_for_address(hotel.address) }<>
+        %a{ :href => map_url_for_address(address) }<>
           = preserve do
-            &= hotel.address
+            &= address
 
   .item
     %dt.attribute<

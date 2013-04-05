@@ -23,7 +23,7 @@
         - when /n\/a/i
           %samp<N/A
         - else
-          %a{ :href => map_url_for_address(hotel.address) }<>
-            &= hotel.address
+          %a{ :href => map_url_for_address(address) }<>
+            &= address
         %br
         &= hotel.phone
