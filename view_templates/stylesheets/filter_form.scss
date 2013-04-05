@@ -8,7 +8,7 @@ table.filter {
   }
 
   &.filtered {
-    @include box-shadow(0 0 4px 0 Red);
+    box-shadow: 0 0 4px 0 Red;
   }
 }
 
