@@ -1,6 +1,6 @@
-There will be fifteen one hour plenary talks, and thirty-four 30-minute talks. The following have agreed to give plenary talks at the conference:
+There will be seventeen one hour plenary talks, and thirty-four 30-minute talks. The following have agreed to give plenary talks at the conference:
 
-* [I. Agol](http://math.berkeley.edu/~ianagol/) (to be confirmed)
+* [I. Agol](http://math.berkeley.edu/~ianagol/)
 * [D. Calegari](http://math.uchicago.edu/~dannyc/)
 * [V. Colin](http://www.math.sciences.univ-nantes.fr/~vcolin/)
 * [D. Cooper](http://www.math.ucsb.edu/~cooper/)
