@@ -24,8 +24,9 @@
                  :type     => 'text',
                  :value    => @talk.type }
           - ['ParallelTalk', 'PlenaryTalk'].each do |type|
-            %option{ :selected => (type == @talk.type) }
-              = type
+            %option{ :value    => type,
+                     :selected => (type == @talk.type) }
+              = type.constantize.model_name.human
 
     %input{ :type  => 'hidden',
             :name  => 'participation[conference_id]',
