@@ -7,11 +7,11 @@
             :class => label_html_classes }<
       = label_from_attribute_name(Talk, :title)
   %dd.input
-    %input{ :id       => 'talk_title',
-            :name     => 'talk[title]',
-            :required => required,
-            :type     => 'text',
-            :value    => @talk.title }
+    %input.long_string{ :id       => 'talk_title',
+                        :name     => 'talk[title]',
+                        :required => required,
+                        :type     => 'text',
+                        :value    => @talk.title }
 
 - required = Talk.attribute_constraints_on(:abstract)[:required]
 - label_html_classes = []
