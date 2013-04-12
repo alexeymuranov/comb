@@ -8,7 +8,7 @@ fr:
       participant  : &participant_model   "participant(e)"
       talk         : &talk_model          "exposé"
       plenary_talk : &plenary_talk_model  "exposé plénière"
-      parallel_talk: &parallel_talk_model "exposé parallel"
+      parallel_talk: &parallel_talk_model "exposé parallèle"
       talk_proposal: &talk_proposal_model "exposé proposé"
       hotel        : &hotel_model         "hôtel"
       accommodation: &accommodation       "logement"
