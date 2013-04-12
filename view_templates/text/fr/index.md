@@ -13,5 +13,7 @@ Les thèmes abordés auront comme dénominateur commun la **topologie de petite 
 Le colloque fera partie des manifestations scientifiques du mois thématique [Topologie, Géométrie Symplectique et de Contact à Toulouse](http://www.math.univ-toulouse.fr/top-geom-conf-2013/common/index.php?lang=fr)
 organisées par le [Centre International de Mathématiques et Informatique de Toulouse (CIMI)](http://www.cimi.univ-toulouse.fr/). Il sera soutenu par l'[Institut de Mathématiques de Toulouse](http://www.math.univ-toulouse.fr/), l'[Université Paul Sabatier](http://www.univ-tlse3.fr/), le [GDR « Tresses »](http://tresses.math.cnrs.fr/) et le réseau [GEAR](http://gear.math.illinois.edu).
 
-<!--**La date limite pour les [demandes de financement](http://www.math.univ-toulouse.fr/top-geom-conf-2013/fr/ldtg-mb/funding) est le <span style='color:#FF0000'>24 mars 2013</span>.**<br>-->
-**La date limite d'[inscription](http://www.math.univ-toulouse.fr/top-geom-conf-2013/fr/ldtg-mb/registration) est le <span style='color:#FF0000'>10 avril 2013</span>.**
+<!--
+**La date limite pour les [demandes de financement](http://www.math.univ-toulouse.fr/top-geom-conf-2013/fr/ldtg-mb/funding) est le <span style='color:#FF0000'>24 mars 2013</span>.**<br>
+-->
+**La date limite d'[inscription](http://www.math.univ-toulouse.fr/top-geom-conf-2013/fr/ldtg-mb/registration) est le <span style='color:#FF0000'>30 avril 2013</span>.**
