@@ -108,15 +108,15 @@ class CTT2013 < Sinatra::Base
           end
         end
 
-        talk_proposals_attributes =
-          participation_talk_proposals_attributes_from_params
+        # talk_proposals_attributes =
+        #   participation_talk_proposals_attributes_from_params
 
-        talk_proposals_attributes.each do |t_p_aa|
-          participation_key = t_p_aa.delete(:_participation_key)
-          if participations_attributes.key?(participation_key)
-            participations_attributes[participation_key][:talk_proposal_attributes] = t_p_aa
-          end
-        end
+        # talk_proposals_attributes.each do |t_p_aa|
+        #   participation_key = t_p_aa.delete(:_participation_key)
+        #   if participations_attributes.key?(participation_key)
+        #     participations_attributes[participation_key][:talk_proposal_attributes] = t_p_aa
+        #   end
+        # end
       end.values
     end
 

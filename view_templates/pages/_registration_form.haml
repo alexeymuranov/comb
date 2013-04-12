@@ -128,11 +128,11 @@
             = preserve do
               &= @participant.public_send(attr)
 
-  - co_m_b_conf_id = Conference.co_m_b_conf.id
-  - if @conferences.map(&:id).include? co_m_b_conf_id
+  -# - co_m_b_conf_id = Conference.co_m_b_conf.id
+  -# - if @conferences.map(&:id).include? co_m_b_conf_id
 
-    = haml :'pages/_co_m_b_talk_proposal_fields',
-           :locals => { :conference_id => co_m_b_conf_id }
+  -#   = haml :'pages/_co_m_b_talk_proposal_fields',
+  -#          :locals => { :conference_id => co_m_b_conf_id }
 
   .actions
     %button.create{:type => :submit, :name => 'button', :value => 'create'}
