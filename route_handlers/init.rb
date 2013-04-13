@@ -84,12 +84,12 @@ class CTT2013 < Sinatra::Base
       end
 
       attributes[:participations_attributes] =
-        participant_participations_attributes_from_params
+        participant_participations_attributes_from_params_for(action)
 
       attributes
     end
 
-    def participant_participations_attributes_from_params
+    def participant_participations_attributes_from_params_for(action)
       submitted_attributes = params[:participations]
 
       {}.tap do |participations_attributes|
@@ -108,15 +108,17 @@ class CTT2013 < Sinatra::Base
           end
         end
 
-        # talk_proposals_attributes =
-        #   participation_talk_proposals_attributes_from_params
+        unless action == :registration
+          talk_proposals_attributes =
+            participation_talk_proposals_attributes_from_params
 
-        # talk_proposals_attributes.each do |t_p_aa|
-        #   participation_key = t_p_aa.delete(:_participation_key)
-        #   if participations_attributes.key?(participation_key)
-        #     participations_attributes[participation_key][:talk_proposal_attributes] = t_p_aa
-        #   end
-        # end
+          talk_proposals_attributes.each do |t_p_aa|
+            participation_key = t_p_aa.delete(:_participation_key)
+            if participations_attributes.key?(participation_key)
+              participations_attributes[participation_key][:talk_proposal_attributes] = t_p_aa
+            end
+          end
+        end
       end.values
     end
 
