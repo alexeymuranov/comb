@@ -13,10 +13,10 @@
       %dl
         %dt
           %i<= label_from_attribute_name(TalkProposal, :title)
-        %dd
+        %dd{ :style => 'display:inline-block;white-space:pre-wrap;' }<
           &= talk_proposal.title
         %dt
           %i<= label_from_attribute_name(TalkProposal, :abstract)
-        %dd
+        %dd{ :style => 'display:inline-block;white-space:pre-wrap;' }<
           = preserve do
             &= talk_proposal.abstract
