@@ -11,7 +11,7 @@ Les thèmes abordés auront comme dénominateur commun la **topologie de petite 
 * **applications de la théorie géométrique des groupes et des variétés de représentations**
 
 Le colloque fera partie des manifestations scientifiques du mois thématique [Topologie, Géométrie Symplectique et de Contact à Toulouse](http://www.math.univ-toulouse.fr/top-geom-conf-2013/common/index.php?lang=fr)
-organisées par le [Centre International de Mathématiques et Informatique de Toulouse (CIMI)](http://www.cimi.univ-toulouse.fr/). Il sera soutenu par l'[Institut de Mathématiques de Toulouse](http://www.math.univ-toulouse.fr/), l'[Université Paul Sabatier](http://www.univ-tlse3.fr/), le [GDR « Tresses »](http://tresses.math.cnrs.fr/) et le réseau [GEAR](http://gear.math.illinois.edu).
+organisées par le [Centre International de Mathématiques et Informatique de Toulouse (CIMI)](http://www.cimi.univ-toulouse.fr/). Il sera soutenu par l'[Institut de Mathématiques de Toulouse](http://www.math.univ-toulouse.fr/), l'[Université Paul Sabatier](http://www.univ-tlse3.fr/), le [GDR « Tresses »](http://tresses.math.cnrs.fr/), le réseau [GEAR](http://gear.math.illinois.edu), et les trois projets ANR [Extension des théories de Teichmueller-Thurston](http://www.math.univ-toulouse.fr/~schlenker/ettt/ettt.html), [Topologie de contact en grandes dimensions](http://www.math.univ-toulouse.fr/~niederkr/ANR/index.php?frame=main) et [Géométrie des sous-groupes](http://www.cmi.univ-mrs.fr/~paoluzzi/gdsous.html).
 
 <!--
 **La date limite pour les [demandes de financement](http://www.math.univ-toulouse.fr/top-geom-conf-2013/fr/ldtg-mb/funding) est le <span style='color:#FF0000'>24 mars 2013</span>.**<br>
