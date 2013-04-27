@@ -106,21 +106,16 @@ class CTT2013 < Sinatra::Base
   require_relative 'models/models'
   require './lib/simple_relation_filter'
 
-  # Handlers
-  # ========
-  #
-
-  # Cache control
-  before do
-    cache_control :public, :must_revalidate, :max_age => 60
-  end
-
   # Helpers
   # ============
   #
   require_relative 'helpers/init'
 
 end
+
+# Handlers
+# ========
+#
 
 require_relative 'route_handlers/init'
 

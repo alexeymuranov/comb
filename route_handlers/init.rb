@@ -176,5 +176,6 @@ class CTT2013 < Sinatra::Base
 
 end
 
+require_relative 'filters'
 require_relative 'public'
 require_relative 'organiser_connexion'
