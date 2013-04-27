@@ -24,7 +24,7 @@ class CTT2013 < Sinatra::Base
       :funding_requests,
       :special_requests,
       :approved ]
-  PARTICIPANT_ATTRIBUTES[:update] =
+  PARTICIPANT_ATTRIBUTES[:update] = PARTICIPANT_ATTRIBUTES[:create] =
     [ :first_name, :last_name, :email, :affiliation,
       :academic_position,
       :country, :city, :post_code, :street_address, :phone,

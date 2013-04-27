@@ -40,3 +40,8 @@
 
         = haml :'pages/org/participants/_participant_details',
                :locals => { :participant => participant }
+
+- if main_organiser_logged_in?
+  %a.button.new{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/new"),
+                 :role => 'button' }
+    = t 'actions.add'

@@ -1,0 +1,93 @@
+%form{ :'accept-charset' => 'UTF-8',
+       :action           => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/"),
+       :method           => :post }
+
+  = haml :'shared_partials/_jquery_ui_for_forms'
+
+  - if @participant.errors.any?
+    = haml :'shared_partials/_form_errors',
+           :locals => { :object => @participant }
+
+  %dl.fields
+    - ([:first_name, :last_name,  :email, :affiliation] & @attributes).each do |attr|
+      - required = Participant.attribute_constraints_on(attr)[:required]
+      - label_html_classes = []
+      - label_html_classes << 'required' if required
+      .field
+        %dt.label
+          %label{ :for   => "participant_#{ attr }",
+                  :class => label_html_classes }<
+            = label_from_attribute_name(Participant, attr)
+        %dd.input
+          %input{ :id       => "participant_#{ attr }",
+                  :name     => "participant[#{ attr }]",
+                  :required => required,
+                  :type     => input_html_type_for_attribute(Participant, attr),
+                  :value    => @participant.public_send(attr) }
+
+    - if @attributes.include? :academic_position
+      .field
+        %dt.label
+          %label{ :for => 'participant_academic_position' }<
+            = label_from_attribute_name(Participant, :academic_position)
+        %dd.input
+          %select{ :id    => 'participant_academic_position',
+                   :name  => 'participant[academic_position]',
+                   :value => @participant.academic_position }
+            - Participant.attribute_constraints_on(:academic_position)[:allowed_values].each do |p|
+              - if p == @participant.academic_position
+                %option{ :selected => true }
+                  = p
+              - else
+                %option
+                  = p
+
+    - ([:country, :city, :post_code, :street_address, :phone] & @attributes).each do |attr|
+      .field
+        %dt.label
+          %label{ :for => "participant_#{ attr }" }<
+            = label_from_attribute_name(Participant, attr)
+        %dd.input
+          %input{ :id    => "participant_#{ attr }",
+                  :name  => "participant[#{ attr }]",
+                  :type  => input_html_type_for_attribute(Participant, attr),
+                  :value => @participant.public_send(attr) }
+
+    - ([:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed] & @attributes).each do |attr|
+      .field
+        %dt.label
+          %label{ :for => "participant_#{ attr }" }<
+            = label_from_attribute_name(Participant, attr)
+        %dd.input
+          - name = "participant[#{ attr }]"
+          -# Hidden field to pass a value when the checkbox is not checked
+          %input{ :name  => name,
+                  :type  => :hidden,
+                  :value => 0 }
+          %input{ :id      => "participant_#{ attr }",
+                  :name    => name,
+                  :type    => :checkbox,
+                  :value   => 1,
+                  :checked => @participant.public_send(attr) }
+          %span= t 'yes'
+
+    - ([:funding_requests, :special_requests] & @attributes).each do |attr|
+      .field
+        %dt.label
+          %label{ :for => "participant_#{ attr }" }<
+            = label_from_attribute_name(Participant, attr)
+        %dd.input
+          %textarea{ :id   => "participant_#{ attr }",
+                     :name => "participant[#{ attr }]" }<
+            = preserve do
+              &= @participant.public_send(attr)
+
+  - if @associations.include? :participations
+    = haml :'pages/org/participants/_participations_fields'
+
+  .actions
+    %button.update{ :type => :submit, :name => 'button', :value => 'create' }
+      = t 'actions.submit'
+    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants"),
+                      :role => :button }
+      = t 'actions.cancel'

@@ -168,6 +168,24 @@ class CTT2013 < Sinatra::Base
       end
     end
 
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/new" do
+      require_main_organiser_login!
+
+      set_locale(locale)
+      # set_page(:"#{ ORG_PAGE_PREFIX }participants")
+
+      @attributes   = PARTICIPANT_ATTRIBUTES[:create]
+      @associations = [:participations]
+
+      @participant = Participant.new
+
+      if @associations.include?(:participations)
+        @conferences = Conference.default_order
+      end
+
+      haml :"/pages/#{ ORG_PAGE_PREFIX }participants/new_one.html"
+    end
+
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id" do |id|
       require_organiser_login!
 
@@ -444,6 +462,34 @@ class CTT2013 < Sinatra::Base
   # -------------
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
+    post "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/" do
+      require_main_organiser_login!
+
+      set_locale(locale)
+
+      participant_attributes =
+        participant_attributes_from_params_for(:create)
+
+      @participant = Participant.new(participant_attributes)
+
+      if @participant.save
+        flash[:success] = t('flash.resources.participants.create.success')
+        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }")
+      else
+        set_page(:"#{ ORG_PAGE_PREFIX }participants")
+
+        flash.now[:error] = t('flash.resources.participants.update.failure')
+        @attributes = PARTICIPANT_ATTRIBUTES[:create]
+        @associations = [:participations]
+
+        if @associations.include?(:participations)
+          @conferences = Conference.default_order
+        end
+
+        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/new_one.html"
+      end
+    end
+
     post "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }login" do
       user = User.find_by_username(params[:username])
       if user && user.accept_password?(params[:password])
