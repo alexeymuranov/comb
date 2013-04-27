@@ -183,6 +183,53 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/#{ ORG_PAGE_PREFIX }participants/show_one.html"
     end
 
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id/edit" do |id|
+      require_main_organiser_login!
+
+      set_locale(locale)
+      # set_page(:"#{ ORG_PAGE_PREFIX }participants")
+
+      # @attributes = PARTICIPANT_ATTRIBUTES[:update]
+
+      if only = params[:only]
+        @attributes = []
+        if only_attributes = only[:attributes]
+          only_attributes = only_attributes.to_set
+          PARTICIPANT_ATTRIBUTES[:update].each do |attr|
+            @attributes << attr if only_attributes.include?(attr.to_s)
+          end
+        end
+
+        @associations = []
+        if only_associations = only[:associations]
+          only_associations = only_associations.to_set
+          if only_associations.include? 'participations'
+            @associations << :participations
+          end
+        end
+      else
+        @attributes   = PARTICIPANT_ATTRIBUTES[:update]
+        @associations = [:participations]
+      end
+
+      @participant = Participant.find(id)
+
+      if @associations.include?(:participations)
+        @conferences = Conference.default_order
+      end
+
+      haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id/delete" do |id|
+      require_main_organiser_login!
+
+      set_locale(locale)
+      # set_page(:"#{ ORG_PAGE_PREFIX }participants")
+
+      @participant = Participant.find(id)
+      haml :"/pages/#{ ORG_PAGE_PREFIX }participants/delete_one.html"
+    end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks" do
       require_organiser_login!
@@ -196,7 +243,7 @@ class CTT2013 < Sinatra::Base
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/new" do
-      require_organiser_login!
+      require_main_organiser_login!
 
       set_locale(locale)
       # set_page(:#{ ORG_PAGE_PREFIX }talks)
@@ -223,6 +270,27 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/#{ ORG_PAGE_PREFIX }talks/show_one.html"
     end
 
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id/edit" do |id|
+      require_main_organiser_login!
+
+      set_locale(locale)
+      # set_page(:"#{ ORG_PAGE_PREFIX }talks")
+
+      @attributes = TALK_ATTRIBUTES[:update]
+      @talk = Talk.find(id)
+      haml :"/pages/#{ ORG_PAGE_PREFIX }talks/edit_one.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id/delete" do |id|
+      require_main_organiser_login!
+
+      set_locale(locale)
+      # set_page(:"#{ ORG_PAGE_PREFIX }talks")
+
+      @talk = Talk.find(id)
+      haml :"/pages/#{ ORG_PAGE_PREFIX }talks/delete_one.html"
+    end
+
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels" do
       require_organiser_login!
 
@@ -235,7 +303,7 @@ class CTT2013 < Sinatra::Base
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/new" do
-      require_organiser_login!
+      require_main_organiser_login!
 
       set_locale(locale)
       # set_page(:#{ ORG_PAGE_PREFIX }hotels)
@@ -260,6 +328,27 @@ class CTT2013 < Sinatra::Base
       @hotel = Hotel.find(id)
 
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/show_one.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/:id/edit" do |id|
+      require_main_organiser_login!
+
+      set_locale(locale)
+      # set_page(:"#{ ORG_PAGE_PREFIX }hotels")
+
+      @attributes = HOTEL_ATTRIBUTES[:update]
+      @hotel = Hotel.find(id)
+      haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/edit_one.html"
+    end
+
+    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/:id/delete" do |id|
+      require_main_organiser_login!
+
+      set_locale(locale)
+      # set_page(:"#{ ORG_PAGE_PREFIX }hotels")
+
+      @hotel = Hotel.find(id)
+      haml :"/pages/#{ ORG_PAGE_PREFIX }hotel/delete_one.html"
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }utilities" do
@@ -326,96 +415,6 @@ class CTT2013 < Sinatra::Base
         haml :"/pages/#{ ORG_PAGE_PREFIX }utilities/talk_proposals_for_scientific_committee.html",
              :layout => false
       end
-    end
-
-    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id/edit" do |id|
-      require_main_organiser_login!
-
-      set_locale(locale)
-      # set_page(:"#{ ORG_PAGE_PREFIX }participants")
-
-      # @attributes = PARTICIPANT_ATTRIBUTES[:update]
-
-      if only = params[:only]
-        @attributes = []
-        if only_attributes = only[:attributes]
-          only_attributes = only_attributes.to_set
-          PARTICIPANT_ATTRIBUTES[:update].each do |attr|
-            @attributes << attr if only_attributes.include?(attr.to_s)
-          end
-        end
-
-        @associations = []
-        if only_associations = only[:associations]
-          only_associations = only_associations.to_set
-          if only_associations.include? 'participations'
-            @associations << :participations
-          end
-        end
-      else
-        @attributes   = PARTICIPANT_ATTRIBUTES[:update]
-        @associations = [:participations]
-      end
-
-      @participant = Participant.find(id)
-
-      if @associations.include?(:participations)
-        @conferences = Conference.default_order
-      end
-
-      haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
-    end
-
-    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id/edit" do |id|
-      require_main_organiser_login!
-
-      set_locale(locale)
-      # set_page(:"#{ ORG_PAGE_PREFIX }talks")
-
-      @attributes = TALK_ATTRIBUTES[:update]
-      @talk = Talk.find(id)
-      haml :"/pages/#{ ORG_PAGE_PREFIX }talks/edit_one.html"
-    end
-
-    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/:id/edit" do |id|
-      require_main_organiser_login!
-
-      set_locale(locale)
-      # set_page(:"#{ ORG_PAGE_PREFIX }hotels")
-
-      @attributes = HOTEL_ATTRIBUTES[:update]
-      @hotel = Hotel.find(id)
-      haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/edit_one.html"
-    end
-
-    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id/delete" do |id|
-      require_main_organiser_login!
-
-      set_locale(locale)
-      # set_page(:"#{ ORG_PAGE_PREFIX }participants")
-
-      @participant = Participant.find(id)
-      haml :"/pages/#{ ORG_PAGE_PREFIX }participants/delete_one.html"
-    end
-
-    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id/delete" do |id|
-      require_main_organiser_login!
-
-      set_locale(locale)
-      # set_page(:"#{ ORG_PAGE_PREFIX }talks")
-
-      @talk = Talk.find(id)
-      haml :"/pages/#{ ORG_PAGE_PREFIX }talks/delete_one.html"
-    end
-
-    get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/:id/delete" do |id|
-      require_main_organiser_login!
-
-      set_locale(locale)
-      # set_page(:"#{ ORG_PAGE_PREFIX }hotels")
-
-      @hotel = Hotel.find(id)
-      haml :"/pages/#{ ORG_PAGE_PREFIX }hotel/delete_one.html"
     end
 
     get "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }articles/talk_proposals_for_scientific_committee" do
@@ -564,6 +563,8 @@ class CTT2013 < Sinatra::Base
     put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }talks/:id" do |id|
       require_main_organiser_login!
 
+      set_locale(locale)
+
       @talk = Talk.find(id)
       talk_attributes = talk_attributes_from_params_for(:update)
 
@@ -571,7 +572,6 @@ class CTT2013 < Sinatra::Base
         flash[:success] = t('flash.resources.talks.update.success')
         redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }")
       else
-        set_locale(locale)
         set_page(:"#{ ORG_PAGE_PREFIX }talks")
 
         flash.now[:error] = t('flash.resources.talks.update.failure')
@@ -584,6 +584,8 @@ class CTT2013 < Sinatra::Base
     put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }hotels/:id" do |id|
       require_main_organiser_login!
 
+      set_locale(locale)
+
       @hotel = Hotel.find(id)
       hotel_attributes = hotel_attributes_from_params_for(:update)
 
@@ -591,7 +593,6 @@ class CTT2013 < Sinatra::Base
         flash[:success] = t('flash.resources.hotels.update.success')
         redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }")
       else
-        set_locale(locale)
         set_page(:"#{ ORG_PAGE_PREFIX }hotels")
 
         flash.now[:error] = t('flash.resources.hotels.update.failure')
