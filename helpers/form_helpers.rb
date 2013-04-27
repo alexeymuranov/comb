@@ -18,19 +18,18 @@ class CTT2013
     # end
 
     def hidden_fields_from_nested_hash(hash, options = {})
-      hidden_field_tags = []
-      param_name_value_pairs_from_nested_hash(hash).each do |name, value|
-        if value.is_a?(Array)
-          name = "#{ name }[]"
-          value.each do |v|
-            hidden_field_tags << input_tag(:hidden, name, v, options)
+      [].tap do |hidden_field_tags|
+        param_name_value_pairs_from_nested_hash(hash).each do |name, value|
+          if value.is_a?(Enumerable)
+            name = "#{ name }[]"
+            value.each do |v|
+              hidden_field_tags << input_tag(:hidden, name, v, options)
+            end
+          else
+            hidden_field_tags << input_tag(:hidden, name, value, options)
           end
-        else
-          hidden_field_tags << input_tag(:hidden, name, value, options)
         end
-      end
-
-      hidden_field_tags.join
+      end.join("\n")
     end
 
     module_function
