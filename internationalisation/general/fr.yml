@@ -19,6 +19,7 @@ fr:
     create       : "Créer"
     delete       : "Supprimer"
     do_not_accept: "Ne pas accepter"
+    download     : "Télécharger"
     filter       : "Filtrer"
     ignore       : "Ignorer"
     log_in       : "Se connecter"

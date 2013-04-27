@@ -430,6 +430,67 @@ class CTT2013 < Sinatra::Base
     redirect fixed_url('/')
   end
 
+  get "/download/participants.:format" do |format|
+    require_organiser_login!
+
+    filename =
+      "filtered participants " +
+      "#{ Time.now.strftime('%Y-%m-%d %k-%M') }.#{ format }"
+    attachment filename
+
+    @attributes =
+      [ :last_name, :first_name, :email, :affiliation, :academic_position,
+        :country, :city, :post_code, :street_address, :phone,
+        :i_m_t_member, :g_d_r_member,
+        :invitation_needed, :visa_needed, :special_requests ]
+    @attribute_procs = []
+    @headers = {}
+    @attributes.each do |attr|
+      attr_proc = attr.to_proc
+      @attribute_procs << attr_proc
+      @headers[attr_proc] =
+        capitalize_first_letter_of(Participant.human_attribute_name(attr))
+    end
+
+    @conferences = Conference.default_order.all
+
+    @conferences.each do |conf|
+      participation_status = lambda { |participant|
+        participation =
+          participant.participations.find { |p| p.conference == conf }
+        if participation
+          "(#{ participation.approved? ? '✓' : '—' }) " +
+            "[#{ participation.arrival_date } .. #{ participation.departure_date }]"
+        end
+      }
+      @attribute_procs << participation_status
+      @headers[participation_status] = conf.identifier
+
+      committee_comments = lambda { |participant|
+        participation =
+          participant.participations.find { |p| p.conference == conf }
+        if participation
+          participation.committee_comments
+        end
+      }
+      @attribute_procs << committee_comments
+      @headers[committee_comments] =
+        capitalize_first_letter_of(
+          Participation.human_attribute_name(:committee_comments)) +
+          " (#{ conf.identifier })"
+    end
+
+    filter_participants_for_download # TODO: find a better solution
+
+    @participants = @participants.default_order
+
+    case format
+    when 'csv'
+      content_type 'text/csv', :charset => 'utf-8'
+      csv_from_collection(@participants, @attribute_procs, @headers)
+    end
+  end
+
   # POST requests
   # -------------
 
@@ -723,6 +784,46 @@ class CTT2013 < Sinatra::Base
           @filtering_values['participations_attributes_exist'] =
             participations_filter.filtering_attributes_as_simple_nested_hash
 
+        end
+      end
+    end
+
+    # TODO: find a better solution. This method is used for its side-effects
+    # which are not very well defined.
+    def filter_participants_for_download
+      @participants = Participant.scoped
+
+      if participants_filter_values = params['filter']
+        participants_filter = FriendlyRelationFilter.new(Participant)
+        participants_filter.filtering_attributes = @attributes
+        participants_filter.set_filtering_values_from_text_hash(
+          participants_filter_values)
+        @participants = @participants.merge(participants_filter.to_scope)
+
+        participations_filter_values =
+          participants_filter_values['participations_attributes_exist']
+
+        if participations_filter_values
+          participations_filter =
+            FriendlyRelationFilter.new(Participation)
+          participations_filter.filtering_attributes =
+            [:conference_id, :approved]
+          participations_filter.set_filtering_values_from_text_hash(
+            participations_filter_values)
+          @participants =
+            @participants.joins(:participations).
+                          merge(participations_filter.to_scope).uniq
+        end
+      end
+    end
+
+    def csv_from_collection(collection, attribute_procs, headers)
+      CSV.generate(:col_sep  => ',',
+                   :row_sep  => "\r\n",
+                   :encoding => 'utf-8') do |csv|
+        csv << attribute_procs.map { |p| headers[p] } << []
+        collection.each do |object|
+          csv << attribute_procs.map { |p| p[object] }
         end
       end
     end

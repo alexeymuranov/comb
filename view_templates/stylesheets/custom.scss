@@ -94,6 +94,18 @@ a[role=button] {
   &:hover {
     @include button(pill, Green);
   }
+
+  &.download {
+    @include button(pill, LightBlue);
+
+    &:hover {
+      @include button(pill, Cyan);
+    }
+
+    &:before {
+      content: "↓";
+    }
+  }
 }
 
 fieldset {

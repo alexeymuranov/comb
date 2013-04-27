@@ -19,6 +19,7 @@ en:
     create       : "Create"
     delete       : "Delete"
     do_not_accept: "Do not accept"
+    download     : "Download"
     filter       : "Filter"
     ignore       : "Ignore"
     log_in       : "Log in"

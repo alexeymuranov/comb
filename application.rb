@@ -17,6 +17,8 @@ require 'yaml'
 
 require 'cgi' # "Common Gateway Interface", HTTP tools (escape query string, for example)
 
+require 'csv' # to generate CSV files for download
+
 class CTT2013 < Sinatra::Base
 
   require 'active_record'
