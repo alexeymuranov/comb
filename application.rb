@@ -71,9 +71,11 @@ class CTT2013 < Sinatra::Base
   LOCALES = [:en, :fr]
   DEFAULT_LOCALE = :fr
 
-  I18n.load_path =
-    Dir[::File.join(settings.root, 'internationalisation/**/*.{rb,yml}')]
-  I18n.default_locale = DEFAULT_LOCALE
+  configure do
+    I18n.load_path =
+      Dir[::File.join(settings.root, 'internationalisation/**/*.{rb,yml}')]
+    I18n.default_locale = DEFAULT_LOCALE
+  end
 
   # Sass
   # ----
