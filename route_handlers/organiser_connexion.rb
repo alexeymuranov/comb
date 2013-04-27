@@ -51,12 +51,13 @@ class CTT2013 < Sinatra::Base
   #
   ORG_PAGE_PREFIX = :'org/'
 
-  ORGANISER_CONNEXION_PAGES = [ :participants_to_approve,
-                                :participants,
-                                :talks,
-                                :hotels,
-                                :utilities
-                              ].map { |p| :"#{ ORG_PAGE_PREFIX }#{ p }" }
+  ORGANISER_CONNEXION_PAGES =
+    [ :participants_to_approve,
+      :participants,
+      :talks,
+      :hotels,
+      :utilities
+    ].map { |p| :"#{ ORG_PAGE_PREFIX }#{ p }" }
 
 
   ORGANISER_CONNEXION_UTILITY_TABS = {
