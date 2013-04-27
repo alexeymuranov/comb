@@ -41,15 +41,8 @@ class CTT2013 < Sinatra::Base
   # Settings
   # ========
 
-  # Host-specific constants
-  if production?
-    # For IMT web site
-    BASE_URL = '/top-geom-conf-2013/'
-    REQUEST_BASE_URL = '/'
-  else
-    # For localhost
-    REQUEST_BASE_URL = BASE_URL = '/'
-  end
+  # Host-specific constants (for IMT web site)
+  BASE_URL = production? ? '/top-geom-conf-2013/' : '/'
 
   configure do
     set :app_file        => __FILE__,

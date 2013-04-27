@@ -47,19 +47,19 @@ class CTT2013 < Sinatra::Base
   # GET requests
   # ------------
 
-  get "#{ REQUEST_BASE_URL }stylesheets/application.css" do
+  get "/stylesheets/application.css" do
     content_type :css, :charset => 'utf-8'
     scss :'/stylesheets/application.css'
   end
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-    get "#{ REQUEST_BASE_URL }#{ l }" do
+    get "/#{ l }" do
       redirect fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ locale }")
     end
   end
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-    get "#{ REQUEST_BASE_URL }#{ l }registration" do
+    get "/#{ l }registration" do
       set_locale(locale)
       @participant = Participant.new
       @conferences = Conference.find(conference_ids_from_params)
@@ -74,7 +74,7 @@ class CTT2013 < Sinatra::Base
     page_file = :"/pages/#{ page }.html"
     LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
       PAGE_URL_FRAGMENTS[page].each do |p|
-        get "#{ REQUEST_BASE_URL }#{ l }#{ p }" do
+        get "/#{ l }#{ p }" do
           set_locale(locale)
           set_page(page)
           haml page_file, :layout => :layout
@@ -87,7 +87,7 @@ class CTT2013 < Sinatra::Base
   page_file = :"/pages/#{ co_m_b_accommodation_page }.html"
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
     PAGE_URL_FRAGMENTS[co_m_b_accommodation_page].each do |p|
-      get "#{ REQUEST_BASE_URL }#{ l }#{ p }" do
+      get "/#{ l }#{ p }" do
         set_locale(locale)
         set_page(co_m_b_accommodation_page)
 
@@ -99,7 +99,7 @@ class CTT2013 < Sinatra::Base
   end
 
   # Plain participant lists
-  get "#{ REQUEST_BASE_URL }data/participants/by_conference/:conf_identifier" do |conf_identifier|
+  get "/data/participants/by_conference/:conf_identifier" do |conf_identifier|
     unless conference = Conference.where(:identifier => conf_identifier).first
       halt
     end
@@ -113,7 +113,7 @@ class CTT2013 < Sinatra::Base
     participants_page = :"#{ COMB_PAGE_PREFIX }participants"
     PAGE_URL_FRAGMENTS[participants_page].each do |p|
       # A page that needs access to the database
-      get "#{ REQUEST_BASE_URL }#{ l }#{ p }" do
+      get "/#{ l }#{ p }" do
         set_locale(locale)
         set_page(participants_page)
 
@@ -129,7 +129,7 @@ class CTT2013 < Sinatra::Base
   # -------------
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-    post "#{ REQUEST_BASE_URL }#{ l }registration" do
+    post "/#{ l }registration" do
       set_locale(locale)
 
       # Filter attributes before mass assignment
