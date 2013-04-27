@@ -32,6 +32,22 @@ class CTT2013
       end.join("\n")
     end
 
+    def url_query_from_nested_hash(hash)
+      [].tap do |query_fragments|
+        param_name_value_pairs_from_nested_hash(hash).each do |name, value|
+          name = CGI::escape(name)
+          if value.is_a?(Enumerable)
+            name = "#{ name }[]"
+            value.each do |v|
+              query_fragments << "#{ name }=#{ CGI::escape(v.to_s) }"
+            end
+          else
+            query_fragments << "#{ name }=#{ CGI::escape(value.to_s) }"
+          end
+        end
+      end.join('&')
+    end
+
     module_function
 
       def param_name_value_pairs_from_nested_hash(nested_hash, key_prefix = '')

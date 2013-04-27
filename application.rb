@@ -15,6 +15,8 @@ require 'digest' # to hash passwords
 
 require 'yaml'
 
+require 'cgi' # "Common Gateway Interface", HTTP tools (escape query string, for example)
+
 class CTT2013 < Sinatra::Base
 
   require 'active_record'
