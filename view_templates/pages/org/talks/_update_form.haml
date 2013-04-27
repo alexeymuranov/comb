@@ -1,5 +1,5 @@
 %form{ :'accept-charset' => 'UTF-8',
-       :action           => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }"),
+       :action           => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }"),
        :method           => 'POST' }
   %input{ :type => :hidden, :name => :_method, :value => 'PUT' }
 
@@ -21,6 +21,6 @@
   .actions
     %button.update{ :type => :submit, :name => 'button' }
       = t 'actions.submit'
-    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }"),
+    %a.button.cancel{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }"),
                       :role => 'button' }
       = t 'actions.cancel'

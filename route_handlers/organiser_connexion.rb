@@ -87,13 +87,13 @@ class CTT2013 < Sinatra::Base
     get "/#{ l }logout" do
       cache_control :no_cache
       log_out
-      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }login")
+      redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }login", locale)
     end
 
     get "/#{ l }#{ ORG_PAGE_PREFIX }" do
       require_organiser_login!
 
-      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants_to_approve")
+      redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants_to_approve", locale)
     end
 
     [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
@@ -474,7 +474,7 @@ class CTT2013 < Sinatra::Base
 
       if @participant.save
         flash[:success] = t('flash.resources.participants.create.success')
-        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }")
+        redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }", locale)
       else
         set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
@@ -498,11 +498,11 @@ class CTT2013 < Sinatra::Base
           redirect fixed_url(session[:return_to])
           session.delete(:return_to)
         else
-          redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }")
+          redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }", locale)
         end
       else
         flash[:error] = t('flash.sessions.log_in.failure')
-        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }login")
+        redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }login", locale)
       end
     end
 
@@ -524,7 +524,7 @@ class CTT2013 < Sinatra::Base
 
       if @talk.save
         flash[:success] = t('flash.resources.talks.create.success')
-        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }")
+        redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }", locale)
       else
         flash.now[:error] = t('flash.resources.talks.create.failure')
         haml :"/pages/#{ ORG_PAGE_PREFIX }talks/new_one.html"
@@ -538,7 +538,7 @@ class CTT2013 < Sinatra::Base
       @hotel = Hotel.new(hotel_attributes)
       if @hotel.save
         flash[:success] = t('flash.resources.hotels.create.success')
-        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }")
+        redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }", locale)
       else
         flash.now[:error] = t('flash.resources.hotels.create.failure')
         haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/new_one.html"
@@ -603,7 +603,7 @@ class CTT2013 < Sinatra::Base
         @talk_proposal.accept
       end
       @talk_proposal.save!
-      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants#participant_#{ @talk_proposal.participant.id }")
+      redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants#participant_#{ @talk_proposal.participant.id }", locale)
     end
 
     put "/#{ l }#{ ORG_PAGE_PREFIX }talks/:id" do |id|
@@ -616,7 +616,7 @@ class CTT2013 < Sinatra::Base
 
       if @talk.update_attributes(talk_attributes)
         flash[:success] = t('flash.resources.talks.update.success')
-        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }")
+        redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }", locale)
       else
         set_page(:"#{ ORG_PAGE_PREFIX }talks")
 
@@ -637,7 +637,7 @@ class CTT2013 < Sinatra::Base
 
       if @hotel.update_attributes(hotel_attributes)
         flash[:success] = t('flash.resources.hotels.update.success')
-        redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }")
+        redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }", locale)
       else
         set_page(:"#{ ORG_PAGE_PREFIX }hotels")
 
@@ -646,7 +646,7 @@ class CTT2013 < Sinatra::Base
 
         haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/edit_one.html"
       end
-      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }")
+      redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ @hotel.id }", locale)
     end
   end
 
@@ -658,21 +658,21 @@ class CTT2013 < Sinatra::Base
       require_main_organiser_login!
 
       Participant.find(id).destroy
-      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }participants")
+      redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants", locale)
     end
 
     delete "/#{ l }#{ ORG_PAGE_PREFIX }talks/:id" do |id|
       require_main_organiser_login!
 
       Talk.find(id).destroy
-      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }talks")
+      redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks", locale)
     end
 
     delete "/#{ l }#{ ORG_PAGE_PREFIX }hotels/:id" do |id|
       require_main_organiser_login!
 
       Hotel.find(id).destroy
-      redirect fixed_url("/#{ locale }/#{ ORG_PAGE_PREFIX }hotels")
+      redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels", locale)
     end
   end
 

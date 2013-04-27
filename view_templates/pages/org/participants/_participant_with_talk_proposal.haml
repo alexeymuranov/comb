@@ -3,7 +3,7 @@
 
 = participant.approved? ? '✓' : '-'
 
-%a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }") }
+%a{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }") }
   %strong
     &= participant.full_name_with_affiliation_and_position
 
@@ -31,9 +31,9 @@
                         :talk_proposal => talk_proposal }
 
   - if main_organiser_logged_in?
-    %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }/edit"),
+    %a.button.edit{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }/edit"),
                     :role => 'button' }
       = t 'actions.update'
-    %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }/delete"),
+    %a.button.delete{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }/delete"),
                       :role => 'button' }
       = t 'actions.delete'

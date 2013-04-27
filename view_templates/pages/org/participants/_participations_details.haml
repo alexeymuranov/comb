@@ -24,7 +24,7 @@
                 %span.attribute.value
                   = value
 
-  %form.inline{ :action => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }"),
+  %form.inline{ :action => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }"),
                 :method => :post }
     %input{ :type => :hidden, :name => :_method, :value => :put }
     - if participant.approved?

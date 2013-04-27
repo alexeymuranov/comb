@@ -1,7 +1,7 @@
 %ol
   - @talks.each do |talk|
     %li{ :id => "talk_#{ talk.id }" }
-      %a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }") }
+      %a{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }") }
         %strong
           &= talk.title_with_speaker
         %i= "(#{ talk.translated_type_name })"
@@ -15,6 +15,6 @@
                :locals => { :talk => talk }
 
 - if main_organiser_logged_in?
-  %a.button.new{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/new"),
+  %a.button.new{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/new"),
                  :role => 'button' }
     = t 'actions.add'

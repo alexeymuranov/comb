@@ -1,5 +1,5 @@
 %form{ :'accept-charset' => 'UTF-8',
-       :action           => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"),
+       :action           => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"),
        :method           => :post }
   %input{ :type => :hidden, :name => :_method, :value => :put }
 
@@ -89,6 +89,6 @@
   .actions
     %button.update{ :type => :submit, :name => 'button', :value => 'update' }
       = t 'actions.submit'
-    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"),
+    %a.button.cancel{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"),
                       :role => :button }
       = t 'actions.cancel'

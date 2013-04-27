@@ -1,5 +1,5 @@
 %form{ :'accept-charset' => 'UTF-8',
-       :action           => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/"),
+       :action           => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/"),
        :method           => :post }
 
   = haml :'shared_partials/_jquery_ui_for_forms'
@@ -88,6 +88,6 @@
   .actions
     %button.update{ :type => :submit, :name => 'button', :value => 'create' }
       = t 'actions.submit'
-    %a.button.cancel{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants"),
+    %a.button.cancel{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants"),
                       :role => :button }
       = t 'actions.cancel'

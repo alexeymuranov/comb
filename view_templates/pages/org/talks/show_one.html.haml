@@ -1,6 +1,6 @@
 %section
   %h4
-    %a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks\#talk_#{ @talk.id }") }
+    %a{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks\#talk_#{ @talk.id }") }
       %strong
         &= @talk.title_with_speaker
 

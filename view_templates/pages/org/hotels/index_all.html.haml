@@ -1,7 +1,7 @@
 %ol
   - @hotels.each do |hotel|
     %li{ :id => "hotel_#{ hotel.id }" }
-      %a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }") }
+      %a{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }") }
         %strong
           &= hotel.name
 
@@ -14,6 +14,6 @@
                :locals => { :hotel => hotel }
 
 - if main_organiser_logged_in?
-  %a.button.new{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }hotels/new"),
+  %a.button.new{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/new"),
                  :role => 'button' }
     = t 'actions.add'

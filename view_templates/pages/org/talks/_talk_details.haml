@@ -8,9 +8,9 @@
     = attribute_in_description(talk, attr)
 
 - if main_organiser_logged_in?
-  %a.button.edit{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }/edit"),
+  %a.button.edit{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }/edit"),
                   :role => 'button' }
     = t 'actions.update'
-  %a.button.delete{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }/delete"),
+  %a.button.delete{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }/delete"),
                     :role => 'button' }
     = t 'actions.delete'

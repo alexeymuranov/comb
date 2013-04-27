@@ -9,6 +9,10 @@ class CTT2013
       url(path, false, false).sub(/\A\//, BASE_URL)
     end
 
+    def fixed_url_with_locale(path, locale = @locale)
+      fixed_url("/#{ locale }#{ path }")
+    end
+
     module_function
 
       def simple_fixed_url(path)

@@ -1,7 +1,7 @@
 - if @filtering_parameters
   = filtering_form Participant, @filtering_parameters, @filtering_values,
                    :params_key_prefix => 'filter',
-                   :action_url        => fixed_url("/#{ @locale }/#{ @page }"),
+                   :action_url        => fixed_url_with_locale("/#{ @page }"),
                    :hidden_parameters => @view_parameters[:per_page] ? { 'view' => { :per_page => @view_parameters[:per_page] } } : {}
 
   %strong #{ @filtered_participants_count } / #{ Participant.count }
@@ -9,7 +9,7 @@
 - if @view_parameters
   = paginating_form @view_parameters,
                     :params_key_prefix => 'view',
-                    :action_url        => fixed_url("/#{ @locale }/#{ @page }"),
+                    :action_url        => fixed_url_with_locale("/#{ @page }"),
                     :hidden_parameters => @filtering_values ? { 'filter' => @filtering_values } : {}
 
 .technical
@@ -26,7 +26,7 @@
         %strong
           = participant.approved? ? '✓' : '-'
 
-      %a{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }") }
+      %a{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }") }
         %strong
           &= participant.full_name_with_affiliation_and_position
 
@@ -42,6 +42,6 @@
                :locals => { :participant => participant }
 
 - if main_organiser_logged_in?
-  %a.button.new{ :href => fixed_url("/#{ @locale }/#{ ORG_PAGE_PREFIX }participants/new"),
+  %a.button.new{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/new"),
                  :role => 'button' }
     = t 'actions.add'
