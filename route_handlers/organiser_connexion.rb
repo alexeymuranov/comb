@@ -334,7 +334,7 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
-      @attributes = PARTICIPANT_ATTRIBUTES[:update]
+      # @attributes = PARTICIPANT_ATTRIBUTES[:update]
 
       if only = params[:only]
         @attributes = []
@@ -360,16 +360,7 @@ class CTT2013 < Sinatra::Base
       @participant = Participant.find(id)
 
       if @associations.include?(:participations)
-        @participations = []
-        Conference.default_order.each do |conf|
-          participation =
-            @participant.participations.where(:conference_id => conf.id).
-                                        first
-          if participation.nil?
-            participation = conf.participations.build
-          end
-          @participations << participation
-        end
+        @conferences = Conference.default_order
       end
 
       haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
@@ -517,6 +508,8 @@ class CTT2013 < Sinatra::Base
     put "#{ REQUEST_BASE_URL }#{ l }#{ ORG_PAGE_PREFIX }participants/:id" do |id|
       require_organiser_login!
 
+      set_locale(locale)
+
       @participant = Participant.find(id)
       case params[:button]
       when 'approve'
@@ -541,11 +534,15 @@ class CTT2013 < Sinatra::Base
           flash[:success] = t('flash.resources.participants.update.success')
           redirect fixed_url(redirect_to_url)
         else
-          set_locale(locale)
           set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
           flash.now[:error] = t('flash.resources.participants.update.failure')
-          @attributes = PARTICIPANT_ATTRIBUTES[:update]
+          @attributes   = PARTICIPANT_ATTRIBUTES[:update]
+          @associations = [:participations]
+
+          if @associations.include?(:participations)
+            @conferences = Conference.default_order
+          end
 
           haml :"/pages/#{ ORG_PAGE_PREFIX }participants/edit_one.html"
         end

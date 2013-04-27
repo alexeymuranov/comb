@@ -2,12 +2,14 @@
   %legend
     = label_from_attribute_name(Participant, :participations)
   %ol.fields
-    - @participations.each do |participation|
+    - @conferences.each do |conf|
 
-      - conf = participation.conference
       - conf_id = conf.id
       - element_id_prefix = "participations_#{ conf_id }_"
       - input_name_prefix = "participations[#{ conf_id }]"
+      - participation   = @participant.participations.find { |p| p.conference_id == conf_id }
+      - participation ||= Participation.new(:participant   => @participant,
+                                            :conference_id => conf_id)
 
       %li
         %input{ :type  => :hidden,
