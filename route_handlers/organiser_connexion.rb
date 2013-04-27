@@ -108,37 +108,8 @@ class CTT2013 < Sinatra::Base
 
         @attributes = PARTICIPANT_ATTRIBUTES[:index]
 
-        @filtered_participants = Participant.scoped
-
-        if participants_filter_values = params[:filter]
-          participants_filter = FriendlyRelationFilter.new(Participant)
-          participants_filter.filtering_attributes = @attributes
-          participants_filter.set_filtering_values_from_text_hash(
-            participants_filter_values)
-          @filtered_participants = @filtered_participants.merge(participants_filter.to_scope)
-
-          @filtering_values =
-            participants_filter.filtering_attributes_as_simple_nested_hash
-
-          participations_filter_values =
-            participants_filter_values[:participations_attributes_exist]
-
-          if participations_filter_values
-            participations_filter =
-              FriendlyRelationFilter.new(Participation)
-            participations_filter.filtering_attributes =
-              [:conference_id, :approved]
-            participations_filter.set_filtering_values_from_text_hash(
-              participations_filter_values)
-            @filtered_participants =
-              @filtered_participants.joins(:participations).
-                            merge(participations_filter.to_scope).uniq
-
-            @filtering_values['participations_attributes_exist'] =
-              participations_filter.filtering_attributes_as_simple_nested_hash
-
-          end
-        end
+        # Filtering
+        filter_participants_for_index # TODO: find a better solution
 
         @filtering_parameters =
           [ :last_name,
@@ -717,6 +688,42 @@ class CTT2013 < Sinatra::Base
         # halt [ 401, 'Not Authorized' ]
         flash[:error] = t('flash.filters.require_main_organiser_login')
         redirect fixed_url("/#{ ORG_PAGE_PREFIX }login")
+      end
+    end
+
+    # TODO: find a better solution. This method is used for its side-effects
+    # which are not very well defined.
+    def filter_participants_for_index
+      @filtered_participants = Participant.scoped
+
+      if participants_filter_values = params['filter']
+        participants_filter = FriendlyRelationFilter.new(Participant)
+        participants_filter.filtering_attributes = @attributes
+        participants_filter.set_filtering_values_from_text_hash(
+          participants_filter_values)
+        @filtered_participants = @filtered_participants.merge(participants_filter.to_scope)
+
+        @filtering_values =
+          participants_filter.filtering_attributes_as_simple_nested_hash
+
+        participations_filter_values =
+          participants_filter_values['participations_attributes_exist']
+
+        if participations_filter_values
+          participations_filter =
+            FriendlyRelationFilter.new(Participation)
+          participations_filter.filtering_attributes =
+            [:conference_id, :approved]
+          participations_filter.set_filtering_values_from_text_hash(
+            participations_filter_values)
+          @filtered_participants =
+            @filtered_participants.joins(:participations).
+                          merge(participations_filter.to_scope).uniq
+
+          @filtering_values['participations_attributes_exist'] =
+            participations_filter.filtering_attributes_as_simple_nested_hash
+
+        end
       end
     end
 
