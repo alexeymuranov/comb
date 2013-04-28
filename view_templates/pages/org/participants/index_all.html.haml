@@ -24,16 +24,16 @@
 
       %samp
         %strong
-          = participant.approved? ? '✓' : '-'
+          = participant.approved? ? '✓' : '—'
 
       %a{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }") }
         %strong
           &= participant.full_name_with_affiliation_and_position
 
+      %br
       - if participant.approved?
         (✓ #{ Participant.human_attribute_name(:approved) })
 
-      %br
       = t 'questions.show_details?'
       %input.style_control{ :type => 'checkbox' }
       .hide_if_checkbox_unchecked
