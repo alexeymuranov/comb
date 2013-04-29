@@ -11,7 +11,7 @@
     %li
       %input{ :id      => "#{ id_prefix }_#{ object.id }",
               :type    => :checkbox,
-              :name    => "#{ param_key }][]",
+              :name    => "#{ param_key }[]",
               :value   => object.id,
               :checked => selected_ids && selected_ids.include?(object.id),
               :form    => filter_form_id }
