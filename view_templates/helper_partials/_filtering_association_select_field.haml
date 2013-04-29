@@ -3,7 +3,7 @@
 -#   filter_form_id
 -#   param_key
 -#   collection
--#   name_attribute
+-#   name_proc
 -#   selected_ids
 -#   id_prefix
 %ol
@@ -16,4 +16,4 @@
               :checked => selected_ids && selected_ids.include?(object.id),
               :form    => filter_form_id }
       %label{ :for => "#{ id_prefix }_#{ object.id }" }
-        = object.public_send(name_attribute)
+        = name_proc[object]

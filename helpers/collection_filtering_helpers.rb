@@ -1,82 +1,94 @@
 # encoding: UTF-8 (magic comment)
 
+require './lib/nested_arrays'
+
 class CTT2013
   module CollectionFilteringHelpers
-    def filtering_form(model, filtering_parameters,
-                       filtering_values  = {},
-                       options = {})
+    def filtering_form(filtering_by,
+                       filtering_values,
+                       form_options = {})
 
-      params_key_prefix = options[:params_key_prefix] || 'filter'
+      filtering_by = if filtering_by.first.is_a?(Array)
+                       NestedArrays::s_unfold(filtering_by)
+                     else
+                       NestedArrays::p_unfold(filtering_by)
+                     end
+
+      filtering_values ||= {}
+
+      params_key_prefix = "#{ form_options[:params_key_prefix] }" || 'filter'
 
       fields = []
 
-      filtering_parameters.each do |par|
-        par = par.is_a?(Array) ? par.dup : [par]
-        par_options = par.last.is_a?(Hash) ? par.last : {}
+      filtering_by.each do |model, *rest|
+        model_options = rest.first.is_a?(Hash) ? rest.shift : {}
+        attribute     = rest.first
+        options       = rest.second || {}
 
-        mod = model
-        val = filtering_values
+        if model_options[:params_key_prefix] == false
+          field_filtering_values = filtering_values || {}
 
-        param_key_pref = params_key_prefix.is_a?(String) ?
-                         params_key_prefix.dup : params_key_prefix.to_s
+          field_params_key_prefix = params_key_prefix
+        else
+          model_params_key =
+            model_options[:params_key] || model.table_name
 
-        attr = par.shift
-        raise "Symbol expected here!" unless attr.is_a?(Symbol)
+          field_filtering_values = filtering_values[model_params_key] || {}
+
+          field_params_key_prefix =
+            params_key_prefix + "[#{ model_params_key }]"
+        end
 
         field = {}
 
-        loop do
-          if (ref = mod.reflect_on_association(attr)).nil?
-            attribute_type = mod.attribute_type(attr)
-            field[:header] = label_from_attribute_name(mod, attr)
-            if !val.nil? && val.key?(attr)
-              selected_values = val[attr]
-              field[:shown_selected_values] =
-                filtering_value(attribute_type, selected_values)
-            end
-            select_value_from =
-              mod.attribute_constraints_on(attr)[:allowed_values]
-            param_key = param_key_pref + "[#{ attr }]"
-            field[:html_class] =
-              html_class_from_column_type(attribute_type)
-            field[:html_input_field] =
-              filtering_attribute_field 'filter_form',
-                                        param_key,
-                                        attribute_type,
-                                        selected_values,
-                                        select_value_from
-            break
-          else
-            assoc_mod = ref.klass
-            if par.first.is_a?(Symbol)
-              mod = assoc_mod
-              val_key = "#{ attr }_attributes_exist"
-              val = val.nil? ? nil : val[val_key]
-              param_key_pref << "[#{ val_key }]"
-              attr = par.shift
-              next
-            else
-              name_attribute = par_options[:name_attribute]
-              field[:association_model] = assoc_mod
-              field[:header] = label_from_attribute_name(mod, attr)
-              if !val.nil? && val.key?(ref.foreign_key)
-                selected_values = Array(val[ref.foreign_key])
-                field[:shown_selected_values] =
-                  selected_values.map { |id|
-                    assoc_mod.find(id).public_send(name_attribute)
-                  }.join(', ')
-              end
-              param_key = param_key_pref + "[#{ ref.foreign_key }]"
-              field[:html_class] = 'association'
-              field[:html_input_field] =
-                filtering_association_select_field 'filter_form',
-                                                   param_key,
-                                                   assoc_mod.default_order,
-                                                   name_attribute,
-                                                   selected_values
-              break
-            end
+        if assoc_reflection = model.reflect_on_association(attribute)
+          assoc_model = assoc_reflection.klass
+          assoc_foreign_key = assoc_reflection.foreign_key
+          name_proc = options[:name_proc] || options[:name_attribute].to_proc
+
+          field[:association_model] = assoc_model
+          field[:header] = label_from_attribute_name(model, attribute)
+
+          if field_filtering_values.key?(assoc_foreign_key)
+            selected_values = Array(field_filtering_values[assoc_foreign_key])
+
+            field[:shown_selected_values] =
+              selected_values.map { |id|
+                name_proc[assoc_model.find(id)]
+              }.join(', ')
           end
+          param_key = field_params_key_prefix + "[#{ assoc_foreign_key }]"
+
+          field[:html_class] = 'association'
+          field[:html_input_field] =
+            filtering_association_select_field 'filter_form',
+                                               param_key,
+                                               assoc_model.default_order,
+                                               name_proc,
+                                               selected_values
+        else
+          attribute_type = model.attribute_type(attribute)
+
+          field[:header] = label_from_attribute_name(model, attribute)
+
+          if field_filtering_values.key?(attribute)
+            selected_values = field_filtering_values[attribute]
+
+            field[:shown_selected_values] =
+              filtering_value(attribute_type, selected_values)
+          end
+          select_value_from =
+            model.attribute_constraints_on(attribute)[:allowed_values]
+          param_key = field_params_key_prefix + "[#{ attribute }]"
+
+          field[:html_class] =
+            html_class_from_column_type(attribute_type)
+          field[:html_input_field] =
+            filtering_attribute_field 'filter_form',
+                                      param_key,
+                                      attribute_type,
+                                      selected_values,
+                                      select_value_from
         end
 
         fields << field
@@ -85,8 +97,8 @@ class CTT2013
       haml :'helper_partials/_filtering_form',
            :locals => { :filtering_fields  => fields,
                         :filter_applied    => !filtering_values.blank?,
-                        :action_url        => options[:action_url],
-                        :hidden_parameters => options[:hidden_parameters] }
+                        :action_url        => form_options[:action_url],
+                        :hidden_parameters => form_options[:hidden_parameters] }
     end
 
     def filtering_attribute_field(filter_form_id, param_key, attribute_type,
@@ -109,14 +121,14 @@ class CTT2013
     end
 
     def filtering_association_select_field(filter_form_id, param_key,
-                                           collection,     name_attribute,
+                                           collection,     name_proc,
                                            selected_ids)
 
       haml :'helper_partials/_filtering_association_select_field',
            :locals => { :filter_form_id => filter_form_id,
                         :param_key      => param_key,
                         :collection     => collection,
-                        :name_attribute => name_attribute,
+                        :name_proc      => name_proc,
                         :selected_ids   => selected_ids,
                         :id_prefix      => html_id_from_param_name(param_key) }
     end

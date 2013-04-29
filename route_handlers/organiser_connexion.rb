@@ -111,16 +111,18 @@ class CTT2013 < Sinatra::Base
         # Filtering
         filter_participants_for_index # TODO: find a better solution
 
-        @filtering_parameters =
-          [ :last_name,
-            [:participations, :conference, { :name_attribute => :identifier }],
-            :academic_position,
-            :invitation_needed, :visa_needed,
-            [:participations, :approved] ]
+        @filtering_by =
+          [ [Participant,   :last_name],
+            [Participation, :conference, {:name_proc => :identifier.to_proc}],
+            [Participant,   :academic_position],
+            [Participant,   :invitation_needed],
+            [Participant,   :visa_needed],
+            [Participation, :approved] ]
 
         if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
-          @filtering_parameters.delete([:participations, :approved])
-          @filtered_participants = @filtered_participants.not_all_participations_approved
+          @filtering_by.delete([Participation, :approved])
+          @filtered_participants =
+            @filtered_participants.not_all_participations_approved
         end
 
         @filtered_participants = @filtered_participants.default_order
@@ -757,20 +759,22 @@ class CTT2013 < Sinatra::Base
     def filter_participants_for_index
       @filtered_participants = Participant.scoped
 
-      if participants_filter_values = params['filter']
-        participants_filter = FriendlyRelationFilter.new(Participant)
-        participants_filter.filtering_attributes = @attributes
-        participants_filter.set_filtering_values_from_text_hash(
-          participants_filter_values)
-        @filtered_participants = @filtered_participants.merge(participants_filter.to_scope)
+      if filter_values = params['filter']
+        @filtering_values = {}
 
-        @filtering_values =
-          participants_filter.filtering_values_as_simple_nested_hash
+        if participants_filter_values = filter_values['participants']
+          participants_filter = FriendlyRelationFilter.new(Participant)
+          participants_filter.filtering_attributes = @attributes
+          participants_filter.set_filtering_values_from_text_hash(
+            participants_filter_values)
+          @filtered_participants =
+            @filtered_participants.merge(participants_filter.to_scope)
 
-        participations_filter_values =
-          participants_filter_values['participations_attributes_exist']
+          @filtering_values[Participant.table_name] =
+            participants_filter.filtering_values_as_simple_nested_hash
+        end
 
-        if participations_filter_values
+        if participations_filter_values = filter_values['participations']
           participations_filter =
             FriendlyRelationFilter.new(Participation)
           participations_filter.filtering_attributes =
@@ -779,11 +783,10 @@ class CTT2013 < Sinatra::Base
             participations_filter_values)
           @filtered_participants =
             @filtered_participants.joins(:participations).
-                          merge(participations_filter.to_scope).uniq
+                                   merge(participations_filter.to_scope).uniq
 
-          @filtering_values['participations_attributes_exist'] =
+          @filtering_values[Participation.table_name] =
             participations_filter.filtering_values_as_simple_nested_hash
-
         end
       end
     end
@@ -793,17 +796,17 @@ class CTT2013 < Sinatra::Base
     def filter_participants_for_download
       @participants = Participant.scoped
 
-      if participants_filter_values = params['filter']
-        participants_filter = FriendlyRelationFilter.new(Participant)
-        participants_filter.filtering_attributes = @attributes
-        participants_filter.set_filtering_values_from_text_hash(
-          participants_filter_values)
-        @participants = @participants.merge(participants_filter.to_scope)
+      if filter_values = params['filter']
+        if participants_filter_values = filter_values['participants']
+          participants_filter = FriendlyRelationFilter.new(Participant)
+          participants_filter.filtering_attributes = @attributes
+          participants_filter.set_filtering_values_from_text_hash(
+            participants_filter_values)
+          @participants =
+            @participants.merge(participants_filter.to_scope)
+        end
 
-        participations_filter_values =
-          participants_filter_values['participations_attributes_exist']
-
-        if participations_filter_values
+        if participations_filter_values = filter_values['participations']
           participations_filter =
             FriendlyRelationFilter.new(Participation)
           participations_filter.filtering_attributes =
