@@ -765,7 +765,7 @@ class CTT2013 < Sinatra::Base
         @filtered_participants = @filtered_participants.merge(participants_filter.to_scope)
 
         @filtering_values =
-          participants_filter.filtering_attributes_as_simple_nested_hash
+          participants_filter.filtering_values_as_simple_nested_hash
 
         participations_filter_values =
           participants_filter_values['participations_attributes_exist']
@@ -782,7 +782,7 @@ class CTT2013 < Sinatra::Base
                           merge(participations_filter.to_scope).uniq
 
           @filtering_values['participations_attributes_exist'] =
-            participations_filter.filtering_attributes_as_simple_nested_hash
+            participations_filter.filtering_values_as_simple_nested_hash
 
         end
       end

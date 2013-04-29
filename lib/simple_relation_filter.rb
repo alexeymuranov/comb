@@ -121,7 +121,7 @@ class SimpleRelationFilter
     model_scope
   end
 
-  def filtering_attributes_as_simple_nested_hash
+  def filtering_values_as_simple_nested_hash
 
     filtering_simple_hash = {}
 
