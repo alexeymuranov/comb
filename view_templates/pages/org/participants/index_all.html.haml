@@ -47,10 +47,10 @@
     - download_url << '?' << url_query_from_nested_hash('filter' => @filtering_values)
 
   %a.button.download{ :href => download_url,
-                      :role => 'button' }
+                      :role => 'button' }<
     = "#{ t('actions.download') } (CSV)"
 
   - if main_organiser_logged_in?
     %a.button.new{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/new"),
-                   :role => 'button' }
+                   :role => 'button' }<
       = t 'actions.add'

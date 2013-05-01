@@ -72,6 +72,13 @@ input[type="number"] {
 }
 
 button,
+input[type="submit"],
+a.button,
+a[role=button] {
+  white-space: pre;
+}
+
+button,
 input[type="submit"] {
   @include button(Blue);
 

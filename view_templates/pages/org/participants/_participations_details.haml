@@ -33,10 +33,10 @@
                 - if participant.approved?
                   %button.on.toggle_off.deauthorize{ :type  => :submit,
                                                      :name  => 'button',
-                                                     :value => 'disapprove' }
+                                                     :value => 'disapprove' }<
                     = t 'actions.do_not_accept'
                 - else
                   %button.off.toggle_on.authorize{ :type  => :submit,
                                                    :name  => 'button',
-                                                   :value => 'approve' }
+                                                   :value => 'approve' }<
                     = t 'actions.accept'

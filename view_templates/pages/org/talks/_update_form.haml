@@ -19,8 +19,8 @@
     = haml :'pages/org/talks/_common_fields'
 
   .actions
-    %button.update{ :type => :submit, :name => 'button' }
+    %button.update{ :type => :submit, :name => 'button' }<
       = t 'actions.submit'
     %a.button.cancel{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ @talk.id }"),
-                      :role => 'button' }
+                      :role => 'button' }<
       = t 'actions.cancel'

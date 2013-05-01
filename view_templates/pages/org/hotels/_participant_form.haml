@@ -87,8 +87,8 @@
     = haml :'pages/org/participants/_participations_fields'
 
   .actions
-    %button.update{ :type => :submit, :name => 'button', :value => 'update' }
+    %button.update{ :type => :submit, :name => 'button', :value => 'update' }<
       = t 'actions.submit'
     %a.button.cancel{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ @participant.id }"),
-                      :role => :button }
+                      :role => :button }<
       = t 'actions.cancel'
