@@ -17,35 +17,42 @@ class CTT2013
     #   input_tag(:hidden, name, value, options)
     # end
 
-    def hidden_fields_from_nested_hash(hash, options = {})
-      [].tap do |hidden_field_tags|
-        param_name_value_pairs_from_nested_hash(hash).each do |name, value|
-          if value.is_a?(Enumerable)
-            name = "#{ name }[]"
-            value.each do |v|
-              hidden_field_tags << input_tag(:hidden, name, v, options)
-            end
-          else
-            hidden_field_tags << input_tag(:hidden, name, value, options)
-          end
+    def hidden_fields_from_flat_hash(hash, options = {})
+      hash.reduce([]) { |tags_memo, name__value|
+        name, value = name__value
+        if value.is_a?(Enumerable)
+          name = "#{ name }[]"
+          value.reduce(tags_memo) { |tm, v|
+            tm << input_tag(:hidden, name, v, options)
+          }
+        else
+          tags_memo << input_tag(:hidden, name, value, options)
         end
-      end.join("\n")
+      }.join("\n")
+    end
+
+    def hidden_fields_from_nested_hash(hash, options = {})
+      hidden_fields_from_flat_hash(
+        param_name_value_pairs_from_nested_hash(hash), options)
+    end
+
+    def url_query_from_flat_hash(hash)
+      hash.reduce([]) { |query_fragments_memo, name__value|
+        name, value = name__value
+        name = CGI::escape(name)
+        if value.is_a?(Enumerable)
+          name = "#{ name }[]"
+          value.reduce(query_fragments_memo) { |qfm, v|
+            qfm << "#{ name }=#{ CGI::escape(v.to_s) }"
+          }
+        else
+          query_fragments_memo << "#{ name }=#{ CGI::escape(value.to_s) }"
+        end
+      }.join('&')
     end
 
     def url_query_from_nested_hash(hash)
-      [].tap do |query_fragments|
-        param_name_value_pairs_from_nested_hash(hash).each do |name, value|
-          name = CGI::escape(name)
-          if value.is_a?(Enumerable)
-            name = "#{ name }[]"
-            value.each do |v|
-              query_fragments << "#{ name }=#{ CGI::escape(v.to_s) }"
-            end
-          else
-            query_fragments << "#{ name }=#{ CGI::escape(value.to_s) }"
-          end
-        end
-      end.join('&')
+      url_query_from_flat_hash(param_name_value_pairs_from_nested_hash(hash))
     end
 
     module_function
@@ -57,16 +64,17 @@ class CTT2013
                        lambda { |k| "#{ key_prefix }[#{ k }]" }
                      end
 
-        {}.tap do |flat_hash|
-          nested_hash.each_pair do |k, v|
-            k = format_key[k]
-            if v.is_a?(Hash)
-              flat_hash.merge!(param_name_value_pairs_from_nested_hash(v, k))
-            else
-              flat_hash[k] = v
-            end
+        nested_hash.reduce({}) { |flat_hash_memo, key__value|
+          k, v = key__value
+          k = format_key[k]
+          if v.is_a?(Hash)
+            flat_hash_memo.merge!(
+              param_name_value_pairs_from_nested_hash(v, k))
+          else
+            flat_hash_memo[k] = v
+            flat_hash_memo
           end
-        end
+        }
       end
 
   end
