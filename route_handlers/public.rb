@@ -36,7 +36,7 @@ class CTT2013 < Sinatra::Base
        ].map { |p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
 
   COMB_HOME_PAGE = PUBLIC_PAGES[0]
-  PAGE_URL_FRAGMENTS = {}.tap { |h| PUBLIC_PAGES.each { |p| h[p] = [p.to_s] } }
+  PAGE_URL_FRAGMENTS = PUBLIC_PAGES.reduce({}) { |h, p| h[p] = [p.to_s]; h }
   PAGE_URL_FRAGMENTS[COMB_HOME_PAGE] << COMB_PAGE_PREFIX
 
   # Handle unmatched requests

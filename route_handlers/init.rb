@@ -50,12 +50,11 @@ class CTT2013 < Sinatra::Base
   # ====================
   #
 
-  LOCALE_FROM_URL_LOCALE_FRAGMENT = {}.tap do |h|
-    LOCALES.each do |locale|
-      h["#{ locale }/"] = locale
-    end
-    h[''] = DEFAULT_LOCALE
-  end
+  LOCALE_FROM_URL_LOCALE_FRAGMENT = LOCALES.reduce({}) { |h, locale|
+    h["#{ locale }/"] = locale
+    h
+  }
+  LOCALE_FROM_URL_LOCALE_FRAGMENT[''] = DEFAULT_LOCALE
 
   private
 
