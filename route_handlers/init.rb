@@ -95,48 +95,57 @@ class CTT2013 < Sinatra::Base
 
     def participant_attributes_from_params_for(action)
       submitted_attributes = params['participant']
-      attributes = {}
 
-      PARTICIPANT_ATTRIBUTES[action].each do |attr|
-        if submitted_attributes.key?(key = attr.to_s)
-          value = submitted_attributes[key]
-          attributes[attr] = value == '' ? nil : value
-        end
+      PARTICIPANT_ATTRIBUTES[action].map { |attr|
+        [attr, attr.to_s]
+      }.select { |_, key|
+        submitted_attributes.key?(key)
+      }.map { |attr, key|
+        [attr, submitted_attributes[key]]
+      }.map { |attr, raw_value|
+        [attr, (raw_value == '' ? nil : raw_value)]
+      }.reduce({}) { |h, attr__value|
+        attr, value = attr__value
+        h[attr] = value
+        h
+      }.tap do |attributes|
+        attributes[:participations_attributes] =
+          participant_participations_attributes_from_params_for(action)
       end
-
-      attributes[:participations_attributes] =
-        participant_participations_attributes_from_params_for(action)
-
-      attributes
     end
 
     def participant_participations_attributes_from_params_for(action)
       submitted_attributes = params['participations']
 
-      {}.tap do |participations_attributes|
-        submitted_attributes.each_pair do |key, attributes|
-          participations_attributes[key] = {}.tap do |h|
-            [ :id, :conference_id,
-              :arrival_date, :departure_date,
-              :committee_comments,
-              :_destroy
-            ].each do |attr|
-              if attributes.key?(key = attr.to_s)
-                value = attributes[key]
-                h[attr] = value == '' ? nil : value
-              end
-            end
-          end
-        end
+      submitted_attributes.reduce({}) { |processed_attributes, raw_key__raw_attributes|
+        raw_key, raw_attributes = raw_key__raw_attributes
 
+        processed_attributes[raw_key] =
+          [ :id, :conference_id,
+            :arrival_date, :departure_date,
+            :committee_comments,
+            :_destroy
+          ].map { |attr|
+            [attr, attr.to_s]
+          }.select { |_, subkey|
+            raw_attributes.key?(subkey)
+          }.map { |attr, subkey|
+            [attr, raw_attributes[subkey]]
+          }.map { |attr, raw_value|
+            [attr, (raw_value == '' ? nil : raw_value)]
+          }.reduce({}) { |h, attr__value|
+            attr, value = attr__value
+            h[attr] = value
+            h
+          }
+        processed_attributes
+      }.tap do |attributes|
         unless action == :registration
-          talk_proposals_attributes =
-            participation_talk_proposals_attributes_from_params
-
-          talk_proposals_attributes.each do |t_p_aa|
+          participation_talk_proposals_attributes_from_params.each do |t_p_aa|
             participation_key = t_p_aa.delete(:_participation_key)
-            if participations_attributes.key?(participation_key)
-              participations_attributes[participation_key][:talk_proposal_attributes] = t_p_aa
+            if attributes.key?(participation_key)
+               attributes[participation_key] \
+                         [:talk_proposal_attributes] = t_p_aa
             end
           end
         end
@@ -146,53 +155,68 @@ class CTT2013 < Sinatra::Base
     def participation_talk_proposals_attributes_from_params
       submitted_attributes = params['talk_proposals']
 
-      {}.tap do |talk_proposals_attributes|
-        submitted_attributes.each_pair do |key, attributes|
-          talk_proposals_attributes[key] = {}.tap do |h|
-            [ :id, :participation_id,
-              :title, :abstract,
-              :_destroy, :_participation_key
-            ].each do |attr|
-              if attributes.key?(key = attr.to_s)
-                value = attributes[key]
-                h[attr] = value == '' ? nil : value
-              end
-            end
+      submitted_attributes.reduce({}) { |processed_attributes, raw_key__raw_attributes|
+        raw_key, raw_attributes = raw_key__raw_attributes
 
+        processed_attributes[raw_key] =
+          [ :id, :participation_id,
+            :title, :abstract,
+            :_destroy, :_participation_key
+          ].map { |attr|
+            [attr, attr.to_s]
+          }.select { |_, subkey|
+            raw_attributes.key?(subkey)
+          }.map { |attr, subkey|
+            [attr, raw_attributes[subkey]]
+          }.map { |attr, raw_value|
+            [attr, (raw_value == '' ? nil : raw_value)]
+          }.reduce({}) { |h, attr__value|
+            attr, value = attr__value
+            h[attr] = value
+            h
+          }.tap do |h|
             if [:title, :abstract].all? { |a| h[a].nil? }
               h[:_destroy] = true
             end
           end
-        end
-      end.values
+        processed_attributes
+      }.values
     end
 
     def talk_attributes_from_params_for(action)
       submitted_attributes = params['talk']
-      attributes = {}
 
-      TALK_ATTRIBUTES[action].each do |attr|
-        if submitted_attributes.key?(key = attr.to_s)
-          value = submitted_attributes[key]
-          attributes[attr] = value == '' ? nil : value
-        end
-      end
-
-      attributes
+      TALK_ATTRIBUTES[action].map { |attr|
+        [attr, attr.to_s]
+      }.select { |_, key|
+        submitted_attributes.key?(key)
+      }.map { |attr, key|
+        [attr, submitted_attributes[key]]
+      }.map { |attr, raw_value|
+        [attr, (raw_value == '' ? nil : raw_value)]
+      }.reduce({}) { |h, attr__value|
+        attr, value = attr__value
+        h[attr] = value
+        h
+      }
     end
 
     def hotel_attributes_from_params_for(action)
       submitted_attributes = params['hotel']
-      attributes = {}
 
-      HOTEL_ATTRIBUTES[action].each do |attr|
-        if submitted_attributes.key?(key = attr.to_s)
-          value = submitted_attributes[key]
-          attributes[attr] = value == '' ? nil : value
-        end
-      end
-
-      attributes
+      HOTEL_ATTRIBUTES[action].map { |attr|
+        [attr, attr.to_s]
+      }.select { |_, key|
+        submitted_attributes.key?(key)
+      }.map { |attr, key|
+        [attr, submitted_attributes[key]]
+      }.map { |attr, raw_value|
+        [attr, (raw_value == '' ? nil : raw_value)]
+      }.reduce({}) { |h, attr__value|
+        attr, value = attr__value
+        h[attr] = value
+        h
+      }
     end
 
 end
