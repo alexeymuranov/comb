@@ -81,20 +81,20 @@ class CTT2013 < Sinatra::Base
     # end
 
     def pagination_parameters_from_params
-      view_parameters = params[:view] || {}
-      per_page    = (view_parameters[:per_page] || 10).to_i
-      active_page = (view_parameters[:page]     || 1 ).to_i
+      view_parameters = params['view'] || {}
+      per_page    = (view_parameters['per_page'] || 10).to_i
+      active_page = (view_parameters['page']     || 1 ).to_i
       { :per_page   => per_page,
         :page       => active_page }
     end
 
     def conference_ids_from_params
-      submitted_ids = params[:conference_ids]
+      submitted_ids = params['conference_ids']
       submitted_ids.is_a?(Array) ? submitted_ids.map(&:to_i) : []
     end
 
     def participant_attributes_from_params_for(action)
-      submitted_attributes = params[:participant]
+      submitted_attributes = params['participant']
       attributes = {}
 
       PARTICIPANT_ATTRIBUTES[action].each do |attr|
@@ -111,7 +111,7 @@ class CTT2013 < Sinatra::Base
     end
 
     def participant_participations_attributes_from_params_for(action)
-      submitted_attributes = params[:participations]
+      submitted_attributes = params['participations']
 
       {}.tap do |participations_attributes|
         submitted_attributes.each_pair do |key, attributes|
@@ -144,7 +144,7 @@ class CTT2013 < Sinatra::Base
     end
 
     def participation_talk_proposals_attributes_from_params
-      submitted_attributes = params[:talk_proposals]
+      submitted_attributes = params['talk_proposals']
 
       {}.tap do |talk_proposals_attributes|
         submitted_attributes.each_pair do |key, attributes|
@@ -168,7 +168,7 @@ class CTT2013 < Sinatra::Base
     end
 
     def talk_attributes_from_params_for(action)
-      submitted_attributes = params[:talk]
+      submitted_attributes = params['talk']
       attributes = {}
 
       TALK_ATTRIBUTES[action].each do |attr|
@@ -182,7 +182,7 @@ class CTT2013 < Sinatra::Base
     end
 
     def hotel_attributes_from_params_for(action)
-      submitted_attributes = params[:hotel]
+      submitted_attributes = params['hotel']
       attributes = {}
 
       HOTEL_ATTRIBUTES[action].each do |attr|
