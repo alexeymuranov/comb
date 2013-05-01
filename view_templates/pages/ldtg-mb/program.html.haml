@@ -5,3 +5,19 @@
     and
       https://github.com/rtomayko/tilt/issues/75
   = markdown(:"text/#{ @locale }/program").force_encoding('utf-8')
+
+%section
+  - google_calendar_query_params = { 'src'       => 'mfpcvpnj5nc18lha52kpq077dc@group.calendar.google.com',
+                                     'dates'     => '20130624/20130628',
+                                     'wkst'      => '2',
+                                     'ctz'       => 'Europe/Paris',
+                                     'mode'      => 'WEEK',
+                                     'showTitle' => '0',
+                                     'height'    => '600' }
+  - google_calendar_query_string = url_query_from_flat_hash(google_calendar_query_params)
+  %iframe{ :src         => [ 'https://www.google.com/calendar/embed',
+                              google_calendar_query_string ].join('?'),
+           :width       => 800,
+           :height      => 600,
+           :frameborder => 0,
+           :scrolling   => false }/
