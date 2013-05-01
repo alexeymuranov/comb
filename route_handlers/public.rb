@@ -19,7 +19,7 @@ class CTT2013 < Sinatra::Base
       :contacts,
       :accommodation,
       :participants,
-      :registration,
+      :registration, # only displays that registration is closed
       :useful_links
     ].map { |p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
 
@@ -60,17 +60,18 @@ class CTT2013 < Sinatra::Base
     end
   end
 
-  LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-    get "/#{ l }registration" do
-      set_locale(locale)
-      @participant = Participant.new
-      @conferences = Conference.find(conference_ids_from_params)
-      @conferences.each do |conf|
-        @participant.participations.build(:conference => conf)
-      end
-      render_registration_page
-    end
-  end
+  # # Registration is closed since 2013-05-01.
+  # LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
+  #   get "/#{ l }registration" do
+  #     set_locale(locale)
+  #     @participant = Participant.new
+  #     @conferences = Conference.find(conference_ids_from_params)
+  #     @conferences.each do |conf|
+  #       @participant.participations.build(:conference => conf)
+  #     end
+  #     render_registration_page
+  #   end
+  # end
 
   STATIC_PUBLIC_PAGES.each do |page|
     page_file = :"/pages/#{ page }.html"
@@ -130,33 +131,34 @@ class CTT2013 < Sinatra::Base
   # POST requests
   # -------------
 
-  LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-    post "/#{ l }registration" do
-      set_locale(locale)
+  # # Registration is closed since 2013-05-01.
+  # LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
+  #   post "/#{ l }registration" do
+  #     set_locale(locale)
 
-      # Filter attributes before mass assignment
-      participant_attributes =
-        participant_attributes_from_params_for(:registration)
-      # params[:debug_participant_attributes] = participant_attributes
-      @participant = Participant.new(participant_attributes)
-      @participant.generate_pin
+  #     # Filter attributes before mass assignment
+  #     participant_attributes =
+  #       participant_attributes_from_params_for(:registration)
+  #     # params[:debug_participant_attributes] = participant_attributes
+  #     @participant = Participant.new(participant_attributes)
+  #     @participant.generate_pin
 
-      if @participant.save
-        # Send a notification to the organisers
-        notifiy_organizers_by_email_about_registration_of(@participant)
+  #     if @participant.save
+  #       # Send a notification to the organisers
+  #       notifiy_organizers_by_email_about_registration_of(@participant)
 
-        # Send a confirmation to the participant
-        confirm_by_email_registration_of(@participant)
+  #       # Send a confirmation to the participant
+  #       confirm_by_email_registration_of(@participant)
 
-        flash.now[:success] = t('flash.resources.participants.create.success')
-        haml :'/pages/registration_confirmation.html', :layout => :simple_layout
-      else
-        flash.now[:error] = t('flash.resources.participants.create.failure')
-        @conferences = Conference.find(conference_ids_from_params)
-        render_registration_page
-      end
-    end
-  end
+  #       flash.now[:success] = t('flash.resources.participants.create.success')
+  #       haml :'/pages/registration_confirmation.html', :layout => :simple_layout
+  #     else
+  #       flash.now[:error] = t('flash.resources.participants.create.failure')
+  #       @conferences = Conference.find(conference_ids_from_params)
+  #       render_registration_page
+  #     end
+  #   end
+  # end
 
   # Private methods
   # ===============
