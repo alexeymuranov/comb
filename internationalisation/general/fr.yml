@@ -31,6 +31,25 @@ fr:
     submit       : "Envoyer"
     update       : "Mettre à jour"
 
+  actions_with_object:
+    accept       : "Accepter %{object}"
+    add          : "Ajouter %{object}"
+    cancel       : "Annuler %{object}"
+    clear        : "Effacer %{object}"
+    continue     : "Continuer %{object}"
+    create       : "Créer %{object}"
+    delete       : "Supprimer %{object}"
+    do_not_accept: "Ne pas accepter %{object}"
+    download     : "Télécharger %{object}"
+    filter       : "Filtrer %{object}"
+    ignore       : "Ignorer %{object}"
+    paginate     : "Paginer %{object}"
+    repaginate   : "Repaginer %{object}"
+    save         : "Enregistrer %{object}"
+    show         : "Afficher %{object}"
+    submit       : "Envoyer %{object}"
+    update       : "Mettre à jour %{object}"
+
   action_confirmation:
     questions:
       "are_you_sure?": "Vous êtes sûr ?"

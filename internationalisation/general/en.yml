@@ -31,6 +31,25 @@ en:
     submit       : "Submit"
     update       : "Update"
 
+  actions_with_object:
+    accept       : "Accept %{object}"
+    add          : "Add %{object}"
+    cancel       : "Cancel %{object}"
+    clear        : "Clear %{object}"
+    continue     : "Continue %{object}"
+    create       : "Create %{object}"
+    delete       : "Delete %{object}"
+    do_not_accept: "Do not accept %{object}"
+    download     : "Download %{object}"
+    filter       : "Filter %{object}"
+    ignore       : "Ignore %{object}"
+    paginate     : "Paginate %{object}"
+    repaginate   : "Repaginate %{object}"
+    save         : "Save %{object}"
+    show         : "Show %{object}"
+    submit       : "Submit %{object}"
+    update       : "Update %{object}"
+
   action_confirmation:
     questions:
       "are_you_sure?": "Are you sure?"
