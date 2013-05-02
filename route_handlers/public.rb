@@ -188,7 +188,7 @@ class CTT2013 < Sinatra::Base
         t('pages.registration.form.field_labels.g_d_r_member__for_html',
           :link_to_g_d_r => "<a #{ link_attributes }>#{ name }</a>")
 
-      PARTICIPANT_ATTRIBUTES[:registration].each do |attr|
+      PARTICIPANT_ATTRIBUTES_FOR[:registration].each do |attr|
         @field_labels[attr] ||=
           t(attr, :scope => 'pages.registration.form.field_labels')
       end

@@ -97,6 +97,16 @@ class CTT2013 < Sinatra::Base
       redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants_to_approve", locale)
     end
 
+    PARTICIPANT_ATTRIBUTES_FOR_INDEX =
+      [ :first_name, :last_name, :email, :affiliation,
+        :academic_position,
+        :country, :city, :post_code, :street_address, :phone,
+        :i_m_t_member, :g_d_r_member,
+        :invitation_needed, :visa_needed,
+        :funding_requests,
+        :special_requests,
+        :approved ]
+
     [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
       :"#{ ORG_PAGE_PREFIX }participants"
     ].each do |page|
@@ -106,7 +116,7 @@ class CTT2013 < Sinatra::Base
         set_locale(locale)
         set_page(page)
 
-        @attributes = PARTICIPANT_ATTRIBUTES[:index]
+        @attributes = PARTICIPANT_ATTRIBUTES_FOR_INDEX
 
         # Filtering
         filter_participants_for_index # TODO: find a better solution
@@ -148,7 +158,7 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
-      @attributes   = PARTICIPANT_ATTRIBUTES[:create]
+      @attributes   = PARTICIPANT_ATTRIBUTES_FOR[:create]
       @associations = [:participations]
 
       @participant = Participant.new
@@ -160,6 +170,16 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/#{ ORG_PAGE_PREFIX }participants/new_one.html"
     end
 
+    PARTICIPANT_ATTRIBUTES_FOR_SHOW =
+      [ :first_name, :last_name, :email, :affiliation,
+        :academic_position,
+        :country, :city, :post_code, :street_address, :phone,
+        :i_m_t_member, :g_d_r_member,
+        :invitation_needed, :visa_needed,
+        :funding_requests,
+        :special_requests,
+        :approved ]
+
     get "/#{ l }#{ ORG_PAGE_PREFIX }participants/:id" do |id|
       require_organiser_login!
 
@@ -168,7 +188,7 @@ class CTT2013 < Sinatra::Base
 
       id = id.to_i
 
-      @attributes = PARTICIPANT_ATTRIBUTES[:show]
+      @attributes = PARTICIPANT_ATTRIBUTES_FOR_SHOW
 
       @participant = Participant.find(id)
 
@@ -181,13 +201,13 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
-      # @attributes = PARTICIPANT_ATTRIBUTES[:update]
+      # @attributes = PARTICIPANT_ATTRIBUTES_FOR[:update]
 
       if only = params[:only]
         @attributes = []
         if only_attributes = only[:attributes]
           only_attributes = only_attributes.to_set
-          PARTICIPANT_ATTRIBUTES[:update].each do |attr|
+          PARTICIPANT_ATTRIBUTES_FOR[:update].each do |attr|
             @attributes << attr if only_attributes.include?(attr.to_s)
           end
         end
@@ -200,7 +220,7 @@ class CTT2013 < Sinatra::Base
           end
         end
       else
-        @attributes   = PARTICIPANT_ATTRIBUTES[:update]
+        @attributes   = PARTICIPANT_ATTRIBUTES_FOR[:update]
         @associations = [:participations]
       end
 
@@ -223,13 +243,17 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/#{ ORG_PAGE_PREFIX }participants/delete_one.html"
     end
 
+    TALK_ATTRIBUTES_FOR_INDEX =
+      [ :translated_type_name, :speaker_name, :title, :abstract,
+        :date, :time, :room_or_auditorium ]
+
     get "/#{ l }#{ ORG_PAGE_PREFIX }talks" do
       require_organiser_login!
 
       set_locale(locale)
       set_page(:"#{ ORG_PAGE_PREFIX }talks")
 
-      @attributes = TALK_ATTRIBUTES[:index]
+      @attributes = TALK_ATTRIBUTES_FOR_INDEX
       @talks = Talk.default_order.all
       haml :"/pages/#{ ORG_PAGE_PREFIX }talks/index_all.html"
     end
@@ -240,12 +264,16 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:#{ ORG_PAGE_PREFIX }talks)
 
-      @attributes = TALK_ATTRIBUTES[:create]
+      @attributes = TALK_ATTRIBUTES_FOR[:create]
 
       @talk = Talk.new
 
       haml :"/pages/#{ ORG_PAGE_PREFIX }talks/new_one.html"
     end
+
+    TALK_ATTRIBUTES_FOR_SHOW =
+      [ :translated_type_name, :speaker_name, :title, :abstract,
+        :date, :time, :room_or_auditorium ]
 
     get "/#{ l }#{ ORG_PAGE_PREFIX }talks/:id" do |id|
       require_organiser_login!
@@ -255,7 +283,7 @@ class CTT2013 < Sinatra::Base
 
       id = id.to_i
 
-      @attributes = TALK_ATTRIBUTES[:show]
+      @attributes = TALK_ATTRIBUTES_FOR_SHOW
 
       @talk = Talk.find(id)
 
@@ -268,7 +296,7 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:"#{ ORG_PAGE_PREFIX }talks")
 
-      @attributes = TALK_ATTRIBUTES[:update]
+      @attributes = TALK_ATTRIBUTES_FOR[:update]
       @talk = Talk.find(id)
       haml :"/pages/#{ ORG_PAGE_PREFIX }talks/edit_one.html"
     end
@@ -283,13 +311,15 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/#{ ORG_PAGE_PREFIX }talks/delete_one.html"
     end
 
+    HOTEL_ATTRIBUTES_FOR_INDEX = [:name, :address, :phone, :web_site]
+
     get "/#{ l }#{ ORG_PAGE_PREFIX }hotels" do
       require_organiser_login!
 
       set_locale(locale)
       set_page(:"#{ ORG_PAGE_PREFIX }hotels")
 
-      @attributes = HOTEL_ATTRIBUTES[:index]
+      @attributes = HOTEL_ATTRIBUTES_FOR_INDEX
       @hotels = Hotel.default_order.all
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/index_all.html"
     end
@@ -300,12 +330,14 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:#{ ORG_PAGE_PREFIX }hotels)
 
-      @attributes = HOTEL_ATTRIBUTES[:create]
+      @attributes = HOTEL_ATTRIBUTES_FOR[:create]
 
       @hotel = Hotel.new
 
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/new_one.html"
     end
+
+    HOTEL_ATTRIBUTES_FOR_SHOW = [:name, :address, :phone, :web_site]
 
     get "/#{ l }#{ ORG_PAGE_PREFIX }hotels/:id" do |id|
       require_organiser_login!
@@ -315,7 +347,7 @@ class CTT2013 < Sinatra::Base
 
       id = id.to_i
 
-      @attributes = HOTEL_ATTRIBUTES[:show]
+      @attributes = HOTEL_ATTRIBUTES_FOR_SHOW
 
       @hotel = Hotel.find(id)
 
@@ -328,7 +360,7 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:"#{ ORG_PAGE_PREFIX }hotels")
 
-      @attributes = HOTEL_ATTRIBUTES[:update]
+      @attributes = HOTEL_ATTRIBUTES_FOR[:update]
       @hotel = Hotel.find(id)
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/edit_one.html"
     end
@@ -514,7 +546,7 @@ class CTT2013 < Sinatra::Base
         set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
         flash.now[:error] = t('flash.resources.participants.update.failure')
-        @attributes = PARTICIPANT_ATTRIBUTES[:create]
+        @attributes = PARTICIPANT_ATTRIBUTES_FOR[:create]
         @associations = [:participations]
 
         if @associations.include?(:participations)
@@ -617,7 +649,7 @@ class CTT2013 < Sinatra::Base
           set_page(:"#{ ORG_PAGE_PREFIX }participants")
 
           flash.now[:error] = t('flash.resources.participants.update.failure')
-          @attributes   = PARTICIPANT_ATTRIBUTES[:update]
+          @attributes   = PARTICIPANT_ATTRIBUTES_FOR[:update]
           @associations = [:participations]
 
           if @associations.include?(:participations)
@@ -656,7 +688,7 @@ class CTT2013 < Sinatra::Base
         set_page(:"#{ ORG_PAGE_PREFIX }talks")
 
         flash.now[:error] = t('flash.resources.talks.update.failure')
-        @attributes = TALK_ATTRIBUTES[:update]
+        @attributes = TALK_ATTRIBUTES_FOR[:update]
 
         haml :"/pages/#{ ORG_PAGE_PREFIX }talks/edit_one.html"
       end
@@ -677,7 +709,7 @@ class CTT2013 < Sinatra::Base
         set_page(:"#{ ORG_PAGE_PREFIX }hotels")
 
         flash.now[:error] = t('flash.resources.hotels.update.failure')
-        @attributes = HOTEL_ATTRIBUTES[:update]
+        @attributes = HOTEL_ATTRIBUTES_FOR[:update]
 
         haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/edit_one.html"
       end

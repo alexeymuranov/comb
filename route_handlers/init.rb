@@ -6,8 +6,8 @@ class CTT2013 < Sinatra::Base
   # ======
   #
 
-  PARTICIPANT_ATTRIBUTES = {}
-  PARTICIPANT_ATTRIBUTES[:registration] =
+  PARTICIPANT_ATTRIBUTES_FOR = {}
+  PARTICIPANT_ATTRIBUTES_FOR[:registration] =
     [ :first_name, :last_name, :email,
       :affiliation, :academic_position,
       :country, :city, :post_code, :street_address, :phone,
@@ -15,16 +15,7 @@ class CTT2013 < Sinatra::Base
       :invitation_needed, :visa_needed,
       # :funding_requests,
       :special_requests ]
-  PARTICIPANT_ATTRIBUTES[:show] = PARTICIPANT_ATTRIBUTES[:index] =
-    [ :first_name, :last_name, :email, :affiliation,
-      :academic_position,
-      :country, :city, :post_code, :street_address, :phone,
-      :i_m_t_member, :g_d_r_member,
-      :invitation_needed, :visa_needed,
-      :funding_requests,
-      :special_requests,
-      :approved ]
-  PARTICIPANT_ATTRIBUTES[:update] = PARTICIPANT_ATTRIBUTES[:create] =
+  PARTICIPANT_ATTRIBUTES_FOR[:update] = PARTICIPANT_ATTRIBUTES_FOR[:create] =
     [ :first_name, :last_name, :email, :affiliation,
       :academic_position,
       :country, :city, :post_code, :street_address, :phone,
@@ -33,18 +24,14 @@ class CTT2013 < Sinatra::Base
       :funding_requests,
       :special_requests ]
 
-  TALK_ATTRIBUTES = {}
-  TALK_ATTRIBUTES[:show] = TALK_ATTRIBUTES[:index] =
-    [ :translated_type_name, :speaker_name, :title, :abstract,
-      :date, :time, :room_or_auditorium ]
-  TALK_ATTRIBUTES[:update] = TALK_ATTRIBUTES[:create] =
+  TALK_ATTRIBUTES_FOR = {}
+  TALK_ATTRIBUTES_FOR[:update] = TALK_ATTRIBUTES_FOR[:create] =
     [ :type, :participant_id, :title, :abstract,
       :date, :time, :room_or_auditorium ]
 
-  HOTEL_ATTRIBUTES = {}
-  HOTEL_ATTRIBUTES[:show] = HOTEL_ATTRIBUTES[:index] =
+  HOTEL_ATTRIBUTES_FOR = {}
+  HOTEL_ATTRIBUTES_FOR[:update] = HOTEL_ATTRIBUTES_FOR[:create] =
     [:name, :address, :phone, :web_site]
-  HOTEL_ATTRIBUTES[:update] = HOTEL_ATTRIBUTES[:create] = HOTEL_ATTRIBUTES[:show]
 
   # Internationalisation
   # ====================
@@ -96,7 +83,7 @@ class CTT2013 < Sinatra::Base
     def participant_attributes_from_params_for(action)
       submitted_attributes = params['participant']
 
-      PARTICIPANT_ATTRIBUTES[action].map { |attr|
+      PARTICIPANT_ATTRIBUTES_FOR[action].map { |attr|
         [attr, attr.to_s]
       }.select { |_, key|
         submitted_attributes.key?(key)
@@ -186,7 +173,7 @@ class CTT2013 < Sinatra::Base
     def talk_attributes_from_params_for(action)
       submitted_attributes = params['talk']
 
-      TALK_ATTRIBUTES[action].map { |attr|
+      TALK_ATTRIBUTES_FOR[action].map { |attr|
         [attr, attr.to_s]
       }.select { |_, key|
         submitted_attributes.key?(key)
@@ -204,7 +191,7 @@ class CTT2013 < Sinatra::Base
     def hotel_attributes_from_params_for(action)
       submitted_attributes = params['hotel']
 
-      HOTEL_ATTRIBUTES[action].map { |attr|
+      HOTEL_ATTRIBUTES_FOR[action].map { |attr|
         [attr, attr.to_s]
       }.select { |_, key|
         submitted_attributes.key?(key)
