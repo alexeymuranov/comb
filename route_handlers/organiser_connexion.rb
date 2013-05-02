@@ -98,14 +98,16 @@ class CTT2013 < Sinatra::Base
     end
 
     PARTICIPANT_ATTRIBUTES_FOR_INDEX =
-      [ :first_name, :last_name, :email, :affiliation,
-        :academic_position,
-        :country, :city, :post_code, :street_address, :phone,
-        :i_m_t_member, :g_d_r_member,
-        :invitation_needed, :visa_needed,
-        :funding_requests,
-        :special_requests,
-        :approved ]
+      [:last_name, :first_name, :affiliation, :academic_position]
+
+    PARTICIPANT_ATTRIBUTE_LABELS_FOR_INDEX =
+      PARTICIPANT_ATTRIBUTES_FOR_INDEX.map { |attr|
+        DataPresentationHelpers::capitalize_first_letter_of(
+          Participant.human_attribute_name(attr))
+      }
+
+    PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX =
+      PARTICIPANT_ATTRIBUTES_FOR_INDEX.map(&:to_proc)
 
     [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
       :"#{ ORG_PAGE_PREFIX }participants"
@@ -115,8 +117,6 @@ class CTT2013 < Sinatra::Base
 
         set_locale(locale)
         set_page(page)
-
-        @attributes = PARTICIPANT_ATTRIBUTES_FOR_INDEX
 
         # Filtering
         filter_participants_for_index # TODO: find a better solution
@@ -147,6 +147,22 @@ class CTT2013 < Sinatra::Base
           @filtered_participants.limit(per_page).offset(per_page * (active_page - 1))
         @view_parameters[:page_count] =
           ((@filtered_participants_count - 1) / per_page) + 1
+
+        # Page content
+        @attribute_headers = PARTICIPANT_ATTRIBUTE_LABELS_FOR_INDEX
+        @attribute_procs = PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX
+
+        @participations_header =
+          capitalize_first_letter_of(
+            Participant.human_attribute_name(:participations))
+
+        @participation_procs = Conference.default_order.map { |conf|
+          lambda { |participant|
+            participation =
+              participant.participations.find { |p| p.conference == conf }
+            participation ? (participation.approved? ? '✓' : '—') : '·'
+          }
+        }
 
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/index_all.html"
       end
@@ -244,8 +260,17 @@ class CTT2013 < Sinatra::Base
     end
 
     TALK_ATTRIBUTES_FOR_INDEX =
-      [ :translated_type_name, :speaker_name, :title, :abstract,
+      [ :translated_type_name, :speaker_name, :title,
         :date, :time, :room_or_auditorium ]
+
+    TALK_ATTRIBUTE_LABELS_FOR_INDEX =
+      TALK_ATTRIBUTES_FOR_INDEX.map { |attr|
+        DataPresentationHelpers::capitalize_first_letter_of(
+          Talk.human_attribute_name(attr))
+      }
+
+    TALK_ATTRIBUTE_PROCS_FOR_INDEX =
+      TALK_ATTRIBUTES_FOR_INDEX.map(&:to_proc)
 
     get "/#{ l }#{ ORG_PAGE_PREFIX }talks" do
       require_organiser_login!
@@ -253,8 +278,12 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       set_page(:"#{ ORG_PAGE_PREFIX }talks")
 
-      @attributes = TALK_ATTRIBUTES_FOR_INDEX
       @talks = Talk.default_order.all
+
+      # Page content
+      @attribute_headers = TALK_ATTRIBUTE_LABELS_FOR_INDEX
+      @attribute_procs = TALK_ATTRIBUTE_PROCS_FOR_INDEX
+
       haml :"/pages/#{ ORG_PAGE_PREFIX }talks/index_all.html"
     end
 
@@ -313,14 +342,27 @@ class CTT2013 < Sinatra::Base
 
     HOTEL_ATTRIBUTES_FOR_INDEX = [:name, :address, :phone, :web_site]
 
+    HOTEL_ATTRIBUTE_LABELS_FOR_INDEX =
+      HOTEL_ATTRIBUTES_FOR_INDEX.map { |attr|
+        DataPresentationHelpers::capitalize_first_letter_of(
+          Hotel.human_attribute_name(attr))
+      }
+
+    HOTEL_ATTRIBUTE_PROCS_FOR_INDEX =
+      HOTEL_ATTRIBUTES_FOR_INDEX.map(&:to_proc)
+
     get "/#{ l }#{ ORG_PAGE_PREFIX }hotels" do
       require_organiser_login!
 
       set_locale(locale)
       set_page(:"#{ ORG_PAGE_PREFIX }hotels")
 
-      @attributes = HOTEL_ATTRIBUTES_FOR_INDEX
       @hotels = Hotel.default_order.all
+
+      # Page content
+      @attribute_headers = HOTEL_ATTRIBUTE_LABELS_FOR_INDEX
+      @attribute_procs = HOTEL_ATTRIBUTE_PROCS_FOR_INDEX
+
       haml :"/pages/#{ ORG_PAGE_PREFIX }hotels/index_all.html"
     end
 
@@ -796,7 +838,8 @@ class CTT2013 < Sinatra::Base
 
         if participants_filter_values = filter_values['participants']
           participants_filter = FriendlyRelationFilter.new(Participant)
-          participants_filter.filtering_attributes = @attributes
+          participants_filter.filtering_attributes =
+            [:last_name, :academic_position, :invitation_needed, :visa_needed]
           participants_filter.set_filtering_values_from_text_hash(
             participants_filter_values)
           @filtered_participants =

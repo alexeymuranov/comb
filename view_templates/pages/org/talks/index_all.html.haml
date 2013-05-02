@@ -1,18 +1,26 @@
-%ol
-  - @talks.each do |talk|
-    %li{ :id => "talk_#{ talk.id }" }
-      %a{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }") }
-        %strong
-          &= talk.title_with_speaker
-        %i= "(#{ talk.translated_type_name })"
+%table.index
+  %thead
+    %tr
+      - @attribute_headers.each do |header|
+        %th
+          = header
+      %th{ :colspan => main_organiser_logged_in? ? 2 : 1 }/
 
-      %br
-      = t 'questions.show_details?'
-      %input.style_control{ :type => 'checkbox' }
-      .hide_if_checkbox_unchecked
+  %tbody
+    - @talks.each do |talk|
+      %tr{ :id => "talk_#{ talk.id }" }
+        - @attribute_procs.each do |p|
+          %td
+            &= p[talk]
 
-        = haml :'pages/org/talks/_talk_details',
-               :locals => { :talk => talk }
+        %td
+          %a.button.show{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }") }<
+            = t 'actions.show'
+
+        - if main_organiser_logged_in?
+          %td
+            %a.button.edit{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/#{ talk.id }/edit") }<
+              = t 'actions.update'
 
 - if main_organiser_logged_in?
   %a.button.new{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }talks/new"),

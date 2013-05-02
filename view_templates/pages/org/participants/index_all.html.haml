@@ -18,39 +18,56 @@
   %code.technical
     = @participants.to_sql
 
-%ol
-  - @participants.each do |participant|
-    %li{ :id => "participant_#{ participant.id }" }
+%table.index
+  %thead
+    %tr
+      %th/
+      - @attribute_headers.each do |header|
+        %th
+          = header
+      %th{ :colspan => @participation_procs.count }
+        = @participations_header
+      %th{ :colspan => main_organiser_logged_in? ? 2 : 1 }/
 
-      %samp
-        %strong
-          = participant.approved? ? '✓' : '—'
+  %tbody
+    - @participants.each do |participant|
+      %tr{ :id => "participant_#{ participant.id }" }
+        %td.center
+          %samp
+            %strong
+              = participant.approved? ? '✓' : '—'
 
-      %a{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }") }
-        %strong
-          &= participant.full_name_with_affiliation_and_position
+        - @attribute_procs.each do |p|
+          %td
+            &= p[participant]
 
-      %br
-      - if participant.approved?
-        (✓ #{ Participant.human_attribute_name(:approved) })
+        - @participation_procs.each do |p|
+          %td.center
+            &= p[participant]
 
-      = t 'questions.show_details?'
-      %input.style_control{ :type => 'checkbox' }
-      .hide_if_checkbox_unchecked
+        %td
+          %a.button.show{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }") }<
+            = t 'actions.show'
 
-        = haml :'pages/org/participants/_participant_details',
-               :locals => { :participant => participant }
+        - if main_organiser_logged_in?
+          %td
+            %a.button.edit{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }/edit") }<
+              = t 'actions.update'
 
 - if @page == :"#{ ORG_PAGE_PREFIX }participants"
-  - download_url = fixed_url("/download/participants.csv")
-  - if @filtering_values
-    - download_url << '?' << url_query_from_nested_hash('filter' => @filtering_values)
-
-  %a.button.download{ :href => download_url,
-                      :role => 'button' }<
-    = "#{ t('actions.download') } (CSV)"
-
   - if main_organiser_logged_in?
     %a.button.new{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/new"),
                    :role => 'button' }<
       = t 'actions.add'
+
+  %hr/
+  %div.download_buttons
+    %span.prompt
+      = t 'formats.attribute_name:', :attribute => t('actions.download')
+
+    - download_url = fixed_url("/download/participants.csv")
+    - if @filtering_values
+      - download_url << '?' << url_query_from_nested_hash('filter' => @filtering_values)
+    %a.button.download{ :href => download_url,
+                        :role => 'button' }<
+      CSV

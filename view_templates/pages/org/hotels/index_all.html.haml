@@ -1,17 +1,26 @@
-%ol
-  - @hotels.each do |hotel|
-    %li{ :id => "hotel_#{ hotel.id }" }
-      %a{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }") }
-        %strong
-          &= hotel.name
+%table.index
+  %thead
+    %tr
+      - @attribute_headers.each do |header|
+        %th
+          = header
+      %th{ :colspan => main_organiser_logged_in? ? 2 : 1 }/
 
-      %br
-      = t 'questions.show_details?'
-      %input.style_control{ :type => 'checkbox' }
-      .hide_if_checkbox_unchecked
+  %tbody
+    - @hotels.each do |hotel|
+      %tr{ :id => "hotel_#{ hotel.id }" }
+        - @attribute_procs.each do |p|
+          %td
+            &= p[hotel]
 
-        = haml :'pages/org/hotels/_hotel_details',
-               :locals => { :hotel => hotel }
+        %td
+          %a.button.show{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }") }<
+            = t 'actions.show'
+
+        - if main_organiser_logged_in?
+          %td
+            %a.button.edit{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }/edit") }<
+              = t 'actions.update'
 
 - if main_organiser_logged_in?
   %a.button.new{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/new"),
