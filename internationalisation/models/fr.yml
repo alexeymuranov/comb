@@ -24,7 +24,7 @@ fr:
       participant:
         # Associations:
         conferences           : "colloques"
-        participations        : "participations aux colloques"
+        participations        : "participation aux colloques"
         # Attributes:
         last_name             : "nom"
         first_name            : "prénom"
