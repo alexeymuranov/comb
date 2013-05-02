@@ -102,6 +102,10 @@ class CTT2013 < Sinatra::Base
     ActiveRecord::Base.establish_connection(environment)
   end
 
+  # The database needs to be already conected to inspect column types.
+  # This can be used to define some constants at "compile time".
+  connect_database
+
   require_relative 'models/models'
   require './lib/simple_relation_filter'
 
@@ -119,6 +123,5 @@ end
 require_relative 'route_handlers/init'
 
 if __FILE__ == $0
-  CTT2013.connect_database
   CTT2013.run!
 end
