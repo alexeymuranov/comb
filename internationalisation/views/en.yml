@@ -193,6 +193,8 @@ en:
         title: "Org : Participants"
       participants_to_approve:
         title: "Org : Unapproved participants"
+      participants_with_talk_proposals:
+        title: "Org : Participants with short talk proposals"
       talks:
         title: "Org : Talks"
       hotels:

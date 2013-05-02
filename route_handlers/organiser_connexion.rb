@@ -52,8 +52,8 @@ class CTT2013 < Sinatra::Base
   ORG_PAGE_PREFIX = :'org/'
 
   ORGANISER_CONNEXION_PAGES =
-    [ :participants_to_approve,
-      :participants,
+    [ :participants,
+      :participants_with_talk_proposals,
       :talks,
       :hotels,
       :utilities
@@ -109,8 +109,8 @@ class CTT2013 < Sinatra::Base
     PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX =
       PARTICIPANT_ATTRIBUTES_FOR_INDEX.map(&:to_proc)
 
-    [ :"#{ ORG_PAGE_PREFIX }participants_to_approve",
-      :"#{ ORG_PAGE_PREFIX }participants"
+    [ :"#{ ORG_PAGE_PREFIX }participants",
+      :"#{ ORG_PAGE_PREFIX }participants_with_talk_proposals"
     ].each do |page|
       get "/#{ l }#{ page }" do
         require_organiser_login!
@@ -129,10 +129,9 @@ class CTT2013 < Sinatra::Base
             [Participant,   :visa_needed],
             [Participation, :approved] ]
 
-        if page == :"#{ ORG_PAGE_PREFIX }participants_to_approve"
-          @filtering_by.delete([Participation, :approved])
+        if page == :"#{ ORG_PAGE_PREFIX }participants_with_talk_proposals"
           @filtered_participants =
-            @filtered_participants.not_all_participations_approved
+            @filtered_participants.joins(:talk_proposals).uniq.default_order
         end
 
         @filtered_participants = @filtered_participants.default_order

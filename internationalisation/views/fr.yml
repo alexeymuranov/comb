@@ -193,6 +193,8 @@ fr:
         title: "Org : Participants"
       participants_to_approve:
         title: "Org : Participants non validés"
+      participants_with_talk_proposals:
+        title: "Org : Participants avec un court exposé proposé"
       talks:
         title: "Org : Exposés"
       hotels:
