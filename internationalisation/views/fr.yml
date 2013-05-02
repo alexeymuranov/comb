@@ -205,7 +205,7 @@ fr:
           graduate_students_not_all_participations_approved:
             title: "Doctorants non validés pour toutes les semaines"
           participants_with_talk_proposals:
-            title: "Participants qui ont porposé un court exposé"
+            title: "Participants avec un court exposé proposé"
           talk_proposals_for_scientific_committee:
             title: "Exposés proposés pour le comité scientifique"
           miscellaneous:
