@@ -94,7 +94,7 @@ class CTT2013 < Sinatra::Base
     get "/#{ l }#{ ORG_PAGE_PREFIX }" do
       require_organiser_login!
 
-      redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants_to_approve", locale)
+      redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants", locale)
     end
 
     PARTICIPANT_ATTRIBUTES_FOR_INDEX =
@@ -607,7 +607,7 @@ class CTT2013 < Sinatra::Base
           redirect fixed_url(session[:return_to])
           session.delete(:return_to)
         else
-          redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }", locale)
+          redirect fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants", locale)
         end
       else
         flash[:error] = t('flash.sessions.log_in.failure')
