@@ -65,8 +65,6 @@ class CTT2013 < Sinatra::Base
       'email_lists/graduate_students/approved',
     :graduate_students_not_all_participations_approved =>
       'email_lists/graduate_students/not_all_participations_approved',
-    :participants_with_talk_proposals =>
-      'participants_with_talk_proposals',
     :talk_proposals_for_scientific_committee =>
       'talk_proposals_for_scientific_committee' }
 
@@ -446,22 +444,6 @@ class CTT2013 < Sinatra::Base
 
       haml :"/pages/#{ ORG_PAGE_PREFIX }utilities_layout" do
         haml :"/pages/#{ ORG_PAGE_PREFIX }participants/email_list",
-             :layout => false
-      end
-    end
-
-    get "/#{ l }#{ ORG_PAGE_PREFIX }utilities/participants_with_talk_proposals" do
-      require_organiser_login!
-
-      set_locale(locale)
-      set_page(:"#{ ORG_PAGE_PREFIX }utilities")
-      @utility_tab = :participants_with_talk_proposals
-
-      @attributes = [:email]
-      @participants = Participant.joins(:talk_proposals).uniq.default_order
-
-      haml :"/pages/#{ ORG_PAGE_PREFIX }utilities_layout" do
-        haml :"/pages/#{ ORG_PAGE_PREFIX }participants/participants_with_talk_proposals.html",
              :layout => false
       end
     end
