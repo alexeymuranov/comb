@@ -110,7 +110,7 @@ a[role=button] {
     }
 
     &:before {
-      content: "↓";
+      content: "↓ ";
     }
   }
 }
@@ -327,15 +327,15 @@ button[type="submit"] {
   }
 
   &.create:before {
-    content: "✉";
+    content: "✉ ";
   }
 
   &.toggle_on:before {
-    content: "✓";
+    content: "✓ ";
   }
 
   &.toggle_off:before {
-    content: "✕";
+    content: "✕ ";
   }
 }
 
@@ -368,19 +368,19 @@ a[role=button] {
   }
 
   &.new:before {
-    content: "+";
+    content: "+ ";
   }
 
   &.edit:before {
-    content: "✎";
+    content: "✎ ";
   }
 
   &.delete:before {
-    content: "␡";
+    content: "␡ ";
   }
 
   &.cancel:before {
-    content: "∅";
+    content: "∅ ";
   }
 }
 
