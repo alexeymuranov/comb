@@ -487,55 +487,66 @@ class CTT2013 < Sinatra::Base
     redirect fixed_url('/')
   end
 
+  PARTICIPANT_ATTRIBUTES_FOR_DOWNLOAD =
+    [ :last_name, :first_name, :email, :affiliation, :academic_position,
+      :country, :city, :post_code, :street_address, :phone,
+      :i_m_t_member, :g_d_r_member,
+      :invitation_needed, :visa_needed, :special_requests ]
+
+  PARTICIPANT_ATTRIBUTE_LABELS_FOR_DOWNLOAD =
+    PARTICIPANT_ATTRIBUTES_FOR_DOWNLOAD.map { |attr|
+      DataPresentationHelpers::capitalize_first_letter_of(
+        Participant.human_attribute_name(attr))
+    }
+
+  PARTICIPANT_ATTRIBUTE_PROCS_FOR_DOWNLOAD =
+    PARTICIPANT_ATTRIBUTES_FOR_DOWNLOAD.map { |attr|
+      case Participant.attribute_type(attr)
+      when :boolean
+        lambda { |participant|
+          attr.to_proc[participant] ? 'X' : nil
+        }
+      else
+        attr.to_proc
+      end
+    }
+
   get "/download/participants.:format" do |format|
     require_organiser_login!
 
-    filename =
-      "filtered participants " +
-      "#{ Time.now.strftime('%Y-%m-%d %k-%M') }.#{ format }"
-    attachment filename
+    attachment "filtered participants " +
+               "#{ Time.now.strftime('%Y-%m-%d %k-%M') }.#{ format }"
 
-    @attributes =
-      [ :last_name, :first_name, :email, :affiliation, :academic_position,
-        :country, :city, :post_code, :street_address, :phone,
-        :i_m_t_member, :g_d_r_member,
-        :invitation_needed, :visa_needed, :special_requests ]
-    @attribute_procs = []
-    @headers = {}
-    @attributes.each do |attr|
-      attr_proc = attr.to_proc
-      @attribute_procs << attr_proc
-      @headers[attr_proc] =
-        capitalize_first_letter_of(Participant.human_attribute_name(attr))
-    end
+    @headers = PARTICIPANT_ATTRIBUTE_LABELS_FOR_DOWNLOAD
+    @attribute_procs = PARTICIPANT_ATTRIBUTE_PROCS_FOR_DOWNLOAD
 
-    @conferences = Conference.default_order.all
+    all_conferences = Conference.default_order.all
 
-    @conferences.each do |conf|
-      participation_status = lambda { |participant|
-        participation =
-          participant.participations.find { |p| p.conference == conf }
-        if participation
-          "(#{ participation.approved? ? '✓' : '—' }) " +
-            "[#{ participation.arrival_date } .. #{ participation.departure_date }]"
-        end
-      }
-      @attribute_procs << participation_status
-      @headers[participation_status] = conf.identifier
-
-      committee_comments = lambda { |participant|
-        participation =
-          participant.participations.find { |p| p.conference == conf }
-        if participation
-          participation.committee_comments
-        end
-      }
-      @attribute_procs << committee_comments
-      @headers[committee_comments] =
+    @headers += all_conferences.map { |conf|
+      [ conf.identifier,
         capitalize_first_letter_of(
           Participation.human_attribute_name(:committee_comments)) +
-          " (#{ conf.identifier })"
-    end
+          " (#{ conf.identifier })" ]
+    }.reduce(&:concat)
+
+    @attribute_procs += all_conferences.map { |conf|
+      [ lambda { |participant|
+          participation =
+            participant.participations.find { |p| p.conference == conf }
+          if participation
+            "(#{ participation.approved? ? 'X' : '-' }) " +
+              "[#{ participation.arrival_date } .. #{ participation.departure_date }]"
+          end
+        },
+
+        lambda { |participant|
+          participation =
+            participant.participations.find { |p| p.conference == conf }
+          if participation
+            participation.committee_comments
+          end
+        } ]
+    }.reduce(&:concat)
 
     filter_participants_for_download # TODO: find a better solution
 
@@ -855,7 +866,8 @@ class CTT2013 < Sinatra::Base
       if filter_values = params['filter']
         if participants_filter_values = filter_values['participants']
           participants_filter = FriendlyRelationFilter.new(Participant)
-          participants_filter.filtering_attributes = @attributes
+          participants_filter.filtering_attributes =
+            [:last_name, :academic_position, :invitation_needed, :visa_needed]
           participants_filter.set_filtering_values_from_text_hash(
             participants_filter_values)
           @participants =
@@ -880,7 +892,7 @@ class CTT2013 < Sinatra::Base
       CSV.generate(:col_sep  => ',',
                    :row_sep  => "\r\n",
                    :encoding => 'utf-8') do |csv|
-        csv << attribute_procs.map { |p| headers[p] } << []
+        csv << headers << []
         collection.each do |object|
           csv << attribute_procs.map { |p| p[object] }
         end
