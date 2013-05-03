@@ -14,15 +14,15 @@
             &= p[hotel]
 
         %td
-          %a.button.show{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }") }<
+          %a.button.show{ :href => fixed_url_with_locale("/org/hotels/#{ hotel.id }") }<
             = t 'actions.show'
 
         - if main_organiser_logged_in?
           %td
-            %a.button.edit{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }/edit") }<
+            %a.button.edit{ :href => fixed_url_with_locale("/org/hotels/#{ hotel.id }/edit") }<
               = t 'actions.update'
 
 - if main_organiser_logged_in?
-  %a.button.new{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/new"),
+  %a.button.new{ :href => fixed_url_with_locale("/org/hotels/new"),
                  :role => 'button' }<
     = t 'actions.add'

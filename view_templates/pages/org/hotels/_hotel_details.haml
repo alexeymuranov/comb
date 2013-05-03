@@ -40,9 +40,9 @@
         &= hotel.web_site
 
 - if main_organiser_logged_in?
-  %a.button.edit{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }/edit"),
+  %a.button.edit{ :href => fixed_url_with_locale("/org/hotels/#{ hotel.id }/edit"),
                   :role => 'button' }<
     = t 'actions.update'
-  %a.button.delete{ :href => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }hotels/#{ hotel.id }/delete"),
+  %a.button.delete{ :href => fixed_url_with_locale("/org/hotels/#{ hotel.id }/delete"),
                     :role => 'button' }<
     = t 'actions.delete'

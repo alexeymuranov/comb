@@ -27,7 +27,7 @@
                   = value
           - if i.zero?
             %td{ :rowspan => participations.count }
-              %form.inline{ :action => fixed_url_with_locale("/#{ ORG_PAGE_PREFIX }participants/#{ participant.id }"),
+              %form.inline{ :action => fixed_url_with_locale("/org/participants/#{ participant.id }"),
                             :method => :post }
                 %input{ :type => :hidden, :name => :_method, :value => :put }
                 - if participant.approved?
