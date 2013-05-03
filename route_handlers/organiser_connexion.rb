@@ -115,8 +115,24 @@ class CTT2013 < Sinatra::Base
         set_locale(locale)
         set_page(page)
 
-        # Filtering
-        filter_participants_for_index # TODO: find a better solution
+        # Filtering.
+        participants_filter   = participants_filter_from_params
+        participations_filter = participations_filter_from_params
+        filtered_participants =
+          participants_scope_from_filters(
+            :participants_filter   => participants_filter,
+            :participations_filter => participations_filter)
+
+        @filtering_values = {}
+        if participants_filter
+          @filtering_values[Participant.table_name] =
+            participants_filter.filtering_values_as_simple_nested_hash
+        end
+        if participations_filter
+          @filtering_values[Participation.table_name] =
+            participations_filter.filtering_values_as_simple_nested_hash
+        end
+        @filtering_values.delete_if{|_, v| v.empty? }
 
         @filtering_by =
           [ [Participant,   :last_name],
@@ -127,20 +143,20 @@ class CTT2013 < Sinatra::Base
             [Participation, :approved] ]
 
         if page == :"org/participants_with_talk_proposals"
-          @filtered_participants =
-            @filtered_participants.joins(:talk_proposals).uniq.default_order
+          filtered_participants =
+            filtered_participants.joins(:talk_proposals).uniq.default_order
         end
 
-        @filtered_participants = @filtered_participants.default_order
+        filtered_participants = filtered_participants.default_order
 
-        @filtered_participants_count = @filtered_participants.count
+        @filtered_participants_count = filtered_participants.count
 
         # Pagination
         @view_parameters = pagination_parameters_from_params
         per_page    = @view_parameters[:per_page]
         active_page = @view_parameters[:page]
         @participants =
-          @filtered_participants.limit(per_page).offset(per_page * (active_page - 1))
+          filtered_participants.limit(per_page).offset(per_page * (active_page - 1))
         @view_parameters[:page_count] =
           ((@filtered_participants_count - 1) / per_page) + 1
 
@@ -547,7 +563,11 @@ class CTT2013 < Sinatra::Base
         } ]
     }.reduce(&:concat)
 
-    filter_participants_for_download # TODO: find a better solution
+    # Filtering
+    @participants =
+      participants_scope_from_filters(
+        :participants_filter   => participants_filter_from_params,
+        :participations_filter => participations_filter_from_params)
 
     @participants = @participants.default_order
 
@@ -819,71 +839,46 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    # TODO: find a better solution. This method is used for its side-effects
-    # which are not very well defined.
-    def filter_participants_for_index
-      @filtered_participants = Participant.scoped
+    def participants_scope_from_filters(simple_filters)
+      participants_filter   = simple_filters[:participants_filter]
+      participations_filter = simple_filters[:participations_filter]
 
-      if filter_values = params['filter']
-        @filtering_values = {}
+      participants_scope = if participants_filter.nil?
+                             Participant.scoped
+                           else
+                             participants_filter.to_scope
+                           end
 
-        if participants_filter_values = filter_values['participants']
-          participants_filter = FriendlyRelationFilter.new(Participant)
-          participants_filter.filtering_attributes =
-            [:last_name, :academic_position, :invitation_needed, :visa_needed]
-          participants_filter.set_filtering_values_from_text_hash(
-            participants_filter_values)
-          @filtered_participants =
-            @filtered_participants.merge(participants_filter.to_scope)
-
-          @filtering_values[Participant.table_name] =
-            participants_filter.filtering_values_as_simple_nested_hash
-        end
-
-        if participations_filter_values = filter_values['participations']
-          participations_filter =
-            FriendlyRelationFilter.new(Participation)
-          participations_filter.filtering_attributes =
-            [:conference_id, :approved]
-          participations_filter.set_filtering_values_from_text_hash(
-            participations_filter_values)
-          @filtered_participants =
-            @filtered_participants.joins(:participations).
-                                   merge(participations_filter.to_scope).uniq
-
-          @filtering_values[Participation.table_name] =
-            participations_filter.filtering_values_as_simple_nested_hash
-        end
+      if participations_filter.nil?
+        participants_scope
+      else
+        participants_scope.joins(:participations).
+                           merge(participations_filter.to_scope).uniq
       end
     end
 
-    # TODO: find a better solution. This method is used for its side-effects
-    # which are not very well defined.
-    def filter_participants_for_download
-      @participants = Participant.scoped
+    def participants_filter_from_params(filter_values =
+                                          params.key?('filter') && params['filter']['participants'])
+      if filter_values
+        filter_values = filter_values.reject{|_, v| v.empty? }
 
-      if filter_values = params['filter']
-        if participants_filter_values = filter_values['participants']
-          participants_filter = FriendlyRelationFilter.new(Participant)
-          participants_filter.filtering_attributes =
-            [:last_name, :academic_position, :invitation_needed, :visa_needed]
-          participants_filter.set_filtering_values_from_text_hash(
-            participants_filter_values)
-          @participants =
-            @participants.merge(participants_filter.to_scope)
-        end
+        filter = FriendlyRelationFilter.new(Participant)
+        filter.filtering_attributes =
+          [:last_name, :academic_position, :invitation_needed, :visa_needed]
+        filter.set_filtering_values_from_text_hash(filter_values)
+        filter
+      end
+    end
 
-        if participations_filter_values = filter_values['participations']
-          participations_filter =
-            FriendlyRelationFilter.new(Participation)
-          participations_filter.filtering_attributes =
-            [:conference_id, :approved]
-          participations_filter.set_filtering_values_from_text_hash(
-            participations_filter_values)
-          @participants =
-            @participants.joins(:participations).
-                          merge(participations_filter.to_scope).uniq
-        end
+    def participations_filter_from_params(filter_values =
+                                            params.key?('filter') && params['filter']['participations'])
+      if filter_values
+        filter_values = filter_values.reject{|_, v| v.empty? }
+
+        filter = FriendlyRelationFilter.new(Participation)
+        filter.filtering_attributes = [:conference_id, :approved]
+        filter.set_filtering_values_from_text_hash(filter_values)
+        filter
       end
     end
 
