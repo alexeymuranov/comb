@@ -229,28 +229,8 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:"org/participants")
 
-      # @attributes = PARTICIPANT_ATTRIBUTES_FOR[:update]
-
-      if only = params[:only]
-        @attributes = []
-        if only_attributes = only[:attributes]
-          only_attributes = only_attributes.to_set
-          PARTICIPANT_ATTRIBUTES_FOR[:update].each do |attr|
-            @attributes << attr if only_attributes.include?(attr.to_s)
-          end
-        end
-
-        @associations = []
-        if only_associations = only[:associations]
-          only_associations = only_associations.to_set
-          if only_associations.include? 'participations'
-            @associations << :participations
-          end
-        end
-      else
-        @attributes   = PARTICIPANT_ATTRIBUTES_FOR[:update]
-        @associations = [:participations]
-      end
+      @attributes   = participant_attribute_names_from_params_for_edit
+      @associations = participant_association_names_from_params_for_edit
 
       @participant = Participant.find(id)
 

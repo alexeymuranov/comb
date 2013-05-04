@@ -208,6 +208,42 @@ class CTT2013 < Sinatra::Base
       }
     end
 
+    def participant_attribute_names_from_params_for_edit
+      if only = params['only']
+        case only_attributes = only['attributes']
+        when Array
+          only_attributes = only_attributes.to_set
+          PARTICIPANT_ATTRIBUTES_FOR[:update].select{ |n|
+            only_attributes.include?(n.to_s)
+          }
+        when nil
+          []
+        else
+          PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update]
+        end
+      else
+        PARTICIPANT_ATTRIBUTES_FOR[:update]
+      end
+    end
+
+    def participant_association_names_from_params_for_edit
+      if only = params['only']
+        case only_associations = only['associations']
+        when Array
+          only_associations = only_associations.to_set
+          [:participations, :talk_proposals].select{ |n|
+            only_associations.include?(n.to_s)
+          }
+        when nil
+          []
+        else
+          [:participations, :talk_proposals]
+        end
+      else
+        [:participations, :talk_proposals]
+      end
+    end
+
 end
 
 require_relative 'filters'
