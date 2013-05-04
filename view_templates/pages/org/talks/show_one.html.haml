@@ -1,7 +1,5 @@
 %section
-  %h4
-    %a{ :href => fixed_url_with_locale("/org/talks\#talk_#{ @talk.id }") }
-      %strong
-        &= @talk.title_with_speaker
+  %h3
+    &= @talk.title_with_speaker
 
   = haml :'pages/org/talks/_talk_details'

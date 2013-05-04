@@ -1,1 +1,6 @@
-= haml :'pages/org/hotels/_update_form'
+%section
+  %h3
+    %a{ :href => fixed_url_with_locale("/org/hotels/#{ @hotel.id }") }<
+      &= @hotel.name
+
+  = haml :'pages/org/hotels/_update_form'

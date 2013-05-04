@@ -1,1 +1,5 @@
-= haml :'pages/org/hotels/_create_form'
+%section
+  %h3
+    = t 'actions_with_object.add', :obj => Hotel.model_name.human
+
+  = haml :'pages/org/hotels/_create_form'

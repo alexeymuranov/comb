@@ -1,7 +1,5 @@
 %section
-  %h4
-    %a{ :href => fixed_url_with_locale("/org/hotels\#hotel_#{ @hotel.id }") }
-      %strong
-        &= @hotel.name
+  %h3
+    &= @hotel.name
 
   = haml :'pages/org/hotels/_hotel_details'

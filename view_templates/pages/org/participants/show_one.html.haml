@@ -1,9 +1,7 @@
 %section
-  %h4
-    %a{ :href => fixed_url_with_locale("/org/participants\#participant_#{ @participant.id }") }
-      %strong
-        &= @participant.full_name_with_affiliation
-    - if @participant.approved?
-      ✓ #{ Participant.human_attribute_name(:approved) }
+  %h3
+    &= @participant.full_name_with_affiliation
+    %samp
+      = @participant.approved? ? '(✓)' : '(—)'
 
   = haml :'pages/org/participants/_participant_details'

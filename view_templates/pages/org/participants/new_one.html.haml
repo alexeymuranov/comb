@@ -1,1 +1,5 @@
-= haml :'pages/org/participants/_create_form'
+%section
+  %h3
+    = t 'actions_with_object.add', :obj => Participant.model_name.human
+
+  = haml :'pages/org/participants/_create_form'
