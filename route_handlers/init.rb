@@ -76,12 +76,12 @@ class CTT2013 < Sinatra::Base
     end
 
     def conference_ids_from_params
-      submitted_ids = params['conference_ids']
-      submitted_ids.is_a?(Array) ? submitted_ids.map(&:to_i) : []
+      submitted_ids = params['conference_ids'] || []
+      submitted_ids.map(&:to_i)
     end
 
     def participant_attributes_from_params_for(action)
-      submitted_attributes = params['participant']
+      submitted_attributes = params['participant'] || {}
 
       PARTICIPANT_ATTRIBUTES_FOR[action].map { |attr|
         [attr, attr.to_s]
@@ -102,7 +102,8 @@ class CTT2013 < Sinatra::Base
     end
 
     def participant_participations_attributes_from_params_for(action)
-      submitted_attributes = params['participations']
+      submitted_attributes =
+        params['participations'] || Hash.new{|h, k| h[k] = {}}
 
       submitted_attributes.reduce({}) { |processed_attributes, raw_key__raw_attributes|
         raw_key, raw_attributes = raw_key__raw_attributes
@@ -140,7 +141,8 @@ class CTT2013 < Sinatra::Base
     end
 
     def participation_talk_proposals_attributes_from_params
-      submitted_attributes = params['talk_proposals']
+      submitted_attributes =
+        params['talk_proposals'] || Hash.new{|h, k| h[k] = {}}
 
       submitted_attributes.reduce({}) { |processed_attributes, raw_key__raw_attributes|
         raw_key, raw_attributes = raw_key__raw_attributes
@@ -171,7 +173,7 @@ class CTT2013 < Sinatra::Base
     end
 
     def talk_attributes_from_params_for(action)
-      submitted_attributes = params['talk']
+      submitted_attributes = params['talk'] || {}
 
       TALK_ATTRIBUTES_FOR[action].map { |attr|
         [attr, attr.to_s]
@@ -189,7 +191,7 @@ class CTT2013 < Sinatra::Base
     end
 
     def hotel_attributes_from_params_for(action)
-      submitted_attributes = params['hotel']
+      submitted_attributes = params['hotel'] || {}
 
       HOTEL_ATTRIBUTES_FOR[action].map { |attr|
         [attr, attr.to_s]
