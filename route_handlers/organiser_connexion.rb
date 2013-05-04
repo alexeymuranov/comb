@@ -625,6 +625,13 @@ class CTT2013 < Sinatra::Base
         talk_participation_attributes_from_params_for_create
       participation = Participation.where(participation_attributes).first
 
+      # NOTE: This is for safety only.
+      # Not needed if the database is known to not contain any abandoned
+      # 'participations'.
+      if participation.participant.nil?
+        participation = nil
+      end
+
       @talk.conference_participation = participation
 
       if @talk.save
