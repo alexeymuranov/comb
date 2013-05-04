@@ -10,7 +10,7 @@
            :locals => { :object => @participant }
 
   %dl.fields
-    - ([:first_name, :last_name,  :email, :affiliation] & @attributes).each do |attr|
+    - ([:first_name, :last_name,  :email, :affiliation] & @attribute_names).each do |attr|
       - required = Participant.attribute_constraints_on(attr)[:required]
       - label_html_classes = []
       - label_html_classes << 'required' if required
@@ -26,7 +26,7 @@
                   :type     => input_html_type_for_attribute(Participant, attr),
                   :value    => @participant.public_send(attr) }
 
-    - if @attributes.include? :academic_position
+    - if @attribute_names.include? :academic_position
       .field
         %dt.label
           %label{ :for => 'participant_academic_position' }<
@@ -43,7 +43,7 @@
                 %option
                   = p
 
-    - ([:country, :city, :post_code, :street_address, :phone] & @attributes).each do |attr|
+    - ([:country, :city, :post_code, :street_address, :phone] & @attribute_names).each do |attr|
       .field
         %dt.label
           %label{ :for => "participant_#{ attr }" }<
@@ -54,7 +54,7 @@
                   :type  => input_html_type_for_attribute(Participant, attr),
                   :value => @participant.public_send(attr) }
 
-    - ([:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed] & @attributes).each do |attr|
+    - ([:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed] & @attribute_names).each do |attr|
       .field
         %dt.label
           %label{ :for => "participant_#{ attr }" }<
@@ -72,7 +72,7 @@
                   :checked => @participant.public_send(attr) }
           %span= t 'yes'
 
-    - ([:funding_requests, :special_requests] & @attributes).each do |attr|
+    - ([:funding_requests, :special_requests] & @attribute_names).each do |attr|
       .field
         %dt.label
           %label{ :for => "participant_#{ attr }" }<
@@ -83,7 +83,7 @@
             = preserve do
               &= @participant.public_send(attr)
 
-  - if @associations.include? :participations
+  - if @association_names.include? :participations
     = haml :'pages/org/participants/_participations_fields'
 
   .actions

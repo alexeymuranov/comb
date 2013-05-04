@@ -12,7 +12,7 @@
                 = label_from_attribute_name(Participation, attr)
               %dd
                 &= participation.public_send(attr)
-  - PARTICIPANT_ATTRIBUTES_FOR[:registration].each do |attr|
+  - PARTICIPANT_ATTRIBUTE_NAMES_FOR[:registration].each do |attr|
     %dt
       = label_from_attribute_name(Participant, attr)
     %dd

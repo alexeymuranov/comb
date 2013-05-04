@@ -6,8 +6,8 @@ class CTT2013 < Sinatra::Base
   # ======
   #
 
-  PARTICIPANT_ATTRIBUTES_FOR = {}
-  PARTICIPANT_ATTRIBUTES_FOR[:registration] =
+  PARTICIPANT_ATTRIBUTE_NAMES_FOR = {}
+  PARTICIPANT_ATTRIBUTE_NAMES_FOR[:registration] =
     [ :first_name, :last_name, :email,
       :affiliation, :academic_position,
       :country, :city, :post_code, :street_address, :phone,
@@ -15,7 +15,7 @@ class CTT2013 < Sinatra::Base
       :invitation_needed, :visa_needed,
       # :funding_requests,
       :special_requests ]
-  PARTICIPANT_ATTRIBUTES_FOR[:update] = PARTICIPANT_ATTRIBUTES_FOR[:create] =
+  PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update] = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create] =
     [ :first_name, :last_name, :email, :affiliation,
       :academic_position,
       :country, :city, :post_code, :street_address, :phone,
@@ -24,13 +24,13 @@ class CTT2013 < Sinatra::Base
       :funding_requests,
       :special_requests ]
 
-  TALK_ATTRIBUTES_FOR = {}
-  TALK_ATTRIBUTES_FOR[:update] = TALK_ATTRIBUTES_FOR[:create] =
+  TALK_ATTRIBUTE_NAMES_FOR = {}
+  TALK_ATTRIBUTE_NAMES_FOR[:update] = TALK_ATTRIBUTE_NAMES_FOR[:create] =
     [ :type, :participant_id, :title, :abstract,
       :date, :time, :room_or_auditorium ]
 
-  HOTEL_ATTRIBUTES_FOR = {}
-  HOTEL_ATTRIBUTES_FOR[:update] = HOTEL_ATTRIBUTES_FOR[:create] =
+  HOTEL_ATTRIBUTE_NAMES_FOR = {}
+  HOTEL_ATTRIBUTE_NAMES_FOR[:update] = HOTEL_ATTRIBUTE_NAMES_FOR[:create] =
     [:name, :address, :phone, :web_site]
 
   # Internationalisation
@@ -83,7 +83,7 @@ class CTT2013 < Sinatra::Base
     def participant_attributes_from_params_for(action)
       submitted_attributes = params['participant'] || {}
 
-      PARTICIPANT_ATTRIBUTES_FOR[action].map { |attr|
+      PARTICIPANT_ATTRIBUTE_NAMES_FOR[action].map { |attr|
         [attr, attr.to_s]
       }.select { |_, key|
         submitted_attributes.key?(key)
@@ -175,7 +175,7 @@ class CTT2013 < Sinatra::Base
     def talk_attributes_from_params_for(action)
       submitted_attributes = params['talk'] || {}
 
-      TALK_ATTRIBUTES_FOR[action].map { |attr|
+      TALK_ATTRIBUTE_NAMES_FOR[action].map { |attr|
         [attr, attr.to_s]
       }.select { |_, key|
         submitted_attributes.key?(key)
@@ -193,7 +193,7 @@ class CTT2013 < Sinatra::Base
     def hotel_attributes_from_params_for(action)
       submitted_attributes = params['hotel'] || {}
 
-      HOTEL_ATTRIBUTES_FOR[action].map { |attr|
+      HOTEL_ATTRIBUTE_NAMES_FOR[action].map { |attr|
         [attr, attr.to_s]
       }.select { |_, key|
         submitted_attributes.key?(key)
@@ -213,7 +213,7 @@ class CTT2013 < Sinatra::Base
         case only_attributes = only['attributes']
         when Array
           only_attributes = only_attributes.to_set
-          PARTICIPANT_ATTRIBUTES_FOR[:update].select{ |n|
+          PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update].select{ |n|
             only_attributes.include?(n.to_s)
           }
         when nil
@@ -222,7 +222,7 @@ class CTT2013 < Sinatra::Base
           PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update]
         end
       else
-        PARTICIPANT_ATTRIBUTES_FOR[:update]
+        PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update]
       end
     end
 

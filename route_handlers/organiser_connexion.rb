@@ -94,17 +94,17 @@ class CTT2013 < Sinatra::Base
       redirect fixed_url_with_locale("/org/participants", locale)
     end
 
-    PARTICIPANT_ATTRIBUTES_FOR_INDEX =
+    PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX =
       [:last_name, :first_name, :affiliation, :academic_position]
 
     PARTICIPANT_ATTRIBUTE_LABELS_FOR_INDEX =
-      PARTICIPANT_ATTRIBUTES_FOR_INDEX.map { |attr|
+      PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
         DataPresentationHelpers::capitalize_first_letter_of(
           Participant.human_attribute_name(attr))
       }
 
     PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX =
-      PARTICIPANT_ATTRIBUTES_FOR_INDEX.map(&:to_proc)
+      PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
 
     [ :"org/participants",
       :"org/participants_with_talk_proposals"
@@ -186,19 +186,19 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:"org/participants")
 
-      @attributes   = PARTICIPANT_ATTRIBUTES_FOR[:create]
-      @associations = [:participations]
+      @attribute_names   = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create]
+      @association_names = [:participations]
 
       @participant = Participant.new
 
-      if @associations.include?(:participations)
+      if @association_names.include?(:participations)
         @conferences = Conference.default_order
       end
 
       haml :"/pages/org/participants/new_one.html"
     end
 
-    PARTICIPANT_ATTRIBUTES_FOR_SHOW =
+    PARTICIPANT_ATTRIBUTE_NAMES_FOR_SHOW =
       [ :first_name, :last_name, :email, :affiliation,
         :academic_position,
         :country, :city, :post_code, :street_address, :phone,
@@ -216,7 +216,7 @@ class CTT2013 < Sinatra::Base
 
       id = id.to_i
 
-      @attributes = PARTICIPANT_ATTRIBUTES_FOR_SHOW
+      @attribute_names = PARTICIPANT_ATTRIBUTE_NAMES_FOR_SHOW
 
       @participant = Participant.find(id)
 
@@ -229,12 +229,12 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:"org/participants")
 
-      @attributes   = participant_attribute_names_from_params_for_edit
-      @associations = participant_association_names_from_params_for_edit
+      @attribute_names   = participant_attribute_names_from_params_for_edit
+      @association_names = participant_association_names_from_params_for_edit
 
       @participant = Participant.find(id)
 
-      if @associations.include?(:participations)
+      if @association_names.include?(:participations)
         @conferences = Conference.default_order
       end
 
@@ -251,18 +251,18 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/org/participants/delete_one.html"
     end
 
-    TALK_ATTRIBUTES_FOR_INDEX =
+    TALK_ATTRIBUTE_NAMES_FOR_INDEX =
       [ :translated_type_name, :speaker_name, :title,
         :date, :time, :room_or_auditorium ]
 
     TALK_ATTRIBUTE_LABELS_FOR_INDEX =
-      TALK_ATTRIBUTES_FOR_INDEX.map { |attr|
+      TALK_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
         DataPresentationHelpers::capitalize_first_letter_of(
           Talk.human_attribute_name(attr))
       }
 
     TALK_ATTRIBUTE_PROCS_FOR_INDEX =
-      TALK_ATTRIBUTES_FOR_INDEX.map(&:to_proc)
+      TALK_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
 
     get "/#{ l }org/talks" do
       require_organiser_login!
@@ -285,14 +285,14 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:org/talks)
 
-      @attributes = TALK_ATTRIBUTES_FOR[:create]
+      @attribute_names = TALK_ATTRIBUTE_NAMES_FOR[:create]
 
       @talk = Talk.new
 
       haml :"/pages/org/talks/new_one.html"
     end
 
-    TALK_ATTRIBUTES_FOR_SHOW =
+    TALK_ATTRIBUTE_NAMES_FOR_SHOW =
       [ :translated_type_name, :speaker_name, :title, :abstract,
         :date, :time, :room_or_auditorium ]
 
@@ -304,7 +304,7 @@ class CTT2013 < Sinatra::Base
 
       id = id.to_i
 
-      @attributes = TALK_ATTRIBUTES_FOR_SHOW
+      @attribute_names = TALK_ATTRIBUTE_NAMES_FOR_SHOW
 
       @talk = Talk.find(id)
 
@@ -317,7 +317,7 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:"org/talks")
 
-      @attributes = TALK_ATTRIBUTES_FOR[:update]
+      @attribute_names = TALK_ATTRIBUTE_NAMES_FOR[:update]
       @talk = Talk.find(id)
       haml :"/pages/org/talks/edit_one.html"
     end
@@ -332,16 +332,16 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/org/talks/delete_one.html"
     end
 
-    HOTEL_ATTRIBUTES_FOR_INDEX = [:name, :address, :phone, :web_site]
+    HOTEL_ATTRIBUTE_NAMES_FOR_INDEX = [:name, :address, :phone, :web_site]
 
     HOTEL_ATTRIBUTE_LABELS_FOR_INDEX =
-      HOTEL_ATTRIBUTES_FOR_INDEX.map { |attr|
+      HOTEL_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
         DataPresentationHelpers::capitalize_first_letter_of(
           Hotel.human_attribute_name(attr))
       }
 
     HOTEL_ATTRIBUTE_PROCS_FOR_INDEX =
-      HOTEL_ATTRIBUTES_FOR_INDEX.map(&:to_proc)
+      HOTEL_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
 
     get "/#{ l }org/hotels" do
       require_organiser_login!
@@ -364,14 +364,14 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:org/hotels)
 
-      @attributes = HOTEL_ATTRIBUTES_FOR[:create]
+      @attribute_names = HOTEL_ATTRIBUTE_NAMES_FOR[:create]
 
       @hotel = Hotel.new
 
       haml :"/pages/org/hotels/new_one.html"
     end
 
-    HOTEL_ATTRIBUTES_FOR_SHOW = [:name, :address, :phone, :web_site]
+    HOTEL_ATTRIBUTE_NAMES_FOR_SHOW = [:name, :address, :phone, :web_site]
 
     get "/#{ l }org/hotels/:id" do |id|
       require_organiser_login!
@@ -381,7 +381,7 @@ class CTT2013 < Sinatra::Base
 
       id = id.to_i
 
-      @attributes = HOTEL_ATTRIBUTES_FOR_SHOW
+      @attribute_names = HOTEL_ATTRIBUTE_NAMES_FOR_SHOW
 
       @hotel = Hotel.find(id)
 
@@ -394,7 +394,7 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       # set_page(:"org/hotels")
 
-      @attributes = HOTEL_ATTRIBUTES_FOR[:update]
+      @attribute_names = HOTEL_ATTRIBUTE_NAMES_FOR[:update]
       @hotel = Hotel.find(id)
       haml :"/pages/org/hotels/edit_one.html"
     end
@@ -482,20 +482,20 @@ class CTT2013 < Sinatra::Base
     redirect fixed_url('/')
   end
 
-  PARTICIPANT_ATTRIBUTES_FOR_DOWNLOAD =
+  PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD =
     [ :last_name, :first_name, :email, :affiliation, :academic_position,
       :country, :city, :post_code, :street_address, :phone,
       :i_m_t_member, :g_d_r_member,
       :invitation_needed, :visa_needed, :special_requests ]
 
   PARTICIPANT_ATTRIBUTE_LABELS_FOR_DOWNLOAD =
-    PARTICIPANT_ATTRIBUTES_FOR_DOWNLOAD.map { |attr|
+    PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD.map { |attr|
       DataPresentationHelpers::capitalize_first_letter_of(
         Participant.human_attribute_name(attr))
     }
 
   PARTICIPANT_ATTRIBUTE_PROCS_FOR_DOWNLOAD =
-    PARTICIPANT_ATTRIBUTES_FOR_DOWNLOAD.map { |attr|
+    PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD.map { |attr|
       case Participant.attribute_type(attr)
       when :boolean
         lambda { |participant|
@@ -579,10 +579,10 @@ class CTT2013 < Sinatra::Base
         set_page(:"org/participants")
 
         flash.now[:error] = t('flash.resources.participants.update.failure')
-        @attributes = PARTICIPANT_ATTRIBUTES_FOR[:create]
-        @associations = [:participations]
+        @attribute_names = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create]
+        @association_names = [:participations]
 
-        if @associations.include?(:participations)
+        if @association_names.include?(:participations)
           @conferences = Conference.default_order
         end
 
@@ -682,10 +682,10 @@ class CTT2013 < Sinatra::Base
           set_page(:"org/participants")
 
           flash.now[:error] = t('flash.resources.participants.update.failure')
-          @attributes   = PARTICIPANT_ATTRIBUTES_FOR[:update]
-          @associations = [:participations]
+          @attribute_names   = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update]
+          @association_names = [:participations]
 
-          if @associations.include?(:participations)
+          if @association_names.include?(:participations)
             @conferences = Conference.default_order
           end
 
@@ -721,7 +721,7 @@ class CTT2013 < Sinatra::Base
         set_page(:"org/talks")
 
         flash.now[:error] = t('flash.resources.talks.update.failure')
-        @attributes = TALK_ATTRIBUTES_FOR[:update]
+        @attribute_names = TALK_ATTRIBUTE_NAMES_FOR[:update]
 
         haml :"/pages/org/talks/edit_one.html"
       end
@@ -742,7 +742,7 @@ class CTT2013 < Sinatra::Base
         set_page(:"org/hotels")
 
         flash.now[:error] = t('flash.resources.hotels.update.failure')
-        @attributes = HOTEL_ATTRIBUTES_FOR[:update]
+        @attribute_names = HOTEL_ATTRIBUTE_NAMES_FOR[:update]
 
         haml :"/pages/org/hotels/edit_one.html"
       end
