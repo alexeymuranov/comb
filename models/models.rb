@@ -150,6 +150,7 @@ class Participant < AbstractSmarterModel
   # Associations
   has_many :participations, :class_name  => :Participation,
                             :foreign_key => :participant_id,
+                            :dependent   => :destroy,
                             :inverse_of  => :participant,
                             # :include     => :conference,
                             :autosave    => true
