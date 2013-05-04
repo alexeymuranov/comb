@@ -135,7 +135,7 @@ class CTT2013 < Sinatra::Base
         @filtering_values.delete_if{|_, v| v.empty? }
 
         @filtering_by =
-          [ [Participant,   :last_name],
+          [ [Participant,   :last_name, {:html_input_options => {:autofocus => true}}],
             [Participation, :conference, {:name_proc => :identifier.to_proc}],
             [Participant,   :academic_position],
             [Participant,   :invitation_needed],
