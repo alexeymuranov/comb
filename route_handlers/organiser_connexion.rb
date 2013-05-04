@@ -609,6 +609,8 @@ class CTT2013 < Sinatra::Base
     post "/#{ l }org/talks/" do
       require_main_organiser_login!
 
+      set_locale(locale)
+
       talk_attributes = talk_attributes_from_params_for(:create)
       case talk_attributes[:type]
       when 'ParallelTalk'
@@ -633,6 +635,8 @@ class CTT2013 < Sinatra::Base
 
     post "/#{ l }org/hotels/" do
       require_main_organiser_login!
+
+      set_locale(locale)
 
       hotel_attributes = hotel_attributes_from_params_for(:create)
       @hotel = Hotel.new(hotel_attributes)
@@ -697,6 +701,8 @@ class CTT2013 < Sinatra::Base
     put "/#{ l }org/talk_proposals/:id" do |id| # TODO: improve this
       require_main_organiser_login!
 
+      set_locale(locale)
+
       @talk_proposal = TalkProposal.find(id)
       case params[:button]
       when 'accept'
@@ -757,6 +763,8 @@ class CTT2013 < Sinatra::Base
     delete "/#{ l }org/participants/:id" do |id|
       require_main_organiser_login!
 
+      set_locale(locale)
+
       Participant.find(id).destroy
       redirect fixed_url_with_locale("/org/participants", locale)
     end
@@ -764,12 +772,16 @@ class CTT2013 < Sinatra::Base
     delete "/#{ l }org/talks/:id" do |id|
       require_main_organiser_login!
 
+      set_locale(locale)
+
       Talk.find(id).destroy
       redirect fixed_url_with_locale("/org/talks", locale)
     end
 
     delete "/#{ l }org/hotels/:id" do |id|
       require_main_organiser_login!
+
+      set_locale(locale)
 
       Hotel.find(id).destroy
       redirect fixed_url_with_locale("/org/hotels", locale)
