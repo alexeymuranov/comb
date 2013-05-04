@@ -1,0 +1,23 @@
+-# Locals:
+-#   filter_form_id
+-#   selected_values
+-#   param_key
+-#   id_prefix
+
+%label{ :for => "#{ id_prefix }_from" }<
+  = t 'formats.attribute_name:', :attribute => t('date.from')
+%input{ :id           => "#{ id_prefix }_from",
+        :type         => :date,
+        :name         => "#{ param_key }[from]",
+        :value        => selected_values[:from],
+        :form         => filter_form_id,
+        :autocomplete => :off }
+%br>
+%label{ :for => "filter_#{ id_prefix }_until" }<
+  = t 'formats.attribute_name:', :attribute => t('date.until')
+%input{ :id           => "#{ id_prefix }_until",
+        :type         => :date,
+        :name         => "#{ param_key }[until]",
+        :value        => selected_values[:until],
+        :form         => filter_form_id,
+        :autocomplete => :off }

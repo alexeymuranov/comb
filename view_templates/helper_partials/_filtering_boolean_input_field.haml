@@ -1,0 +1,32 @@
+-# Locals:
+-#   filter_form_id
+-#   selected_values
+-#   param_key
+-#   id_prefix
+
+%input{ :id      => "#{ id_prefix }_yes",
+        :type    => :radio,
+        :name    => param_key,
+        :value   => 'yes',
+        :checked => selected_values,
+        :form    => filter_form_id }
+%label{ :for => "#{ id_prefix }_yes" }<
+  = t 'yes'
+%br>
+%input{ :id      => "#{ id_prefix }_no",
+        :type    => :radio,
+        :name    => param_key,
+        :value   => 'no',
+        :checked => selected_values == false,
+        :form    => filter_form_id }
+%label{ :for => "#{ id_prefix }_no" }<
+  = t 'no'
+%br>
+%input{ :id      => "#{ id_prefix }_all",
+        :type    => :radio,
+        :name    => param_key,
+        :value   => '',
+        :checked => selected_values.nil?,
+        :form    => filter_form_id }
+%label{ :for => "#{ id_prefix }_all" }<
+  = t 'all'

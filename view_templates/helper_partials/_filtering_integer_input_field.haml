@@ -1,0 +1,25 @@
+-# Locals:
+-#   filter_form_id
+-#   selected_values
+-#   param_key
+-#   id_prefix
+
+%label{ :for => "#{ id_prefix }_min" }
+  = t 'formats.attribute_name:', :attribute => 'min'
+%input{ :id           => "#{ id_prefix }_min",
+        :type         => :number,
+        :name         => "#{ param_key }[min]",
+        :value        => selected_values[:min],
+        :form         => filter_form_id,
+        :autocomplete => :off,
+        :size         => 6 }
+%br>
+%label{ :for => "#{ id_prefix }_max" }<
+  = t 'formats.attribute_name:', :attribute => 'max'
+%input{ :id           => "#{ id_prefix }_max",
+        :type         => :number,
+        :name         => "#{ param_key }[max]",
+        :value        => selected_values[:max],
+        :form         => filter_form_id,
+        :autocomplete => :off,
+        :size         => 6 }

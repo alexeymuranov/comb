@@ -84,11 +84,19 @@ class CTT2013
           field[:html_class] =
             html_class_from_column_type(attribute_type)
           field[:html_input_field] =
-            filtering_attribute_field 'filter_form',
-                                      param_key,
-                                      attribute_type,
-                                      selected_values,
-                                      select_value_from
+            if select_value_from
+              filtering_attribute_select_field 'filter_form',
+                                               param_key,
+                                               attribute_type,
+                                               selected_values,
+                                               select_value_from
+            else
+              filtering_attribute_input_field 'filter_form',
+                                              param_key,
+                                              attribute_type,
+                                              selected_values,
+                                              options[:html_input_options]
+            end
         end
 
         fields << field
@@ -101,23 +109,47 @@ class CTT2013
                         :hidden_parameters => form_options[:hidden_parameters] }
     end
 
-    def filtering_attribute_field(filter_form_id, param_key, attribute_type,
-                                  selected_values,
-                                  select_from = nil)
+    def filtering_attribute_input_field(filter_form_id, param_key,
+                                        attribute_type, selected_values,
+                                        html_options = {})
 
       partial_locals = { :filter_form_id  => filter_form_id,
                          :param_key       => param_key,
                          :selected_values => selected_values,
                          :id_prefix       => html_id_from_param_name(param_key) }
 
-      partial_locals[:column_type] = attribute_type
-      if select_from
-        partial_name = :'helper_partials/_filtering_select_field'
-        partial_locals[:select_from] = select_from
+      case attribute_type
+      when :string
+        partial_locals[:autofocus] = html_options[:autofocus]
+
+        haml :'helper_partials/_filtering_string_input_field',
+             :locals => partial_locals
+      when :boolean
+        haml :'helper_partials/_filtering_boolean_input_field',
+             :locals => partial_locals
+      when :integer
+        haml :'helper_partials/_filtering_integer_input_field',
+             :locals => partial_locals
+      when :date
+        haml :'helper_partials/_filtering_date_input_field',
+             :locals => partial_locals
       else
-        partial_name = :'helper_partials/_filtering_input_field'
+        raise 'Unrecognised attribute type for filtering field'
       end
-      haml partial_name, :locals => partial_locals
+    end
+
+    def filtering_attribute_select_field(filter_form_id, param_key,
+                                         attribute_type, selected_values,
+                                         select_from)
+
+      partial_locals = { :filter_form_id  => filter_form_id,
+                         :param_key       => param_key,
+                         :selected_values => selected_values,
+                         :id_prefix       => html_id_from_param_name(param_key) }
+
+      partial_locals[:select_from] = select_from
+      haml :'helper_partials/_filtering_select_field',
+           :locals => partial_locals
     end
 
     def filtering_association_select_field(filter_form_id, param_key,
