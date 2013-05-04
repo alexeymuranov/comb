@@ -1,6 +1,6 @@
 %fieldset
   %legend
-    = label_from_attribute_name(Participant, :participations)
+    = header_from_attribute_name(Participant, :participations)
   %ol.fields
     - @conferences.each do |conf|
 

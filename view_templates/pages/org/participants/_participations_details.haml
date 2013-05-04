@@ -1,13 +1,16 @@
 -# Parameters:
 -#   participant
 
-.associations
+%section.associations
+  %h4
+    = header_from_attribute_name(Participant, :participations)
+
   %table
     - participation_attr_iterator = [ :arrival_date,
                                       :departure_date,
                                       :committee_comments ].each
-    %caption
-      = label_from_attribute_name(Participant, :participations)
+    -# %caption
+    -#   = header_from_attribute_name(Participant, :participations)
     %thead
       %td
       - participation_attr_iterator.each do |attr|
