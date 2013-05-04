@@ -320,7 +320,7 @@ class Talk < AbstractSmarterModel
   attr_readonly :participation_id
 
   # Scopes
-  scope :default_order, order("UPPER(#{ table_name }.title) ASC")
+  scope :default_order, order("UPPER(#{ table_name }.type) DESC").joins(:speaker).merge(Participant.default_order).uniq
 
   # Virtual attributes
   def speaker_name
