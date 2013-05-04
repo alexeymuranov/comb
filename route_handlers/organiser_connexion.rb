@@ -621,8 +621,11 @@ class CTT2013 < Sinatra::Base
         @talk = Talk.new(talk_attributes)
       end
 
-      @talk.conference_participation =
-        Participation.where(params[:participation]).first
+      participation_attributes =
+        talk_participation_attributes_from_params_for_create
+      participation = Participation.where(participation_attributes).first
+
+      @talk.conference_participation = participation
 
       if @talk.save
         flash[:success] = t('flash.resources.talks.create.success')

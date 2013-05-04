@@ -190,6 +190,18 @@ class CTT2013 < Sinatra::Base
       }
     end
 
+    def talk_participation_attributes_from_params_for_create
+      submitted_attributes = params['participation'] || {}
+
+      [:participant_id, :conference_id].map { |attr|
+        [attr, submitted_attributes[attr.to_s].to_i]
+      }.reduce({}) { |h, attr__value|
+        attr, value = attr__value
+        h[attr] = value
+        h
+      }
+    end
+
     def hotel_attributes_from_params_for(action)
       submitted_attributes = params['hotel'] || {}
 
