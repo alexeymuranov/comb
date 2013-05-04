@@ -21,6 +21,8 @@
 %table.index
   %thead
     %tr
+      %th
+        №
       %th/
       - @attribute_headers.each do |header|
         %th
@@ -32,6 +34,9 @@
   %tbody
     - @participants.each do |participant|
       %tr{ :id => "participant_#{ participant.id }" }
+        %td{ :style => 'text-align:right;font-size:10px' }
+          %samp
+            = participant.id
         %td.center
           %samp
             %strong
