@@ -1,0 +1,72 @@
+- ([:first_name, :last_name,  :email, :affiliation] & @attribute_names).each do |attr|
+  - required = Participant.attribute_constraints_on(attr)[:required]
+  - label_html_classes = []
+  - label_html_classes << 'required' if required
+  .field
+    %dt.label
+      %label{ :for   => "participant_#{ attr }",
+              :class => label_html_classes }<
+        = label_from_attribute_name(Participant, attr)
+    %dd.input
+      %input{ :id       => "participant_#{ attr }",
+              :name     => "participant[#{ attr }]",
+              :required => required,
+              :type     => input_html_type_for_attribute(Participant, attr),
+              :value    => @participant.public_send(attr) }
+
+- if @attribute_names.include? :academic_position
+  .field
+    %dt.label
+      %label{ :for => 'participant_academic_position' }<
+        = label_from_attribute_name(Participant, :academic_position)
+    %dd.input
+      %select{ :id    => 'participant_academic_position',
+               :name  => 'participant[academic_position]',
+               :value => @participant.academic_position }
+        - Participant.attribute_constraints_on(:academic_position)[:allowed_values].each do |p|
+          - if p == @participant.academic_position
+            %option{ :selected => true }
+              = p
+          - else
+            %option
+              = p
+
+- ([:country, :city, :post_code, :street_address, :phone] & @attribute_names).each do |attr|
+  .field
+    %dt.label
+      %label{ :for => "participant_#{ attr }" }<
+        = label_from_attribute_name(Participant, attr)
+    %dd.input
+      %input{ :id    => "participant_#{ attr }",
+              :name  => "participant[#{ attr }]",
+              :type  => input_html_type_for_attribute(Participant, attr),
+              :value => @participant.public_send(attr) }
+
+- ([:i_m_t_member, :g_d_r_member, :invitation_needed, :visa_needed] & @attribute_names).each do |attr|
+  .field
+    %dt.label
+      %label{ :for => "participant_#{ attr }" }<
+        = label_from_attribute_name(Participant, attr)
+    %dd.input
+      - name = "participant[#{ attr }]"
+      -# Hidden field to pass a value when the checkbox is not checked
+      %input{ :name  => name,
+              :type  => :hidden,
+              :value => 0 }
+      %input{ :id      => "participant_#{ attr }",
+              :name    => name,
+              :type    => :checkbox,
+              :value   => 1,
+              :checked => @participant.public_send(attr) }
+      %span= t 'yes'
+
+- ([:funding_requests, :special_requests] & @attribute_names).each do |attr|
+  .field
+    %dt.label
+      %label{ :for => "participant_#{ attr }" }<
+        = label_from_attribute_name(Participant, attr)
+    %dd.input
+      %textarea{ :id   => "participant_#{ attr }",
+                 :name => "participant[#{ attr }]" }<
+        = preserve do
+          &= @participant.public_send(attr)
