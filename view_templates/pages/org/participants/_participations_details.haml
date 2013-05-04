@@ -15,7 +15,7 @@
           = label_from_attribute_name(Participation, attr)
       %th
     %tbody
-      - participations = participant.participations
+      - participations = participant.participations.order_by_conference
       - participations.each_with_index do |participation, i|
         %tr
           %th{:scope => :row}
