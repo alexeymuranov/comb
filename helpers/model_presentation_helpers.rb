@@ -26,6 +26,11 @@ class CTT2013
         t(format_localisation_key, :attribute => human_attribute_name)
       end
 
+      def header_from_attribute_name(model, attribute)
+        capitalize_first_letter_of(
+          model.human_attribute_name(attribute))
+      end
+
       def html_class_from_column_type(column_type)
         { :string  => 'text',
           :boolean => 'boolean',
