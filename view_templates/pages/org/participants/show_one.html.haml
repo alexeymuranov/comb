@@ -10,7 +10,7 @@
          :locals => { :participant => @participant }
 
   - if main_organiser_logged_in?
-    %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }/edit?only[associations][]=participations"),
+    %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }/edit?only[associations]=all"),
                     :role => 'button' }<
       = t 'actions.update'
 
@@ -23,7 +23,7 @@
                         :talk_proposal => talk_proposal }
 
     - if main_organiser_logged_in?
-      %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }/edit?only[associations][]=participations"),
+      %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }/edit?only[associations][]=talk_proposals"),
                       :role => 'button' }<
         = t 'actions.update'
 

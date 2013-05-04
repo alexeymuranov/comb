@@ -1,19 +1,27 @@
--# Locals
--#   participtaion
-
-- conf_id = participation.conference.id
-- element_id_prefix = "talk_proposals_#{ conf_id }_"
-- input_name_prefix = "talk_proposals[#{ conf_id }]"
+- co_m_b_conf = Conference.co_m_b_conf
+- co_m_b_conf_id = co_m_b_conf.id
+- participation   = @participant.participations.find{|p| p.conference_id == co_m_b_conf_id }
+- participation ||= Participation.new(:participant   => @participant,
+                                      :conference_id => co_m_b_conf_id)
+- element_id_prefix = "talk_proposals_#{ co_m_b_conf_id }_"
+- input_name_prefix = "talk_proposals[#{ co_m_b_conf_id }]"
 
 - talk_proposal = participation.talk_proposal || participation.build_talk_proposal
+
+-# This is needed if participations fields are not used, otherwise it
+-# duplicates an hidden input element in a partial for participations fields.
+%input{ :type  => :hidden,
+        :name  => "participations[#{ co_m_b_conf_id }][id]",
+        :value => participation.id }
 
 %fieldset
   %legend
     = header_from_attribute_name(Participation, :talk_proposal)
+    (#{ co_m_b_conf.title(@locale) })
 
   %input{ :type  => :hidden,
           :name  => input_name_prefix + "[_participation_key]",
-          :value => conf_id }
+          :value => co_m_b_conf_id }
 
   %input{ :type  => :hidden,
           :name  => input_name_prefix + "[id]",

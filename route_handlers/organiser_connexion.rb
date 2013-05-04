@@ -187,7 +187,7 @@ class CTT2013 < Sinatra::Base
       # set_page(:"org/participants")
 
       @attribute_names   = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create]
-      @association_names = [:participations]
+      @association_names = [:participations, :talk_proposals]
 
       @participant = Participant.new
 
@@ -580,7 +580,7 @@ class CTT2013 < Sinatra::Base
 
         flash.now[:error] = t('flash.resources.participants.update.failure')
         @attribute_names = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create]
-        @association_names = [:participations]
+        @association_names = [:participations, :talk_proposals]
 
         if @association_names.include?(:participations)
           @conferences = Conference.default_order
@@ -683,7 +683,7 @@ class CTT2013 < Sinatra::Base
 
           flash.now[:error] = t('flash.resources.participants.update.failure')
           @attribute_names   = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update]
-          @association_names = [:participations]
+          @association_names = [:participations, :talk_proposals]
 
           if @association_names.include?(:participations)
             @conferences = Conference.default_order

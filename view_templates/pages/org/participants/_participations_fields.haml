@@ -49,7 +49,3 @@
                          :name => input_name_prefix + "[committee_comments]" }<
                 = preserve do
                   &= participation.committee_comments
-
-        - if conf == Conference.co_m_b_conf
-          = haml :'pages/org/participants/_co_m_b_talk_proposal_fields',
-                 :locals => { :participation => participation }

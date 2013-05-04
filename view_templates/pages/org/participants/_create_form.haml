@@ -11,8 +11,9 @@
   %dl.fields
     = haml :'pages/org/participants/_common_fields'
 
-  - if @association_names.include? :participations
-    = haml :'pages/org/participants/_participations_fields'
+  = haml :'pages/org/participants/_participations_fields'
+
+  = haml :'pages/org/participants/_co_m_b_talk_proposal_fields'
 
   .actions
     %button.update{ :type => :submit, :name => 'button', :value => 'create' }<
