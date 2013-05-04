@@ -23,7 +23,7 @@
                  :required => required,
                  :type     => 'text',
                  :value    => @talk.type }
-          - ['ParallelTalk', 'PlenaryTalk'].each do |type|
+          - ['PlenaryTalk', 'ParallelTalk'].each do |type|
             %option{ :value    => type,
                      :selected => (type == @talk.type) }
               = type.constantize.model_name.human
