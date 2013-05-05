@@ -97,12 +97,6 @@ class CTT2013 < Sinatra::Base
     PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX =
       [:last_name, :first_name, :affiliation, :academic_position]
 
-    PARTICIPANT_ATTRIBUTE_LABELS_FOR_INDEX =
-      PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
-        DataPresentationHelpers::capitalize_first_letter_of(
-          Participant.human_attribute_name(attr))
-      }
-
     PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX =
       PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
 
@@ -161,7 +155,11 @@ class CTT2013 < Sinatra::Base
           ((@filtered_participants_count - 1) / per_page) + 1
 
         # Page content
-        @attribute_headers = PARTICIPANT_ATTRIBUTE_LABELS_FOR_INDEX
+        @attribute_headers =
+          PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
+            DataPresentationHelpers::capitalize_first_letter_of(
+              Participant.human_attribute_name(attr))
+          }
         @attribute_procs = PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX
 
         @participations_header =
@@ -255,12 +253,6 @@ class CTT2013 < Sinatra::Base
       [ :translated_type_name, :speaker_name, :title,
         :date, :time, :room_or_auditorium ]
 
-    TALK_ATTRIBUTE_LABELS_FOR_INDEX =
-      TALK_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
-        DataPresentationHelpers::capitalize_first_letter_of(
-          Talk.human_attribute_name(attr))
-      }
-
     TALK_ATTRIBUTE_PROCS_FOR_INDEX =
       TALK_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
 
@@ -273,7 +265,11 @@ class CTT2013 < Sinatra::Base
       @talks = Talk.default_order.all
 
       # Page content
-      @attribute_headers = TALK_ATTRIBUTE_LABELS_FOR_INDEX
+      @attribute_headers =
+        TALK_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
+          DataPresentationHelpers::capitalize_first_letter_of(
+            Talk.human_attribute_name(attr))
+        }
       @attribute_procs = TALK_ATTRIBUTE_PROCS_FOR_INDEX
 
       haml :"/pages/org/talks/index_all.html"
@@ -334,12 +330,6 @@ class CTT2013 < Sinatra::Base
 
     HOTEL_ATTRIBUTE_NAMES_FOR_INDEX = [:name, :address, :phone, :web_site]
 
-    HOTEL_ATTRIBUTE_LABELS_FOR_INDEX =
-      HOTEL_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
-        DataPresentationHelpers::capitalize_first_letter_of(
-          Hotel.human_attribute_name(attr))
-      }
-
     HOTEL_ATTRIBUTE_PROCS_FOR_INDEX =
       HOTEL_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
 
@@ -352,7 +342,11 @@ class CTT2013 < Sinatra::Base
       @hotels = Hotel.default_order.all
 
       # Page content
-      @attribute_headers = HOTEL_ATTRIBUTE_LABELS_FOR_INDEX
+      @attribute_headers =
+        HOTEL_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
+          DataPresentationHelpers::capitalize_first_letter_of(
+            Hotel.human_attribute_name(attr))
+        }
       @attribute_procs = HOTEL_ATTRIBUTE_PROCS_FOR_INDEX
 
       haml :"/pages/org/hotels/index_all.html"
@@ -488,12 +482,6 @@ class CTT2013 < Sinatra::Base
       :i_m_t_member, :g_d_r_member,
       :invitation_needed, :visa_needed, :special_requests ]
 
-  PARTICIPANT_ATTRIBUTE_LABELS_FOR_DOWNLOAD =
-    PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD.map { |attr|
-      DataPresentationHelpers::capitalize_first_letter_of(
-        Participant.human_attribute_name(attr))
-    }
-
   PARTICIPANT_ATTRIBUTE_PROCS_FOR_DOWNLOAD =
     PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD.map { |attr|
       case Participant.attribute_type(attr)
@@ -512,7 +500,11 @@ class CTT2013 < Sinatra::Base
     attachment "filtered participants " +
                "#{ Time.now.strftime('%Y-%m-%d %k-%M') }.#{ format }"
 
-    @headers = PARTICIPANT_ATTRIBUTE_LABELS_FOR_DOWNLOAD
+    @headers =
+      PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD.map { |attr|
+        DataPresentationHelpers::capitalize_first_letter_of(
+          Participant.human_attribute_name(attr))
+      }
     @attribute_procs = PARTICIPANT_ATTRIBUTE_PROCS_FOR_DOWNLOAD
 
     all_conferences = Conference.default_order.all
