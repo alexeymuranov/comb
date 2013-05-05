@@ -21,8 +21,9 @@
 %table.index
   %thead
     %tr
-      %th
-        №
+      - if main_organiser_logged_in?
+        %th
+          №
       %th/
       - @attribute_headers.each do |header|
         %th
@@ -34,9 +35,10 @@
   %tbody
     - @participants.each do |participant|
       %tr{ :id => "participant_#{ participant.id }" }
-        %td{ :style => 'text-align:right;font-size:10px' }
-          %samp
-            = participant.id
+        - if main_organiser_logged_in?
+          %td{ :style => 'text-align:right;font-size:10px' }
+            %samp
+              = participant.id
         %td.center
           %samp
             %strong
