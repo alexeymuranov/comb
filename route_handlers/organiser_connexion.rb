@@ -497,6 +497,8 @@ class CTT2013 < Sinatra::Base
   get "/download/participants.:format" do |format|
     require_organiser_login!
 
+    set_locale(:fr)
+
     attachment "filtered participants " +
                "#{ Time.now.strftime('%Y-%m-%d %k-%M') }.#{ format }"
 
