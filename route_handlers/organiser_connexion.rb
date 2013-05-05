@@ -804,16 +804,26 @@ class CTT2013 < Sinatra::Base
     end
 
     def current_user
-      User.find(session[:user_id].to_i)
+      @current_user ||= User.find(session[:user_id].to_i)
     end
 
     def organiser_logged_in?
-      (user = current_user) &&
-        Set['organiser', 'main_organiser'].include?(user.role)
+      if @organiser_logged_in.nil?
+        user = current_user
+        @organiser_logged_in =
+          user && Set['organiser', 'main_organiser'].include?(user.role)
+      else
+        @organiser_logged_in
+      end
     end
 
     def main_organiser_logged_in?
-      (user = current_user) && user.role == 'main_organiser'
+      if @main_organiser_logged_in.nil?
+        @main_organiser_logged_in =
+          organiser_logged_in? && current_user.role == 'main_organiser'
+      else
+        @main_organiser_logged_in
+      end
     end
 
     def require_organiser_login!
