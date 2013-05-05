@@ -21,7 +21,7 @@ class CTT2013 < Sinatra::Base
       :participants,
       :registration, # only displays that registration is closed
       :useful_links
-    ].map { |p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
+    ].map{|p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
 
   STATIC_PUBLIC_PAGES =
     Set[ :index,
@@ -33,10 +33,10 @@ class CTT2013 < Sinatra::Base
          :contacts,
          :registration,
          :useful_links
-       ].map { |p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
+       ].map{|p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
 
   COMB_HOME_PAGE = PUBLIC_PAGES[0]
-  PAGE_URL_FRAGMENTS = PUBLIC_PAGES.reduce({}) { |h, p| h[p] = [p.to_s]; h }
+  PAGE_URL_FRAGMENTS = PUBLIC_PAGES.reduce({}){|h, p| h[p] = [p.to_s]; h }
   PAGE_URL_FRAGMENTS[COMB_HOME_PAGE] << COMB_PAGE_PREFIX
 
   # Handle unmatched requests
@@ -219,7 +219,7 @@ class CTT2013 < Sinatra::Base
         }
 
       [*COMB_ORGANISERS_EMAILS].tap do |addresses|
-        if conference_ids.any? { |id| other_conference_ids.include?(id) }
+        if conference_ids.any?{|id| other_conference_ids.include?(id) }
           addresses.concat(OTHER_ORGANISERS_EMAILS)
         end
       end.join(', ')

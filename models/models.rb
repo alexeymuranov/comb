@@ -234,7 +234,7 @@ class Participant < AbstractSmarterModel
 
   def full_name_with_affiliation_and_position
     [ full_name,
-      lambda { |x| "(#{ x })" unless x.empty? }.
+      lambda{|x| "(#{ x })" unless x.empty? }.
         call([affiliation, academic_position].compact.join(', '))
     ].join(' ')
   end
@@ -269,7 +269,7 @@ class Participant < AbstractSmarterModel
     # NOTE: if participations have not been saved, `where` will not find
     # anything.
     participations.where(:conference_id => @co_m_b_conf_id).first ||
-      participations.find { |p| p.conference_id ==  @co_m_b_conf_id }
+      participations.find{|p| p.conference_id ==  @co_m_b_conf_id }
   end
 
   def co_m_b_committee_comments

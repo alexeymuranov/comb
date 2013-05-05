@@ -28,15 +28,15 @@ class CTT2013 < Sinatra::Base
     end
 
     def self.each
-      block_given? ? @@users.each { |u| yield(u) } : @@users.each
+      block_given? ? @@users.each{|u| yield(u) } : @@users.each
     end
 
     def self.find_by_username(username)
-      @@users.find { |u| u.username == username }
+      @@users.find{|u| u.username == username }
     end
 
     def self.find(id)
-      @@users.find { |u| u.id == id }
+      @@users.find{|u| u.id == id }
     end
   end
 
@@ -56,7 +56,7 @@ class CTT2013 < Sinatra::Base
       :talks,
       :hotels,
       :utilities
-    ].map { |p| :"org/#{ p }" }
+    ].map{|p| :"org/#{ p }" }
 
 
   ORGANISER_CONNEXION_UTILITY_TABS = {
@@ -171,7 +171,7 @@ class CTT2013 < Sinatra::Base
         @participation_procs = Conference.default_order.map { |conf|
           lambda { |participant|
             participation =
-              participant.participations.find { |p| p.conference == conf }
+              participant.participations.find{|p| p.conference == conf }
             participation ? (participation.approved? ? '✓' : '—') : '·'
           }
         }
@@ -527,7 +527,7 @@ class CTT2013 < Sinatra::Base
     @attribute_procs += all_conferences.map { |conf|
       [ lambda { |participant|
           participation =
-            participant.participations.find { |p| p.conference == conf }
+            participant.participations.find{|p| p.conference == conf }
           if participation
             "(#{ participation.approved? ? 'X' : '-' }) " +
               "[#{ participation.arrival_date } .. #{ participation.departure_date }]"
@@ -536,7 +536,7 @@ class CTT2013 < Sinatra::Base
 
         lambda { |participant|
           participation =
-            participant.participations.find { |p| p.conference == conf }
+            participant.participations.find{|p| p.conference == conf }
           if participation
             participation.committee_comments
           end
@@ -890,7 +890,7 @@ class CTT2013 < Sinatra::Base
                    :encoding => 'utf-8') do |csv|
         csv << headers << []
         collection.each do |object|
-          csv << attribute_procs.map { |p| p[object] }
+          csv << attribute_procs.map{|p| p[object] }
         end
       end
     end

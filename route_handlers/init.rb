@@ -47,7 +47,7 @@ class CTT2013 < Sinatra::Base
 
     def set_locale(locale)
       I18n.locale = @locale = locale
-      @other_locales = LOCALES.reject { |l| l == @locale }
+      @other_locales = LOCALES.reject{|l| l == @locale }
     end
 
     def set_page(page)
@@ -59,12 +59,12 @@ class CTT2013 < Sinatra::Base
 
     # def locale_from_user_input(suggested_locale)
     #   suggested_locale = suggested_locale.to_s.downcase
-    #   LOCALES.find { |l| l.to_s == suggested_locale } || DEFAULT_LOCALE
+    #   LOCALES.find{|l| l.to_s == suggested_locale } || DEFAULT_LOCALE
     # end
 
     # def page_from_user_input(suggested_page)
     #   suggested_page = suggested_page.to_s.downcase
-    #   PUBLIC_PAGES.find { |p| p.to_s == suggested_page } || COMB_HOME_PAGE
+    #   PUBLIC_PAGES.find{|p| p.to_s == suggested_page } || COMB_HOME_PAGE
     # end
 
     def pagination_parameters_from_params
@@ -164,7 +164,7 @@ class CTT2013 < Sinatra::Base
             h[attr] = value
             h
           }.tap do |h|
-            if [:title, :abstract].all? { |a| h[a].nil? }
+            if [:title, :abstract].all?{|a| h[a].nil? }
               h[:_destroy] = true
             end
           end
