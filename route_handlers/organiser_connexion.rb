@@ -157,14 +157,12 @@ class CTT2013 < Sinatra::Base
         # Page content
         @attribute_headers =
           PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
-            DataPresentationHelpers::capitalize_first_letter_of(
-              Participant.human_attribute_name(attr))
+            header_from_attribute_name(Participant, attr)
           }
         @attribute_procs = PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX
 
         @participations_header =
-          capitalize_first_letter_of(
-            Participant.human_attribute_name(:participations))
+          header_from_attribute_name(Participant, :participations)
 
         @participation_procs = Conference.default_order.map { |conf|
           lambda { |participant|
@@ -267,8 +265,7 @@ class CTT2013 < Sinatra::Base
       # Page content
       @attribute_headers =
         TALK_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
-          DataPresentationHelpers::capitalize_first_letter_of(
-            Talk.human_attribute_name(attr))
+          header_from_attribute_name(Talk, attr)
         }
       @attribute_procs = TALK_ATTRIBUTE_PROCS_FOR_INDEX
 
@@ -344,8 +341,7 @@ class CTT2013 < Sinatra::Base
       # Page content
       @attribute_headers =
         HOTEL_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
-          DataPresentationHelpers::capitalize_first_letter_of(
-            Hotel.human_attribute_name(attr))
+          header_from_attribute_name(Hotel, attr)
         }
       @attribute_procs = HOTEL_ATTRIBUTE_PROCS_FOR_INDEX
 
@@ -504,8 +500,7 @@ class CTT2013 < Sinatra::Base
 
     @headers =
       PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD.map { |attr|
-        DataPresentationHelpers::capitalize_first_letter_of(
-          Participant.human_attribute_name(attr))
+        header_from_attribute_name(Participant, attr)
       }
     @attribute_procs = PARTICIPANT_ATTRIBUTE_PROCS_FOR_DOWNLOAD
 
@@ -513,8 +508,7 @@ class CTT2013 < Sinatra::Base
 
     @headers += all_conferences.map { |conf|
       [ conf.identifier,
-        capitalize_first_letter_of(
-          Participation.human_attribute_name(:committee_comments)) +
+        header_from_attribute_name(Participation, :committee_comments) +
           " (#{ conf.identifier })" ]
     }.reduce(&:concat)
 
