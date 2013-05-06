@@ -16,7 +16,8 @@
       - participation_attr_iterator.each do |attr|
         %th
           = label_from_attribute_name(Participation, attr)
-      %th
+      - if main_organiser_logged_in?
+        %th/
     %tbody
       - participations = participant.participations.order_by_conference
       - participations.each_with_index do |participation, i|
@@ -28,18 +29,19 @@
               - if value = participation.public_send(attr)
                 %span.attribute.value
                   = value
-          - if i.zero?
-            %td{ :rowspan => participations.count }
-              %form.inline{ :action => fixed_url_with_locale("/org/participants/#{ participant.id }"),
-                            :method => :post }
-                %input{ :type => :hidden, :name => :_method, :value => :put }
-                - if participant.approved?
-                  %button.on.toggle_off.deauthorize{ :type  => :submit,
+          - if main_organiser_logged_in?
+            - if i.zero?
+              %td{ :rowspan => participations.count }
+                %form.inline{ :action => fixed_url_with_locale("/org/participants/#{ participant.id }"),
+                              :method => :post }
+                  %input{ :type => :hidden, :name => :_method, :value => :put }
+                  - if participant.approved?
+                    %button.on.toggle_off.deauthorize{ :type  => :submit,
+                                                       :name  => 'button',
+                                                       :value => 'disapprove' }<
+                      = t 'actions.do_not_accept'
+                  - else
+                    %button.off.toggle_on.authorize{ :type  => :submit,
                                                      :name  => 'button',
-                                                     :value => 'disapprove' }<
-                    = t 'actions.do_not_accept'
-                - else
-                  %button.off.toggle_on.authorize{ :type  => :submit,
-                                                   :name  => 'button',
-                                                   :value => 'approve' }<
-                    = t 'actions.accept'
+                                                     :value => 'approve' }<
+                      = t 'actions.accept'
