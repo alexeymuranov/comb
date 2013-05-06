@@ -46,7 +46,7 @@
     - @participants.each do |participant|
       %tr{ :id => "participant_#{ participant.id }" }
         - if main_organiser_logged_in?
-          %td{ :style => 'text-align:right;font-size:10px' }
+          %td.number{ :style => 'font-size:10px' }
             %samp
               = participant.id
         %td.center
@@ -82,7 +82,7 @@
     %span.prompt
       = t 'formats.attribute_name:', :attribute => t('actions.download')
 
-    - download_url = fixed_url("/download/participants.csv")
+    - download_url = fixed_url('/download/participants.csv')
     - if @filtering_values
       - download_url << '?' << url_query_from_nested_hash('filter' => @filtering_values)
     %a.button.download{ :href => download_url,

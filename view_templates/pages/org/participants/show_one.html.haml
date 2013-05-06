@@ -1,8 +1,8 @@
 %section
   %h3
-    &= @participant.full_name_with_affiliation
     %samp
       = @participant.approved? ? '(✓)' : '(—)'
+    &= @participant.full_name_with_affiliation
 
   %hr
 

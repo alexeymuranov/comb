@@ -1,8 +1,8 @@
 %section
   %h3
     %a{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }") }<
+      %samp
+        = @participant.approved? ? '(✓)' : '(—)'
       &= @participant.full_name_with_affiliation
-    %samp
-      = @participant.approved? ? '(✓)' : '(—)'
 
   = haml :'pages/org/participants/_update_form'
