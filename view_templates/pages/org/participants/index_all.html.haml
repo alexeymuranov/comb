@@ -4,7 +4,11 @@
                    :action_url        => fixed_url_with_locale("/#{ @page }"),
                    :hidden_parameters => @view_parameters.key?(:per_page) ? { 'view' => { :per_page => @view_parameters[:per_page] } } : {}
 
-  %strong #{ @filtered_participants_count } / #{ Participant.count }
+%strong<
+  - if @filtered_participants_count
+    #{ @filtered_participants_count } / #{ Participant.count }
+  - else
+    [ #{ Participant.count } ]
 
 - if @view_parameters
   = paginating_form @view_parameters,
