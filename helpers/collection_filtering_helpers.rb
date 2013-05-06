@@ -47,7 +47,7 @@ class CTT2013
           name_proc = options[:name_proc] || options[:name_attribute].to_proc
 
           field[:association_model] = assoc_model
-          field[:header] = label_from_attribute_name(model, attribute)
+          field[:header] = header_from_attribute_name(model, attribute)
 
           if field_filtering_values.key?(assoc_foreign_key)
             selected_values = Array(field_filtering_values[assoc_foreign_key])
@@ -69,7 +69,7 @@ class CTT2013
         else
           attribute_type = model.attribute_type(attribute)
 
-          field[:header] = label_from_attribute_name(model, attribute)
+          field[:header] = header_from_attribute_name(model, attribute)
 
           if field_filtering_values.key?(attribute)
             selected_values = field_filtering_values[attribute]
