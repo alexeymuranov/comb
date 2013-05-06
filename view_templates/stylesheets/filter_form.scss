@@ -3,15 +3,31 @@
 table.filter {
   border: 1px solid;
 
-  td.actions{
+  th.filtered {
+    background-color: Orange;
+  }
+
+  td.field {
+    vertical-align: top;
+
+    &.association select {
+      font-size: 15px;
+    }
+
+    & > * {
+      margin: 0;
+    }
+  }
+
+  td.actions {
     text-align: center;
   }
 
   &.filtered {
     box-shadow: 0 0 4px 0 Red;
   }
-}
 
-.filtering_value {
-  color: Red;
+  .filtering_value {
+    color: Red;
+  }
 }

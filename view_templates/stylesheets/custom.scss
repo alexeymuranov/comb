@@ -67,6 +67,11 @@ a:hover {
   text-decoration: underline;
 }
 
+ol,
+ul {
+  text-align: left;
+}
+
 input[type="number"] {
   text-align: right;
 }
@@ -123,10 +128,14 @@ fieldset {
 table {
   width: auto;
 
-  thead {
-    th {
-      // background-color: transparent;
-    }
+  td.boolean,
+  th.boolean {
+    text-align: center;
+  }
+
+  td.number,
+  th.number {
+    text-align: right;
   }
 }
 
