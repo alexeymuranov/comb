@@ -109,7 +109,7 @@ class CTT2013 < Sinatra::Base
         set_locale(locale)
         set_page(page)
 
-        # Filtering.
+        # Filtering
         participants_filter   = participants_filter_from_params
         participations_filter = participations_filter_from_params
         filtered_participants =
@@ -138,12 +138,14 @@ class CTT2013 < Sinatra::Base
 
         if page == :"org/participants_with_talk_proposals"
           filtered_participants =
-            filtered_participants.joins(:talk_proposals).uniq.default_order
+            filtered_participants.joins(:talk_proposals).uniq
         end
 
-        filtered_participants = filtered_participants.default_order
-
+        # Counting filtered
         @filtered_participants_count = filtered_participants.count
+
+        # Sorting
+        filtered_participants = filtered_participants.default_order
 
         # Pagination
         @view_parameters = pagination_parameters_from_params
