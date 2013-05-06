@@ -6,7 +6,7 @@
 -#   selected_ids
 -#   id_prefix
 
-%ol
+%ol.short
   - collection.each do |object|
     %li
       %input{ :id      => "#{ id_prefix }_#{ object.id }",
@@ -15,5 +15,5 @@
               :value   => object.id,
               :checked => selected_ids && selected_ids.include?(object.id),
               :form    => filter_form_id }
-      %label{ :for => "#{ id_prefix }_#{ object.id }" }
-        = name_proc[object]
+      %label{ :for => "#{ id_prefix }_#{ object.id }" }<
+        &= name_proc[object]
