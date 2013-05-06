@@ -1,8 +1,11 @@
 - if @filtering_by
+  - hidden_parameters = {}
+  - if @view_parameters.key?(:per_page)
+    - hidden_parameters['view'] = { 'per_page' => @view_parameters[:per_page] }
   = filtering_form @filtering_by, @filtering_values,
                    :params_key_prefix => 'filter',
                    :action_url        => fixed_url_with_locale("/#{ @page }"),
-                   :hidden_parameters => @view_parameters.key?(:per_page) ? { 'view' => { :per_page => @view_parameters[:per_page] } } : {}
+                   :hidden_parameters => hidden_parameters
 
 %strong<
   - if @filtered_participants_count
@@ -11,10 +14,13 @@
     [ #{ Participant.count } ]
 
 - if @view_parameters
+  - hidden_parameters = {}
+  - if @filtering_values
+    - hidden_parameters['filter'] = @filtering_values
   = paginating_form @view_parameters,
                     :params_key_prefix => 'view',
                     :action_url        => fixed_url_with_locale("/#{ @page }"),
-                    :hidden_parameters => @filtering_values ? { 'filter' => @filtering_values } : {}
+                    :hidden_parameters => hidden_parameters
 
 .technical
   %pre.technical
