@@ -59,8 +59,12 @@ fieldset {
   }
 }
 
-ol {
+ol.long {
   padding-left: 40px; // leave space for 3-digit indices
+}
+
+ol.short {
+  padding-left: 20px; // leave space for 1-digit indices
 }
 
 ////
