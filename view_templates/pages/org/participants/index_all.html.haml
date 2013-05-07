@@ -1,11 +1,79 @@
 - if @filtering_by
   - hidden_parameters = {}
+  - if @custom_filtering_parameters
+    - hidden_parameters['custom_filter'] = @custom_filtering_parameters
   - if @view_parameters.key?(:per_page)
     - hidden_parameters['view'] = { 'per_page' => @view_parameters[:per_page] }
   = filtering_form @filtering_by, @filtering_values,
                    :params_key_prefix => 'filter',
                    :action_url        => fixed_url_with_locale("/#{ @page }"),
                    :hidden_parameters => hidden_parameters
+
+- if @custom_filtering_parameters
+  %form{ :id     => 'custom_filter_form',
+         :action => "#{ fixed_url_with_locale("/#{ @page }") }#custom_filter" }
+  %form{ :id     => 'clear_custom_filter_form',
+         :action => "#{ fixed_url_with_locale("/#{ @page }") }#custom_filter" }
+
+  - hidden_parameters = {}
+  - if @filtering_values
+    - hidden_parameters['filter'] = @filtering_values
+  - if @view_parameters.key?(:per_page)
+    - hidden_parameters['view'] = { 'per_page' => @view_parameters[:per_page] }
+  - ['custom_filter_form', 'clear_custom_filter_form'].each do |form_id|
+    = hidden_fields_from_nested_hash hidden_parameters, :form => form_id
+
+  - custom_filter_empty = @custom_filtering_parameters.empty?
+  %table#custom_filter.filter{ :class => (custom_filter_empty ? nil : 'filtered') }
+    %thead
+      - only_participants_with_talk_proposals = @custom_filtering_parameters[:participants_with_talk_proposals]
+      - participant_participations_count      = @custom_filtering_parameters[:participant_participations_count]
+      %tr
+        %th{ :class => (only_participants_with_talk_proposals.nil? ? nil : 'filtered') }
+          %label{ :for => 'custom_filter_participant_participations_count' }<
+            = header_from_attribute_name(Participation, :talk_proposal)
+        %th{ :class => (participant_participations_count.nil? ? nil : 'filtered') }
+          %label{ :for => 'custom_filter_participant_participations_count' }<
+            = header_from_attribute_name(Participant, :participations)
+      - unless custom_filter_empty
+        %tr
+          - if only_participants_with_talk_proposals.nil?
+            %td/
+          - else
+            %td.boolean.filtering_value<
+              ✓
+          - if participant_participations_count.nil?
+            %td/
+          - else
+            %td.number.filtering_value<
+              = participant_participations_count
+
+      %tr
+        %td.boolean.field
+          %input{ :id      => 'custom_filter_participants_with_talk_proposals_yes',
+                  :type    => :checkbox,
+                  :name    => 'custom_filter[participants_with_talk_proposals]',
+                  :value   => '1',
+                  :checked => only_participants_with_talk_proposals,
+                  :form    => 'custom_filter_form' }
+        %td.number.field
+          %input{ :id           => 'custom_filter_participant_participations_count',
+                  :type         => :number,
+                  :name         => 'custom_filter[participant_participations_count]',
+                  :value        => @custom_filtering_parameters[:participant_participations_count],
+                  :form         => 'custom_filter_form',
+                  :autocomplete => :off,
+                  :size         => 3 }
+
+      %tr
+        %td.actions{ :colspan => 2 }<
+          %button._get_{ :type  => :submit,
+                         :form  => 'custom_filter_form' }<
+            = t 'actions.filter'
+
+          %button._get_{ :type  => :submit,
+                         :form  => 'clear_custom_filter_form' }<
+            = t 'actions.clear'
 
 %strong<
   - if @filtered_participants_count
@@ -17,6 +85,8 @@
   - hidden_parameters = {}
   - if @filtering_values
     - hidden_parameters['filter'] = @filtering_values
+  - if @custom_filtering_parameters
+    - hidden_parameters['custom_filter'] = @custom_filtering_parameters
   = paginating_form @view_parameters,
                     :params_key_prefix => 'view',
                     :action_url        => fixed_url_with_locale("/#{ @page }"),

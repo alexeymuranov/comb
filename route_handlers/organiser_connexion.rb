@@ -141,6 +141,36 @@ class CTT2013 < Sinatra::Base
             filtered_participants.joins(:talk_proposals).uniq
         end
 
+        # Custom ad hoc filtering
+        @custom_filtering_parameters = {}
+        if submitted_custom_filtering_parameters = params['custom_filter']
+          only_participants_with_talk_proposals =
+            submitted_custom_filtering_parameters['participants_with_talk_proposals'] == '1'
+          if only_participants_with_talk_proposals
+            filtered_participants = filtered_participants.joins(:talk_proposals).uniq
+            @custom_filtering_parameters[:participants_with_talk_proposals] = true
+          end
+
+          participant_participations_count =
+            submitted_custom_filtering_parameters['participant_participations_count']
+          if participant_participations_count == ''
+            participant_participations_count = nil
+          end
+          if participant_participations_count
+            participant_participations_count =
+              participant_participations_count.to_i
+            filtered_participants =
+              filtered_participants.
+                where('participants.id' =>
+                        Participation.group(:participant_id).
+                                      having('COUNT(id) = ?',
+                                             participant_participations_count).
+                                      select(:participant_id))
+            @custom_filtering_parameters[:participant_participations_count] =
+              participant_participations_count
+          end
+        end
+
         # Counting filtered
         @filtered_participants_count = filtered_participants.count
 
