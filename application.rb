@@ -69,6 +69,11 @@ class CTT2013 < Sinatra::Base
     BetterErrors.application_root = File.expand_path('..', __FILE__)
   end
 
+  configure :production do
+    # Do not "pretty print" HTML for better performance
+    set :haml, { :ugly => true }
+  end
+
   # Internationalisation
   # --------------------
 
