@@ -166,22 +166,32 @@ class CTT2013
     end
 
     def filtering_value(attribute_type, value_or_values)
+      if value_or_values.is_a?(Enumerable)
+        value_or_values.map { |value|
+          "[#{ single_filtering_value(attribute_type, value) }]"
+        }.join(', ')
+      else
+        single_filtering_value(attribute_type, value_or_values)
+      end
+    end
+
+    def single_filtering_value(attribute_type, value)
       case attribute_type
       when :boolean
-        text_from_boolean(value_or_values)
+        text_from_boolean(value)
       when :integer
-        "#{ value_or_values[:min] }..#{ value_or_values[:max] }"
+        "#{ value[:min] }..#{ value[:max] }"
       when :date
         parts = []
-        if value_or_values.key?(:from)
-          parts << "#{ t 'date.from' } #{ value_or_values[:from] }"
+        if value.key?(:from)
+          parts << "#{ t 'date.from' } #{ value[:from] }"
         end
-        if value_or_values.key?(:until)
-          parts << "#{ t 'date.until' } #{ value_or_values[:until] }"
+        if value.key?(:until)
+          parts << "#{ t 'date.until' } #{ value[:until] }"
         end
         parts.join(" ")
       else
-        value_or_values
+        value
       end
     end
   end
