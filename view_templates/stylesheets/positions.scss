@@ -32,16 +32,18 @@ footer {
   }
 }
 
-body {
-  position: relative; // to nest absolutely positioned elements
-  margin: 10px;
-  padding: 0;
-}
-
 div[role=main], div.container, article {
   margin: 10px;
   width: auto;
 }
+
+button,
+input[type="submit"],
+a.button,
+a[role=button] {
+  margin: 2px;
+}
+
 
 textarea {
   width:   $textarea-width;
@@ -59,6 +61,10 @@ fieldset {
   }
 }
 
+table {
+  width: auto;
+}
+
 ol.long {
   padding-left: 40px; // leave space for 3-digit indices
 }
@@ -69,6 +75,29 @@ ol.short {
 
 form {
   margin-bottom: 16px;
+}
+
+input,
+textarea,
+button,
+select,
+a.button,
+a[role=button] {
+  &:focus {
+    outline-width: 2px;
+    outline-offset: 0;
+    @include box-sizing(border-box);
+  }
+}
+
+////
+// Global element styles
+
+body {
+  position: relative; // to nest absolutely positioned elements
+  margin: 10px;
+  padding: 0;
+  border-width: 2px;
 }
 
 ////
@@ -95,6 +124,7 @@ div.flash {
 }
 
 hgroup#main_heading {
+  display: inline-block;
   position: absolute;
   top: 15px;
   bottom: 5px;
@@ -118,16 +148,22 @@ nav#lang_select {
   margin: 0;
   top:   -10px;
   right: -10px;
+  border-width: 2px;
 
   & > ul {
     margin: 0;
     padding: 0;
+    overflow: hidden;
 
     & > li {
+      display: inline-block;
 
-      a.locale, span.locale {
+      a.locale,
+      span.locale {
+        display: inline-block;
         margin: 0;
         padding: 5px;
+        border: none;
       }
     }
   }
@@ -138,21 +174,41 @@ input[type="text"].long_string {
   padding: 10px;
 }
 
+dd.attribute,
+.attribute.value {
+  padding: 4px;
+}
+
+dd.attribute {
+  display: inline-block;
+}
+
+dd.association,
+dd.associations,
+.associaion.data,
+.associations.data {
+  // padding: 8px;
+}
+
 header a#link_to_common_home_page {
+  display: inline-block;
   position: absolute;
-  border-radius: 0;
-  border-top-left-radius: 8px;
+  border-width: 2px;
   border-right-width: 0;
   border-bottom-width: 0;
+  padding: 8px;
+  margin-top: 3px;
   margin-right: 0;
   margin-bottom: 0;
   right: 0;
   bottom: 0;
+  background-position: center;
 }
 
 #form_error_explanation {
   margin: 15px;
   padding: 0;
+  border-width: 2px;
 
   h2 {
     padding: 5px 10px;
@@ -185,15 +241,23 @@ button[type="submit"] {
 
 // DL-based forms that look like TABLEs
 // form > dl.fields {
+//   display: table;
 //   // width: auto;
 //
+//   & > div.caption {
+//     display: table-caption;
+//   }
+//
 //   & > div.field {
+//     display: table-row;
 //
 //     dt.label {
 //       padding: 2px;
+//       display: table-cell;
 //     }
 //
 //     dd.input {
+//       display: table-cell;
 //       padding: 2px;
 //
 //       & > textarea {
@@ -207,14 +271,31 @@ button[type="submit"] {
 // Presentational styles
 
 .inline {
+  display: inline-block;
   margin: 0;
   padding: 0;
 }
 
 ////
+// Dynamic styles
+
+input[type=checkbox].style_control:not(:checked) + .hide_if_checkbox_unchecked {
+  display: none;
+}
+
+////
+// Styles for technical info
+
+pre.technical,
+code.technical {
+  margin: 0;
+}
+
+////
 // Styles for debugging output
 
-pre.debug, code.debug {
+pre.debug,
+code.debug {
   margin: 0;
 }
 

@@ -87,8 +87,6 @@ button,
 input[type="submit"] {
   @include button(Blue);
 
-  margin: 2px;
-
   &._post_:hover {
     @include button(Purple);
   }
@@ -126,8 +124,6 @@ fieldset {
 }
 
 table {
-  width: auto;
-
   td.boolean,
   th.boolean {
     text-align: center;
@@ -136,6 +132,25 @@ table {
   td.number,
   th.number {
     text-align: right;
+  }
+}
+
+input,
+textarea,
+button,
+select,
+a.button,
+a[role=button] {
+  &:focus {
+    outline: Blue solid 2px;
+    outline-color: Blue;
+    outline-style: solid;
+
+    // This does not work as expected, for some elements a different default
+    // blue glow appears.
+    // To disable default styles, use `appearance` mix-in for individual
+    // elements.
+    // box-shadow: Blue 0 0 2px 0;
   }
 }
 
@@ -149,7 +164,8 @@ html {
 body {
   line-height: 1.2;
   background: $body-bg-color;
-  border: 2px solid $main-border-color;
+  border-color: $main-border-color;
+  border-style: solid;
   border-radius: 10px;
   font-size: 15px;
   font-family: trebuchet ms, "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -164,15 +180,12 @@ body {
   // font-family: "Lucida Console", Monaco, monospace;
 }
 
-div#banner {
+#banner {
   @include border-top-radius(8px);
   border-bottom: 1px solid $main-border-color;
 
   background-color: DimGrey;
   background-image: banner_url(); // custom function defined in some Ruby file
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 div#banner_shade {
@@ -188,7 +201,6 @@ div#banner_shade {
 }
 
 hgroup#main_heading {
-  display: inline-block;
   pointer-events: none;
 
   h1 {
@@ -211,22 +223,19 @@ hgroup#main_heading {
 
 nav#lang_select {
   border-radius: 10px;
-  border: solid 2px $main-border-color;
+  border-color: $main-border-color;
+  border-style: solid;
   background-color: $body-bg-color;
 
   & > ul {
     // border-radius is needed because in some browsers rounded
     // corners of a non-statically positioned element do not clip well.
     border-radius: 8px;
-    overflow: hidden;
 
     & > li {
-      display: inline-block;
-
-      a.locale, span.locale {
-        display: inline-block;
+      a.locale,
+      span.locale {
         font-weight: bold;
-        border: none;
       }
 
       a.locale {
@@ -238,6 +247,10 @@ nav#lang_select {
       }
     }
   }
+}
+
+table.index > tbody > tr:hover {
+  outline: 1px solid Green;
 }
 
 // nav.main_menu > ul.menu {
@@ -253,15 +266,12 @@ footer {
 }
 
 a#link_to_common_home_page {
-  display: inline-block;
-  margin-top: 3px;
-  margin-bottom: 1px;
-  padding: 8px;
-  border-radius: 8px;
-  border: solid 1px $main-border-color;
+  border-color: $main-border-color;
+  border-style: groove;
+  border-radius: 0;
+  border-top-left-radius: 8px;
 
   background-image: footer_home_button_background_url();
-  background-position: center;
   opacity: 0.8;
 
   font-weight: bold;
@@ -277,7 +287,7 @@ a#link_to_common_home_page {
 }
 
 #form_error_explanation {
-  border: 2px solid Firebrick;
+  border: solid Firebrick;
   border-radius: 8px;
 
   h2 {
@@ -395,13 +405,11 @@ a[role=button] {
 
 dd.attribute,
 .attribute.value {
-  padding: 4px;
   background-color: Khaki;
   color: Black;
 }
 
 dd.attribute {
-  display: inline-block;
   white-space: pre-wrap;
 }
 
@@ -410,7 +418,6 @@ dd.associations,
 .associaion.data,
 .associations.data {
   // border-radius: 8px;
-  // padding: 8px;
   // background-color: LightGray;
 }
 
@@ -418,34 +425,8 @@ label.required:after {
   content: "*";
 }
 
-// DL-based forms that look like TABLEs
-// form > dl.fields {
-//   display: table;
-//   // width: auto;
-//
-//   & > div.caption {
-//     display: table-caption;
-//   }
-//
-//   & > div.field {
-//     display: table-row;
-//
-//     dt.label {
-//       display: table-cell;
-//     }
-//
-//     dd.input {
-//       display: table-cell;
-//     }
-//   }
-// }
-
 ////
 // Presentational styles
-
-.inline {
-  display: inline-block;
-}
 
 .center {
   text-align:center;
@@ -454,9 +435,6 @@ label.required:after {
 ////
 // Dynamic styles
 
-input[type=checkbox].style_control:not(:checked) + .hide_if_checkbox_unchecked {
-  display: none;
-}
 
 ////
 // Styles for technical info
@@ -465,9 +443,9 @@ input[type=checkbox].style_control:not(:checked) + .hide_if_checkbox_unchecked {
   color: Brown;
 }
 
-pre.technical, code.technical {
+pre.technical,
+code.technical {
   white-space: pre-wrap;
-  margin: 0;
 }
 
 code.technical {
@@ -481,6 +459,7 @@ code.technical {
   color: Red;
 }
 
-pre.debug, code.debug {
+pre.debug,
+code.debug {
   white-space: pre-wrap;
 }
