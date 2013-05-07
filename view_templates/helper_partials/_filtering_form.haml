@@ -23,13 +23,8 @@
   %thead
     %tr
       - filtering_fields.each do |field|
-        %th<
+        %th{ :class => (field.key?(:shown_selected_values) ? 'filtered' : nil) }<
           = field[:header]
-
-    %tr
-      - filtering_fields.each do |field|
-        %td.field{ :class => field[:html_class] }<
-          = field[:html_input_field]
 
     - if filter_applied
       %tr
@@ -38,7 +33,12 @@
             %td.filtering_value{ :class => field[:html_class] }<
               &= field[:shown_selected_values]
           - else
-            %td
+            %td/
+
+    %tr
+      - filtering_fields.each do |field|
+        %td.field{ :class => field[:html_class] }<
+          = field[:html_input_field]
 
     %tr
       %td.actions{ :colspan => filtering_fields.size }<

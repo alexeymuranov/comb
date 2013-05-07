@@ -6,14 +6,16 @@
 -#   selected_ids
 -#   id_prefix
 
-%ol.short
-  - collection.each do |object|
-    %li
-      %input{ :id      => "#{ id_prefix }_#{ object.id }",
-              :type    => :checkbox,
-              :name    => "#{ param_key }[]",
-              :value   => object.id,
-              :checked => selected_ids && selected_ids.include?(object.id),
-              :form    => filter_form_id }
-      %label{ :for => "#{ id_prefix }_#{ object.id }" }<
+%select{ :multiple => true,
+         :size     => collection.size,
+         :name     => "#{ param_key }[]",
+         :form     => filter_form_id }
+  - if selected_ids
+    - collection.each do |object|
+      %option{ :value    => object.id,
+               :selected => selected_ids.include?(object.id) }
+        &= name_proc[object]
+  - else
+    - collection.each do |object|
+      %option{ :value => object.id }
         &= name_proc[object]
