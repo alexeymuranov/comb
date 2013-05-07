@@ -6,14 +6,14 @@
     - hidden_parameters['view'] = { 'per_page' => @view_parameters[:per_page] }
   = filtering_form @filtering_by, @filtering_values,
                    :params_key_prefix => 'filter',
-                   :action_url        => fixed_url_with_locale("/#{ @page }"),
+                   :action_url        => fixed_url_with_locale('/org/participants'),
                    :hidden_parameters => hidden_parameters
 
 - if @custom_filtering_parameters
   %form{ :id     => 'custom_filter_form',
-         :action => "#{ fixed_url_with_locale("/#{ @page }") }#custom_filter" }
+         :action => fixed_url_with_locale('/org/participants#custom_filter') }
   %form{ :id     => 'clear_custom_filter_form',
-         :action => "#{ fixed_url_with_locale("/#{ @page }") }#custom_filter" }
+         :action => fixed_url_with_locale('/org/participants#custom_filter') }
 
   - hidden_parameters = {}
   - if @filtering_values
@@ -89,7 +89,7 @@
     - hidden_parameters['custom_filter'] = @custom_filtering_parameters
   = paginating_form @view_parameters,
                     :params_key_prefix => 'view',
-                    :action_url        => fixed_url_with_locale("/#{ @page }"),
+                    :action_url        => fixed_url_with_locale('/org/participants'),
                     :hidden_parameters => hidden_parameters
 
 .technical
@@ -141,11 +141,10 @@
             %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ participant.id }/edit") }<
               = t 'actions.update'
 
-- if @page == :"org/participants"
-  - if main_organiser_logged_in?
-    %a.button.new{ :href => fixed_url_with_locale("/org/participants/new"),
-                   :role => 'button' }<
-      = t 'actions.add'
+- if main_organiser_logged_in?
+  %a.button.new{ :href => fixed_url_with_locale('/org/participants/new'),
+                 :role => 'button' }<
+    = t 'actions.add'
 
   %hr/
   %div.download_buttons

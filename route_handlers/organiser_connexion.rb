@@ -52,7 +52,6 @@ class CTT2013 < Sinatra::Base
 
   ORGANISER_CONNEXION_PAGES =
     [ :participants,
-      :participants_with_talk_proposals,
       :talks,
       :hotels,
       :utilities
@@ -100,112 +99,103 @@ class CTT2013 < Sinatra::Base
     PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX =
       PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
 
-    [ :"org/participants",
-      :"org/participants_with_talk_proposals"
-    ].each do |page|
-      get "/#{ l }#{ page }" do
-        require_organiser_login!
+    get "/#{ l }org/participants" do
+      require_organiser_login!
 
-        set_locale(locale)
-        set_page(page)
+      set_locale(locale)
+      set_page(:"org/participants")
 
-        # Filtering
-        participants_filter   = participants_filter_from_params
-        participations_filter = participations_filter_from_params
-        filtered_participants =
-          participants_scope_from_filters(
-            :participants_filter   => participants_filter,
-            :participations_filter => participations_filter)
+      # Filtering
+      participants_filter   = participants_filter_from_params
+      participations_filter = participations_filter_from_params
+      filtered_participants =
+        participants_scope_from_filters(
+          :participants_filter   => participants_filter,
+          :participations_filter => participations_filter)
 
-        @filtering_values = {}
-        if participants_filter
-          @filtering_values[Participant.table_name] =
-            participants_filter.filtering_values_as_simple_nested_hash
-        end
-        if participations_filter
-          @filtering_values[Participation.table_name] =
-            participations_filter.filtering_values_as_simple_nested_hash
-        end
-        @filtering_values.delete_if{|_, v| v.empty? }
-
-        @filtering_by =
-          [ [Participant,   :last_name, {:html_input_options => {:autofocus => true}}],
-            [Participation, :conference, {:name_proc => :identifier.to_proc}],
-            [Participant,   :academic_position],
-            [Participant,   :invitation_needed],
-            [Participant,   :visa_needed],
-            [Participation, :approved] ]
-
-        if page == :"org/participants_with_talk_proposals"
-          filtered_participants =
-            filtered_participants.joins(:talk_proposals).uniq
-        end
-
-        # Custom ad hoc filtering
-        @custom_filtering_parameters = {}
-        if submitted_custom_filtering_parameters = params['custom_filter']
-          only_participants_with_talk_proposals =
-            submitted_custom_filtering_parameters['participants_with_talk_proposals'] == '1'
-          if only_participants_with_talk_proposals
-            filtered_participants = filtered_participants.joins(:talk_proposals).uniq
-            @custom_filtering_parameters[:participants_with_talk_proposals] = true
-          end
-
-          participant_participations_count =
-            submitted_custom_filtering_parameters['participant_participations_count']
-          if participant_participations_count == ''
-            participant_participations_count = nil
-          end
-          if participant_participations_count
-            participant_participations_count =
-              participant_participations_count.to_i
-            filtered_participants =
-              filtered_participants.
-                where('participants.id' =>
-                        Participation.group(:participant_id).
-                                      having('COUNT(id) = ?',
-                                             participant_participations_count).
-                                      select(:participant_id))
-            @custom_filtering_parameters[:participant_participations_count] =
-              participant_participations_count
-          end
-        end
-
-        # Counting filtered
-        @filtered_participants_count = filtered_participants.count
-
-        # Sorting
-        filtered_participants = filtered_participants.default_order
-
-        # Pagination
-        @view_parameters = pagination_parameters_from_params
-        per_page    = @view_parameters[:per_page]
-        active_page = @view_parameters[:page]
-        @participants =
-          filtered_participants.limit(per_page).offset(per_page * (active_page - 1))
-        @view_parameters[:page_count] =
-          ((@filtered_participants_count - 1) / per_page) + 1
-
-        # Page content
-        @attribute_headers =
-          PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
-            header_from_attribute_name(Participant, attr)
-          }
-        @attribute_procs = PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX
-
-        @participations_header =
-          header_from_attribute_name(Participant, :participations)
-
-        @participation_procs = Conference.default_order.map { |conf|
-          lambda { |participant|
-            participation =
-              participant.participations.find{|p| p.conference == conf }
-            participation ? (participation.approved? ? '✓' : '—') : '·'
-          }
-        }
-
-        haml :"/pages/org/participants/index_all.html"
+      @filtering_values = {}
+      if participants_filter
+        @filtering_values[Participant.table_name] =
+          participants_filter.filtering_values_as_simple_nested_hash
       end
+      if participations_filter
+        @filtering_values[Participation.table_name] =
+          participations_filter.filtering_values_as_simple_nested_hash
+      end
+      @filtering_values.delete_if{|_, v| v.empty? }
+
+      @filtering_by =
+        [ [Participant,   :last_name, {:html_input_options => {:autofocus => true}}],
+          [Participation, :conference, {:name_proc => :identifier.to_proc}],
+          [Participant,   :academic_position],
+          [Participant,   :invitation_needed],
+          [Participant,   :visa_needed],
+          [Participation, :approved] ]
+
+      # Custom ad hoc filtering
+      @custom_filtering_parameters = {}
+      if submitted_custom_filtering_parameters = params['custom_filter']
+        only_participants_with_talk_proposals =
+          submitted_custom_filtering_parameters['participants_with_talk_proposals'] == '1'
+        if only_participants_with_talk_proposals
+          filtered_participants = filtered_participants.joins(:talk_proposals).uniq
+          @custom_filtering_parameters[:participants_with_talk_proposals] = true
+        end
+
+        participant_participations_count =
+          submitted_custom_filtering_parameters['participant_participations_count']
+        if participant_participations_count == ''
+          participant_participations_count = nil
+        end
+        if participant_participations_count
+          participant_participations_count =
+            participant_participations_count.to_i
+          filtered_participants =
+            filtered_participants.
+              where('participants.id' =>
+                      Participation.group(:participant_id).
+                                    having('COUNT(id) = ?',
+                                           participant_participations_count).
+                                    select(:participant_id))
+          @custom_filtering_parameters[:participant_participations_count] =
+            participant_participations_count
+        end
+      end
+
+      # Counting filtered
+      @filtered_participants_count = filtered_participants.count
+
+      # Sorting
+      filtered_participants = filtered_participants.default_order
+
+      # Pagination
+      @view_parameters = pagination_parameters_from_params
+      per_page    = @view_parameters[:per_page]
+      active_page = @view_parameters[:page]
+      @participants =
+        filtered_participants.limit(per_page).offset(per_page * (active_page - 1))
+      @view_parameters[:page_count] =
+        ((@filtered_participants_count - 1) / per_page) + 1
+
+      # Page content
+      @attribute_headers =
+        PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
+          header_from_attribute_name(Participant, attr)
+        }
+      @attribute_procs = PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX
+
+      @participations_header =
+        header_from_attribute_name(Participant, :participations)
+
+      @participation_procs = Conference.default_order.map { |conf|
+        lambda { |participant|
+          participation =
+            participant.participations.find{|p| p.conference == conf }
+          participation ? (participation.approved? ? '✓' : '—') : '·'
+        }
+      }
+
+      haml :"/pages/org/participants/index_all.html"
     end
 
     get "/#{ l }org/participants/new" do
