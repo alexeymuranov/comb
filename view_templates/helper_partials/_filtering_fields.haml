@@ -1,0 +1,24 @@
+-# Locals:
+-#   filtering_fields
+-#   filter_applied
+
+%table#filter.filter{ :class => (filter_applied ? 'filtered' : nil) }
+  %thead
+    %tr
+      - filtering_fields.each do |field|
+        %th{ :class => (field.key?(:shown_selected_values) ? 'filtered' : nil) }<
+          = field[:header]
+
+    - if filter_applied
+      %tr
+        - filtering_fields.each do |field|
+          - if field.key?(:shown_selected_values)
+            %td.filtering_value{ :class => field[:html_class] }<
+              &= field[:shown_selected_values]
+          - else
+            %td/
+
+    %tr
+      - filtering_fields.each do |field|
+        %td.field{ :class => field[:html_class] }<
+          = field[:html_input_field]

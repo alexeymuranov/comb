@@ -4,9 +4,10 @@ require './lib/nested_arrays'
 
 class CTT2013
   module CollectionFilteringHelpers
-    def filtering_form(filtering_by,
-                       filtering_values,
-                       form_options = {})
+    def smart_filtering_fields(filtering_by,
+                               filtering_values,
+                               form_id      = nil,
+                               form_options = {})
 
       filtering_by = if filtering_by.first.is_a?(Array)
                        NestedArrays::s_unfold(filtering_by)
@@ -61,7 +62,7 @@ class CTT2013
 
           field[:html_class] = 'association'
           field[:html_input_field] =
-            filtering_association_select_field 'filter_form',
+            filtering_association_select_field form_id,
                                                param_key,
                                                assoc_model.default_order,
                                                name_proc,
@@ -85,13 +86,13 @@ class CTT2013
             html_class_from_column_type(attribute_type)
           field[:html_input_field] =
             if select_value_from
-              filtering_attribute_select_field 'filter_form',
+              filtering_attribute_select_field form_id,
                                                param_key,
                                                attribute_type,
                                                selected_values,
                                                select_value_from
             else
-              filtering_attribute_input_field 'filter_form',
+              filtering_attribute_input_field form_id,
                                               param_key,
                                               attribute_type,
                                               selected_values,
@@ -102,11 +103,9 @@ class CTT2013
         fields << field
       end
 
-      haml :'helper_partials/_filtering_form',
+      haml :'helper_partials/_filtering_fields',
            :locals => { :filtering_fields  => fields,
-                        :filter_applied    => !filtering_values.empty?,
-                        :action_url        => form_options[:action_url],
-                        :hidden_parameters => form_options[:hidden_parameters] }
+                        :filter_applied    => !filtering_values.empty? }
     end
 
     def filtering_attribute_input_field(filter_form_id, param_key,
