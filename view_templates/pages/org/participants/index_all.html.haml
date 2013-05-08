@@ -13,7 +13,8 @@
                           :params_key_prefix => 'filter'
 
   - custom_filter_fields_empty = @custom_filtering_parameters.empty?
-  %table#custom_filter.filter{ :class => (custom_filter_fields_empty ? nil : 'filtered') }
+  %table#custom_filter.filter{ :class  => (custom_filter_fields_empty ? nil : 'filtered'),
+                               :border => 1 }
     %thead
       - only_participants_with_talk_proposals = @custom_filtering_parameters[:participants_with_talk_proposals]
       - participant_participations_count      = @custom_filtering_parameters[:participant_participations_count]

@@ -2,7 +2,8 @@
 -#   filtering_fields
 -#   filter_applied
 
-%table#filter.filter{ :class => (filter_applied ? 'filtered' : nil) }
+%table#filter.filter{ :class  => (filter_applied ? 'filtered' : nil),
+                      :border => 1 }
   %thead
     %tr
       - filtering_fields.each do |field|
