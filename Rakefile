@@ -48,13 +48,11 @@ namespace :db do
     ActiveRecord::Base.logger = Logger.new(STDOUT)
     ActiveRecord::Migration.verbose = true
     version = ENV['VERSION'] ? ENV['VERSION'].to_i : nil
-    CTT2013.connect_database
     ActiveRecord::Migrator.migrate('db/migrate', version)
   end
 
   desc 'rolls back the migration (use steps with STEP=n)'
   task :rollback do
-    CTT2013.connect_database
     step = ENV['STEP'] ? ENV['STEP'].to_i : 1
     ActiveRecord::Migrator.rollback('db/migrate', step)
   end
