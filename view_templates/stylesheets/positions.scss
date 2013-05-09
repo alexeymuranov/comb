@@ -77,19 +77,6 @@ form {
   margin-bottom: 16px;
 }
 
-input,
-textarea,
-button,
-select,
-a.button,
-a[role=button] {
-  &:focus {
-    outline-width: 2px;
-    outline-offset: 0;
-    @include box-sizing(border-box);
-  }
-}
-
 ////
 // Global element styles
 

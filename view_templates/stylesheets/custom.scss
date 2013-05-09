@@ -142,9 +142,7 @@ select,
 a.button,
 a[role=button] {
   &:focus {
-    outline: Blue solid 2px;
-    outline-color: Blue;
-    outline-style: solid;
+    outline: 2px solid Blue;
 
     // This does not work as expected, for some elements a different default
     // blue glow appears.
