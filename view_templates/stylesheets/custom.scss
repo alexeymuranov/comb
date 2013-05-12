@@ -186,7 +186,7 @@ body {
   background-image: banner_url(); // custom function defined in some Ruby file
 }
 
-div#banner_shade {
+#banner_shade {
   @include border-top-radius(8px);
   background-color: $html-bg-color;
   opacity: 0.65;
@@ -198,12 +198,12 @@ div#banner_shade {
   }
 }
 
-hgroup#main_heading {
+// hgroup#main_heading
+#main_heading {
   pointer-events: none;
 
   h1 {
-    color: Cornsilk;//Tomato;
-    // text-shadow: black 0.2px 0px 0.2px, black 0px 0.2px 0.2px, black -0.2px 0px 0.2px, black 0px -0.2px 0.2px;
+    color: Cornsilk;
     text-shadow: black 1.5px 1.5px 2px;
     line-height: 1;
     font-size: 3em;
@@ -211,7 +211,7 @@ hgroup#main_heading {
   }
 
   h2 {
-    color: Ivory; // #2DB82D; #00CC00; Cornsilk; #E68A00; MediumSpringGreen;
+    color: Ivory;
     text-shadow: black 1.5px 1.5px 1px;
     line-height: 1;
     font-size: 2em;
@@ -219,7 +219,8 @@ hgroup#main_heading {
   }
 }
 
-nav#lang_select {
+// nav#lang_select
+#lang_select {
   border-radius: 10px;
   border-color: $main-border-color;
   border-style: solid;
@@ -263,7 +264,7 @@ footer {
   text-align: center;
 }
 
-a#link_to_common_home_page {
+#link_to_common_home_page {
   border-color: $main-border-color;
   border-style: groove;
   border-radius: 0;

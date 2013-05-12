@@ -110,7 +110,8 @@ div.flash {
   width: 100%;
 }
 
-hgroup#main_heading {
+// hgroup#main_heading
+#main_heading {
   display: inline-block;
   position: absolute;
   top: 15px;
@@ -129,7 +130,8 @@ hgroup#main_heading {
   }
 }
 
-nav#lang_select {
+// nav#lang_select
+#lang_select {
   position: absolute;
   z-index: 10;
   margin: 0;
@@ -177,7 +179,7 @@ dd.associations,
   // padding: 8px;
 }
 
-header a#link_to_common_home_page {
+#link_to_common_home_page {
   display: inline-block;
   position: absolute;
   border-width: 2px;
