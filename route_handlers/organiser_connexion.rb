@@ -231,8 +231,6 @@ class CTT2013 < Sinatra::Base
 
       set_locale(locale)
 
-      id = id.to_i
-
       @attribute_names = PARTICIPANT_ATTRIBUTE_NAMES_FOR_SHOW
 
       @participant = Participant.find(id)
@@ -315,8 +313,6 @@ class CTT2013 < Sinatra::Base
 
       set_locale(locale)
 
-      id = id.to_i
-
       @attribute_names = TALK_ATTRIBUTE_NAMES_FOR_SHOW
 
       @talk = Talk.find(id)
@@ -387,8 +383,6 @@ class CTT2013 < Sinatra::Base
       require_organiser_login!
 
       set_locale(locale)
-
-      id = id.to_i
 
       @attribute_names = HOTEL_ATTRIBUTE_NAMES_FOR_SHOW
 
@@ -604,8 +598,6 @@ class CTT2013 < Sinatra::Base
         flash[:success] = t('flash.resources.participants.create.success')
         redirect fixed_url_with_locale("/org/participants/#{ @participant.id }", locale)
       else
-        set_page(:"org/participants")
-
         flash.now[:error] = t('flash.resources.participants.update.failure')
         @attribute_names = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create]
         @association_names = [:participations, :talk_proposals]
@@ -712,8 +704,6 @@ class CTT2013 < Sinatra::Base
           flash[:success] = t('flash.resources.participants.update.success')
           redirect fixed_url(redirect_to_url)
         else
-          set_page(:"org/participants")
-
           flash.now[:error] = t('flash.resources.participants.update.failure')
           @attribute_names   = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update]
           @association_names = [:participations, :talk_proposals]
@@ -757,8 +747,6 @@ class CTT2013 < Sinatra::Base
         flash[:success] = t('flash.resources.talks.update.success')
         redirect fixed_url_with_locale("/org/talks/#{ @talk.id }", locale)
       else
-        set_page(:"org/talks")
-
         flash.now[:error] = t('flash.resources.talks.update.failure')
         @attribute_names = TALK_ATTRIBUTE_NAMES_FOR[:update]
 
@@ -780,14 +768,12 @@ class CTT2013 < Sinatra::Base
         flash[:success] = t('flash.resources.hotels.update.success')
         redirect fixed_url_with_locale("/org/hotels/#{ @hotel.id }", locale)
       else
-        set_page(:"org/hotels")
 
         flash.now[:error] = t('flash.resources.hotels.update.failure')
         @attribute_names = HOTEL_ATTRIBUTE_NAMES_FOR[:update]
 
         haml :"/pages/org/hotels/edit_one.html"
       end
-      redirect fixed_url_with_locale("/org/hotels/#{ @hotel.id }", locale)
     end
   end
 
