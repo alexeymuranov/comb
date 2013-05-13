@@ -598,7 +598,7 @@ class CTT2013 < Sinatra::Base
         flash[:success] = t('flash.resources.participants.create.success')
         redirect fixed_url_with_locale("/org/participants/#{ @participant.id }", locale)
       else
-        flash.now[:error] = t('flash.resources.participants.update.failure')
+        flash.now[:error] = t('flash.resources.participants.create.failure')
         @attribute_names = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create]
         @association_names = [:participations, :talk_proposals]
 
