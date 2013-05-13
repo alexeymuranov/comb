@@ -204,16 +204,9 @@ class CTT2013 < Sinatra::Base
 
       set_locale(locale)
 
-      @attribute_names   = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create]
-      @association_names = [:participations, :talk_proposals]
-
       @participant = Participant.new
 
-      if @association_names.include?(:participations)
-        @conferences = Conference.default_order
-      end
-
-      haml :"/pages/org/participants/new_one.html"
+      render_new_participant_properly
     end
 
     PARTICIPANT_ATTRIBUTE_NAMES_FOR_SHOW =
@@ -248,11 +241,7 @@ class CTT2013 < Sinatra::Base
 
       @participant = Participant.find(id)
 
-      if @association_names.include?(:participations)
-        @conferences = Conference.default_order
-      end
-
-      haml :"/pages/org/participants/edit_one.html"
+      render_edit_participant_properly
     end
 
     get "/#{ l }org/participants/:id/delete" do |id|
@@ -297,11 +286,9 @@ class CTT2013 < Sinatra::Base
 
       set_locale(locale)
 
-      @attribute_names = TALK_ATTRIBUTE_NAMES_FOR[:create]
-
       @talk = Talk.new
 
-      haml :"/pages/org/talks/new_one.html"
+      render_new_talk_properly
     end
 
     TALK_ATTRIBUTE_NAMES_FOR_SHOW =
@@ -325,9 +312,9 @@ class CTT2013 < Sinatra::Base
 
       set_locale(locale)
 
-      @attribute_names = TALK_ATTRIBUTE_NAMES_FOR[:update]
       @talk = Talk.find(id)
-      haml :"/pages/org/talks/edit_one.html"
+
+      render_edit_talk_properly
     end
 
     get "/#{ l }org/talks/:id/delete" do |id|
@@ -370,11 +357,9 @@ class CTT2013 < Sinatra::Base
 
       set_locale(locale)
 
-      @attribute_names = HOTEL_ATTRIBUTE_NAMES_FOR[:create]
-
       @hotel = Hotel.new
 
-      haml :"/pages/org/hotels/new_one.html"
+      render_new_hotel_properly
     end
 
     HOTEL_ATTRIBUTE_NAMES_FOR_SHOW = [:name, :address, :phone, :web_site]
@@ -396,9 +381,9 @@ class CTT2013 < Sinatra::Base
 
       set_locale(locale)
 
-      @attribute_names = HOTEL_ATTRIBUTE_NAMES_FOR[:update]
       @hotel = Hotel.find(id)
-      haml :"/pages/org/hotels/edit_one.html"
+
+      render_edit_hotel_properly
     end
 
     get "/#{ l }org/hotels/:id/delete" do |id|
@@ -599,14 +584,7 @@ class CTT2013 < Sinatra::Base
         redirect fixed_url_with_locale("/org/participants/#{ @participant.id }", locale)
       else
         flash.now[:error] = t('flash.resources.participants.create.failure')
-        @attribute_names = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create]
-        @association_names = [:participations, :talk_proposals]
-
-        if @association_names.include?(:participations)
-          @conferences = Conference.default_order
-        end
-
-        haml :"/pages/org/participants/new_one.html"
+        render_new_participant_properly
       end
     end
 
@@ -645,7 +623,7 @@ class CTT2013 < Sinatra::Base
         redirect fixed_url_with_locale("/org/talks/#{ @talk.id }", locale)
       else
         flash.now[:error] = t('flash.resources.talks.create.failure')
-        haml :"/pages/org/talks/new_one.html"
+        render_new_talk_properly
       end
     end
 
@@ -663,7 +641,7 @@ class CTT2013 < Sinatra::Base
         redirect fixed_url_with_locale("/org/hotels/#{ @hotel.id }", locale)
       else
         flash.now[:error] = t('flash.resources.hotels.create.failure')
-        haml :"/pages/org/hotels/new_one.html"
+        render_new_hotel_properly
       end
     end
   end
@@ -705,14 +683,7 @@ class CTT2013 < Sinatra::Base
           redirect fixed_url(redirect_to_url)
         else
           flash.now[:error] = t('flash.resources.participants.update.failure')
-          @attribute_names   = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update]
-          @association_names = [:participations, :talk_proposals]
-
-          if @association_names.include?(:participations)
-            @conferences = Conference.default_order
-          end
-
-          haml :"/pages/org/participants/edit_one.html"
+          render_edit_participant_properly
         end
       end
     end
@@ -748,9 +719,7 @@ class CTT2013 < Sinatra::Base
         redirect fixed_url_with_locale("/org/talks/#{ @talk.id }", locale)
       else
         flash.now[:error] = t('flash.resources.talks.update.failure')
-        @attribute_names = TALK_ATTRIBUTE_NAMES_FOR[:update]
-
-        haml :"/pages/org/talks/edit_one.html"
+        render_edit_talk_properly
       end
     end
 
@@ -768,11 +737,8 @@ class CTT2013 < Sinatra::Base
         flash[:success] = t('flash.resources.hotels.update.success')
         redirect fixed_url_with_locale("/org/hotels/#{ @hotel.id }", locale)
       else
-
         flash.now[:error] = t('flash.resources.hotels.update.failure')
-        @attribute_names = HOTEL_ATTRIBUTE_NAMES_FOR[:update]
-
-        haml :"/pages/org/hotels/edit_one.html"
+        render_edit_hotel_properly
       end
     end
   end
@@ -921,6 +887,52 @@ class CTT2013 < Sinatra::Base
           csv << attribute_procs.map{|p| p[object] }
         end
       end
+    end
+
+    def render_new_participant_properly
+      @attribute_names   ||= PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create]
+      @association_names ||= [:participations, :talk_proposals]
+
+      if @association_names.include?(:participations)
+        @conferences = Conference.default_order
+      end
+
+      haml :"/pages/org/participants/new_one.html"
+    end
+
+    def render_edit_participant_properly
+      @attribute_names   ||= PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update]
+      @association_names ||= [:participations, :talk_proposals]
+
+      if @association_names.include?(:participations)
+        @conferences = Conference.default_order
+      end
+
+      haml :"/pages/org/participants/edit_one.html"
+    end
+
+    def render_new_talk_properly
+      @attribute_names ||= TALK_ATTRIBUTE_NAMES_FOR[:create]
+
+      haml :"/pages/org/talks/new_one.html"
+    end
+
+    def render_edit_talk_properly
+      @attribute_names ||= TALK_ATTRIBUTE_NAMES_FOR[:update]
+
+      haml :"/pages/org/talks/edit_one.html"
+    end
+
+    def render_new_hotel_properly
+      @attribute_names ||= HOTEL_ATTRIBUTE_NAMES_FOR[:create]
+
+      haml :"/pages/org/hotels/new_one.html"
+    end
+
+    def render_edit_hotel_properly
+      @attribute_names ||= HOTEL_ATTRIBUTE_NAMES_FOR[:update]
+
+      haml :"/pages/org/hotels/edit_one.html"
     end
 
 end
