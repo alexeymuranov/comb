@@ -255,14 +255,6 @@ class Participant < AbstractSmarterModel
   #   participations.each do |p| p.approved = bool end
   # end
 
-  def approve!
-    participations.each do |p| p.approved = true end
-  end
-
-  def disapprove!
-    participations.each do |p| p.approved = false end
-  end
-
   # CoMB related
   def co_m_b_participation
     @co_m_b_conf_id ||= Conference.co_m_b_conf.id
@@ -281,6 +273,14 @@ class Participant < AbstractSmarterModel
   end
 
   # Public instance methods
+  def approve!
+    participations.each do |p| p.approved = true end
+  end
+
+  def disapprove!
+    participations.each do |p| p.approved = false end
+  end
+
   def generate_pin
     @new_pin = Digest::SHA2.hexdigest(rand.to_s)[0..3]
     self.pin_code_hash = Digest::SHA2.base64digest(@new_pin)
