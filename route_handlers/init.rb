@@ -8,30 +8,35 @@ class CTT2013 < Sinatra::Base
 
   PARTICIPANT_ATTRIBUTE_NAMES_FOR = {}
   PARTICIPANT_ATTRIBUTE_NAMES_FOR[:registration] =
-    [ :first_name, :last_name, :email,
-      :affiliation, :academic_position,
-      :country, :city, :post_code, :street_address, :phone,
-      :i_m_t_member, :g_d_r_member,
-      :invitation_needed, :visa_needed,
-      # :funding_requests,
-      :special_requests ]
-  PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update] = PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create] =
-    [ :first_name, :last_name, :email, :affiliation,
-      :academic_position,
-      :country, :city, :post_code, :street_address, :phone,
-      :i_m_t_member, :g_d_r_member,
-      :invitation_needed, :visa_needed,
-      :funding_requests,
-      :special_requests ]
+    Set[ :first_name, :last_name, :email,
+         :affiliation, :academic_position,
+         :country, :city, :post_code, :street_address, :phone,
+         :i_m_t_member, :g_d_r_member,
+         :invitation_needed, :visa_needed,
+         # :funding_requests,
+         :special_requests ]
+  PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create] =
+    Set[ :first_name, :last_name, :email, :affiliation,
+         :academic_position,
+         :country, :city, :post_code, :street_address, :phone,
+         :i_m_t_member, :g_d_r_member,
+         :invitation_needed, :visa_needed,
+         :funding_requests,
+         :special_requests ]
+  PARTICIPANT_ATTRIBUTE_NAMES_FOR[:update] =
+    PARTICIPANT_ATTRIBUTE_NAMES_FOR[:create]
 
   TALK_ATTRIBUTE_NAMES_FOR = {}
-  TALK_ATTRIBUTE_NAMES_FOR[:update] = TALK_ATTRIBUTE_NAMES_FOR[:create] =
-    [ :type, :participant_id, :title, :abstract,
-      :date, :time, :room_or_auditorium ]
+  TALK_ATTRIBUTE_NAMES_FOR[:create] =
+    Set[ :type, :participant_id, :title, :abstract,
+         :date, :time, :room_or_auditorium ]
+  TALK_ATTRIBUTE_NAMES_FOR[:update] =
+    TALK_ATTRIBUTE_NAMES_FOR[:create]
 
   HOTEL_ATTRIBUTE_NAMES_FOR = {}
-  HOTEL_ATTRIBUTE_NAMES_FOR[:update] = HOTEL_ATTRIBUTE_NAMES_FOR[:create] =
-    [:name, :address, :phone, :web_site]
+  HOTEL_ATTRIBUTE_NAMES_FOR[:create] =
+    Set[:name, :address, :phone, :web_site]
+  HOTEL_ATTRIBUTE_NAMES_FOR[:update] = HOTEL_ATTRIBUTE_NAMES_FOR[:create]
 
   # Internationalisation
   # ====================
