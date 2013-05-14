@@ -4,10 +4,9 @@
       = @participant.approved? ? '(✓)' : '(—)'
     &= @participant.full_name_with_affiliation
 
-  %hr
+  %hr/
 
-  = haml :'pages/org/participants/_participations_details',
-         :locals => { :participant => @participant }
+  = haml :'pages/org/participants/_participations_details'
 
   - if main_organiser_logged_in?
     %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }/edit?only[associations]=all"),
@@ -15,20 +14,19 @@
       = t 'actions.update'
 
   - if talk_proposal = @participant.co_m_b_talk_proposal
-    %br
-    %hr
+    %br/
+    %hr/
 
     = haml :'pages/org/participants/_co_m_b_talk_proposal_details',
-           :locals => { :participant   => @participant,
-                        :talk_proposal => talk_proposal }
+           :locals => { :talk_proposal => talk_proposal }
 
     - if main_organiser_logged_in?
       %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }/edit?only[associations][]=talk_proposals"),
                       :role => 'button' }<
         = t 'actions.update'
 
-  %br
-  %hr
+  %br/
+  %hr/
 
   = haml :'pages/org/participants/_personal_details',
          :locals => { :participant => @participant }
@@ -38,8 +36,8 @@
                     :role => 'button' }<
       = t 'actions.update'
 
-  %br
-  %hr
+  %br/
+  %hr/
 
   - if main_organiser_logged_in?
     %a.button.delete{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }/delete"),

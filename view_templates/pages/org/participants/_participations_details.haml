@@ -1,34 +1,37 @@
 -# Parameters:
 -#   participant
 
-%section.associations
+- participant ||= @participant
+
+%section.associations#participations
   %h4
     = header_from_attribute_name(Participant, :participations)
 
   %table
-    - participation_attr_iterator = [ :arrival_date,
-                                      :departure_date,
-                                      :committee_comments ].each
+    - participation_attribute_names = [ :arrival_date,
+                                        :departure_date,
+                                        :committee_comments ]
     -# %caption
     -#   = header_from_attribute_name(Participant, :participations)
     %thead
-      %td
-      - participation_attr_iterator.each do |attr|
-        %th
-          = label_from_attribute_name(Participation, attr)
-      - if main_organiser_logged_in?
-        %th/
+      %tr
+        %td/
+        - participation_attribute_names.each do |attr|
+          %th
+            = header_from_attribute_name(Participation, attr)
+        - if main_organiser_logged_in?
+          %th/
     %tbody
       - participations = participant.participations.order_by_conference
       - participations.each_with_index do |participation, i|
         %tr
           %th{:scope => :row}
             = participation.conference.identifier
-          - participation_attr_iterator.each do |attr|
+          - participation_attribute_names.each do |attr|
             %td
               - if value = participation.public_send(attr)
                 %span.attribute.value
-                  = value
+                  &= value
           - if main_organiser_logged_in?
             - if i.zero?
               %td{ :rowspan => participations.count }
