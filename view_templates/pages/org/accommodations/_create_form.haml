@@ -1,0 +1,51 @@
+%form{ :'accept-charset' => 'UTF-8',
+       :action           => fixed_url_with_locale("/org/participants/#{ @participant.id }/accommodations/"),
+       :method           => 'POST' }
+
+  = haml :'shared_partials/_jquery_ui_for_forms'
+
+  - if @accommodation.errors.any?
+    = haml :'shared_partials/_form_errors',
+           :locals => { :object => @accommodation }
+
+  %dl.fields
+    - required = Accommodation.attribute_constraints_on(:hotel_id)[:required]
+    - label_html_classes = []
+    - label_html_classes << 'required' if required
+    .field
+      %dt.label
+        %label{ :for   => "accommodation_hotel_id",
+                :class => label_html_classes }<
+          = label_from_attribute_name(Accommodation, :hotel_id)
+      %dd.input
+        %select{ :id       => "accommodation_hotel_id",
+                 :name     => "accommodation[hotel_id]" }
+          %option/
+          - Hotel.default_order.each do |hotel|
+            %option{ :value    => hotel.id,
+                     :selected => hotel.id == @accommodation.hotel_id }
+              #{ hotel.name } — #{ hotel.address}
+
+    - [:arrival_date, :departure_date].each do |attr|
+      - required = Accommodation.attribute_constraints_on(attr)[:required]
+      - label_html_classes = []
+      - label_html_classes << 'required' if required
+      .field
+        %dt.label
+          %label{ :for   => "accommodation_#{ attr }",
+                  :class => label_html_classes }<
+            = label_from_attribute_name(Accommodation, attr)
+        %dd.input
+          %input{ :id       => "accommodation_#{ attr }",
+                  :name     => "accommodation[#{ attr }]",
+                  :required => required,
+                  :type     => input_html_type_for_attribute(Accommodation, attr),
+                  :value    => @accommodation.public_send(attr) }
+
+  .actions
+    %button.create{ :type => :submit, :name => 'button' }<
+      = t 'actions.submit'
+    %a.button.cancel{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }"),
+                      :role => 'button' }<
+      = t 'actions.cancel'
+

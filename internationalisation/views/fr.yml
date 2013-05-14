@@ -69,6 +69,16 @@ fr:
         destroy:
           success: "L'hôtel est supprimée."
           failure: "L'hôtel n'a pas pu être supprimée."
+      accommodations:
+        create:
+          success: "Le logement a été enregistré."
+          failure: "Le logement n'a pas pu être enregistrée."
+        update:
+          success: "Le logement est mise à jour."
+          failure: "Le logement n'a pas pu être mise à jour."
+        destroy:
+          success: "Le logement est supprimée."
+          failure: "Le logement n'a pas pu être supprimée."
 
   names:
     t_s_c_spring_conf: "Printemps Topologique, Symplectique et de Contact à Toulouse"

@@ -1,0 +1,39 @@
+-# Parameters:
+-#   participant
+
+- participant ||= @participant
+
+%section.associations#accommodations
+  %h4
+    = header_from_attribute_name(Participant, :accommodations)
+
+  %table
+    - accommodation_attribute_names = [ :arrival_date,
+                                        :departure_date ]
+    - hotel_attribute_names = [ :address,
+                                :phone ]
+    %thead
+      %tr
+        %th
+          = header_from_attribute_name(Accommodation, :hotel)
+        - hotel_attribute_names.each do |attr|
+          %th
+            = header_from_attribute_name(Hotel, attr)
+        - accommodation_attribute_names.each do |attr|
+          %th
+            = header_from_attribute_name(Accommodation, attr)
+    %tbody
+      - accommodations = participant.accommodations.default_order
+      - accommodations.each do |accommodation|
+        - hotel = accommodation.hotel
+        %tr
+          %td
+            &= hotel.name
+          - hotel_attribute_names.each do |attr|
+            %td
+              &= hotel.public_send(attr)
+          - accommodation_attribute_names.each do |attr|
+            %td
+              - if value = accommodation.public_send(attr)
+                %span.attribute.value
+                  &= value

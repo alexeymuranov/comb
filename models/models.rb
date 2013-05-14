@@ -166,7 +166,8 @@ class Participant < AbstractSmarterModel
 
   has_many :accommodations, :class_name  => :Accommodation,
                             :foreign_key => :participant_id,
-                            :inverse_of  => :participant
+                            :inverse_of  => :participant,
+                            :autosave    => true
 
   has_many :hotels, :through => :accommodations,
                     :source  => :hotel
@@ -176,6 +177,8 @@ class Participant < AbstractSmarterModel
            :source  => :conference_dinner_reservation
 
   accepts_nested_attributes_for :participations, :allow_destroy => true
+
+  accepts_nested_attributes_for :accommodations, :allow_destroy => true
 
   # Validations
   validates :first_name, :last_name, :email, :presence => true
@@ -422,6 +425,9 @@ class Accommodation < AbstractSmarterModel
 
   # Readonly attributes
   attr_readonly :participant_id, :hotel_id
+
+  # Scopes
+  scope :default_order, order("#{ table_name }.arrival_date ASC")
 end
 
 class ConferenceDinnerReservation < AbstractSmarterModel

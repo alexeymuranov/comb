@@ -69,6 +69,16 @@ en:
         destroy:
           success: "The hotel is deleted."
           failure: "The hotel could not be deleted."
+      accommodations:
+        create:
+          success: "The accommodation has been saved."
+          failure: "The accommodation could not be recorded."
+        update:
+          success: "The accommodation has been changed."
+          failure: "The accommodation could not be changed."
+        destroy:
+          success: "The accommodation is deleted."
+          failure: "The accommodation could not be deleted."
 
   names:
     t_s_c_spring_conf: "Topological, Symplectic and Contact Spring in Toulouse"

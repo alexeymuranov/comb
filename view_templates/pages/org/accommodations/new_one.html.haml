@@ -1,0 +1,21 @@
+%section
+  %h3
+    %samp
+      = @participant.approved? ? '(✓)' : '(—)'
+    &= @participant.full_name_with_affiliation
+
+  %hr/
+
+  = haml :'pages/org/participants/_participations_details'
+
+  %hr/
+
+  = haml :'pages/org/participants/_accommodations_details'
+
+  %hr/
+
+  %section
+    %h4
+      = t 'actions_with_object.add', :obj => Accommodation.model_name.human
+
+    = haml :'pages/org/accommodations/_create_form'

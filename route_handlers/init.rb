@@ -38,6 +38,11 @@ class CTT2013 < Sinatra::Base
     Set[:name, :address, :phone, :web_site]
   HOTEL_ATTRIBUTE_NAMES_FOR[:update] = HOTEL_ATTRIBUTE_NAMES_FOR[:create]
 
+  PARTICIPANT_ACCOMMODATION_ATTRIBUTE_NAMES_FOR_CREATE =
+    Set[ :hotel_id, :arrival_date, :departure_date ]
+  PARTICIPANT_ACCOMMODATION_ATTRIBUTE_NAMES_FOR_UPDATE =
+    Set[ :arrival_date, :departure_date ]
+
   # Internationalisation
   # ====================
   #
@@ -223,6 +228,52 @@ class CTT2013 < Sinatra::Base
         h[attr] = value
         h
       }
+    end
+
+    def participant_accommodation_attributes_from_params_for_create
+      submitted_attributes = params['accommodation'] || {}
+
+      PARTICIPANT_ACCOMMODATION_ATTRIBUTE_NAMES_FOR_CREATE.map { |attr|
+        [attr, attr.to_s]
+      }.select { |_, key|
+        submitted_attributes.key?(key)
+      }.map { |attr, key|
+        [attr, submitted_attributes[key]]
+      }.map { |attr, raw_value|
+        [attr, (raw_value == '' ? nil : raw_value)]
+      }.reduce({}) { |h, attr__value|
+        attr, value = attr__value
+        h[attr] = value
+        h
+      }
+    end
+
+    def participant_accommodations_attributes_from_params_for_update_all
+      submitted_attributes =
+        params['accommodations'] || Hash.new{|h, k| h[k] = {}}
+
+      submitted_attributes.reduce({}) { |processed_attributes, raw_key__raw_attributes|
+        raw_key, raw_attributes = raw_key__raw_attributes
+
+        processed_attributes[raw_key] =
+          [ :id,
+            *PARTICIPANT_ACCOMMODATION_ATTRIBUTE_NAMES_FOR_UPDATE,
+            :_destroy
+          ].map { |attr|
+            [attr, attr.to_s]
+          }.select { |_, subkey|
+            raw_attributes.key?(subkey)
+          }.map { |attr, subkey|
+            [attr, raw_attributes[subkey]]
+          }.map { |attr, raw_value|
+            [attr, (raw_value == '' ? nil : raw_value)]
+          }.reduce({}) { |h, attr__value|
+            attr, value = attr__value
+            h[attr] = value
+            h
+          }
+        processed_attributes
+      }.values
     end
 
     def participant_attribute_names_from_params_for_edit

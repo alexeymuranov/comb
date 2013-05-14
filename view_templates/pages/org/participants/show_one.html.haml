@@ -28,6 +28,20 @@
   %br/
   %hr/
 
+  = haml :'pages/org/participants/_accommodations_details'
+
+  - if main_organiser_logged_in?
+    - unless @participant.accommodations.empty?
+      %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }/accommodations/edit"),
+                      :role => 'button' }<
+        = t 'actions.update'
+    %a.button.new{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }/accommodations/new"),
+                   :role => 'button' }<
+      = t 'actions.add'
+
+  %br/
+  %hr/
+
   = haml :'pages/org/participants/_personal_details',
          :locals => { :participant => @participant }
 

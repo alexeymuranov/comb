@@ -1,0 +1,59 @@
+%form{ :'accept-charset' => 'UTF-8',
+       :action           => fixed_url_with_locale("/org/participants/#{ @participant.id }/accommodations/"),
+       :method           => 'POST' }
+  %input{ :type => :hidden, :name => :_method, :value => 'PUT' }
+
+  = haml :'shared_partials/_jquery_ui_for_forms'
+
+  %ol
+    - @accommodations.default_order.each do |accommodation|
+      - hotel = accommodation.hotel
+      %li
+        - name_prefix = "accommodations[#{ accommodation.id }]"
+        - id_prefix   = "accommodations_#{ accommodation.id }"
+
+        %input{ :type  => :hidden,
+                :name  => name_prefix + "[id]",
+                :value => accommodation.id }
+
+        -# Hidden field to pass a value when the checkbox is not checked
+        %input{ :type  => :hidden,
+                :name  => name_prefix + "[_destroy]",
+                :value => 1 }
+        %input{ :id      => id_prefix + "_destroy",
+                :type    => :checkbox,
+                :name    => name_prefix + "[_destroy]",
+                :value   => 0,
+                :checked => true }
+        %label{ :for => id_prefix + "_destroy" }
+          %strong
+            = hotel.name
+          = " — #{ hotel.address}"
+          - if accommodation.errors.any?
+            = haml :'shared_partials/_form_errors',
+                   :locals => { :object => accommodation }
+
+        %dl.fields
+
+          - [:arrival_date, :departure_date].each do |attr|
+            - required = Accommodation.attribute_constraints_on(attr)[:required]
+            - label_html_classes = []
+            - label_html_classes << 'required' if required
+            .field
+              %dt.label
+                %label{ :for   => id_prefix + "_#{ attr }",
+                        :class => label_html_classes }<
+                  = label_from_attribute_name(Accommodation, attr)
+              %dd.input
+                %input{ :id       => id_prefix + "_#{ attr }",
+                        :name     => name_prefix + "[#{ attr }]",
+                        :required => required,
+                        :type     => input_html_type_for_attribute(Accommodation, attr),
+                        :value    => accommodation.public_send(attr) }
+
+  .actions
+    %button.update{ :type => :submit, :name => 'button' }<
+      = t 'actions.submit'
+    %a.button.cancel{ :href => fixed_url_with_locale("/org/participants/#{ @participant.id }"),
+                      :role => 'button' }<
+      = t 'actions.cancel'

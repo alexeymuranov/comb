@@ -396,6 +396,43 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/org/hotel/delete_one.html"
     end
 
+    # Accommodations
+    #
+    get "/#{ l }org/participants/:participant_id/accommodations/new" do |participant_id|
+      require_main_organiser_login!
+
+      @participant = Participant.find(participant_id)
+
+      if @participant.nil?
+        not_found
+      end
+
+      set_locale(locale)
+
+      @accommodation =
+        Accommodation.new(:participant    => @participant,
+                          :arrival_date   => @participant.first_arrival_date,
+                          :departure_date => @participant.last_departure_date)
+
+      haml :"/pages/org/accommodations/new_one.html"
+    end
+
+    get "/#{ l }org/participants/:participant_id/accommodations/edit" do |participant_id|
+      require_main_organiser_login!
+
+      @participant = Participant.find(participant_id)
+
+      if @participant.nil?
+        not_found
+      end
+
+      set_locale(locale)
+
+      @accommodations = @participant.accommodations
+
+      haml :"/pages/org/accommodations/edit_all.html"
+    end
+
     # Other
     #
     get "/#{ l }org/utilities" do
@@ -644,6 +681,33 @@ class CTT2013 < Sinatra::Base
         render_new_hotel_properly
       end
     end
+
+    # Accommodations
+    #
+    post "/#{ l }org/participants/:participant_id/accommodations/" do |participant_id|
+      require_main_organiser_login!
+
+      @participant = Participant.find(participant_id)
+
+      if @participant.nil?
+        not_found
+      end
+
+      set_locale(locale)
+
+      accommodation_attributes =
+        participant_accommodation_attributes_from_params_for_create
+      @accommodation = Accommodation.new(accommodation_attributes)
+      @accommodation.participant = @participant
+
+      if @accommodation.save
+        flash[:success] = t('flash.resources.accommodations.create.success')
+        redirect fixed_url_with_locale("/org/participants/#{ @participant.id }#accommodations", locale)
+      else
+        flash.now[:error] = t('flash.resources.accommodations.create.failure')
+        haml :"/pages/org/accommodations/new_one.html"
+      end
+    end
   end
 
   # PUT requests
@@ -741,6 +805,32 @@ class CTT2013 < Sinatra::Base
         render_edit_hotel_properly
       end
     end
+
+    # Accommodations
+    #
+    put "/#{ l }org/participants/:participant_id/accommodations/" do |participant_id|
+      require_main_organiser_login!
+
+      @participant = Participant.find(participant_id)
+
+      if @participant.nil?
+        not_found
+      end
+
+      set_locale(locale)
+
+      accommodations_attributes =
+        participant_accommodations_attributes_from_params_for_update_all
+
+      if @participant.update_attributes(:accommodations_attributes => accommodations_attributes)
+        flash[:success] = t('flash.resources.accommodations.update.success')
+        redirect fixed_url_with_locale("/org/participants/#{ @participant.id }#accommodations", locale)
+      else
+        flash.now[:error] = t('flash.resources.accommodations.update.failure')
+        @accommodations = @participant.accommodations
+        haml :"/pages/org/accommodations/edit_all.html"
+      end
+    end
   end
 
   # DELETE requests
@@ -779,6 +869,25 @@ class CTT2013 < Sinatra::Base
 
       Hotel.find(id).destroy
       redirect fixed_url_with_locale("/org/hotels", locale)
+    end
+
+    # Accommodations
+    #
+    delete "/#{ l }org/participants/:participant_id/accommodations/:id" do |participant_id, id|
+      require_main_organiser_login!
+
+      @participant = Participant.find(participant_id)
+      @accommodation = @participant.accommodations.find(id)
+
+      if @accommodation.nil?
+        not_found
+      end
+
+      set_locale(locale)
+
+      @accommodation.destroy
+
+      redirect fixed_url_with_locale("/org/participant/#{ @participant.id }", locale)
     end
   end
 

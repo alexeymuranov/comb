@@ -25,6 +25,7 @@ fr:
         # Associations:
         conferences           : "colloques"
         participations        : "participations aux colloques"
+        accommodations        : "logements"
         # Attributes:
         last_name             : "nom"
         first_name            : "prénom"
@@ -99,6 +100,13 @@ fr:
         address : "adresse"
         phone   : "téléphone"
         web_site: "site web"
+      accommodation:
+        # Associations:
+        participant   : *participant_model
+        hotel         : *hotel_model
+        # Attributes:
+        arrival_date  : "date d'arrivée"
+        departure_date: "date de départ"
 
   other_models:
     models:
