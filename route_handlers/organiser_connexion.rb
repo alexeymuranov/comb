@@ -73,6 +73,46 @@ class CTT2013 < Sinatra::Base
   # == GET requests
   # ---------------
 
+  # === Constants
+  #
+
+  # ==== Participants
+  #
+  PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX =
+    [:last_name, :first_name, :affiliation, :academic_position]
+
+  PARTICIPANT_ATTRIBUTE_NAMES_FOR_SHOW =
+    [ :first_name, :last_name, :email, :affiliation,
+      :academic_position,
+      :country, :city, :post_code, :street_address, :phone,
+      :i_m_t_member, :g_d_r_member,
+      :invitation_needed, :visa_needed,
+      :funding_requests,
+      :special_requests,
+      :approved ]
+
+  PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD =
+    [ :last_name, :first_name, :email, :affiliation, :academic_position,
+      :country, :city, :post_code, :street_address, :phone,
+      :i_m_t_member, :g_d_r_member,
+      :invitation_needed, :visa_needed, :special_requests ]
+
+  # ==== Talks
+  #
+  TALK_ATTRIBUTE_NAMES_FOR_INDEX =
+    [ :translated_type_name, :speaker_name, :title,
+      :date, :time, :room_or_auditorium ]
+
+  TALK_ATTRIBUTE_NAMES_FOR_SHOW =
+    [ :translated_type_name, :speaker_name, :title, :abstract,
+      :date, :time, :room_or_auditorium ]
+
+  # ==== Hotels
+  #
+  HOTEL_ATTRIBUTE_NAMES_FOR_INDEX = [:name, :address, :phone, :web_site]
+
+  HOTEL_ATTRIBUTE_NAMES_FOR_SHOW = [:name, :address, :phone, :web_site]
+
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
     get "/#{ l }org/login" do
       set_locale(locale)
@@ -94,10 +134,7 @@ class CTT2013 < Sinatra::Base
 
     # ==== Participants
     #
-    PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX =
-      [:last_name, :first_name, :affiliation, :academic_position]
-
-    PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX =
+    participant_attribute_procs_for_index =
       PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
 
     get "/#{ l }org/participants" do
@@ -183,7 +220,7 @@ class CTT2013 < Sinatra::Base
         PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
           header_from_attribute_name(Participant, attr)
         }
-      @attribute_procs = PARTICIPANT_ATTRIBUTE_PROCS_FOR_INDEX
+      @attribute_procs = participant_attribute_procs_for_index
 
       @participations_header =
         header_from_attribute_name(Participant, :participations)
@@ -208,16 +245,6 @@ class CTT2013 < Sinatra::Base
 
       render_new_participant_properly
     end
-
-    PARTICIPANT_ATTRIBUTE_NAMES_FOR_SHOW =
-      [ :first_name, :last_name, :email, :affiliation,
-        :academic_position,
-        :country, :city, :post_code, :street_address, :phone,
-        :i_m_t_member, :g_d_r_member,
-        :invitation_needed, :visa_needed,
-        :funding_requests,
-        :special_requests,
-        :approved ]
 
     get "/#{ l }org/participants/:id" do |id|
       require_organiser_login!
@@ -256,11 +283,7 @@ class CTT2013 < Sinatra::Base
 
     # ==== Talks
     #
-    TALK_ATTRIBUTE_NAMES_FOR_INDEX =
-      [ :translated_type_name, :speaker_name, :title,
-        :date, :time, :room_or_auditorium ]
-
-    TALK_ATTRIBUTE_PROCS_FOR_INDEX =
+    talk_attribute_procs_for_index =
       TALK_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
 
     get "/#{ l }org/talks" do
@@ -276,7 +299,7 @@ class CTT2013 < Sinatra::Base
         TALK_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
           header_from_attribute_name(Talk, attr)
         }
-      @attribute_procs = TALK_ATTRIBUTE_PROCS_FOR_INDEX
+      @attribute_procs = talk_attribute_procs_for_index
 
       haml :"/pages/org/talks/index_all.html"
     end
@@ -290,10 +313,6 @@ class CTT2013 < Sinatra::Base
 
       render_new_talk_properly
     end
-
-    TALK_ATTRIBUTE_NAMES_FOR_SHOW =
-      [ :translated_type_name, :speaker_name, :title, :abstract,
-        :date, :time, :room_or_auditorium ]
 
     get "/#{ l }org/talks/:id" do |id|
       require_organiser_login!
@@ -329,9 +348,7 @@ class CTT2013 < Sinatra::Base
 
     # ==== Hotels
     #
-    HOTEL_ATTRIBUTE_NAMES_FOR_INDEX = [:name, :address, :phone, :web_site]
-
-    HOTEL_ATTRIBUTE_PROCS_FOR_INDEX =
+    hotel_attribute_procs_for_index =
       HOTEL_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
 
     get "/#{ l }org/hotels" do
@@ -347,7 +364,7 @@ class CTT2013 < Sinatra::Base
         HOTEL_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
           header_from_attribute_name(Hotel, attr)
         }
-      @attribute_procs = HOTEL_ATTRIBUTE_PROCS_FOR_INDEX
+      @attribute_procs = hotel_attribute_procs_for_index
 
       haml :"/pages/org/hotels/index_all.html"
     end
@@ -361,8 +378,6 @@ class CTT2013 < Sinatra::Base
 
       render_new_hotel_properly
     end
-
-    HOTEL_ATTRIBUTE_NAMES_FOR_SHOW = [:name, :address, :phone, :web_site]
 
     get "/#{ l }org/hotels/:id" do |id|
       require_organiser_login!
@@ -510,13 +525,7 @@ class CTT2013 < Sinatra::Base
 
   # ==== Participants
   #
-  PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD =
-    [ :last_name, :first_name, :email, :affiliation, :academic_position,
-      :country, :city, :post_code, :street_address, :phone,
-      :i_m_t_member, :g_d_r_member,
-      :invitation_needed, :visa_needed, :special_requests ]
-
-  PARTICIPANT_ATTRIBUTE_PROCS_FOR_DOWNLOAD =
+  participant_attribute_procs_for_download =
     PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD.map { |attr|
       case Participant.attribute_type(attr)
       when :boolean
@@ -540,7 +549,7 @@ class CTT2013 < Sinatra::Base
       PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD.map { |attr|
         header_from_attribute_name(Participant, attr)
       }
-    @attribute_procs = PARTICIPANT_ATTRIBUTE_PROCS_FOR_DOWNLOAD
+    @attribute_procs = participant_attribute_procs_for_download
 
     all_conferences = Conference.default_order.all
 
