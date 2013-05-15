@@ -1,16 +1,17 @@
 # encoding: UTF-8 (magic comment)
 
-require 'active_record'
-require 'active_support/core_ext/string/strip'
-# require 'fileutils'
 require 'rake/testtask'
-require_relative 'application'
 
 Rake::TestTask.new do |t|
   t.pattern = "tests/*.rb"
 end
 
 namespace :db do
+  task :environment do
+    require_relative 'app_config'
+    require_relative 'models/init'
+  end
+
   desc 'create an ActiveRecord migration in ./db/migrate'
   task :create_migration do
     name = ENV['NAME']
@@ -44,7 +45,7 @@ namespace :db do
   # It can be 'development', 'test', 'production'.
   # The default is usually 'development'.
   # Example: rake RACK_ENV=test db:migrate
-  task :migrate do
+  task(:migrate => :environment) do
     ActiveRecord::Base.logger = Logger.new(STDOUT)
     ActiveRecord::Migration.verbose = true
     version = ENV['VERSION'] ? ENV['VERSION'].to_i : nil
@@ -52,7 +53,7 @@ namespace :db do
   end
 
   desc 'rolls back the migration (use steps with STEP=n)'
-  task :rollback do
+  task(:rollback => :environment) do
     step = ENV['STEP'] ? ENV['STEP'].to_i : 1
     ActiveRecord::Migrator.rollback('db/migrate', step)
   end

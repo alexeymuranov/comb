@@ -1,7 +1,7 @@
 # encoding: UTF-8 (magic comment)
 
 require 'sass'
-# require './helpers/url_helpers'
+require './helpers/url_helpers'
 
 # Custom sass functions
 #

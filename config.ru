@@ -8,7 +8,5 @@ require 'rubygems'
 require 'sinatra'
 require './application.rb'
 
-# This is only necessary if the database is not connected at "compile time".
-# CTT2013.connect_database
 
 run CTT2013

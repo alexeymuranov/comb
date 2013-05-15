@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'rack/test'
-require_relative '../application'
+require './application'
 
 ENV['RACK_ENV'] = 'test'
 
@@ -33,10 +33,6 @@ describe 'Test CTT2013 application' do
   end
 
   describe 'Dynamic public pages' do
-    before do
-      app.connect_database
-    end
-
     [:participants, :registration].each do |page|
       app::LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
         app::PAGE_URL_FRAGMENTS[:"#{ app::COMB_PAGE_PREFIX }#{ page }"].each do |p|
