@@ -247,6 +247,30 @@ class Participant < AbstractSmarterModel
 
   alias_method :approved?, :approved
 
+  def first_arrival_date
+    first_arrival_date = nil
+    participations.each do |participation|
+      if arrival_date = participation.arrival_date
+        if first_arrival_date.nil? || first_arrival_date > arrival_date
+          first_arrival_date = arrival_date
+        end
+      end
+    end
+    first_arrival_date
+  end
+
+  def last_departure_date
+    last_departure_date = nil
+    participations.each do |participation|
+      if departure_date = participation.departure_date
+        if last_departure_date.nil? || last_departure_date < departure_date
+          last_departure_date = departure_date
+        end
+      end
+    end
+    last_departure_date
+  end
+
   # The following method is defined in the custom `AttributeTypes` module
   add_attribute_types :approved  => :boolean,
                       :approved? => :boolean
