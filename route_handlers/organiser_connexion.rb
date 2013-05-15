@@ -2,8 +2,8 @@
 
 class CTT2013 < Sinatra::Base
 
-  # Authentication User model
-  # =========================
+  # == Authentication User model
+  # ============================
   #
   class User
     attr_reader :username, :role
@@ -45,8 +45,8 @@ class CTT2013 < Sinatra::Base
   User.new('gestion', 'main_organiser').password_hash =
     'fqTJyyW7Hg2d90NkzmRPOVSb54LlxgeGMDxF6nmNRt8='
 
-  # Route Handlers
-  # ==============
+  # = Route Handlers
+  # ================
   #
 
   ORGANISER_CONNEXION_PAGES =
@@ -70,8 +70,8 @@ class CTT2013 < Sinatra::Base
     cache_control :no_cache
   end
 
-  # GET requests
-  # ------------
+  # == GET requests
+  # ---------------
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
     get "/#{ l }org/login" do
@@ -92,7 +92,7 @@ class CTT2013 < Sinatra::Base
       redirect fixed_url_with_locale("/org/participants", locale)
     end
 
-    # Participants
+    # ==== Participants
     #
     PARTICIPANT_ATTRIBUTE_NAMES_FOR_INDEX =
       [:last_name, :first_name, :affiliation, :academic_position]
@@ -254,7 +254,7 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/org/participants/delete_one.html"
     end
 
-    # Talks
+    # ==== Talks
     #
     TALK_ATTRIBUTE_NAMES_FOR_INDEX =
       [ :translated_type_name, :speaker_name, :title,
@@ -327,7 +327,7 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/org/talks/delete_one.html"
     end
 
-    # Hotels
+    # ==== Hotels
     #
     HOTEL_ATTRIBUTE_NAMES_FOR_INDEX = [:name, :address, :phone, :web_site]
 
@@ -396,7 +396,7 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/org/hotel/delete_one.html"
     end
 
-    # Accommodations
+    # ==== Accommodations
     #
     get "/#{ l }org/participants/:participant_id/accommodations/new" do |participant_id|
       require_main_organiser_login!
@@ -433,7 +433,7 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/org/accommodations/edit_all.html"
     end
 
-    # Other
+    # ==== Other
     #
     get "/#{ l }org/utilities" do
       require_organiser_login!
@@ -508,7 +508,7 @@ class CTT2013 < Sinatra::Base
     redirect fixed_url('/')
   end
 
-  # Participants
+  # ==== Participants
   #
   PARTICIPANT_ATTRIBUTE_NAMES_FOR_DOWNLOAD =
     [ :last_name, :first_name, :email, :affiliation, :academic_position,
@@ -584,8 +584,8 @@ class CTT2013 < Sinatra::Base
     end
   end
 
-  # POST requests
-  # -------------
+  # == POST requests
+  # ----------------
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
     post "/#{ l }org/login" do
@@ -604,7 +604,7 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    # Participants
+    # ==== Participants
     #
     post "/#{ l }org/participants/" do
       require_main_organiser_login!
@@ -625,7 +625,7 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    # Talks
+    # ==== Talks
     #
     post "/#{ l }org/talks/" do
       require_main_organiser_login!
@@ -664,7 +664,7 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    # Hotels
+    # ==== Hotels
     #
     post "/#{ l }org/hotels/" do
       require_main_organiser_login!
@@ -682,7 +682,7 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    # Accommodations
+    # ==== Accommodations
     #
     post "/#{ l }org/participants/:participant_id/accommodations/" do |participant_id|
       require_main_organiser_login!
@@ -710,12 +710,12 @@ class CTT2013 < Sinatra::Base
     end
   end
 
-  # PUT requests
-  # ------------
+  # == PUT requests
+  # ---------------
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
 
-    # Participants
+    # ==== Participants
     #
     put "/#{ l }org/participants/:id" do |id|
       require_organiser_login!
@@ -752,7 +752,7 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    # Talk Proposals
+    # ==== Talk Proposals
     #
     put "/#{ l }org/talk_proposals/:id" do |id| # TODO: improve this
       require_main_organiser_login!
@@ -768,7 +768,7 @@ class CTT2013 < Sinatra::Base
       redirect fixed_url_with_locale("/org/participants#participant_#{ @talk_proposal.participant.id }", locale)
     end
 
-    # Talks
+    # ==== Talks
     #
     put "/#{ l }org/talks/:id" do |id|
       require_main_organiser_login!
@@ -787,7 +787,7 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    # Hotels
+    # ==== Hotels
     #
     put "/#{ l }org/hotels/:id" do |id|
       require_main_organiser_login!
@@ -806,7 +806,7 @@ class CTT2013 < Sinatra::Base
       end
     end
 
-    # Accommodations
+    # ==== Accommodations
     #
     put "/#{ l }org/participants/:participant_id/accommodations/" do |participant_id|
       require_main_organiser_login!
@@ -833,12 +833,12 @@ class CTT2013 < Sinatra::Base
     end
   end
 
-  # DELETE requests
-  # ---------------
+  # == DELETE requests
+  # ------------------
 
   LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
 
-    # Participants
+    # ==== Participants
     #
     delete "/#{ l }org/participants/:id" do |id|
       require_main_organiser_login!
@@ -849,7 +849,7 @@ class CTT2013 < Sinatra::Base
       redirect fixed_url_with_locale("/org/participants", locale)
     end
 
-    # Talks
+    # ==== Talks
     #
     delete "/#{ l }org/talks/:id" do |id|
       require_main_organiser_login!
@@ -860,7 +860,7 @@ class CTT2013 < Sinatra::Base
       redirect fixed_url_with_locale("/org/talks", locale)
     end
 
-    # Hotels
+    # ==== Hotels
     #
     delete "/#{ l }org/hotels/:id" do |id|
       require_main_organiser_login!
@@ -871,7 +871,7 @@ class CTT2013 < Sinatra::Base
       redirect fixed_url_with_locale("/org/hotels", locale)
     end
 
-    # Accommodations
+    # ==== Accommodations
     #
     delete "/#{ l }org/participants/:participant_id/accommodations/:id" do |participant_id, id|
       require_main_organiser_login!
@@ -891,8 +891,8 @@ class CTT2013 < Sinatra::Base
     end
   end
 
-  # Private methods
-  # ===============
+  # = Private methods
+  # =================
   #
   private
 
