@@ -6,6 +6,8 @@ require 'sinatra/flash' # Session-based flash
 
 require 'i18n' # Internationalisation
 
+require 'active_record'
+
 class CTT2013 < Sinatra::Base
 
   if development?
@@ -34,6 +36,13 @@ class CTT2013 < Sinatra::Base
     # set :port, 4567        # server port
     # set :lock, true        # ensure single request concurrency with a mutex lock
   end
+
+  # This seems to be needed to automatically close connections at the end of
+  # each request.  Not sure if and how this works.  This does not work when
+  # the applicaiton is run from the command line with "Thin" web server.
+  # For that case, connections need to be closed explicitely in an "after"
+  # filter.
+  use ActiveRecord::ConnectionAdapters::ConnectionManagement
 
   configure :development do
     use BetterErrors::Middleware
