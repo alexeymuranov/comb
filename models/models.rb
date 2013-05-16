@@ -19,7 +19,7 @@ class AbstractSmarterModel < ActiveRecord::Base
 end
 
 class Conference < AbstractSmarterModel
-  self.table_name = :conferences
+  self.table_name = 'conferences'
 
   # Associations
   has_many :participations, :class_name  => :Participation,
@@ -66,7 +66,7 @@ class Conference < AbstractSmarterModel
 end
 
 class Participation < AbstractSmarterModel
-  self.table_name = :participations
+  self.table_name = 'participations'
 
   # Associations
   belongs_to :participant, :class_name  => :Participant,
@@ -145,7 +145,7 @@ class Participation < AbstractSmarterModel
 end
 
 class Participant < AbstractSmarterModel
-  self.table_name = :participants
+  self.table_name = 'participants'
 
   # Associations
   has_many :participations, :class_name  => :Participation,
@@ -320,8 +320,8 @@ class Participant < AbstractSmarterModel
 end
 
 class Talk < AbstractSmarterModel
-  self.table_name = :talks
-  self.inheritance_column = :type
+  self.table_name = 'talks'
+  self.inheritance_column = 'type'
 
   # Associations
   belongs_to :conference_participation, :class_name  => :Participation,
@@ -391,7 +391,7 @@ class ParallelTalk < Talk
 end
 
 class Hotel < AbstractSmarterModel
-  self.table_name = :hotels
+  self.table_name = 'hotels'
 
   # Associations
   has_many :accommodations, :class_name  => :Accommodation,
@@ -409,7 +409,7 @@ class Hotel < AbstractSmarterModel
 end
 
 class Accommodation < AbstractSmarterModel
-  self.table_name = :accommodations
+  self.table_name = 'accommodations'
 
   # Associations
   belongs_to :participant, :class_name  => :Participant,
@@ -431,7 +431,7 @@ class Accommodation < AbstractSmarterModel
 end
 
 class ConferenceDinnerReservation < AbstractSmarterModel
-  self.table_name = :conference_dinner_reservations
+  self.table_name = 'conference_dinner_reservations'
 
   # Associations
   belongs_to :participation, :class_name  => :Participation,
@@ -443,7 +443,7 @@ class ConferenceDinnerReservation < AbstractSmarterModel
 end
 
 class TalkProposal < AbstractSmarterModel
-  self.table_name = :talk_proposals
+  self.table_name = 'talk_proposals'
 
   # Associations
   belongs_to :participation, :class_name  => :Participation,
