@@ -152,6 +152,14 @@ a[role=button] {
   }
 }
 
+ul[role=tablist] {
+  @include tabs;
+}
+
+footer {
+  text-align: center;
+}
+
 ////
 // Global element styles
 
@@ -248,22 +256,6 @@ body {
   }
 }
 
-table.index > tbody > tr:hover {
-  outline: 1px solid Green;
-}
-
-// nav.main_menu > ul.menu {
-//   @include tabs;
-// }
-
-ul[role=tablist] {
-  @include tabs;
-}
-
-footer {
-  text-align: center;
-}
-
 #link_to_common_home_page {
   border-color: $main-border-color;
   border-style: groove;
@@ -301,14 +293,6 @@ footer {
   }
 }
 
-button[type="submit"].log_in {
-  @include button(shiny, Silver);
-
-  &:hover {
-    @include button(shiny, Yellow);
-  }
-}
-
 #log_out_button {
   @include button(shiny, Silver);
   border-radius: 16px;
@@ -316,6 +300,18 @@ button[type="submit"].log_in {
   &:hover {
     @include button(shiny, Aqua);
     border-radius: 16px;
+  }
+}
+
+table.index > tbody > tr:hover {
+  outline: 1px solid Green;
+}
+
+button[type="submit"].log_in {
+  @include button(shiny, Silver);
+
+  &:hover {
+    @include button(shiny, Yellow);
   }
 }
 
