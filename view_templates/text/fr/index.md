@@ -16,4 +16,5 @@ organisées par le [Centre International de Mathématiques et Informatique de To
 <!--
 **La date limite pour les [demandes de financement](http://www.math.univ-toulouse.fr/top-geom-conf-2013/fr/ldtg-mb/funding) est le <span style='color:#FF0000'>24 mars 2013</span>.**<br>
 -->
-**La date limite d'[inscription](http://www.math.univ-toulouse.fr/top-geom-conf-2013/fr/ldtg-mb/registration) est le <span style='color:#FF0000'>30 avril 2013</span>.**
+<!--**La date limite d'[inscription](http://www.math.univ-toulouse.fr/top-geom-conf-2013/fr/ldtg-mb/registration) est le <span style='color:#FF0000'>30 avril 2013</span>.**-->
+**<span style='color:#FF0000'>Des titres des conférences plénières sont désormais disponibles</span> [ici](http://www.math.univ-toulouse.fr/top-geom-conf-2013/fr/ldtg-mb/program).**

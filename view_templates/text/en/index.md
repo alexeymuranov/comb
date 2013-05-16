@@ -17,4 +17,5 @@ also receive financial support from the [Toulouse Mathematics Institute](http://
 <!--
 **The deadline for [applications for financial support](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/funding) is the <span style='color:#FF0000'>24th of March 2013</span>.**<br>
 -->
-**The deadline for [registration](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/registration) is the <span style='color:#FF0000'>30th of April 2013</span>.**
+<!--**The deadline for [registration](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/registration) is the <span style='color:#FF0000'>30th of April 2013</span>.**-->
+**<span style='color:#FF0000'>Titles of the plenary talks are now posted</span> [here](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/program).**
