@@ -6,6 +6,29 @@
       https://github.com/rtomayko/tilt/issues/75
   = markdown(:"text/#{ @locale }/program").force_encoding('utf-8')
 
+- plenary_talks = PlenaryTalk.co_m_b.default_order.all
+%section
+  %table{ :border => 1 }
+    %tbody
+      - plenary_talks.each do |talk|
+        - speaker = talk.speaker
+        - speaker_web_site = speaker.web_site
+        %tr
+          %td
+            - if speaker_web_site
+              %a{ :href => speaker_web_site, :target => :_blank }
+                &= speaker.full_name
+            - else
+              &= speaker.full_name
+          %td
+            - if talk.abstract
+              %a{ :href => "#talk_#{ talk.id }_abstract" }
+                &= talk.title
+            - else
+              &= talk.title
+
+%hr/
+
 %section
   - google_calendar_query_params = { 'src'       => 'mfpcvpnj5nc18lha52kpq077dc@group.calendar.google.com',
                                      'dates'     => '20130624/20130628',
@@ -21,3 +44,19 @@
            :height      => 600,
            :frameborder => 0,
            :scrolling   => false }
+
+%hr/
+
+%section
+  %article
+    - plenary_talks.each do |talk|
+      - speaker = talk.speaker
+      %section{ :id => "talk_#{ talk.id }_abstract" }
+        %h5
+          &= speaker.full_name
+          \:
+          &= talk.title
+        %div{ :style => 'display:inline-block;white-space:pre-wrap;' }<
+          = preserve do
+            &= talk.abstract
+      %hr/
