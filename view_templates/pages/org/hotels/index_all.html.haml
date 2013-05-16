@@ -1,19 +1,35 @@
 %table.index
   %thead
     %tr
-      - @attribute_headers.each do |header|
+      - [:name, :address, :phone, :web_site].each do |attr_name|
         %th
-          = header
+          = header_from_attribute_name(Hotel, attr_name)
       %th{ :colspan => main_organiser_logged_in? ? 2 : 1 }/
 
   %tbody
     - @hotels.each do |hotel|
       %tr{ :id => "hotel_#{ hotel.id }" }
-        - @attribute_procs.each do |p|
-          %td
-            &= p[hotel]
-
-        %td
+        %td.attribute.string<
+          = hotel.name
+        %td.attribute.string<
+          - case address = hotel.address
+          - when nil
+            %samp<?
+          - when ''
+            %samp<∅
+          - when /\An\/a\z/i
+            %samp<N/A
+          - else
+            %a{ :href => map_url_for_address(address), :target => :_blank }<>
+              = preserve do
+                &= address
+        %td.attribute.string<
+          %samp<
+            &= hotel.phone
+        %td.attribute.string<
+          %a{ :href => hotel.web_site, :target => :_blank }<>
+            &= hotel.web_site
+        %td.attribute.string<
           %a.button.show{ :href => fixed_url_with_locale("/org/hotels/#{ hotel.id }") }<
             = t 'actions.show'
 

@@ -20,8 +20,8 @@
       - accommodations = hotel.accommodations.default_order
       - if accommodations.empty?
         %tr
-          %td{ :colspan => 3 }
-            ∅
+          %td.empty{ :colspan => 3 }
+            %samp<∅
       - else
         - accommodations.each do |accommodation|
           %tr

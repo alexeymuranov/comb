@@ -22,7 +22,7 @@
       - when /\An\/a\z/i
         %samp<N/A
       - else
-        %a{ :href => map_url_for_address(address) }<>
+        %a{ :href => map_url_for_address(address), :target => :_blank }<>
           = preserve do
             &= address
 
@@ -36,5 +36,5 @@
     %dt.attribute<
       = label_from_attribute_name(Hotel, :web_site, :string)
     %dd.attribute.string<
-      %a{ :href => hotel.web_site }<>
+      %a{ :href => hotel.web_site, :target => :_blank }<>
         &= hotel.web_site

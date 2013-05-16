@@ -348,9 +348,6 @@ class CTT2013 < Sinatra::Base
 
     # ==== Hotels
     #
-    hotel_attribute_procs_for_index =
-      HOTEL_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
-
     get "/#{ l }org/hotels" do
       require_organiser_login!
 
@@ -358,13 +355,6 @@ class CTT2013 < Sinatra::Base
       set_page(:"org/hotels")
 
       @hotels = Hotel.default_order.all
-
-      # Page content
-      @attribute_headers =
-        HOTEL_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
-          header_from_attribute_name(Hotel, attr)
-        }
-      @attribute_procs = hotel_attribute_procs_for_index
 
       haml :"/pages/org/hotels/index_all.html"
     end
