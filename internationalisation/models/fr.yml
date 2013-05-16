@@ -96,6 +96,9 @@ fr:
         abstract        : "résumé"
         accepted        : "accepté"
       hotel:
+        # Associations:
+        participants: "participants logés"
+        # Attributes:
         name    : "nom"
         address : "adresse"
         phone   : "téléphone"

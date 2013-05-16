@@ -96,6 +96,9 @@ en:
         abstract        : "abstract"
         accepted        : "accepted"
       hotel:
+        # Associations:
+        participants: "accommodated participants"
+        # Attributes:
         name    : "name"
         address : "address"
         phone   : "phone"
