@@ -283,9 +283,6 @@ class CTT2013 < Sinatra::Base
 
     # ==== Talks
     #
-    talk_attribute_procs_for_index =
-      TALK_ATTRIBUTE_NAMES_FOR_INDEX.map(&:to_proc)
-
     get "/#{ l }org/talks" do
       require_organiser_login!
 
@@ -293,13 +290,6 @@ class CTT2013 < Sinatra::Base
       set_page(:"org/talks")
 
       @talks = Talk.default_order.all
-
-      # Page content
-      @attribute_headers =
-        TALK_ATTRIBUTE_NAMES_FOR_INDEX.map { |attr|
-          header_from_attribute_name(Talk, attr)
-        }
-      @attribute_procs = talk_attribute_procs_for_index
 
       haml :"/pages/org/talks/index_all.html"
     end

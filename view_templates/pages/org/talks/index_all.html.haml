@@ -1,17 +1,19 @@
 %table.index
   %thead
     %tr
-      - @attribute_headers.each do |header|
+      - [ :translated_type_name, :speaker_name, :title,
+          :date, :time, :room_or_auditorium ].each do |attr_name|
         %th
-          = header
+          = header_from_attribute_name(Talk, attr_name)
       %th{ :colspan => main_organiser_logged_in? ? 2 : 1 }/
 
   %tbody
     - @talks.each do |talk|
       %tr{ :id => "talk_#{ talk.id }" }
-        - @attribute_procs.each do |p|
+        - [ :translated_type_name, :speaker_name, :title,
+            :date, :time, :room_or_auditorium ].each do |attr_name|
           %td
-            &= p[talk]
+            &= talk.public_send(attr_name)
 
         %td
           %a.button.show{ :href => fixed_url_with_locale("/org/talks/#{ talk.id }") }<
