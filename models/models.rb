@@ -30,7 +30,8 @@ class Conference < AbstractSmarterModel
                           :source  => :participant
 
   # Scopes
-  scope :default_order, order("#{ table_name }.start_date ASC")
+  scope :default_order,
+    order("#{ table_name }.start_date ASC")
 
   # Public class methods
   def self.intro_conf
@@ -103,14 +104,21 @@ class Participation < AbstractSmarterModel
   attr_readonly :participant_id, :conference_id
 
   # Scopes
-  scope :approved, where(:approved => true)
-  scope :not_approved, where(:approved => false)
-  scope :plenary_speakers, where(:plenary_speaker => true)
-  scope :sectional_speakers, where(:speaker => true, :plenary_speaker => false)
-  scope :non_speakers, where(:speaker => false)
-  scope :invited_speakers, where(:invited_speaker => true)
+  scope :approved,
+    where(:approved => true)
+  scope :not_approved,
+    where(:approved => false)
+  scope :plenary_speakers,
+    where(:plenary_speaker => true)
+  scope :sectional_speakers,
+    where(:speaker => true, :plenary_speaker => false)
+  scope :non_speakers,
+    where(:speaker => false)
+  scope :invited_speakers,
+    where(:invited_speaker => true)
 
-  scope :order_by_conference, joins(:conference).merge(Conference.default_order)
+  scope :order_by_conference,
+    joins(:conference).merge(Conference.default_order)
 
   # Overwrite default accessors
   def speaker=(bool)
@@ -218,13 +226,15 @@ class Participant < AbstractSmarterModel
   validates :participations, :presence => true
 
   # Scopes
-  scope :default_order, order("UPPER(#{ table_name }.last_name) ASC").
-                          order("UPPER(#{ table_name }.first_name) ASC")
+  scope :default_order,
+    order("UPPER(#{ table_name }.last_name) ASC").
+      order("UPPER(#{ table_name }.first_name) ASC")
 
-  scope :approved, joins(:participations).merge(Participation.approved).uniq
+  scope :approved,
+    joins(:participations).merge(Participation.approved).uniq
 
   scope :not_all_participations_approved,
-        joins(:participations).merge(Participation.not_approved).uniq
+    joins(:participations).merge(Participation.not_approved).uniq
 
   # Virtual attributes
   def full_name
@@ -348,7 +358,9 @@ class Talk < AbstractSmarterModel
   attr_readonly :participation_id
 
   # Scopes
-  scope :default_order, order("UPPER(#{ table_name }.type) DESC").joins(:speaker).merge(Participant.default_order)
+  scope :default_order,
+    order("UPPER(#{ table_name }.type) DESC").
+      joins(:speaker).merge(Participant.default_order)
 
   # Virtual attributes
   def speaker_name
@@ -405,7 +417,8 @@ class Hotel < AbstractSmarterModel
   validates :name, :presence => true
 
   # Scopes
-  scope :default_order, order("UPPER(#{ table_name }.name) ASC")
+  scope :default_order,
+    order("UPPER(#{ table_name }.name) ASC")
 end
 
 class Accommodation < AbstractSmarterModel
@@ -427,9 +440,10 @@ class Accommodation < AbstractSmarterModel
   attr_readonly :participant_id, :hotel_id
 
   # Scopes
-  scope :default_order, joins(:participant).merge(Participant.default_order).
-                                            order("#{ table_name }.arrival_date ASC").
-                                            joins(:hotel).merge(Hotel.default_order)
+  scope :default_order,
+    joins(:participant).merge(Participant.default_order).
+      order("#{ table_name }.arrival_date ASC").
+      joins(:hotel).merge(Hotel.default_order)
 end
 
 class ConferenceDinnerReservation < AbstractSmarterModel
