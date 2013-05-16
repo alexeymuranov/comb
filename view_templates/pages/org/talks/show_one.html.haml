@@ -3,3 +3,11 @@
     &= @talk.title_with_speaker
 
   = haml :'pages/org/talks/_talk_details'
+
+  - if main_organiser_logged_in?
+    %a.button.edit{ :href => fixed_url_with_locale("/org/talks/#{ @talk.id }/edit"),
+                    :role => 'button' }<
+      = t 'actions.update'
+    %a.button.delete{ :href => fixed_url_with_locale("/org/talks/#{ @talk.id }/delete"),
+                      :role => 'button' }<
+      = t 'actions.delete'

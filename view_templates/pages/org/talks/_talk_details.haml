@@ -6,11 +6,3 @@
 %dl
   - @attribute_names.each do |attr|
     = attribute_in_description(talk, attr)
-
-- if main_organiser_logged_in?
-  %a.button.edit{ :href => fixed_url_with_locale("/org/talks/#{ talk.id }/edit"),
-                  :role => 'button' }<
-    = t 'actions.update'
-  %a.button.delete{ :href => fixed_url_with_locale("/org/talks/#{ talk.id }/delete"),
-                    :role => 'button' }<
-    = t 'actions.delete'

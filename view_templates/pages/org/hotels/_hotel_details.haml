@@ -38,11 +38,3 @@
     %dd.attribute.string<
       %a{ :href => hotel.web_site }<>
         &= hotel.web_site
-
-- if main_organiser_logged_in?
-  %a.button.edit{ :href => fixed_url_with_locale("/org/hotels/#{ hotel.id }/edit"),
-                  :role => 'button' }<
-    = t 'actions.update'
-  %a.button.delete{ :href => fixed_url_with_locale("/org/hotels/#{ hotel.id }/delete"),
-                    :role => 'button' }<
-    = t 'actions.delete'
