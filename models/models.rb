@@ -110,7 +110,7 @@ class Participation < AbstractSmarterModel
   scope :non_speakers, where(:speaker => false)
   scope :invited_speakers, where(:invited_speaker => true)
 
-  scope :order_by_conference, joins(:conference).merge(Conference.default_order).uniq
+  scope :order_by_conference, joins(:conference).merge(Conference.default_order)
 
   # Overwrite default accessors
   def speaker=(bool)
@@ -348,7 +348,7 @@ class Talk < AbstractSmarterModel
   attr_readonly :participation_id
 
   # Scopes
-  scope :default_order, order("UPPER(#{ table_name }.type) DESC").joins(:speaker).merge(Participant.default_order).uniq
+  scope :default_order, order("UPPER(#{ table_name }.type) DESC").joins(:speaker).merge(Participant.default_order)
 
   # Virtual attributes
   def speaker_name
