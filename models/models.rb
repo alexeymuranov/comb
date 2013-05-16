@@ -427,7 +427,9 @@ class Accommodation < AbstractSmarterModel
   attr_readonly :participant_id, :hotel_id
 
   # Scopes
-  scope :default_order, order("#{ table_name }.arrival_date ASC")
+  scope :default_order, joins(:participant).merge(Participant.default_order).
+                                            order("#{ table_name }.arrival_date ASC").
+                                            joins(:hotel).merge(Hotel.default_order)
 end
 
 class ConferenceDinnerReservation < AbstractSmarterModel
