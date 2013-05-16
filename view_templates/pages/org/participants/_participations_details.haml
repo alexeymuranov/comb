@@ -30,7 +30,7 @@
           - participation_attribute_names.each do |attr|
             %td
               - if value = participation.public_send(attr)
-                %span.attribute.value
+                %span.attribute.value<
                   &= value
           - if main_organiser_logged_in?
             - if i.zero?
