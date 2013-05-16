@@ -11,3 +11,8 @@
     %a.button.delete{ :href => fixed_url_with_locale("/org/hotels/#{ @hotel.id }/delete"),
                       :role => 'button' }<
       = t 'actions.delete'
+
+  %br/
+  %hr/
+
+  = haml :'pages/org/hotels/_accommodations_details'

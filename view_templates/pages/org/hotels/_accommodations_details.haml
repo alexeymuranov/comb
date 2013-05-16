@@ -1,0 +1,35 @@
+-# Parameters:
+-#   hotel
+
+- hotel ||= @hotel
+
+%section.associations#accommodations
+  %h4
+    = header_from_attribute_name(Hotel, :participants)
+
+  %table
+    %thead
+      %tr
+        %th
+          = header_from_attribute_name(Accommodation, :participant)
+        %th
+          = header_from_attribute_name(Accommodation, :arrival_date)
+        %th
+          = header_from_attribute_name(Accommodation, :departure_date)
+    %tbody
+      - accommodations = hotel.accommodations.default_order
+      - if accommodations.empty?
+        %tr
+          %td{ :colspan => 3 }
+            ∅
+      - else
+        - accommodations.each do |accommodation|
+          %tr
+            %td
+              &= accommodation.participant.full_name_with_affiliation
+            %td
+              %span.attribute.value
+                &= accommodation.arrival_date
+            %td
+              %span.attribute.value
+                &= accommodation.departure_date
