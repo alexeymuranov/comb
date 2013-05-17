@@ -168,6 +168,7 @@ class CTT2013 < Sinatra::Base
           [Participant,   :academic_position],
           [Participant,   :invitation_needed],
           [Participant,   :visa_needed],
+          [Participant,   :i_m_t_member],
           [Participation, :approved] ]
 
       # Custom ad hoc filtering
@@ -958,7 +959,8 @@ class CTT2013 < Sinatra::Base
 
         filter = FriendlyRelationFilter.new(Participant)
         filter.filtering_attributes =
-          [:last_name, :academic_position, :invitation_needed, :visa_needed]
+          [ :last_name, :academic_position,
+            :invitation_needed, :visa_needed, :i_m_t_member ]
         filter.set_filtering_values_from_text_hash(filter_values)
         filter
       end
