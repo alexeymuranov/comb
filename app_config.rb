@@ -35,6 +35,9 @@ class CTT2013 < Sinatra::Base
     # set :bind, 'localhost' # server hostname or IP address
     # set :port, 4567        # server port
     # set :lock, true        # ensure single request concurrency with a mutex lock
+
+    # Unfortunately this does not work:
+    # set :markdown, :tables => true
   end
 
   # This seems to be needed to automatically close connections at the end of
