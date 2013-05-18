@@ -205,6 +205,9 @@ class Participant < AbstractSmarterModel
   validates :phone, :telephone_format => true,
                     :allow_nil => true
 
+  validates :web_site, :u_r_l_format => true,
+                       :allow_nil    => true
+
   validates :gender,
             :inclusion => { :in => ['female', 'male', :female, :male] },
             :allow_nil => true

@@ -15,3 +15,13 @@ class TelephoneFormatValidator < ActiveModel::EachValidator
     end
   end
 end
+
+class URLFormatValidator < ActiveModel::EachValidator
+  def validate_each(object, attribute, value)
+    # TODO: implement a validation if it seems useful
+    unless true
+      object.errors[attribute] <<
+        (options[:message] || I18n.t('errors.messages.url_format'))
+    end
+  end
+end
