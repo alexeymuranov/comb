@@ -85,6 +85,7 @@ class CTT2013 < Sinatra::Base
     [ :first_name, :last_name, :email, :affiliation,
       :academic_position,
       :country, :city, :post_code, :street_address, :phone,
+      :web_site,
       :i_m_t_member, :g_d_r_member,
       :invitation_needed, :visa_needed,
       :funding_requests,

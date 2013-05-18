@@ -33,6 +33,7 @@ en:
         email                 : "e-mail"
         affiliation           : "affiliation (university or institute)"
         academic_position     : "academic position"
+        web_site              : "web site"
         country               : "country"
         city                  : "city"
         post_code             : "post code"

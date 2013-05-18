@@ -31,7 +31,8 @@
             %option
               = p
 
-- [:country, :city, :post_code, :street_address, :phone].select{|attr| @attribute_names.include?(attr) }.each do |attr|
+- [ :country, :city, :post_code, :street_address,
+    :phone, :web_site ].select{|attr| @attribute_names.include?(attr) }.each do |attr|
   .field
     %dt.label
       %label{ :for => "participant_#{ attr }" }<
