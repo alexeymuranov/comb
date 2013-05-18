@@ -50,6 +50,8 @@ module AttributeConstraints # TESTME
             h[:format] = :email
           elsif validator_classes_on(attr).include?(TelephoneFormatValidator)
             h[:format] = :telephone
+          elsif validator_classes_on(attr).include?(URLFormatValidator)
+            h[:format] = :url
           end
 
           inclusion_validator = validators_on(attr).find { |v|

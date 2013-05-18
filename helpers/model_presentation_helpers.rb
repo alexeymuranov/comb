@@ -56,6 +56,8 @@ class CTT2013
             :email
           when :telephone
             :tel
+          when :url
+            :url
           else
             :text
           end
