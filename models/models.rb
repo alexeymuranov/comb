@@ -310,46 +310,6 @@ class Participant < AbstractSmarterModel
   #   participations.each do |p| p.approved = bool end
   # end
 
-  # XXX: this method is to fake an absent database column 'web_site' for
-  # certain participants.  If such a column is added later, this method
-  # should be removed.
-  def web_site
-    {
-      'Ian Agol' =>
-        'http://math.berkeley.edu/~ianagol/',
-      'Danny Calegari' =>
-        'http://math.uchicago.edu/~dannyc/',
-      'Vincent Colin' =>
-        'http://www.math.sciences.univ-nantes.fr/~vcolin/',
-      'Daryl Cooper' =>
-        'http://www.math.ucsb.edu/~cooper/',
-      'Stefan Friedl' =>
-        'http://www.mi.uni-koeln.de/~stfriedl/',
-      'David Gabai' =>
-        'http://www.math.princeton.edu/directory/david-gabai',
-      'Steve Kerckhoff' =>
-        'http://en.wikipedia.org/wiki/Steven_Kerckhoff',
-      'Tao Li' =>
-        'https://www2.bc.edu/~taoli/',
-      'Yi Ni' =>
-        'http://www.its.caltech.edu/~yini/',
-      'Jessica Purcell' =>
-        'http://www.math.byu.edu/~jpurcell/',
-      'Alan Reid' =>
-        'http://www.ma.utexas.edu/users/areid/',
-      'Joachim Hyam Rubinstein' =>
-        'http://www.ms.unimelb.edu.au/~rubin/',
-      'Peter Shalen' =>
-        'http://homepages.math.uic.edu/~shalen/',
-      'Juan Souto' =>
-        'http://www.math.ubc.ca/~jsouto/',
-      'Genevieve Walsh' =>
-        'http://math.tufts.edu/people/facultyWalsh.htm',
-      'Richard Weidmann' =>
-        'http://www.math.uni-kiel.de/algebra/weidmann/'
-    }[full_name]
-  end
-
   # CoMB related
   def co_m_b_participation
     @co_m_b_conf_id ||= Conference.co_m_b_conf.id
