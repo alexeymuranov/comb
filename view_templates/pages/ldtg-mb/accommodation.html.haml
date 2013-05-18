@@ -10,7 +10,7 @@
     - @hotels.each do |hotel|
       %dt
         - if web_site = hotel.web_site
-          %a{ :href => web_site }<>
+          %a{ :href => web_site, :target => :_blank }<>
             &= hotel.name
         - else
           &= hotel.name
@@ -23,7 +23,8 @@
         - when /n\/a/i
           %samp<N/A
         - else
-          %a{ :href => map_url_for_address(address) }<>
+          %a{ :href => map_url_for_address(address), :target => :_blank }<>
             &= address
-        %br
-        &= hotel.phone
+      %dd
+        %samp<
+          &= hotel.phone
