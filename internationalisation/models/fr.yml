@@ -7,7 +7,7 @@ fr:
       conference   : &conference_model    "colloque"
       participant  : &participant_model   "participant(e)"
       talk         : &talk_model          "exposé"
-      plenary_talk : &plenary_talk_model  "exposé plénière"
+      plenary_talk : &plenary_talk_model  "exposé plénier"
       parallel_talk: &parallel_talk_model "exposé parallèle"
       talk_proposal: &talk_proposal_model "exposé proposé"
       hotel        : &hotel_model         "hôtel"
@@ -43,7 +43,7 @@ fr:
         g_d_r_member          : "membre du GDR"
         invitation_needed     : "besoin d'une lettre d'invitation"
         visa_needed           : "besoin d'un visa"
-        plenary_speaker       : "orateur/oratrice plénière"
+        plenary_speaker       : "orateur/oratrice plénier(ère)"
         invited_speaker       : "orateur/oratrice invité(e)"
         speaker               : "orateur/oratrice"
         student               : "étudiant(e)"
@@ -62,7 +62,7 @@ fr:
         talk_proposal         : *talk_proposal_model
         # Attributes:
         approved              : "accepté(e) par le comité"
-        plenary_speaker       : "orateur/oratrice plénière"
+        plenary_speaker       : "orateur/oratrice plénier(ère)"
         invited_speaker       : "orateur/oratrice invité(e)"
         speaker               : "orateur/oratrice"
         arrival_date          : "date d'arrivée"
