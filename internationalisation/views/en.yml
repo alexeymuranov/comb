@@ -212,6 +212,10 @@ en:
       utilities:
         title: "Org : Utilities"
         tabs:
+          plenary_speakers:
+            title: "Plenary speakers"
+          parallel_speakers:
+            title: "Parallel speakers"
           graduate_students_approved:
             title: "Approved graduate students"
           graduate_students_not_all_participations_approved:

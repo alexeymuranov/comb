@@ -58,10 +58,10 @@ class CTT2013 < Sinatra::Base
 
 
   ORGANISER_CONNEXION_UTILITY_TABS = {
-    :graduate_students_approved =>
-      'email_lists/graduate_students/approved',
-    :graduate_students_not_all_participations_approved =>
-      'email_lists/graduate_students/not_all_participations_approved',
+    :plenary_speakers =>
+      'email_lists/speakers/plenary',
+    :parallel_speakers =>
+      'email_lists/speakers/parallel',
     :talk_proposals_for_scientific_committee =>
       'talk_proposals_for_scientific_committee' }
 
@@ -419,23 +419,23 @@ class CTT2013 < Sinatra::Base
       haml :"/pages/org/utilities_layout" do nil end
     end
 
-    get "/#{ l }org/utilities/email_lists/graduate_students/:status" do |status|
+    get "/#{ l }org/utilities/email_lists/speakers/:talk_type" do |talk_type|
       require_organiser_login!
 
       set_locale(locale)
       set_page(:"org/utilities")
 
-      @participants = Participant.
-        where(:academic_position => ['graduate student', 'doctorant(e)']).
-        default_order
+      @participants = Participant.default_order
 
-      case status
-      when 'approved'
-        @utility_tab = :graduate_students_approved
-        @participants = @participants.approved
-      when 'not_all_participations_approved'
-        @utility_tab = :graduate_students_not_all_participations_approved
-        @participants = @participants.not_all_participations_approved
+      case talk_type
+      when 'plenary'
+        @utility_tab = :plenary_speakers
+        @participants =
+          @participants.joins(:talks).merge(PlenaryTalk.scoped).uniq
+      when 'parallel'
+        @utility_tab = :parallel_speakers
+        @participants =
+          @participants.joins(:talks).merge(ParallelTalk.scoped).uniq
       end
 
       haml :"/pages/org/utilities_layout" do

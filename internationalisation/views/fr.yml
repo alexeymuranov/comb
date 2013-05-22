@@ -212,6 +212,10 @@ fr:
       utilities:
         title: "Org : Outils pratiques"
         tabs:
+          plenary_speakers:
+            title: "Orateurs pléniers"
+          parallel_speakers:
+            title: "Orateurs parallèles"
           graduate_students_approved:
             title: "Doctorants validés"
           graduate_students_not_all_participations_approved:
