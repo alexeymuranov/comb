@@ -75,7 +75,7 @@
                         'custom_filter' => @custom_filtering_parameters,
                         'view'          => @view_parameters.except(:show_as) }
 = presentation_choice_form ['table', 'email_list'],
-                           @view_parameters[:show_as],
+                           @view_parameters[:show_as] || 'table',
                            :params_key_prefix => 'view',
                            :hidden_parameters => hidden_parameters
 
@@ -85,48 +85,14 @@
   %code.technical
     = @participants.to_sql
 
-%table.index
-  %thead
-    %tr
-      - if main_organiser_logged_in?
-        %th
-          №
-      %th/
-      - @attribute_headers.each do |header|
-        %th
-          = header
-      %th{ :colspan => @participation_procs.count }
-        = @participations_header
-      %th{ :colspan => main_organiser_logged_in? ? 2 : 1 }/
+- case @view_parameters[:show_as]
+- when 'email_list'
 
-  %tbody
-    - @participants.each do |participant|
-      %tr{ :id => "participant_#{ participant.id }" }
-        - if main_organiser_logged_in?
-          %td.number{ :style => 'font-size:10px' }
-            %samp
-              = participant.id
-        %td.center
-          %samp
-            %strong
-              = participant.approved? ? '✓' : '—'
+  = haml :"/pages/org/participants/email_list"
 
-        - @attribute_procs.each do |p|
-          %td
-            &= p[participant]
+- else
 
-        - @participation_procs.each do |p|
-          %td.center
-            &= p[participant]
-
-        %td
-          %a.button.show{ :href => fixed_url_with_locale("/org/participants/#{ participant.id }") }<
-            = t 'actions.show'
-
-        - if main_organiser_logged_in?
-          %td
-            %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ participant.id }/edit") }<
-              = t 'actions.update'
+  = haml :"/pages/org/participants/table"
 
 - if main_organiser_logged_in?
   %a.button.new{ :href => fixed_url_with_locale('/org/participants/new'),

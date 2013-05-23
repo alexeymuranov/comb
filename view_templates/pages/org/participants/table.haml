@@ -1,0 +1,43 @@
+%table.index
+  %thead
+    %tr
+      - if main_organiser_logged_in?
+        %th
+          №
+      %th/
+      - @attribute_headers.each do |header|
+        %th
+          = header
+      %th{ :colspan => @participation_procs.count }
+        = @participations_header
+      %th{ :colspan => main_organiser_logged_in? ? 2 : 1 }/
+
+  %tbody
+    - @participants.each do |participant|
+      %tr{ :id => "participant_#{ participant.id }" }
+        - if main_organiser_logged_in?
+          %td.number{ :style => 'font-size:10px' }
+            %samp
+              = participant.id
+        %td.center
+          %samp
+            %strong
+              = participant.approved? ? '✓' : '—'
+
+        - @attribute_procs.each do |p|
+          %td
+            &= p[participant]
+
+        - @participation_procs.each do |p|
+          %td.center
+            &= p[participant]
+
+        %td
+          %a.button.show{ :href => fixed_url_with_locale("/org/participants/#{ participant.id }") }<
+            = t 'actions.show'
+
+        - if main_organiser_logged_in?
+          %td
+            %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ participant.id }/edit") }<
+              = t 'actions.update'
+
