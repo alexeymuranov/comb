@@ -269,7 +269,7 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       set_page(:"org/talks")
 
-      @talks = Talk.default_order.all
+      @talks = Talk.default_order
 
       haml :"/pages/org/talks/index_all.html"
     end
@@ -324,7 +324,7 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       set_page(:"org/hotels")
 
-      @hotels = Hotel.default_order.all
+      @hotels = Hotel.default_order
 
       haml :"/pages/org/hotels/index_all.html"
     end
