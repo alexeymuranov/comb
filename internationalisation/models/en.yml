@@ -62,6 +62,7 @@ en:
         talk_proposal         : *talk_proposal_model
         # Attributes:
         approved              : "approved by the committee"
+        parallel_speaker      : "parallel speaker"
         plenary_speaker       : "plenary speaker"
         invited_speaker       : "invited speaker"
         speaker               : "speaker"

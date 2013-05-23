@@ -62,6 +62,7 @@ fr:
         talk_proposal         : *talk_proposal_model
         # Attributes:
         approved              : "accepté(e) par le comité"
+        parallel_speaker      : "orateur/oratrice parallèle"
         plenary_speaker       : "orateur/oratrice plénier(ère)"
         invited_speaker       : "orateur/oratrice invité(e)"
         speaker               : "orateur/oratrice"
