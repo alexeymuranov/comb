@@ -173,33 +173,11 @@ class CTT2013 < Sinatra::Base
           [Participation, :approved] ]
 
       # Custom ad hoc filtering
-      @custom_filtering_parameters = {}
-      if submitted_custom_filtering_parameters = params['custom_filter']
-        only_participants_with_talk_proposals =
-          submitted_custom_filtering_parameters['participants_with_talk_proposals'] == '1'
-        if only_participants_with_talk_proposals
-          filtered_participants = filtered_participants.joins(:talk_proposals).uniq
-          @custom_filtering_parameters[:participants_with_talk_proposals] = true
-        end
-
-        participant_participations_count =
-          submitted_custom_filtering_parameters['participant_participations_count']
-        if participant_participations_count == ''
-          participant_participations_count = nil
-        end
-        if participant_participations_count
-          participant_participations_count =
-            participant_participations_count.to_i
-          filtered_participants =
-            filtered_participants.
-              where('participants.id' =>
-                      Participation.group(:participant_id).
-                                    having('COUNT(id) = ?',
-                                           participant_participations_count).
-                                    select(:participant_id))
-          @custom_filtering_parameters[:participant_participations_count] =
-            participant_participations_count
-        end
+      @custom_filtering_parameters = custom_participant_filtering_parameters_from_params
+      unless @custom_filtering_parameters.empty?
+        filtered_participants = filtered_participants.merge(
+          participants_scope_from_custom_filtering_parameters(
+            @custom_filtering_parameters))
       end
 
       # Counting filtered
@@ -565,6 +543,10 @@ class CTT2013 < Sinatra::Base
       participants_scope_from_filters(
         :participants_filter   => participants_filter_from_params,
         :participations_filter => participations_filter_from_params)
+
+    # Custom ad hoc filtering
+    @participants =
+      @participants.merge(participants_scope_from_custom_filtering_parameters)
 
     @participants = @participants.default_order
 
@@ -977,6 +959,29 @@ class CTT2013 < Sinatra::Base
         filter.set_filtering_values_from_text_hash(filter_values)
         filter
       end
+    end
+
+    # Custom ad hoc filtering
+    def participants_scope_from_custom_filtering_parameters(custom_filtering_parameters = custom_participant_filtering_parameters_from_params)
+      participants_scope = Participant.scoped
+      unless custom_filtering_parameters.empty?
+        if custom_filtering_parameters[:participants_with_talk_proposals]
+          participants_scope = participants_scope.joins(:talk_proposals).uniq
+        end
+
+        participant_participations_count =
+          @custom_filtering_parameters[:participant_participations_count]
+        if participant_participations_count
+          participants_scope =
+            participants_scope.
+              where('participants.id' =>
+                      Participation.group(:participant_id).
+                                    having('COUNT(id) = ?',
+                                           participant_participations_count).
+                                    select(:participant_id))
+        end
+      end
+      participants_scope
     end
 
     def csv_from_collection(collection, attribute_procs, headers)

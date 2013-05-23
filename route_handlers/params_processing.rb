@@ -11,6 +11,27 @@ class CTT2013
         :page       => active_page }
     end
 
+    def custom_participant_filtering_parameters_from_params(submitted_filtering_parameters = params['custom_filter'])
+      if submitted_filtering_parameters.nil?
+        return {}
+      end
+
+      filtering_parameters = {}
+
+      if submitted_filtering_parameters['participants_with_talk_proposals'] == '1'
+        filtering_parameters[:participants_with_talk_proposals] = true
+      end
+
+      participant_participations_count =
+        submitted_filtering_parameters['participant_participations_count']
+      unless Set[nil, ''].include?(participant_participations_count)
+        filtering_parameters[:participant_participations_count] =
+          participant_participations_count.to_i
+      end
+
+      filtering_parameters
+    end
+
     def conference_ids_from_params
       submitted_ids = params['conference_ids'] || []
       submitted_ids.map(&:to_i)
