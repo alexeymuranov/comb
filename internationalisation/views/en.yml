@@ -97,8 +97,9 @@ en:
   footer: ~
 
   show_as:
-    table:      "table"
-    email_list: "email list"
+    table:         "table"
+    email_list:    "email list"
+    abstract_list: "abstract list"
 
   pages:
     registration: &registration_page

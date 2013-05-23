@@ -1,0 +1,17 @@
+%article
+  - @talks.each do |talk|
+    %hr/
+    %section
+      %h4
+        &= talk.speaker.full_name
+      %dl
+        %dt
+          %i<= label_from_attribute_name(Talk, :title)
+        %dd{ :style => 'display:inline-block;white-space:pre-wrap;' }<
+          &= talk.title
+        %dt
+          %i<= label_from_attribute_name(Talk, :abstract)
+        %dd{ :style => 'display:inline-block;white-space:pre-wrap;' }<
+          = preserve do
+            &= talk.abstract
+  %hr/

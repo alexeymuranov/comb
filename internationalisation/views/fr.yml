@@ -97,8 +97,9 @@ fr:
   footer: ~
 
   show_as:
-    table:      "tableau"
-    email_list: "liste d'emails"
+    table:         "tableau"
+    email_list:    "liste d'emails"
+    abstract_list: "liste des résumés"
 
   pages:
     registration: &registration_page

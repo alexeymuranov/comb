@@ -268,7 +268,29 @@ class CTT2013 < Sinatra::Base
       set_locale(locale)
       set_page(:"org/talks")
 
-      @talks = Talk.default_order
+      # Filtering
+      talks_filter = talks_filter_from_params
+      filtered_talks = talks_scope_from_filters(:talks_filter => talks_filter)
+
+      @filtering_values = {}
+      if talks_filter
+        @filtering_values[Talk.table_name] =
+          talks_filter.filtering_values_as_simple_nested_hash
+      end
+      @filtering_values.delete_if{|_, v| v.empty? }
+
+      @filtering_by = [[Talk, :type]]
+
+      # Counting filtered
+      @filtered_talks_count = filtered_talks.count
+
+      # Sorting
+      filtered_talks = filtered_talks.default_order
+
+      # Pagination
+      @view_parameters = view_parameters_from_params
+
+      @talks = filtered_talks
 
       haml :"/pages/org/talks/index_all.html"
     end
@@ -987,6 +1009,28 @@ class CTT2013 < Sinatra::Base
         end
       end
       participants_scope
+    end
+
+    def talks_scope_from_filters(simple_filters)
+      talks_filter = simple_filters[:talks_filter]
+
+      if talks_filter.nil?
+        Talk.scoped
+      else
+        talks_filter.to_scope
+      end
+    end
+
+    def talks_filter_from_params(filter_values =
+                                   params.key?('filter') && params['filter']['talks'])
+      if filter_values
+        filter_values = filter_values.reject{|_, v| v.empty? }
+
+        filter = FriendlyRelationFilter.new(Talk)
+        filter.filtering_attributes = [:type]
+        filter.set_filtering_values_from_text_hash(filter_values)
+        filter
+      end
     end
 
     def csv_from_collection(collection, attribute_procs, headers)

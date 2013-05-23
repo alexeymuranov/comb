@@ -1,28 +1,50 @@
-%table.index
-  %thead
-    %tr
-      - [ :translated_type_name, :speaker_name, :title,
-          :date, :time, :room_or_auditorium ].each do |attr_name|
-        %th
-          = header_from_attribute_name(Talk, attr_name)
-      %th{ :colspan => main_organiser_logged_in? ? 2 : 1 }/
+- hidden_parameters = { 'view' => @view_parameters.except(:page) }
+%form{ :id     => 'clear_filter_form',
+       :action => '#filter_form' }
+  = hidden_fields_from_nested_hash hidden_parameters
 
-  %tbody
-    - @talks.each do |talk|
-      %tr{ :id => "talk_#{ talk.id }" }
-        - [ :translated_type_name, :speaker_name, :title,
-            :date, :time, :room_or_auditorium ].each do |attr_name|
-          %td
-            &= talk.public_send(attr_name)
+%form{ :id     => 'filter_form',
+       :action => '#filter_form' }
+  = hidden_fields_from_nested_hash hidden_parameters
 
-        %td
-          %a.button.show{ :href => fixed_url_with_locale("/org/talks/#{ talk.id }") }<
-            = t 'actions.show'
+  = smart_filtering_fields @filtering_by, @filtering_values, nil,
+                          :params_key_prefix => 'filter'
 
-        - if main_organiser_logged_in?
-          %td
-            %a.button.edit{ :href => fixed_url_with_locale("/org/talks/#{ talk.id }/edit") }<
-              = t 'actions.update'
+  .actions<
+    %button._get_{ :type  => :submit }<
+      = t 'actions.filter'
+
+    %button._get_{ :type  => :submit, :form  => 'clear_filter_form' }<
+      = t 'actions.clear'
+
+%strong<
+  - if @filtered_talks_count
+    #{ @filtered_talks_count } / #{ Talk.count }
+  - else
+    [ #{ Talk.count } ]
+
+- hidden_parameters = { 'filter'        => @filtering_values,
+                        'custom_filter' => @custom_filtering_parameters,
+                        'view'          => @view_parameters.except(:show_as) }
+= presentation_choice_form ['table', 'abstract_list'],
+                           @view_parameters[:show_as] || 'table',
+                           :params_key_prefix => 'view',
+                           :hidden_parameters => hidden_parameters
+
+.technical
+  %pre.technical
+    SQL:
+  %code.technical
+    = @talks.to_sql
+
+- case @view_parameters[:show_as]
+- when 'abstract_list'
+
+  = haml :"/pages/org/talks/abstract_list"
+
+- else
+
+  = haml :"/pages/org/talks/table"
 
 - if main_organiser_logged_in?
   %a.button.new{ :href => fixed_url_with_locale("/org/talks/new"),
