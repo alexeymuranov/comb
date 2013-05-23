@@ -192,8 +192,7 @@ class CTT2013 < Sinatra::Base
       active_page = @view_parameters[:page]
       @participants =
         filtered_participants.limit(per_page).offset(per_page * (active_page - 1))
-      @view_parameters[:page_count] =
-        ((@filtered_participants_count - 1) / per_page) + 1
+      @page_count = ((@filtered_participants_count - 1) / per_page) + 1
 
       # Page content
       @attribute_headers =

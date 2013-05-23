@@ -2,10 +2,9 @@
 
 class CTT2013
   module ViewPaginationHelpers
-    def paginating_form(paginating_parameters = {}, options = {})
-      page_count = paginating_parameters[:page_count]
-      per_page   = paginating_parameters[:per_page] || 1
-      page       = paginating_parameters[:page] || 1
+    def paginating_form(page_count = 1, paginating_parameters = {}, options = {})
+      per_page = paginating_parameters[:per_page] || 1
+      page     = paginating_parameters[:page]     || 1
       params_key_prefix = options[:params_key_prefix] || 'view'
       params_key_from_hash_key =
         if params_key_prefix.empty?
