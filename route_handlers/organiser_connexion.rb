@@ -968,6 +968,12 @@ class CTT2013 < Sinatra::Base
           participants_scope = participants_scope.joins(:talk_proposals).uniq
         end
 
+        speaker_talk_types = custom_filtering_parameters[:speaker_talk_types]
+        if speaker_talk_types
+          participants_scope =
+            participants_scope.joins(:talks).where('talks.type' => speaker_talk_types).uniq
+        end
+
         participant_participations_count =
           @custom_filtering_parameters[:participant_participations_count]
         if participant_participations_count

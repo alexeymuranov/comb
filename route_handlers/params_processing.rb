@@ -27,6 +27,14 @@ class CTT2013
         filtering_parameters[:participants_with_talk_proposals] = true
       end
 
+      speaker_talk_types = submitted_filtering_parameters['speaker_talk_types']
+      if speaker_talk_types
+        filtering_parameters[:speaker_talk_types] =
+          ['PlenaryTalk', 'ParallelTalk'].find { |type|
+            type == speaker_talk_types
+          }
+      end
+
       participant_participations_count =
         submitted_filtering_parameters['participant_participations_count']
       unless Set[nil, ''].include?(participant_participations_count)
