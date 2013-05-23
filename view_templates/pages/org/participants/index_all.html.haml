@@ -20,7 +20,7 @@
       - participant_participations_count      = @custom_filtering_parameters[:participant_participations_count]
       %tr
         %th{ :class => (only_participants_with_talk_proposals.nil? ? nil : 'filtered') }
-          %label{ :for => 'custom_filter_participant_participations_count' }<
+          %label{ :for => 'custom_filter_participants_with_talk_proposals_yes' }<
             = header_from_attribute_name(Participation, :talk_proposal)
         %th{ :class => (participant_participations_count.nil? ? nil : 'filtered') }
           %label{ :for => 'custom_filter_participant_participations_count' }<
