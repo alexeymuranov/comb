@@ -6,9 +6,9 @@ class CTT2013
     def pagination_parameters_from_params
       view_parameters = params['view'] || {}
       per_page    = (view_parameters['per_page'] || 10).to_i
-      active_page = (view_parameters['page']     || 1 ).to_i
-      { :per_page   => per_page,
-        :page       => active_page }
+      active_page = (view_parameters['page']     ||  1).to_i
+      { :per_page => per_page,
+        :page     => active_page }
     end
 
     def custom_participant_filtering_parameters_from_params(submitted_filtering_parameters = params['custom_filter'])
