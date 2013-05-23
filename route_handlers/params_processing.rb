@@ -8,6 +8,9 @@ class CTT2013
       per_page    = (submitted_view_parameters['per_page'] || 10).to_i
       active_page = (submitted_view_parameters['page']     ||  1).to_i
       show_as     = submitted_view_parameters['show_as']
+      if show_as == ''
+        show_as = nil
+      end
       { :per_page => per_page,
         :page     => active_page,
         :show_as  => show_as }

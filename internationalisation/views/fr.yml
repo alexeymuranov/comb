@@ -15,6 +15,7 @@ fr:
   labels:
     per_page: "Par page"
     pages   : "Pages"
+    show_as : "Affichage"
 
   questions:
     "show_details?": "Détailler ?"
@@ -94,6 +95,10 @@ fr:
     michel: "à l'occasion des 60 ans de Michel Boileau"
 
   footer: ~
+
+  show_as:
+    table:      "tableau"
+    email_list: "liste d'emails"
 
   pages:
     registration: &registration_page

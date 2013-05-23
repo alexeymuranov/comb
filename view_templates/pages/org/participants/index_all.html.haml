@@ -65,10 +65,19 @@
     [ #{ Participant.count } ]
 
 - hidden_parameters = { 'filter'        => @filtering_values,
-                        'custom_filter' => @custom_filtering_parameters }
+                        'custom_filter' => @custom_filtering_parameters,
+                        'view'          => @view_parameters.except(:page, :per_page) }
 = paginating_form @page_count, @view_parameters,
                   :params_key_prefix => 'view',
                   :hidden_parameters => hidden_parameters
+
+- hidden_parameters = { 'filter'        => @filtering_values,
+                        'custom_filter' => @custom_filtering_parameters,
+                        'view'          => @view_parameters.except(:show_as) }
+= presentation_choice_form ['table', 'email_list'],
+                           @view_parameters[:show_as],
+                           :params_key_prefix => 'view',
+                           :hidden_parameters => hidden_parameters
 
 .technical
   %pre.technical
