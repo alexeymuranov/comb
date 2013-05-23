@@ -2,11 +2,11 @@
 - if @view_parameters.key?(:per_page)
   - hidden_parameters['view'] = { 'per_page' => @view_parameters[:per_page] }
 %form{ :id     => 'clear_filter_form',
-       :action => fixed_url_with_locale('/org/participants#filter_form') }
+       :action => '#filter_form' }
   = hidden_fields_from_nested_hash hidden_parameters
 
 %form{ :id     => 'filter_form',
-       :action => fixed_url_with_locale('/org/participants#filter_form') }
+       :action => '#filter_form' }
   = hidden_fields_from_nested_hash hidden_parameters
 
   = smart_filtering_fields @filtering_by, @filtering_values, nil,
