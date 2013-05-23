@@ -3,12 +3,14 @@
 class CTT2013
   private
 
-    def pagination_parameters_from_params
-      view_parameters = params['view'] || {}
-      per_page    = (view_parameters['per_page'] || 10).to_i
-      active_page = (view_parameters['page']     ||  1).to_i
+    def view_parameters_from_params(submitted_view_parameters = params['view'])
+      submitted_view_parameters ||= {}
+      per_page    = (submitted_view_parameters['per_page'] || 10).to_i
+      active_page = (submitted_view_parameters['page']     ||  1).to_i
+      show_as     = submitted_view_parameters['show_as']
       { :per_page => per_page,
-        :page     => active_page }
+        :page     => active_page,
+        :show_as  => show_as }
     end
 
     def custom_participant_filtering_parameters_from_params(submitted_filtering_parameters = params['custom_filter'])

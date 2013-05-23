@@ -187,7 +187,7 @@ class CTT2013 < Sinatra::Base
       filtered_participants = filtered_participants.default_order
 
       # Pagination
-      @view_parameters = pagination_parameters_from_params
+      @view_parameters = view_parameters_from_params
       per_page    = @view_parameters[:per_page]
       active_page = @view_parameters[:page]
       @participants =
