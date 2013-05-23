@@ -21,7 +21,7 @@
 
     - [page_ranges_before, page_ranges_after].each_with_index do |page_ranges, i|
       - unless i.zero?
-        %span.page.active<>
+        %span.pressed_button.page.active<>
           %strong= active_page
       - page_ranges.each_with_index do |range, i|
         - unless i.zero?
@@ -49,7 +49,7 @@
                            :size         => 3 }
         - [10, 20, 30, 40, 50, 100].each do |new_per_page|
           - if new_per_page == per_page
-            %span.per_page.active<>
+            %span.pressed_button.present.per_page.active<>
               = new_per_page
           - else
             %button._get_.present.per_page{ :type  => :submit,

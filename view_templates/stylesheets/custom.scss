@@ -79,8 +79,10 @@ input[type="number"] {
 button,
 input[type="submit"],
 a.button,
-a[role=button] {
+a[role=button],
+span.pressed_button {
   white-space: pre;
+  font-family: inherit;
 }
 
 button,
@@ -116,6 +118,12 @@ a[role=button] {
       content: "↓ ";
     }
   }
+}
+
+span.pressed_button {
+  border-radius: 20px;
+  border-style: solid;
+  background-color: White;
 }
 
 fieldset {
@@ -183,12 +191,6 @@ body {
 
 ////
 // Special element styles
-
-.organiser_interface {
-  font-size: 12px;
-  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  // font-family: "Lucida Console", Monaco, monospace;
-}
 
 #banner {
   @include border-top-radius(8px);
@@ -305,6 +307,32 @@ body {
     @include button(shiny, Aqua);
     border-radius: 16px;
   }
+}
+
+nav.pagination {
+  button.page,
+  span.page,
+  span.ellipsis {
+    font-weight: bold;
+  }
+
+  button.present,
+  span.pressed_button.present {
+    font-family: inherit;
+  }
+}
+
+nav.presentation_choice {
+  button.present,
+  span.pressed_button.present {
+    font-family: inherit;
+  }
+}
+
+.organiser_interface {
+  font-size: 12px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  // font-family: "Lucida Console", Monaco, monospace;
 }
 
 .empty {

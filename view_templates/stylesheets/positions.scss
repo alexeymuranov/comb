@@ -40,10 +40,19 @@ div[role=main], div.container, article {
 button,
 input[type="submit"],
 a.button,
-a[role=button] {
+a[role=button],
+span.pressed_button {
+  @include box-sizing(border-box);
+  display: inline-block;
   margin: 2px;
+  padding: 5px 16px;
+  line-height: inherit;
+  font-size: inherit;
 }
 
+span.pressed_button {
+  border-width: 1px;
+}
 
 textarea {
   width:   $textarea-width;
@@ -74,7 +83,7 @@ ol.short {
 }
 
 form {
-  margin-bottom: 16px;
+  margin-bottom: 15px;
 }
 
 ////
@@ -89,10 +98,6 @@ body {
 
 ////
 // Special element styles
-
-div.flash {
-  margin: 10px;
-}
 
 #banner {
   position: relative; // to nest absolutely positionned elements
@@ -155,6 +160,43 @@ div.flash {
         border: none;
       }
     }
+  }
+}
+
+div.flash {
+  margin: 10px;
+}
+
+nav.pagination {
+  button.page,
+  span.page,
+  span.ellipsis {
+    padding: 5px 8px;
+    font-weight: bold;
+  }
+
+  button.per_page,
+  span.per_page {
+    padding: 2px 15px;
+  }
+
+  button.present,
+  span.pressed_button.present,
+  button.page,
+  span.pressed_button.page {
+    margin: 2px;
+    line-height: inherit;
+    font-size: inherit;
+  }
+}
+
+nav.presentation_choice {
+  button.present,
+  span.pressed_button.present {
+    padding: 2px 15px;
+    margin: 2px;
+    line-height: inherit;
+    font-size: inherit;
   }
 }
 
