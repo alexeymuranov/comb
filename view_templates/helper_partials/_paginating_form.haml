@@ -4,10 +4,11 @@
 -#   active_page
 -#   page_ranges_before
 -#   page_ranges_after
--#   action_url
+-#   action_url (optional)
 -#   hidden_parameters (optional)
 
--# Initialize hidden_parameters with nil if it does not exist.
+-# Initialize local variables with nil if they do not exist.
+- action_url = action_url
 - hidden_parameters = hidden_parameters
 
 %form#pagination_form{ :action => "#{ action_url }#pagination_form" }
