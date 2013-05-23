@@ -1,6 +1,4 @@
-- hidden_parameters = {}
-- if @view_parameters.key?(:per_page)
-  - hidden_parameters['view'] = { 'per_page' => @view_parameters[:per_page] }
+- hidden_parameters = { 'view' => @view_parameters.except(:page) }
 %form{ :id     => 'clear_filter_form',
        :action => '#filter_form' }
   = hidden_fields_from_nested_hash hidden_parameters
@@ -66,11 +64,8 @@
   - else
     [ #{ Participant.count } ]
 
-- hidden_parameters = {}
-- if @filtering_values
-  - hidden_parameters['filter'] = @filtering_values
-- if @custom_filtering_parameters
-  - hidden_parameters['custom_filter'] = @custom_filtering_parameters
+- hidden_parameters = { 'filter'        => @filtering_values,
+                        'custom_filter' => @custom_filtering_parameters }
 = paginating_form @page_count, @view_parameters,
                   :params_key_prefix => 'view',
                   :hidden_parameters => hidden_parameters
