@@ -45,10 +45,9 @@
            :frameborder => 0,
            :scrolling   => false }
 
-%hr/
-
 %section
   %article
+    %hr/
     - plenary_talks.each do |talk|
       - speaker = talk.speaker
       %section{ :id => "talk_#{ talk.id }_abstract" }
@@ -59,4 +58,5 @@
         %div{ :style => 'display:inline-block;white-space:pre-wrap;' }<
           = preserve do
             &= talk.abstract
+      %br/
       %hr/
