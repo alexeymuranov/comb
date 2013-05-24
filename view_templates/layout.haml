@@ -27,7 +27,8 @@
            :rel  => :stylesheet }/
     %link{ :rel  => 'shortcut icon', :href => fixed_url('/favicon.ico') }/
 
-    = haml :'shared_partials/_math_jax'
+    - unless organiser_logged_in?
+      = haml :'shared_partials/_math_jax'
 
   %body
     %header
