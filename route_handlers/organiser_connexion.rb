@@ -390,7 +390,7 @@ class CTT2013 < Sinatra::Base
 
       @hotel = Hotel.find(id)
 
-      haml :"/pages/org/hotel/delete_one.html"
+      haml :"/pages/org/hotels/delete_one.html"
     end
 
     # ==== Accommodations
