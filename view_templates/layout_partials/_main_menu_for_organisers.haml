@@ -5,7 +5,7 @@
   %ul.menu#main_menu_for_organisers{:role => 'tablist'}
     - ORGANISER_CONNEXION_PAGES.each do |p|
       - page_title = t(:title, :scope => page_i18n_scope(p))
-      - if p == @page
+      - if p == page
         %li.current{:role => 'tab'}>
           %span
             = page_title

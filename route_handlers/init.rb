@@ -73,6 +73,10 @@ class CTT2013 < Sinatra::Base
         "#{ @base_title } | #{ t(:title, :scope => page_i18n_scope(@page)) }"
     end
 
+    def page
+      @page
+    end
+
     # def locale_from_user_input(suggested_locale)
     #   suggested_locale = suggested_locale.to_s.downcase
     #   LOCALES.find{|l| l.to_s == suggested_locale } || DEFAULT_LOCALE
