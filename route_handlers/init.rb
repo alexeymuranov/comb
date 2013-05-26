@@ -62,6 +62,10 @@ class CTT2013 < Sinatra::Base
       @other_locales = LOCALES.reject{|l| l == @locale }
     end
 
+    def locale
+      @locale || DEFAULT_LOCALE
+    end
+
     def set_page(page)
       @page = page
       @base_title = t('base_co_m_b_page_title')

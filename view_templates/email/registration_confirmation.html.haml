@@ -1,10 +1,10 @@
 <!doctype html>
-%html{ :lang => @locale }
+%html{ :lang => locale }
   %head
     %meta{ :charset => 'utf-8' }/
   %body
     %section
-      = markdown(:"text/#{ @locale }/registration_confirmation").force_encoding('utf-8')
+      = markdown(:"text/#{ locale }/registration_confirmation").force_encoding('utf-8')
       %p= t 'pages.registration_confirmation.confirmation.your_pin_code_is', :code => @participant.new_pin
     %section
       %h6

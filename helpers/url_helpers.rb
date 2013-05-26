@@ -9,7 +9,8 @@ class CTT2013
       url(path, false, false).sub(/\A\//, BASE_URL)
     end
 
-    def fixed_url_with_locale(path, locale = @locale)
+    def fixed_url_with_locale(path, locale = locale)
+      # The default value of `locale` is the value of the private method with the same name.
       fixed_url("/#{ locale }#{ path }")
     end
 

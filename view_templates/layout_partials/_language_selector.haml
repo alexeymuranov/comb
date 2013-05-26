@@ -2,7 +2,7 @@
   %ul
     - LOCALES.each do |l|
       %li<>
-        - if l == @locale
+        - if l == locale
           %span.locale.active<>
             = l.upcase
         - else

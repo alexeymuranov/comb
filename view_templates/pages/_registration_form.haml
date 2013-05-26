@@ -39,7 +39,7 @@
                   :value   => 0,
                   :checked => selected_conference_ids.include?(conf_id) }
           %label{ :for => element_id_prefix + "_destroy" }<
-            = conf.title_with_details(@locale)
+            = conf.title_with_details(locale)
           %dl.fields
             - [:arrival_date, :departure_date].each do |attr|
               .field

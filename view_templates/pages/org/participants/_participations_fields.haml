@@ -28,7 +28,7 @@
                 :value   => 0,
                 :checked => @participant.participations.include?(participation) }
         %label{ :for => element_id_prefix + "_destroy" }<
-          = conf.title_with_details(@locale)
+          = conf.title_with_details(locale)
         %dl.fields
           - [:arrival_date, :departure_date].each do |attr|
             .field

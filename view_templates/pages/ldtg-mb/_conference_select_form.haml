@@ -14,7 +14,7 @@
                       :value    => conf.id,
                       :checked  => conf.id == Conference.co_m_b_conf.id }
               %label{ :for => "conference_#{ conf.id }" }<
-                = conf.title_with_details(@locale)
+                = conf.title_with_details(locale)
 
   .actions
     %button._get_{ :type => :submit, :name => 'button', :value => 'create' }<

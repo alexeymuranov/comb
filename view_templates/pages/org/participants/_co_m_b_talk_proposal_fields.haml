@@ -17,7 +17,7 @@
 %fieldset
   %legend
     = header_from_attribute_name(Participation, :talk_proposal)
-    (#{ co_m_b_conf.title(@locale) })
+    (#{ co_m_b_conf.title(locale) })
 
   %input{ :type  => :hidden,
           :name  => input_name_prefix + "[_participation_key]",

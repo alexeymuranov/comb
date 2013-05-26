@@ -4,7 +4,7 @@
       http://stackoverflow.com/questions/10341550/incompatible-character-encoding-in-simple-sinatra-app
     and
       https://github.com/rtomayko/tilt/issues/75
-  = markdown(:"text/#{ @locale }/accommodation").force_encoding('utf-8')
+  = markdown(:"text/#{ locale }/accommodation").force_encoding('utf-8')
 
   %dl
     - @hotels.each do |hotel|

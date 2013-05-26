@@ -13,7 +13,7 @@
 %fieldset
   %legend
     = t 'pages.registration.form.field_labels.co_m_b_talk_proposal.caption',
-        :co_m_b_conf_title => Conference.co_m_b_conf.title(@locale)
+        :co_m_b_conf_title => Conference.co_m_b_conf.title(locale)
 
   %input{ :type  => :hidden,
           :name  => input_name_prefix + '[_participation_key]',
