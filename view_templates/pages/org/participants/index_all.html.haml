@@ -121,7 +121,7 @@
     %span.prompt
       = t 'formats.attribute_name:', :attribute => t('actions.download')
 
-    - download_url = fixed_url('/download/participants.csv')
+    - download_url = fixed_url_with_locale('/download/participants.csv')
     - if @filtering_values
       - download_url << '?' << url_query_from_nested_hash('filter' => @filtering_values)
     %a.button.download{ :href => download_url,
