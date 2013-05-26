@@ -53,6 +53,8 @@ class CTT2013 < Sinatra::Base
     h["#{ locale }/"] = locale
     h
   }
+  # XXX: The assignment of the `DEFAULT_LOCALE` to `''` is not
+  # completely consistent with the case of explicit locales.
   LOCALE_FROM_URL_LOCALE_FRAGMENT[''] = DEFAULT_LOCALE
 
   private

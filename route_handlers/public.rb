@@ -49,21 +49,17 @@ class CTT2013 < Sinatra::Base
   # GET requests
   # ------------
 
-  get "/stylesheets/application.css" do
+  get '/stylesheets/application.css' do
     content_type :css, :charset => 'utf-8'
     scss :'/stylesheets/application.css'
   end
 
-  LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-    get "/#{ l }" do
+    get '/' do
       redirect fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ locale }")
     end
-  end
 
   # # Registration is closed since 2013-05-01.
-  # LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-  #   get "/#{ l }registration" do
-  #     set_locale(locale)
+  #   get '/registration' do
   #     @participant = Participant.new
   #     @conferences = Conference.find(conference_ids_from_params)
   #     @conferences.each do |conf|
@@ -71,27 +67,21 @@ class CTT2013 < Sinatra::Base
   #     end
   #     render_registration_page
   #   end
-  # end
 
   STATIC_PUBLIC_PAGES.each do |page|
     page_file = :"/pages/#{ page }.html"
-    LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
       PAGE_URL_FRAGMENTS[page].each do |p|
-        get "/#{ l }#{ p }" do
-          set_locale(locale)
+        get "/#{ p }" do
           set_page(page)
           haml page_file, :layout => :layout
         end
       end
-    end
   end
 
   co_m_b_accommodation_page = :"#{ COMB_PAGE_PREFIX }accommodation"
   page_file = :"/pages/#{ co_m_b_accommodation_page }.html"
-  LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
     PAGE_URL_FRAGMENTS[co_m_b_accommodation_page].each do |p|
-      get "/#{ l }#{ p }" do
-        set_locale(locale)
+      get "/#{ p }" do
         set_page(co_m_b_accommodation_page)
 
         @hotels = Hotel.default_order
@@ -99,10 +89,9 @@ class CTT2013 < Sinatra::Base
         haml page_file, :layout => :layout
       end
     end
-  end
 
   # Plain participant lists
-  get "/data/participants/by_conference/:conf_identifier" do |conf_identifier|
+  get '/data/participants/by_conference/:conf_identifier' do |conf_identifier|
     unless conference = Conference.where(:identifier => conf_identifier).first
       halt
     end
@@ -112,12 +101,10 @@ class CTT2013 < Sinatra::Base
     haml :"/pages/data/_participants", :layout => false
   end
 
-  LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
     participants_page = :"#{ COMB_PAGE_PREFIX }participants"
     PAGE_URL_FRAGMENTS[participants_page].each do |p|
       # A page that needs access to the database
-      get "/#{ l }#{ p }" do
-        set_locale(locale)
+      get "/#{ p }" do
         set_page(participants_page)
 
         @participants =
@@ -126,16 +113,12 @@ class CTT2013 < Sinatra::Base
         haml :"/pages/#{ participants_page }.html", :layout => :layout
       end
     end
-  end
 
   # POST requests
   # -------------
 
   # # Registration is closed since 2013-05-01.
-  # LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-  #   post "/#{ l }registration" do
-  #     set_locale(locale)
-
+  #   post '/registration' do
   #     # Filter attributes before mass assignment
   #     participant_attributes =
   #       participant_attributes_from_params_for(:registration)
