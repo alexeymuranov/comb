@@ -50,11 +50,11 @@ class CTT2013 < Sinatra::Base
   #
 
   ORGANISER_CONNEXION_PAGES =
-    [ :participants,
-      :talks,
-      :hotels,
-      :utilities
-    ].map{|p| :"org/#{ p }" }
+    [ 'participants',
+      'talks',
+      'hotels',
+      'utilities'
+    ].map{|p| "org/#{ p }" }
 
 
   ORGANISER_CONNEXION_UTILITY_TABS = {
@@ -110,7 +110,7 @@ class CTT2013 < Sinatra::Base
   HOTEL_ATTRIBUTE_NAMES_FOR_SHOW = [:name, :address, :phone, :web_site]
 
   get '/org/login' do
-    set_page(:"org/login")
+    set_page('org/login')
     haml :'/pages/org/login.html'
   end
 
@@ -134,7 +134,7 @@ class CTT2013 < Sinatra::Base
   get '/org/participants' do
     require_organiser_login!
 
-    set_page(:"org/participants")
+    set_page('org/participants')
 
     # Filtering
     participants_filter   = participants_filter_from_params
@@ -249,7 +249,7 @@ class CTT2013 < Sinatra::Base
   get '/org/talks' do
     require_organiser_login!
 
-    set_page(:"org/talks")
+    set_page('org/talks')
 
     # Filtering
     talks_filter = talks_filter_from_params
@@ -317,7 +317,7 @@ class CTT2013 < Sinatra::Base
   get '/org/hotels' do
     require_organiser_login!
 
-    set_page(:"org/hotels")
+    set_page('org/hotels')
 
     @hotels = Hotel.default_order
 
@@ -396,7 +396,7 @@ class CTT2013 < Sinatra::Base
   get '/org/utilities' do
     require_organiser_login!
 
-    set_page(:"org/utilities")
+    set_page('org/utilities')
 
     haml :'/pages/org/utilities_layout' do nil end
   end
@@ -404,7 +404,7 @@ class CTT2013 < Sinatra::Base
   # get '/org/utilities/email_lists/speakers/:talk_type' do |talk_type|
   #   require_organiser_login!
 
-  #   set_page(:"org/utilities")
+  #   set_page('org/utilities')
 
   #   @participants = Participant.default_order
 
@@ -428,7 +428,7 @@ class CTT2013 < Sinatra::Base
   get '/org/utilities/talk_proposals_for_scientific_committee' do
     require_organiser_login!
 
-    set_page(:"org/utilities")
+    set_page('org/utilities')
     @utility_tab = :talk_proposals_for_scientific_committee
 
     @participants_with_talk_proposals =

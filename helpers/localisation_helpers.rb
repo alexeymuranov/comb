@@ -15,7 +15,7 @@ class CTT2013
 
       # Parse page name to determine I18n localisation scope
       def page_i18n_scope(page)
-        'pages.' + page.to_s.gsub(?/, ?.)
+        'pages.' + page.gsub('/', '.')
       end
 
   end

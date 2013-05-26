@@ -33,9 +33,9 @@ describe 'Test CTT2013 application' do
   end
 
   describe 'Dynamic public pages' do
-    [:participants, :registration].each do |page|
+    ['participants', 'registration'].each do |page|
       app::LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
-        app::PAGE_URL_FRAGMENTS[:"#{ app::COMB_PAGE_PREFIX }#{ page }"].each do |p|
+        app::PAGE_URL_FRAGMENTS["#{ app::COMB_PAGE_PREFIX }#{ page }"].each do |p|
           url = "#{ app::BASE_URL }#{ l }#{ p }"
           it "#{ url } should respond OK" do
             get url

@@ -5,35 +5,35 @@ class CTT2013 < Sinatra::Base
   # Handlers
   # ========
   #
-  COMMON_HOME_PAGE = :'common/index.php'
+  COMMON_HOME_PAGE = 'common/index.php'
 
-  COMB_PAGE_PREFIX = :'ldtg-mb/'
+  COMB_PAGE_PREFIX = 'ldtg-mb/'
 
   PUBLIC_PAGES =
-    [ :index,
-      :program,
-      :scientific_committee,
-      :organising_committee,
-      :directions_to_get_here,
-      :funding,
-      :contacts,
-      :accommodation,
-      :participants,
-      :registration, # only displays that registration is closed
-      :useful_links
-    ].map{|p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
+    [ 'index',
+      'program',
+      'scientific_committee',
+      'organising_committee',
+      'directions_to_get_here',
+      'funding',
+      'contacts',
+      'accommodation',
+      'participants',
+      'registration', # only displays that registration is closed
+      'useful_links'
+    ].map{|p| "#{ COMB_PAGE_PREFIX }#{ p }" }
 
   STATIC_PUBLIC_PAGES =
-    Set[ :index,
-         :program,
-         :scientific_committee,
-         :organising_committee,
-         :directions_to_get_here,
-         :funding,
-         :contacts,
-         :registration,
-         :useful_links
-       ].map{|p| :"#{ COMB_PAGE_PREFIX }#{ p }" }
+    Set[ 'index',
+         'program',
+         'scientific_committee',
+         'organising_committee',
+         'directions_to_get_here',
+         'funding',
+         'contacts',
+         'registration',
+         'useful_links'
+       ].map{|p| "#{ COMB_PAGE_PREFIX }#{ p }" }
 
   COMB_HOME_PAGE = PUBLIC_PAGES[0]
   PAGE_URL_FRAGMENTS = PUBLIC_PAGES.reduce({}){|h, p| h[p] = [p.to_s]; h }
@@ -78,7 +78,7 @@ class CTT2013 < Sinatra::Base
     end
   end
 
-  co_m_b_accommodation_page = :"#{ COMB_PAGE_PREFIX }accommodation"
+  co_m_b_accommodation_page = "#{ COMB_PAGE_PREFIX }accommodation"
   page_file = :"/pages/#{ co_m_b_accommodation_page }.html"
   PAGE_URL_FRAGMENTS[co_m_b_accommodation_page].each do |p|
     get "/#{ p }" do
@@ -101,7 +101,7 @@ class CTT2013 < Sinatra::Base
     haml :'/pages/data/_participants', :layout => false
   end
 
-  participants_page = :"#{ COMB_PAGE_PREFIX }participants"
+  participants_page = "#{ COMB_PAGE_PREFIX }participants"
   PAGE_URL_FRAGMENTS[participants_page].each do |p|
     # A page that needs access to the database
     get "/#{ p }" do
@@ -148,7 +148,7 @@ class CTT2013 < Sinatra::Base
   private
 
     # def render_registration_page
-    #   set_page(:registration)
+    #   set_page('registration')
 
     #   if @conferences.nil? || @conferences.empty?
     #     @conferences = Conference.default_order
