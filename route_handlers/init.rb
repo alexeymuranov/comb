@@ -59,7 +59,7 @@ class CTT2013 < Sinatra::Base
 
     def set_locale(locale)
       I18n.locale = @locale = locale
-      @other_locales = LOCALES.reject{|l| l == @locale }
+      @other_locales = LOCALES - [@locale]
     end
 
     def locale
