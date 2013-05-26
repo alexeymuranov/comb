@@ -158,43 +158,42 @@ class CTT2013 < Sinatra::Base
   #       render_registration_page
   #     end
   #   end
-  # end
 
   # Private methods
   # ===============
   #
   private
 
-    def render_registration_page
-      set_page(:registration)
+    # def render_registration_page
+    #   set_page(:registration)
 
-      if @conferences.nil? || @conferences.empty?
-        @conferences = Conference.default_order
-      end
+    #   if @conferences.nil? || @conferences.empty?
+    #     @conferences = Conference.default_order
+    #   end
 
-      @field_labels = {}
+    #   @field_labels = {}
 
-      name = t('names.i_m_t')
-      link_attributes =
-        'href="http://www.math.univ-toulouse.fr/" target="_blank"'
-      @field_labels[:i_m_t_member] =
-        t('pages.registration.form.field_labels.i_m_t_member__for_html',
-          :link_to_i_m_t => "<a #{ link_attributes }>#{ name }</a>")
+    #   name = t('names.i_m_t')
+    #   link_attributes =
+    #     'href="http://www.math.univ-toulouse.fr/" target="_blank"'
+    #   @field_labels[:i_m_t_member] =
+    #     t('pages.registration.form.field_labels.i_m_t_member__for_html',
+    #       :link_to_i_m_t => "<a #{ link_attributes }>#{ name }</a>")
 
-      name = t('names.g_d_r_tresses')
-      link_attributes =
-        'href="http://tresses.math.cnrs.fr/" target="_blank"'
-      @field_labels[:g_d_r_member] =
-        t('pages.registration.form.field_labels.g_d_r_member__for_html',
-          :link_to_g_d_r => "<a #{ link_attributes }>#{ name }</a>")
+    #   name = t('names.g_d_r_tresses')
+    #   link_attributes =
+    #     'href="http://tresses.math.cnrs.fr/" target="_blank"'
+    #   @field_labels[:g_d_r_member] =
+    #     t('pages.registration.form.field_labels.g_d_r_member__for_html',
+    #       :link_to_g_d_r => "<a #{ link_attributes }>#{ name }</a>")
 
-      PARTICIPANT_ATTRIBUTE_NAMES_FOR[:registration].each do |attr|
-        @field_labels[attr] ||=
-          t(attr, :scope => 'pages.registration.form.field_labels')
-      end
+    #   PARTICIPANT_ATTRIBUTE_NAMES_FOR[:registration].each do |attr|
+    #     @field_labels[attr] ||=
+    #       t(attr, :scope => 'pages.registration.form.field_labels')
+    #   end
 
-      haml :'/pages/registration.html', :layout => :simple_layout
-    end
+    #   haml :'/pages/registration.html', :layout => :simple_layout
+    # end
 
     if production?
       EMAIL_TO_ORGANISERS_BASIC_ATTRIBUTES =
