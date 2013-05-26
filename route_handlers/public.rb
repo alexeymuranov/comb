@@ -54,9 +54,9 @@ class CTT2013 < Sinatra::Base
     scss :'/stylesheets/application.css'
   end
 
-    get '/' do
-      redirect fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ locale }")
-    end
+  get '/' do
+    redirect fixed_url("/#{ COMMON_HOME_PAGE }?lang=#{ locale }")
+  end
 
   # # Registration is closed since 2013-05-01.
   #   get '/registration' do
@@ -70,25 +70,25 @@ class CTT2013 < Sinatra::Base
 
   STATIC_PUBLIC_PAGES.each do |page|
     page_file = :"/pages/#{ page }.html"
-      PAGE_URL_FRAGMENTS[page].each do |p|
-        get "/#{ p }" do
-          set_page(page)
-          haml page_file, :layout => :layout
-        end
+    PAGE_URL_FRAGMENTS[page].each do |p|
+      get "/#{ p }" do
+        set_page(page)
+        haml page_file, :layout => :layout
       end
+    end
   end
 
   co_m_b_accommodation_page = :"#{ COMB_PAGE_PREFIX }accommodation"
   page_file = :"/pages/#{ co_m_b_accommodation_page }.html"
-    PAGE_URL_FRAGMENTS[co_m_b_accommodation_page].each do |p|
-      get "/#{ p }" do
-        set_page(co_m_b_accommodation_page)
+  PAGE_URL_FRAGMENTS[co_m_b_accommodation_page].each do |p|
+    get "/#{ p }" do
+      set_page(co_m_b_accommodation_page)
 
-        @hotels = Hotel.default_order
+      @hotels = Hotel.default_order
 
-        haml page_file, :layout => :layout
-      end
+      haml page_file, :layout => :layout
     end
+  end
 
   # Plain participant lists
   get '/data/participants/by_conference/:conf_identifier' do |conf_identifier|
@@ -101,18 +101,18 @@ class CTT2013 < Sinatra::Base
     haml :"/pages/data/_participants", :layout => false
   end
 
-    participants_page = :"#{ COMB_PAGE_PREFIX }participants"
-    PAGE_URL_FRAGMENTS[participants_page].each do |p|
-      # A page that needs access to the database
-      get "/#{ p }" do
-        set_page(participants_page)
+  participants_page = :"#{ COMB_PAGE_PREFIX }participants"
+  PAGE_URL_FRAGMENTS[participants_page].each do |p|
+    # A page that needs access to the database
+    get "/#{ p }" do
+      set_page(participants_page)
 
-        @participants =
-          Conference.co_m_b_conf.participants.approved.default_order.all
+      @participants =
+        Conference.co_m_b_conf.participants.approved.default_order.all
 
-        haml :"/pages/#{ participants_page }.html", :layout => :layout
-      end
+      haml :"/pages/#{ participants_page }.html", :layout => :layout
     end
+  end
 
   # POST requests
   # -------------
