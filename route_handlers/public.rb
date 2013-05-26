@@ -98,7 +98,7 @@ class CTT2013 < Sinatra::Base
 
     @participants = conference.participants.approved.default_order.all
 
-    haml :"/pages/data/_participants", :layout => false
+    haml :'/pages/data/_participants', :layout => false
   end
 
   participants_page = :"#{ COMB_PAGE_PREFIX }participants"

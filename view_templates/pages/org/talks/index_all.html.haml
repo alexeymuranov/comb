@@ -40,13 +40,13 @@
 - case @view_parameters[:show_as]
 - when 'abstract_list'
 
-  = haml :"/pages/org/talks/abstract_list"
+  = haml :'/pages/org/talks/abstract_list'
 
 - else
 
-  = haml :"/pages/org/talks/table"
+  = haml :'/pages/org/talks/table'
 
 - if main_organiser_logged_in?
-  %a.button.new{ :href => fixed_url_with_locale("/org/talks/new"),
+  %a.button.new{ :href => fixed_url_with_locale('/org/talks/new'),
                  :role => 'button' }<
     = t 'actions.add'

@@ -111,7 +111,7 @@ class CTT2013 < Sinatra::Base
 
   get '/org/login' do
     set_page(:"org/login")
-    haml :"/pages/org/login.html"
+    haml :'/pages/org/login.html'
   end
 
   get '/logout' do
@@ -204,7 +204,7 @@ class CTT2013 < Sinatra::Base
       }
     }
 
-    haml :"/pages/org/participants/index_all.html"
+    haml :'/pages/org/participants/index_all.html'
   end
 
   get '/org/participants/new' do
@@ -222,7 +222,7 @@ class CTT2013 < Sinatra::Base
 
     @participant = Participant.find(id)
 
-    haml :"/pages/org/participants/show_one.html"
+    haml :'/pages/org/participants/show_one.html'
   end
 
   get '/org/participants/:id/edit' do |id|
@@ -241,7 +241,7 @@ class CTT2013 < Sinatra::Base
 
     @participant = Participant.find(id)
 
-    haml :"/pages/org/participants/delete_one.html"
+    haml :'/pages/org/participants/delete_one.html'
   end
 
   # ==== Talks
@@ -275,7 +275,7 @@ class CTT2013 < Sinatra::Base
 
     @talks = filtered_talks
 
-    haml :"/pages/org/talks/index_all.html"
+    haml :'/pages/org/talks/index_all.html'
   end
 
   get '/org/talks/new' do
@@ -293,7 +293,7 @@ class CTT2013 < Sinatra::Base
 
     @talk = Talk.find(id)
 
-    haml :"/pages/org/talks/show_one.html"
+    haml :'/pages/org/talks/show_one.html'
   end
 
   get '/org/talks/:id/edit' do |id|
@@ -309,7 +309,7 @@ class CTT2013 < Sinatra::Base
 
     @talk = Talk.find(id)
 
-    haml :"/pages/org/talks/delete_one.html"
+    haml :'/pages/org/talks/delete_one.html'
   end
 
   # ==== Hotels
@@ -321,7 +321,7 @@ class CTT2013 < Sinatra::Base
 
     @hotels = Hotel.default_order
 
-    haml :"/pages/org/hotels/index_all.html"
+    haml :'/pages/org/hotels/index_all.html'
   end
 
   get '/org/hotels/new' do
@@ -339,7 +339,7 @@ class CTT2013 < Sinatra::Base
 
     @hotel = Hotel.find(id)
 
-    haml :"/pages/org/hotels/show_one.html"
+    haml :'/pages/org/hotels/show_one.html'
   end
 
   get '/org/hotels/:id/edit' do |id|
@@ -355,7 +355,7 @@ class CTT2013 < Sinatra::Base
 
     @hotel = Hotel.find(id)
 
-    haml :"/pages/org/hotels/delete_one.html"
+    haml :'/pages/org/hotels/delete_one.html'
   end
 
   # ==== Accommodations
@@ -374,7 +374,7 @@ class CTT2013 < Sinatra::Base
                         :arrival_date   => @participant.first_arrival_date,
                         :departure_date => @participant.last_departure_date)
 
-    haml :"/pages/org/accommodations/new_one.html"
+    haml :'/pages/org/accommodations/new_one.html'
   end
 
   get '/org/participants/:participant_id/accommodations/edit' do |participant_id|
@@ -388,7 +388,7 @@ class CTT2013 < Sinatra::Base
 
     @accommodations = @participant.accommodations
 
-    haml :"/pages/org/accommodations/edit_all.html"
+    haml :'/pages/org/accommodations/edit_all.html'
   end
 
   # ==== Other
@@ -398,7 +398,7 @@ class CTT2013 < Sinatra::Base
 
     set_page(:"org/utilities")
 
-    haml :"/pages/org/utilities_layout" do nil end
+    haml :'/pages/org/utilities_layout' do nil end
   end
 
   # get '/org/utilities/email_lists/speakers/:talk_type' do |talk_type|
@@ -419,8 +419,8 @@ class CTT2013 < Sinatra::Base
   #       @participants.joins(:talks).merge(ParallelTalk.scoped).uniq
   #   end
 
-  #   haml :"/pages/org/utilities_layout" do
-  #     haml :"/pages/org/participants/email_list",
+  #   haml :'/pages/org/utilities_layout' do
+  #     haml :'/pages/org/participants/email_list',
   #          :layout => false
   #   end
   # end
@@ -434,8 +434,8 @@ class CTT2013 < Sinatra::Base
     @participants_with_talk_proposals =
       Participant.joins(:talk_proposals).uniq.default_order
 
-    haml :"/pages/org/utilities_layout" do
-      haml :"/pages/org/utilities/talk_proposals_for_scientific_committee.html",
+    haml :'/pages/org/utilities_layout' do
+      haml :'/pages/org/utilities/talk_proposals_for_scientific_committee.html',
            :layout => false
     end
   end
@@ -446,7 +446,7 @@ class CTT2013 < Sinatra::Base
     @participants_with_talk_proposals =
       Participant.joins(:talk_proposals).uniq.default_order
 
-    haml :"/pages/org/articles/talk_proposals_for_scientific_committee.html",
+    haml :'/pages/org/articles/talk_proposals_for_scientific_committee.html',
          :layout => :simple_layout
   end
 
@@ -644,7 +644,7 @@ class CTT2013 < Sinatra::Base
       redirect fixed_url_with_locale("/org/participants/#{ @participant.id }#accommodations", locale)
     else
       flash.now[:error] = t('flash.resources.accommodations.create.failure')
-      haml :"/pages/org/accommodations/new_one.html"
+      haml :'/pages/org/accommodations/new_one.html'
     end
   end
 
@@ -755,7 +755,7 @@ class CTT2013 < Sinatra::Base
     else
       flash.now[:error] = t('flash.resources.accommodations.update.failure')
       @accommodations = @participant.accommodations
-      haml :"/pages/org/accommodations/edit_all.html"
+      haml :'/pages/org/accommodations/edit_all.html'
     end
   end
 
@@ -973,7 +973,7 @@ class CTT2013 < Sinatra::Base
         @conferences = Conference.default_order
       end
 
-      haml :"/pages/org/participants/new_one.html"
+      haml :'/pages/org/participants/new_one.html'
     end
 
     def render_edit_participant_properly
@@ -984,31 +984,31 @@ class CTT2013 < Sinatra::Base
         @conferences = Conference.default_order
       end
 
-      haml :"/pages/org/participants/edit_one.html"
+      haml :'/pages/org/participants/edit_one.html'
     end
 
     def render_new_talk_properly
       @attribute_names ||= TALK_ATTRIBUTE_NAMES_FOR[:create]
 
-      haml :"/pages/org/talks/new_one.html"
+      haml :'/pages/org/talks/new_one.html'
     end
 
     def render_edit_talk_properly
       @attribute_names ||= TALK_ATTRIBUTE_NAMES_FOR[:update]
 
-      haml :"/pages/org/talks/edit_one.html"
+      haml :'/pages/org/talks/edit_one.html'
     end
 
     def render_new_hotel_properly
       @attribute_names ||= HOTEL_ATTRIBUTE_NAMES_FOR[:create]
 
-      haml :"/pages/org/hotels/new_one.html"
+      haml :'/pages/org/hotels/new_one.html'
     end
 
     def render_edit_hotel_properly
       @attribute_names ||= HOTEL_ATTRIBUTE_NAMES_FOR[:update]
 
-      haml :"/pages/org/hotels/edit_one.html"
+      haml :'/pages/org/hotels/edit_one.html'
     end
 
 end

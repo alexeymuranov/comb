@@ -105,11 +105,11 @@
 - case @view_parameters[:show_as]
 - when 'email_list'
 
-  = haml :"/pages/org/participants/email_list"
+  = haml :'/pages/org/participants/email_list'
 
 - else
 
-  = haml :"/pages/org/participants/table"
+  = haml :'/pages/org/participants/table'
 
 - if main_organiser_logged_in?
   %a.button.new{ :href => fixed_url_with_locale('/org/participants/new'),
