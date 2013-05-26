@@ -65,11 +65,6 @@ class CTT2013 < Sinatra::Base
     :talk_proposals_for_scientific_committee =>
       'talk_proposals_for_scientific_committee' }
 
-  # Cache control
-  before %r{/org/} do
-    cache_control :no_cache
-  end
-
   # == GET requests
   # ---------------
 
