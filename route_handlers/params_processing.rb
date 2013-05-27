@@ -16,7 +16,9 @@ class CTT2013
         :show_as  => show_as }
     end
 
-    def custom_participant_filtering_parameters_from_params(submitted_filtering_parameters = params['custom_filter'])
+    def custom_participant_filtering_parameters_from_params(
+          submitted_filtering_parameters = params['custom_filter'])
+
       if submitted_filtering_parameters.nil?
         return {}
       end

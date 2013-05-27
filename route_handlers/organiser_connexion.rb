@@ -165,7 +165,8 @@ class CTT2013 < Sinatra::Base
         [Participation, :approved] ]
 
     # Custom ad hoc filtering
-    @custom_filtering_parameters = custom_participant_filtering_parameters_from_params
+    @custom_filtering_parameters =
+      custom_participant_filtering_parameters_from_params
     unless @custom_filtering_parameters.empty?
       filtered_participants = filtered_participants.merge(
         participants_scope_from_custom_filtering_parameters(
@@ -904,7 +905,9 @@ class CTT2013 < Sinatra::Base
     end
 
     # Custom ad hoc filtering
-    def participants_scope_from_custom_filtering_parameters(custom_filtering_parameters = custom_participant_filtering_parameters_from_params)
+    def participants_scope_from_custom_filtering_parameters(
+          custom_filtering_parameters =
+            custom_participant_filtering_parameters_from_params)
       participants_scope = Participant.scoped
       unless custom_filtering_parameters.empty?
         if custom_filtering_parameters[:participants_with_talk_proposals]
