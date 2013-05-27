@@ -455,12 +455,6 @@ class CTT2013 < Sinatra::Base
     redirect fixed_url("/org/login")
   end
 
-  get '/logout' do
-    cache_control :no_cache
-    log_out
-    redirect fixed_url('/')
-  end
-
   # ==== Participants
   #
   participant_attribute_procs_for_download =
