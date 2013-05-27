@@ -212,7 +212,7 @@ class CTT2013 < Sinatra::Base
         organizer_notification_email_addresses(participant.participations)
       email_subject =
         "CTT 2013:  #{ participant.full_name_with_affiliation }"\
-        "  has registered"
+        '  has registered'
       email_html_body =
         haml(:'/email/registration_notification.html', :layout => false)
       email_body = ReverseMarkdown.parse email_html_body
@@ -243,7 +243,7 @@ class CTT2013 < Sinatra::Base
         haml(:'/email/registration_confirmation.html', :layout => false)
       email_body = ReverseMarkdown.parse email_html_body
       email_contents = {
-        :subject   => "CTT 2013 registration confirmation",
+        :subject   => 'CTT 2013 registration confirmation',
         :body      => email_body,
         :html_body => email_html_body }
 

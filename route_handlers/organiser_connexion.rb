@@ -117,13 +117,13 @@ class CTT2013 < Sinatra::Base
   get '/logout' do
     cache_control :no_cache
     log_out
-    redirect fixed_url_with_locale("/org/login", locale)
+    redirect fixed_url_with_locale('/org/login', locale)
   end
 
   get '/org/' do
     require_organiser_login!
 
-    redirect fixed_url_with_locale("/org/participants", locale)
+    redirect fixed_url_with_locale('/org/participants', locale)
   end
 
   # ==== Participants
@@ -478,7 +478,7 @@ class CTT2013 < Sinatra::Base
   get '/download/participants.:format' do |format|
     require_organiser_login!
 
-    attachment "filtered participants " +
+    attachment 'filtered participants ' +
                "#{ Time.now.strftime('%Y-%m-%d %k-%M') }.#{ format }"
 
     @headers =
@@ -544,11 +544,11 @@ class CTT2013 < Sinatra::Base
         redirect fixed_url(session[:return_to])
         session.delete(:return_to)
       else
-        redirect fixed_url_with_locale("/org/participants", locale)
+        redirect fixed_url_with_locale('/org/participants', locale)
       end
     else
       flash[:error] = t('flash.sessions.log_in.failure')
-      redirect fixed_url_with_locale("/org/login", locale)
+      redirect fixed_url_with_locale('/org/login', locale)
     end
   end
 
@@ -769,7 +769,7 @@ class CTT2013 < Sinatra::Base
     require_main_organiser_login!
 
     Participant.find(id).destroy
-    redirect fixed_url_with_locale("/org/participants", locale)
+    redirect fixed_url_with_locale('/org/participants', locale)
   end
 
   # ==== Talks
@@ -778,7 +778,7 @@ class CTT2013 < Sinatra::Base
     require_main_organiser_login!
 
     Talk.find(id).destroy
-    redirect fixed_url_with_locale("/org/talks", locale)
+    redirect fixed_url_with_locale('/org/talks', locale)
   end
 
   # ==== Hotels
@@ -787,7 +787,7 @@ class CTT2013 < Sinatra::Base
     require_main_organiser_login!
 
     Hotel.find(id).destroy
-    redirect fixed_url_with_locale("/org/hotels", locale)
+    redirect fixed_url_with_locale('/org/hotels', locale)
   end
 
   # ==== Accommodations
@@ -848,7 +848,7 @@ class CTT2013 < Sinatra::Base
         # halt [ 401, 'Not Authorized' ]
         flash[:error] = t('flash.filters.require_organiser_login')
         session[:return_to] = request.fullpath if request.get?
-        redirect fixed_url("/org/login")
+        redirect fixed_url('/org/login')
       end
     end
 
@@ -856,7 +856,7 @@ class CTT2013 < Sinatra::Base
       unless main_organiser_logged_in?
         # halt [ 401, 'Not Authorized' ]
         flash[:error] = t('flash.filters.require_main_organiser_login')
-        redirect fixed_url("/org/login")
+        redirect fixed_url('/org/login')
       end
     end
 
