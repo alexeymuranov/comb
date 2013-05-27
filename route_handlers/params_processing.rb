@@ -23,6 +23,9 @@ class CTT2013
         return {}
       end
 
+      submitted_filtering_parameters =
+        submitted_filtering_parameters.reject{|_, v| v == '' }
+
       filtering_parameters = {}
 
       if submitted_filtering_parameters['participants_with_talk_proposals'] == '1'
@@ -39,7 +42,7 @@ class CTT2013
 
       participant_participations_count =
         submitted_filtering_parameters['participant_participations_count']
-      unless Set[nil, ''].include?(participant_participations_count)
+      if participant_participations_count
         filtering_parameters[:participant_participations_count] =
           participant_participations_count.to_i
       end
