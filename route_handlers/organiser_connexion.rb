@@ -114,6 +114,10 @@ class CTT2013 < Sinatra::Base
     haml :'/pages/org/login.html'
   end
 
+  get '/login' do
+    redirect fixed_url_with_locale('/org/login', locale)
+  end
+
   get '/logout' do
     cache_control :no_cache
     log_out
@@ -449,10 +453,6 @@ class CTT2013 < Sinatra::Base
 
     haml :'/pages/org/articles/talk_proposals_for_scientific_committee.html',
          :layout => :simple_layout
-  end
-
-  get '/login' do
-    redirect fixed_url("/org/login")
   end
 
   # ==== Participants
