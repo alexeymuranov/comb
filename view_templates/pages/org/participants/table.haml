@@ -35,9 +35,3 @@
         %td
           %a.button.show{ :href => fixed_url_with_locale("/org/participants/#{ participant.id }") }<
             = t 'actions.show'
-
-        - if main_organiser_logged_in?
-          %td
-            %a.button.edit{ :href => fixed_url_with_locale("/org/participants/#{ participant.id }/edit") }<
-              = t 'actions.update'
-
