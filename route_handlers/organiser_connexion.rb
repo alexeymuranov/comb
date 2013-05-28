@@ -693,7 +693,7 @@ class CTT2013 < Sinatra::Base
       @talk_proposal.accept
     end
     @talk_proposal.save!
-    redirect fixed_url_with_locale("/org/participants#participant_#{ @talk_proposal.participant.id }", locale)
+    redirect fixed_url_with_locale("/org/participants/#{ @talk_proposal.participant.id }#talk_proposal", locale)
   end
 
   # ==== Talks
