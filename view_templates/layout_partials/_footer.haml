@@ -1,6 +1,6 @@
 - unless organiser_logged_in?
   .logos
-    - logos_height = '75px'
+    - logos_height = '60px'
     %a{ :href => 'http://www.math.univ-toulouse.fr' }<
       %img.sponsor.logo{ :src    => fixed_url('/images/logo_imt.png'),
                          :alt    => 'IMT logo',
@@ -35,4 +35,9 @@
       %img.sponsor.logo{ :src    => fixed_url('/images/logo_anr.png'),
                          :alt    => 'ANR logo',
                          :title  => 'ANR',
+                         :height => logos_height }
+    %a{ :href => 'http://www.midipyrenees.fr/' }<
+      %img.sponsor.logo{ :src    => fixed_url('/images/logo_rmp.png'),
+                         :alt    => 'RMP logo',
+                         :title  => 'Région Midi-Pyrénées',
                          :height => logos_height }
