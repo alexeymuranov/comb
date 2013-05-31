@@ -97,10 +97,12 @@ class CTT2013 < Sinatra::Base
   #
   TALK_ATTRIBUTE_NAMES_FOR_INDEX =
     [ :translated_type_name, :speaker_name, :title,
+      :equipment,
       :date, :time, :room_or_auditorium ]
 
   TALK_ATTRIBUTE_NAMES_FOR_SHOW =
     [ :translated_type_name, :speaker_name, :title, :abstract,
+      :equipment,
       :date, :time, :room_or_auditorium ]
 
   # ==== Hotels

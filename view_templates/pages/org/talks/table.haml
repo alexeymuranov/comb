@@ -2,6 +2,7 @@
   %thead
     %tr
       - [ :translated_type_name, :speaker_name, :title,
+          :equipment,
           :date, :time, :room_or_auditorium ].each do |attr_name|
         %th
           = header_from_attribute_name(Talk, attr_name)
@@ -11,6 +12,7 @@
     - @talks.each do |talk|
       %tr{ :id => "talk_#{ talk.id }" }
         - [ :translated_type_name, :speaker_name, :title,
+            :equipment,
             :date, :time, :room_or_auditorium ].each do |attr_name|
           %td
             &= talk.public_send(attr_name)

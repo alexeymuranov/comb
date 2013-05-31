@@ -27,6 +27,21 @@
       = preserve do
         &= @talk.abstract
 
+- required = Talk.attribute_constraints_on(:equipment)[:required]
+- label_html_classes = []
+- label_html_classes << 'required' if required
+.field
+  %dt.label
+    %label{ :for   => 'talk_equipment',
+            :class => label_html_classes }<
+      = label_from_attribute_name(Talk, :equipment)
+  %dd.input
+    %input.long_string{ :id       => 'talk_equipment',
+                        :name     => 'talk[equipment]',
+                        :required => required,
+                        :type     => 'text',
+                        :value    => @talk.equipment }
+
 - [:date, :time, :room_or_auditorium].each do |attr|
   - required = Talk.attribute_constraints_on(attr)[:required]
   - label_html_classes = []

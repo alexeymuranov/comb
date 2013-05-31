@@ -83,6 +83,7 @@ en:
         authors             : "authors"
         date                : "date"
         time                : "time"
+        equipment           : "equipment"
         starts_at           : "starts at"
         ends_at             : "ends at"
         room_or_auditorium  : "room"

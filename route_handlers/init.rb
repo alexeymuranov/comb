@@ -31,6 +31,7 @@ class CTT2013 < Sinatra::Base
   TALK_ATTRIBUTE_NAMES_FOR = {}
   TALK_ATTRIBUTE_NAMES_FOR[:create] =
     Set[ :type, :participant_id, :title, :abstract,
+         :equipment,
          :date, :time, :room_or_auditorium ]
   TALK_ATTRIBUTE_NAMES_FOR[:update] =
     TALK_ATTRIBUTE_NAMES_FOR[:create]
