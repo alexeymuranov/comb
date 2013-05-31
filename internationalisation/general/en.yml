@@ -56,3 +56,8 @@ en:
     answers:
       no-cancel : "No, cancel"
       yes-delete: "Yes, delete"
+
+  object_types:
+    talk:
+      plenary : "plenary"
+      parallel: "parellel"

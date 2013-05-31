@@ -393,15 +393,20 @@ class Talk < AbstractSmarterModel
     "#{ speaker_name }: \"#{ title }\""
   end
 
-  def translated_type_name
-    self.class.model_name.human
-  end
+  # This method is to be defined in subclasses:
+  # def translated_type_name
+  # end
 end
 
 class PlenaryTalk < Talk
   DURATION_MINUTES = 60
 
   before_save :set_duration
+
+  # Virtual attributes
+  def translated_type_name(locale = I18n.locale)
+    I18n.t('object_types.talk.plenary', :locale => locale)
+  end
 
   private
 
@@ -415,6 +420,11 @@ class ParallelTalk < Talk
   DURATION_MINUTES = 30
 
   before_save :set_duration
+
+  # Virtual attributes
+  def translated_type_name(locale = I18n.locale)
+    I18n.t('object_types.talk.parallel', :locale => locale)
+  end
 
   private
 
