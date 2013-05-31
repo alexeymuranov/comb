@@ -54,5 +54,5 @@ en:
     questions:
       "are_you_sure?": "Are you sure?"
     answers:
-      no-cancel    : "No, cancel"
-      yes-delete   : "Yes, delete"
+      no-cancel : "No, cancel"
+      yes-delete: "Yes, delete"
