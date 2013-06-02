@@ -161,15 +161,6 @@ class CTT2013 < Sinatra::Base
     end
     @filtering_values.delete_if{|_, v| v.empty? }
 
-    @filtering_by =
-      [ [Participant,   :last_name, {:html_input_options => {:autofocus => true}}],
-        [Participation, :conference, {:name_proc => :identifier.to_proc}],
-        [Participant,   :academic_position],
-        [Participant,   :invitation_needed],
-        [Participant,   :visa_needed],
-        [Participant,   :i_m_t_member],
-        [Participation, :approved] ]
-
     # Custom ad hoc filtering
     @custom_filtering_parameters =
       custom_participant_filtering_parameters_from_params
@@ -269,7 +260,6 @@ class CTT2013 < Sinatra::Base
     end
     @filtering_values.delete_if{|_, v| v.empty? }
 
-    @filtering_by = [[Talk, :type]]
 
     # Counting filtered
     @filtered_talks_count = filtered_talks.count

@@ -7,8 +7,10 @@
        :action => '#filter_form' }
   = hidden_fields_from_nested_hash hidden_parameters
 
-  = smart_filtering_fields @filtering_by, @filtering_values, nil,
-                          :params_key_prefix => 'filter'
+  = smart_filtering_fields [[Talk, :type]],
+                           @filtering_values,
+                           nil,
+                           :params_key_prefix => 'filter'
 
   .actions<
     %button._get_{ :type  => :submit }<

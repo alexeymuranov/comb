@@ -7,8 +7,16 @@
        :action => '#filter_form' }
   = hidden_fields_from_nested_hash hidden_parameters
 
-  = smart_filtering_fields @filtering_by, @filtering_values, nil,
-                          :params_key_prefix => 'filter'
+  = smart_filtering_fields [ [Participant,   :last_name, {:html_input_options => {:autofocus => true}}],
+                             [Participation, :conference, {:name_proc => :identifier.to_proc}],
+                             [Participant,   :academic_position],
+                             [Participant,   :invitation_needed],
+                             [Participant,   :visa_needed],
+                             [Participant,   :i_m_t_member],
+                             [Participation, :approved] ],
+                           @filtering_values,
+                           nil,
+                           :params_key_prefix => 'filter'
 
   - custom_filter_fields_empty = @custom_filtering_parameters.empty?
   %table#custom_filter.filter{ :class  => (custom_filter_fields_empty ? nil : 'filtered'),
