@@ -213,6 +213,10 @@ fr:
         title: "Org : Participants avec un court exposé proposé"
       talks:
         title: "Org : Exposés"
+      plenary_talks:
+        title: "Org : Exposés pléniers"
+      parallel_talks:
+        title: "Org : Exposés parallèles"
       hotels:
         title: "Org : Hôtels"
       utilities:

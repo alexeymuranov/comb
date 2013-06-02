@@ -51,17 +51,14 @@ class CTT2013 < Sinatra::Base
 
   ORGANISER_CONNEXION_PAGES =
     [ 'participants',
-      'talks',
+      'plenary_talks',
+      'parallel_talks',
       'hotels',
       'utilities'
     ].map{|p| "org/#{ p }" }
 
 
   ORGANISER_CONNEXION_UTILITY_TABS = {
-    # :plenary_speakers =>
-    #   'email_lists/speakers/plenary',
-    # :parallel_speakers =>
-    #   'email_lists/speakers/parallel',
     :talk_proposals_for_scientific_committee =>
       'talk_proposals_for_scientific_committee' }
 
@@ -244,22 +241,16 @@ class CTT2013 < Sinatra::Base
 
   # ==== Talks
   #
-  get '/org/talks' do
+  get '/org/plenary_talks' do
     require_organiser_login!
 
-    set_page('org/talks')
+    set_page('org/plenary_talks')
 
-    # Filtering
-    talks_filter = talks_filter_from_params
-    filtered_talks = talks_scope_from_filters(:talks_filter => talks_filter)
+    # Counting all
+    @talks_count = PlenaryTalk.count
 
-    @filtering_values = {}
-    if talks_filter
-      @filtering_values[Talk.table_name] =
-        talks_filter.filtering_values_as_simple_nested_hash
-    end
-    @filtering_values.delete_if{|_, v| v.empty? }
-
+    # Filtering if needed
+    filtered_talks = PlenaryTalk.scoped
 
     # Counting filtered
     @filtered_talks_count = filtered_talks.count
@@ -267,9 +258,36 @@ class CTT2013 < Sinatra::Base
     # Sorting
     filtered_talks = filtered_talks.default_order
 
-    # Pagination
+    # Setting view options
     @view_parameters = view_parameters_from_params
 
+    # Pagination if needed
+    @talks = filtered_talks
+
+    haml :'/pages/org/talks/index_all.html'
+  end
+
+  get '/org/parallel_talks' do
+    require_organiser_login!
+
+    set_page('org/parallel_talks')
+
+    # Counting all
+    @talks_count = ParallelTalk.count
+
+    # Filtering if needed
+    filtered_talks = ParallelTalk.scoped
+
+    # Counting filtered
+    @filtered_talks_count = filtered_talks.count
+
+    # Sorting
+    filtered_talks = filtered_talks.default_order
+
+    # Setting view options
+    @view_parameters = view_parameters_from_params
+
+    # Pagination if needed
     @talks = filtered_talks
 
     haml :'/pages/org/talks/index_all.html'
@@ -763,8 +781,17 @@ class CTT2013 < Sinatra::Base
   delete '/org/talks/:id' do |id|
     require_main_organiser_login!
 
-    Talk.find(id).destroy
-    redirect fixed_url_with_locale('/org/talks', locale)
+    @talk = Talk.find(id)
+    @talk.destroy
+
+    case @talk.type
+    when 'PlenaryTalk'
+      redirect fixed_url_with_locale('/org/plenary_talks', locale)
+    when 'ParallelTalk'
+      redirect fixed_url_with_locale('/org/parallel_talks', locale)
+    else
+      redirect fixed_url_with_locale('/org/', locale)
+    end
   end
 
   # ==== Hotels

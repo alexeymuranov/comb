@@ -213,6 +213,10 @@ en:
         title: "Org : Participants with short talk proposals"
       talks:
         title: "Org : Talks"
+      plenary_talks:
+        title: "Org : Plenary talks"
+      parallel_talks:
+        title: "Org : Parellel talks"
       hotels:
         title: "Org : Hotels"
       utilities:

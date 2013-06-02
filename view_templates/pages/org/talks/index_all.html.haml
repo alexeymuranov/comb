@@ -1,29 +1,8 @@
-- hidden_parameters = { 'view' => @view_parameters.except(:page) }
-%form{ :id     => 'clear_filter_form',
-       :action => '#filter_form' }
-  = hidden_fields_from_nested_hash hidden_parameters
-
-%form{ :id     => 'filter_form',
-       :action => '#filter_form' }
-  = hidden_fields_from_nested_hash hidden_parameters
-
-  = smart_filtering_fields [[Talk, :type]],
-                           @filtering_values,
-                           nil,
-                           :params_key_prefix => 'filter'
-
-  .actions<
-    %button._get_{ :type  => :submit }<
-      = t 'actions.filter'
-
-    %button._get_{ :type  => :submit, :form  => 'clear_filter_form' }<
-      = t 'actions.clear'
-
 %strong<
   - if @filtered_talks_count
-    #{ @filtered_talks_count } / #{ Talk.count }
+    #{ @filtered_talks_count } / #{ @talks_count }
   - else
-    [ #{ Talk.count } ]
+    [ #{ @talks_count } ]
 
 - hidden_parameters = { 'filter'        => @filtering_values,
                         'custom_filter' => @custom_filtering_parameters,
