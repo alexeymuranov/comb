@@ -5,3 +5,4 @@ tmp/
 .DS_Store
 .sass-cache/
 public_folder/common/
+git_stats/
