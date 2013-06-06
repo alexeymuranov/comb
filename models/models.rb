@@ -80,7 +80,7 @@ class Participation < AbstractSmarterModel
 
   has_many :talks, :class_name  => :Talk,
                    :foreign_key => :participation_id,
-                   :dependent   => :nullify,
+                   :dependent   => :destroy,
                    :inverse_of  => :conference_participation
 
   has_one :talk_proposal, :class_name  => :TalkProposal,
