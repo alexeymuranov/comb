@@ -14,8 +14,4 @@ The conference will form part of the scientific activites of the thematic month 
 organised by the [International Center of Mathematics and Computer Science in Toulouse (CIMI)](http://www.cimi.univ-toulouse.fr/). The meeting will
 also receive financial support from the [Toulouse Mathematics Institute](http://www.math.univ-toulouse.fr/), the [CNRS](http://www.cnrs.fr/insmi/), [Paul Sabatier University](http://www.univ-tlse3.fr/), the [GDR "Tresses"](http://tresses.math.cnrs.fr/), the [GEAR Network](http://gear.math.illinois.edu), the [Région Midi-Pyrénées](http://www.midipyrenees.fr/), and the three ANR projects [Extension of Teichmueller-Thurston theories](http://www.math.univ-toulouse.fr/~schlenker/ettt/ettt.html), [Contact topology in higher dimensions](http://www.math.univ-toulouse.fr/~niederkr/ANR/index.php?frame=main) and [Geometry of subgroups](http://www.cmi.univ-mrs.fr/~paoluzzi/gsg.xhtml).
 
-<!--
-**The deadline for [applications for financial support](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/funding) is the <span style='color:#FF0000'>24th of March 2013</span>.**<br>
--->
-<!--**The deadline for [registration](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/registration) is the <span style='color:#FF0000'>30th of April 2013</span>.**-->
-**<span style='color:#FF0000'>Titles of the plenary talks are now posted</span> [here](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/program).**
+**The meeting will start at 9am on Monday the 24th of June.**

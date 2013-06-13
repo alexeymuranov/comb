@@ -1,4 +1,11 @@
-Du centre ville, empruntez la [Ligne B](http://www.tisseo.fr/se-deplacer/plans) du métro, et descendez à l'arrêt Université Paul Sabatier. Il faut compter 15 minutes de trajet environ. Après avoir passé le tourniquet, prenez l'escalator à droite indiqué "université", et ensuite continuez tout droit. Après 50 mètres environ, sur votre droite, vous verrez un bâtiment récent de couleur bleue/mauve. C'est le bâtiment 1R3, qui fait partie de l'[Institut de Mathématiques de Toulouse](http://math.univ-toulouse.fr).
+Du centre ville, empruntez la [Ligne B](http://www.tisseo.fr/se-deplacer/plans) du métro, et descendez à l'arrêt Université Paul Sabatier.
+Il faudra compter 15 minutes de trajet environ.
+Après avoir passé le tourniquet, prenez l'escalier roulant à droite indiqué « Université », et ensuite continuez tout droit.
 
-Voir aussi <a href='http://www.math.univ-toulouse.fr/spip.php?article84' target='_blank'>ici</a>,
-ou <a href='http://maps.google.fr/maps?q=Institut+de+Math%C3%A9matiques+de+Toulouse,+Route+de+Narbonne,+Toulouse&hl=fr&ie=UTF8&sll=43.561781,1.465681&sspn=0.008863,0.01929&oq=IMT+&t=h&hq=Institut+de+Math%C3%A9matiques+de+Toulouse,&hnear=Route+de+Narbonne,+Toulouse,+Haute-Garonne,+Midi-Pyr%C3%A9n%C3%A9es&z=16' target='_blank'>sur « Google Maps »</a>.
+Après avoir marché 200 mèters depuis la station du métro, sur votre droite il y aura un groupe de trois bâtiments 1R3, 1R1, 1R2, qui abritent l'<a href='http://www.math.univ-toulouse.fr/spip.php?article84&lang=fr' target='_blank'>Institut de Mathématiques de Toulouse</a> (voir <a href='http://goo.gl/maps/5ry7l' target='_blank'>l'IMT sur Google Maps</a>).
+Si vous marchez encore 250 mèters, presque à l'autre extremité du campus, sur votre droite vous aurez un bâtiment « U4 », à quatre étages en béton (voir [ce plan simplifié](http://www.math.univ-toulouse.fr/top-geom-conf-2013/documents/campus-map.pdf)).
+
+Les exposés et les pauses café auront lieu au bâtiment U4.
+Les conférences plénières auront lieu dans l'amphithéâtre Shannon, et les exposés en parallèle auront lieu dans l'amphithéâtre Shannon, la Salle 211 et la Salle 212.
+
+Si vous souhaitez, vous pouvez télécharger <a href='http://www.univ-tlse3.fr/servlet/com.univ.collaboratif.utils.LectureFichiergw?CODE_FICHIER=1366207600559&ID_FICHE=69122' target='_blank'>le plan de tout le campus</a>.
