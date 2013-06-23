@@ -487,7 +487,7 @@ class ConferenceDinnerReservation < AbstractSmarterModel
                              :inverse_of  => :conference_dinner_reservation
 
   # Readonly attributes
-  attr_readonly :participatioin_id
+  attr_readonly :participation_id
 end
 
 class TalkProposal < AbstractSmarterModel
