@@ -15,5 +15,3 @@ also receive financial support from the [Toulouse Mathematics Institute](http://
 
 **The meeting will start at 9am on Monday the 24th of June** and end at 12:45pm on Friday the 28th of June.
 The reception of the participants and distribution of the conference kits will take place **from 8:30am to 9am on the second floor (third US floor) of the [building "U4"](http://www.math.univ-toulouse.fr/top-geom-conf-2013/documents/campus-map.pdf)**.
-
-The complete programme of the meeting is now available for download on the [Programme](http://www.math.univ-toulouse.fr/top-geom-conf-2013/en/ldtg-mb/program) page (in PDF).

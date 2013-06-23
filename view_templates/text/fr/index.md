@@ -14,5 +14,3 @@ organisées par le [Centre International de Mathématiques et Informatique de To
 
 **Le colloque commencera à 9h le lundi 24 juin** et se terminera à 12h45 le vendredi 28 juin.
 L'accueil des participants avec distribution des pochettes se fera **entre 8h30 et 9h au 2eme étage du [bâtiment U4](http://www.math.univ-toulouse.fr/top-geom-conf-2013/documents/campus-map.pdf)**.
-
-Le programme complet du colloque est désormais disponible pour téléchargement depuis la page [Programme](http://www.math.univ-toulouse.fr/top-geom-conf-2013/fr/ldtg-mb/program) (en PDF).
