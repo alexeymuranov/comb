@@ -31,11 +31,15 @@ class CTT2013
           model.human_attribute_name(attribute))
       end
 
+      HTML_CLASS_FROM_COLUMN_TYPE =
+        [ :boolean, :date, :datetime, :string, :text, :time
+        ].reduce(:integer => 'number') { |h, col_type|
+          h[col_type] = col_type.to_s
+          h
+        }
+
       def html_class_from_column_type(column_type)
-        { :string  => 'text',
-          :boolean => 'boolean',
-          :integer => 'number',
-          :date    => 'date' }[column_type]
+        HTML_CLASS_FROM_COLUMN_TYPE[column_type]
       end
 
       def input_html_type_for_attribute(model, attribute, column_type = nil)
