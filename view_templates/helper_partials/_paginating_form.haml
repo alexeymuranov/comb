@@ -27,7 +27,7 @@
             ⋯
         - range.each do |page|
           %button._get_.page{ :type  => :submit,
-                              :name  => params_key_from_hash_key[:page],
+                              :name  => params_key_from_hash_key['page'],
                               :value => page }<>
             = page
 
@@ -39,7 +39,7 @@
         %button._get_.present{ :type  => :submit }<
           = t 'formats.attribute_name:', :attribute => t('actions.repaginate')
         %input.repaginate{ :type         => :number,
-                           :name         => params_key_from_hash_key[:per_page],
+                           :name         => params_key_from_hash_key['per_page'],
                            :value        => per_page,
                            :min          => 1,
                            :step         => 1,
@@ -51,6 +51,6 @@
               = new_per_page
           - else
             %button._get_.present.per_page{ :type  => :submit,
-                                            :name  => params_key_from_hash_key[:per_page],
+                                            :name  => params_key_from_hash_key['per_page'],
                                             :value => new_per_page }<>
               = new_per_page
