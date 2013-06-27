@@ -8,9 +8,9 @@ class CTT2013
       params_key_prefix = options[:params_key_prefix] || 'view'
       params_key_from_hash_key =
         if params_key_prefix.empty?
-          lambda { |key| key.to_s }
+          lambda{|key| key.to_s }
         else
-          lambda { |key| "#{ params_key_prefix }[#{ key }]" }
+          lambda{|key| "#{ params_key_prefix }[#{ key }]" }
         end
       page_ranges_before =
         if page > 12
