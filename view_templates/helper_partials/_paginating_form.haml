@@ -4,14 +4,12 @@
 -#   current_page
 -#   page_ranges_before
 -#   page_ranges_after
--#   action_url (optional)
 -#   hidden_parameters (optional)
 
 -# Initialize local variables with nil if they do not exist.
-- action_url = action_url
 - hidden_parameters = hidden_parameters
 
-%form#pagination_form{ :action => "#{ action_url }#pagination_form" }
+%form#pagination_form{ :action => "#pagination_form" }
   - if hidden_parameters
     = hidden_fields_from_nested_hash hidden_parameters
 

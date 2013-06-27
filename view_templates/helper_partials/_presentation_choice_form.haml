@@ -2,14 +2,12 @@
 -#   params_key_from_hash_key # this is a lambda or a hash
 -#   available_formats
 -#   current_format
--#   action_url (optional)
 -#   hidden_parameters (optional)
 
 -# Initialize local variables with nil if they do not exist.
-- action_url = action_url
 - hidden_parameters = hidden_parameters
 
-%form#presentation_choice_form{ :action => "#{ action_url }#presentation_choice_form" }
+%form#presentation_choice_form{ :action => "#presentation_choice_form" }
   - if hidden_parameters
     = hidden_fields_from_nested_hash hidden_parameters
 

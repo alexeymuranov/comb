@@ -30,7 +30,6 @@ class CTT2013
                         :current_page             => page,
                         :page_ranges_before       => page_ranges_before,
                         :page_ranges_after        => page_ranges_after,
-                        :action_url               => options[:action_url],
                         :hidden_parameters        => options[:hidden_parameters] }
     end
   end

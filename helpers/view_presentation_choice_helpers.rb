@@ -14,7 +14,6 @@ class CTT2013
            :locals => { :params_key_from_hash_key => params_key_from_hash_key,
                         :available_formats        => available_formats,
                         :current_format           => current_format,
-                        :action_url               => options[:action_url],
                         :hidden_parameters        => options[:hidden_parameters] }
     end
   end
