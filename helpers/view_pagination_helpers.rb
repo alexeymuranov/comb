@@ -27,7 +27,7 @@ class CTT2013
       haml :'helper_partials/_paginating_form',
            :locals => { :params_key_from_hash_key => params_key_from_hash_key,
                         :per_page                 => per_page,
-                        :active_page              => page,
+                        :current_page             => page,
                         :page_ranges_before       => page_ranges_before,
                         :page_ranges_after        => page_ranges_after,
                         :action_url               => options[:action_url],

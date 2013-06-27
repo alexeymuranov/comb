@@ -3,7 +3,7 @@
     - LOCALES.each do |l|
       %li<>
         - if l == locale
-          %span.locale.active<>
+          %span.locale.current<>
             = l.upcase
         - else
           %a.locale{ :href => fixed_url_with_locale(request.path_info, l) }<>

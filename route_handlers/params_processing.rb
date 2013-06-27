@@ -5,14 +5,14 @@ class CTT2013
 
     def view_parameters_from_params(submitted_view_parameters = params['view'])
       submitted_view_parameters ||= {}
-      per_page    = (submitted_view_parameters['per_page'] || 10).to_i
-      active_page = (submitted_view_parameters['page']     ||  1).to_i
-      show_as     = submitted_view_parameters['show_as']
+      per_page     = (submitted_view_parameters['per_page'] || 10).to_i
+      current_page = (submitted_view_parameters['page']     ||  1).to_i
+      show_as      = submitted_view_parameters['show_as']
       if show_as == ''
         show_as = nil
       end
       { :per_page => per_page,
-        :page     => active_page,
+        :page     => current_page,
         :show_as  => show_as }
     end
 

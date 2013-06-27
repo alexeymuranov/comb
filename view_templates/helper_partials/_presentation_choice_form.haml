@@ -21,7 +21,7 @@
       - available_formats.each do |format|
         - title = t(format, :scope => 'show_as')
         - if format == current_format
-          %span.pressed_button.present.format.active<>
+          %span.pressed_button.present.format.current<>
             = title
         - else
           %button._get_.present.format{ :type  => :submit,

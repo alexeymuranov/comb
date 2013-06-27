@@ -1,7 +1,7 @@
 -# Locals:
 -#   params_key_from_hash_key # this is a lambda or a hash
 -#   per_page
--#   active_page
+-#   current_page
 -#   page_ranges_before
 -#   page_ranges_after
 -#   action_url (optional)
@@ -21,8 +21,8 @@
 
     - [page_ranges_before, page_ranges_after].each_with_index do |page_ranges, i|
       - unless i.zero?
-        %span.pressed_button.page.active<>
-          %strong= active_page
+        %span.pressed_button.page.current<>
+          %strong= current_page
       - page_ranges.each_with_index do |range, i|
         - unless i.zero?
           %span.ellipsis<>
@@ -49,7 +49,7 @@
                            :size         => 3 }
         - [10, 20, 30, 40, 50, 100].each do |new_per_page|
           - if new_per_page == per_page
-            %span.pressed_button.present.per_page.active<>
+            %span.pressed_button.present.per_page.current<>
               = new_per_page
           - else
             %button._get_.present.per_page{ :type  => :submit,
