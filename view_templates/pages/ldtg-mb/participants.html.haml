@@ -6,6 +6,9 @@
   -#     and
   -#       https://github.com/rtomayko/tilt/issues/75
   -#   = markdown(:"text/#{ locale }/invited_participants").force_encoding('utf-8')
+
+  = markdown(:"text/#{ locale }/participants").force_encoding('utf-8')
+
   %section#registered_participants
     %ol.long
       - @participants.each do |s|
