@@ -5,40 +5,6 @@ class CTT2013 < Sinatra::Base
   # Handlers
   # ========
   #
-  COMMON_HOME_PAGE = 'common/index.php'
-
-  COMB_PAGE_PREFIX = 'ldtg-mb/'
-
-  PUBLIC_PAGES =
-    [ 'index',
-      'program',
-      'scientific_committee',
-      'organising_committee',
-      'directions_to_get_here',
-      'funding',
-      'contacts',
-      'accommodation',
-      'participants',
-      'registration', # only displays that registration is closed
-      'useful_links'
-    ].map{|p| "#{ COMB_PAGE_PREFIX }#{ p }" }
-
-  STATIC_PUBLIC_PAGES =
-    Set[ 'index',
-         'program',
-         'scientific_committee',
-         'organising_committee',
-         'directions_to_get_here',
-         'funding',
-         'contacts',
-         'registration',
-         'useful_links'
-       ].map{|p| "#{ COMB_PAGE_PREFIX }#{ p }" }
-
-  COMB_HOME_PAGE = PUBLIC_PAGES[0]
-  PAGE_URL_FRAGMENTS = PUBLIC_PAGES.reduce({}){|h, p| h[p] = [p.to_s]; h }
-  PAGE_URL_FRAGMENTS[COMB_HOME_PAGE] << COMB_PAGE_PREFIX
-
   # Handle unmatched requests
   # -------------------------
 
