@@ -6,3 +6,4 @@ tmp/
 .sass-cache/
 public_folder/common/
 git_stats/
+*.swp
