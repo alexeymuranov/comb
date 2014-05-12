@@ -88,7 +88,7 @@ DEPENDENCIES
   redcarpet
   reverse_markdown
   sass
-  sinatra
+  sinatra (~> 1.4.2)
   sinatra-flash
   sqlite3
   thin
