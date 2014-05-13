@@ -73,7 +73,7 @@ class CTT2013::Application < Sinatra::Base
 
   configure :development do
     use BetterErrors::Middleware
-    BetterErrors.application_root = File.expand_path('..', __FILE__)
+    BetterErrors.application_root = settings.root
   end
 
   configure :production do
@@ -98,18 +98,16 @@ class CTT2013::Application < Sinatra::Base
 
   # Session-based flash
   register Sinatra::Flash
+
+  require_relative 'lib/for_sass'
+
+  require_relative 'lib/simple_relation_filter'
+
+  require_relative 'models/all'
+
+  require_relative 'helpers/all'
+
+  require_relative 'route_handlers/all'
 end
 
-require_relative 'lib/for_sass'
-
-require_relative 'lib/simple_relation_filter'
-
-require_relative 'models/all'
-
-require_relative 'helpers/all'
-
-require_relative 'route_handlers/all'
-
-if __FILE__ == $0
-  CTT2013::Application.run!
-end
+CTT2013::Application.run! if __FILE__ == $0
