@@ -44,11 +44,11 @@ class CTT2013 < Sinatra::Base
   BASE_URL = production? ? '/top-geom-conf-2013/' : '/'
 
   configure do
-    set :app_file        => __FILE__,
-        :root            => File.dirname(__FILE__),
-        :views           => File.join(settings.root, 'view_templates'),
-        :public_folder   => File.join(settings.root, 'public_folder'),
-        :method_override => true # enable the POST _method hack
+    set :app_file, __FILE__
+    set :root, File.dirname(settings.app_file)
+    set :views         => File.join(settings.root, 'view_templates'),
+        :public_folder => File.join(settings.root, 'public_folder')
+    enable :method_override  # enable "_method" hack for POST requests
 
     # Enable/disable cookie based sessions
     # enable for flash messages in registration form and authentication
