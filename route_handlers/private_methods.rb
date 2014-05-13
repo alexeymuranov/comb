@@ -6,11 +6,11 @@ class CTT2013::Application
 
     def set_locale(locale)
       I18n.locale = @locale = locale
-      @other_locales = LOCALES - [@locale]
+      @other_locales = CTT2013::LOCALES - [@locale]
     end
 
     def locale
-      @locale || DEFAULT_LOCALE
+      @locale || CTT2013::DEFAULT_LOCALE
     end
 
     def set_page(page)
@@ -26,7 +26,7 @@ class CTT2013::Application
 
     # def locale_from_user_input(suggested_locale)
     #   suggested_locale = suggested_locale.to_s.downcase
-    #   LOCALES.find{|l| l.to_s == suggested_locale } || DEFAULT_LOCALE
+    #   CTT2013::LOCALES.find{|l| l.to_s == suggested_locale } || CTT2013::DEFAULT_LOCALE
     # end
 
     # def page_from_user_input(suggested_page)

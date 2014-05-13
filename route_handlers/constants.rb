@@ -85,12 +85,12 @@ class CTT2013::Application
   # Internationalisation
   # --------------------
 
-  LOCALE_FROM_URL_LOCALE_FRAGMENT = LOCALES.reduce({}) { |h, locale|
+  LOCALE_FROM_URL_LOCALE_FRAGMENT = CTT2013::LOCALES.reduce({}) { |h, locale|
     h["#{ locale }/"] = locale
     h
   }
   # XXX: The assignment of the `DEFAULT_LOCALE` to `''` is not
   # completely consistent with the case of explicit locales.
-  LOCALE_FROM_URL_LOCALE_FRAGMENT[''] = DEFAULT_LOCALE
+  LOCALE_FROM_URL_LOCALE_FRAGMENT[''] = CTT2013::DEFAULT_LOCALE
 
 end

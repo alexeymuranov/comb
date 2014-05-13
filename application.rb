@@ -39,12 +39,15 @@ require 'active_record'
 require_relative 'init'
 
 class CTT2013::Application < Sinatra::Base
+  # Host-specific constants (for IMT web site)
+  CTT2013::BASE_URL = production? ? '/top-geom-conf-2013/' : '/'
+
+  # For internationalisation
+  CTT2013::LOCALES = [:en, :fr]
+  CTT2013::DEFAULT_LOCALE = :fr
+
   # Settings
   # ========
-
-  # Host-specific constants (for IMT web site)
-  BASE_URL = production? ? '/top-geom-conf-2013/' : '/'
-
   configure do
     set :app_file, __FILE__
     set :root, File.dirname(settings.app_file)
@@ -54,7 +57,7 @@ class CTT2013::Application < Sinatra::Base
 
     # Enable/disable cookie based sessions
     # enable for flash messages in registration form and authentication
-    set :sessions, :path => BASE_URL
+    set :sessions, :path => CTT2013::BASE_URL
 
     # set :bind, 'localhost' # server hostname or IP address
     # set :port, 4567        # server port
@@ -84,13 +87,10 @@ class CTT2013::Application < Sinatra::Base
   # Internationalisation
   # --------------------
 
-  LOCALES = [:en, :fr]
-  DEFAULT_LOCALE = :fr
-
   configure do
     I18n.load_path =
       Dir[::File.join(settings.root, 'internationalisation/**/*.{rb,yml}')]
-    I18n.default_locale = DEFAULT_LOCALE
+    I18n.default_locale = CTT2013::DEFAULT_LOCALE
   end
 
   # Sessions

@@ -19,7 +19,7 @@ describe 'Test CTT2013::Application application' do
     app::STATIC_PUBLIC_PAGES.each do |page|
       app::LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
         app::PAGE_URL_FRAGMENTS[page].each do |p|
-          url = "#{ app::BASE_URL }#{ l }#{ p }"
+          url = "#{ CTT2013::BASE_URL }#{ l }#{ p }"
           it "#{ url } should respond OK" do
             get url
             assert last_response.ok?,
@@ -36,7 +36,7 @@ describe 'Test CTT2013::Application application' do
     ['participants', 'registration'].each do |page|
       app::LOCALE_FROM_URL_LOCALE_FRAGMENT.each_pair do |l, locale|
         app::PAGE_URL_FRAGMENTS["#{ app::COMB_PAGE_PREFIX }#{ page }"].each do |p|
-          url = "#{ app::BASE_URL }#{ l }#{ p }"
+          url = "#{ CTT2013::BASE_URL }#{ l }#{ p }"
           it "#{ url } should respond OK" do
             get url
             assert last_response.ok?,
