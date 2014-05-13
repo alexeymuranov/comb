@@ -2,7 +2,7 @@
 
 require 'i18n' # Internationalisation
 
-class CTT2013
+class CTT2013::Application
   module URLHelpers
     # Patched url helper to work around missing sub URI part
     def fixed_url(path)

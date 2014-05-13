@@ -1,6 +1,6 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013
+class CTT2013::Application
   module GoogleMapsHelpers
     module_function
       def map_url_for_address(address)

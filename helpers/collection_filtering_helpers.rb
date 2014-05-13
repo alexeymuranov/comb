@@ -2,7 +2,7 @@
 
 require './lib/nested_arrays'
 
-class CTT2013
+class CTT2013::Application
   module CollectionFilteringHelpers
     def smart_filtering_fields(filtering_by,
                                filtering_values,

@@ -1,6 +1,6 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013
+class CTT2013::Application
   module ViewPaginationHelpers
     def paginating_form(page_count = 1, paginating_parameters = {}, options = {})
       per_page = paginating_parameters[:per_page] || 1

@@ -6,7 +6,7 @@ require 'active_record'
 
 require_relative 'models'
 
-class CTT2013
+class CTT2013::Application
   environment = settings.environment
 
   ActiveRecord::Base.logger = Logger.new("log/#{ environment }.log")

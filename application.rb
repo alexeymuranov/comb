@@ -36,7 +36,9 @@ require 'i18n' # Internationalisation
 
 require 'active_record'
 
-class CTT2013 < Sinatra::Base
+require_relative 'init'
+
+class CTT2013::Application < Sinatra::Base
   # Settings
   # ========
 
@@ -109,5 +111,5 @@ require_relative 'helpers/init'
 require_relative 'route_handlers/init'
 
 if __FILE__ == $0
-  CTT2013.run!
+  CTT2013::Application.run!
 end

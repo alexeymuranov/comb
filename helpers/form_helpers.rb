@@ -1,6 +1,6 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013
+class CTT2013::Application
   module FormHelpers
 
     def input_tag(type, name, value = nil, options = {})

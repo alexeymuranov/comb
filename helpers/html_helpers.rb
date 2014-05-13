@@ -1,6 +1,6 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013
+class CTT2013::Application
   module HTMLHelpers
     module_function
 

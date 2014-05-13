@@ -1,6 +1,6 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013
+class CTT2013::Application
   require_relative 'url_helpers'
   helpers URLHelpers
 

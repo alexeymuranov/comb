@@ -22,4 +22,4 @@ require File.expand_path('application.rb', File.dirname(__FILE__))
 # filter.
 use ActiveRecord::ConnectionAdapters::ConnectionManagement
 
-run CTT2013.new
+run CTT2013::Application.new

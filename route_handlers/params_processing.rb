@@ -1,6 +1,6 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013
+class CTT2013::Application
   private
 
     def view_parameters_from_params(submitted_view_parameters = params['view'])

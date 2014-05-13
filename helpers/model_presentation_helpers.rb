@@ -1,6 +1,6 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013
+class CTT2013::Application
   module ModelPresentationHelpers
     module AbstractSmarterModelHelpers
       def title_from_model_name(model)

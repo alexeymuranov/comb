@@ -2,7 +2,7 @@
 
 require 'i18n' # Internationalisation
 
-class CTT2013
+class CTT2013::Application
   module LocalisationHelpers
 
     module_function

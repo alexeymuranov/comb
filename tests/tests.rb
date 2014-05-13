@@ -4,11 +4,11 @@ require './application'
 
 ENV['RACK_ENV'] = 'test'
 
-describe 'Test CTT2013 application' do
+describe 'Test CTT2013::Application application' do
   include Rack::Test::Methods
 
   def self.app
-    CTT2013
+    CTT2013::Application
   end
 
   def app
