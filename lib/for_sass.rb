@@ -1,7 +1,9 @@
 # encoding: UTF-8 (magic comment)
 
 require 'sass'
-require './helpers/url_helpers'
+
+# FIXME: it is bad to require a file in helpers/ from a file in lib/, IMO
+require './helpers/url'
 
 # Custom sass functions
 #
