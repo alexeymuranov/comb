@@ -2,6 +2,11 @@
 
 require 'sinatra/base'
 
+if Sinatra::Base.development?
+  require 'debugger'      # Ruby debugger
+  require 'better_errors' # better error pages
+end
+
 require 'sinatra/flash' # Session-based flash
 
 require 'i18n' # Internationalisation
@@ -9,12 +14,6 @@ require 'i18n' # Internationalisation
 require 'active_record'
 
 class CTT2013 < Sinatra::Base
-
-  if development?
-    require 'debugger'      # Ruby debugger
-    require 'better_errors' # better error pages
-  end
-
   # Settings
   # ========
 
