@@ -48,6 +48,16 @@ module CTT2013
   # Create Sinatra web application
   Application = Class.new(Sinatra::Base)
 
+  require_relative 'lib/for_sass'
+
+  require_relative 'lib/simple_relation_filter'
+
+  require_relative 'models/all'
+
+  require_relative 'helpers/all'
+
+  require_relative 'route_handlers/all'
+
   # Settings
   # ========
   Application.instance_eval do
@@ -102,16 +112,6 @@ module CTT2013
     # Session-based flash
     register Sinatra::Flash
   end
-
-  require_relative 'lib/for_sass'
-
-  require_relative 'lib/simple_relation_filter'
-
-  require_relative 'models/all'
-
-  require_relative 'helpers/all'
-
-  require_relative 'route_handlers/all'
 end
 
 CTT2013::Application.run! if __FILE__ == $0
