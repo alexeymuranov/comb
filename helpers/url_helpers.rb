@@ -2,8 +2,10 @@
 
 require 'i18n' # Internationalisation
 
-class CTT2013::Application
-  module URLHelpers
+require_relative 'init'
+
+module CTT2013::Helpers
+  module URL
     # Patched url helper to work around missing sub URI part
     def fixed_url(path)
       url(path, false, false).sub(/\A\//, CTT2013::BASE_URL)

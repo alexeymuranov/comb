@@ -55,6 +55,7 @@ module CTT2013
   require_relative 'models/all'
 
   require_relative 'helpers/all'
+  Application.helpers(*Helpers::ALL)
 
   require_relative 'route_handlers/all'
 

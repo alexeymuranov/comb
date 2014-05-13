@@ -1,7 +1,9 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013::Application
-  module HTMLHelpers
+require_relative 'init'
+
+module CTT2013::Helpers
+  module HTML
     module_function
 
       def html_id_from_param_name(name)

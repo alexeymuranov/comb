@@ -1,7 +1,9 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013::Application
-  module ModelPresentationHelpers
+require_relative 'init'
+
+module CTT2013::Helpers
+  module ModelPresentation
     module AbstractSmarterModelHelpers
       def title_from_model_name(model)
         capitalize_first_letter_of(model.model_name.human)

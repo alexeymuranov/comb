@@ -1,7 +1,10 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013::Application
-  module DataPresentationHelpers
+
+require_relative 'init'
+
+module CTT2013::Helpers
+  module DataPresentation
     module_function
 
       def text_from_boolean(bool, options = {})

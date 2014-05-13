@@ -1,7 +1,9 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013::Application
-  module FormHelpers
+require_relative 'init'
+
+module CTT2013::Helpers
+  module Form
 
     def input_tag(type, name, value = nil, options = {})
       if [true, false].include? value

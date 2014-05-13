@@ -1,7 +1,9 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013::Application
-  module ViewPresentationChoiceHelpers
+require_relative 'init'
+
+module CTT2013::Helpers
+  module ViewPresentationChoice
     def presentation_choice_form(available_formats, current_format, options = {})
       params_key_prefix = options[:params_key_prefix] || 'view'
       params_key_from_hash_key =
