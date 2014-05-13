@@ -38,66 +38,71 @@ require 'active_record'
 
 require_relative 'init'
 
-class CTT2013::Application < Sinatra::Base
+module CTT2013
   # Host-specific constants (for IMT web site)
-  CTT2013::BASE_URL = production? ? '/top-geom-conf-2013/' : '/'
+  BASE_URL = Sinatra::Base.production? ? '/top-geom-conf-2013/' : '/'
 
   # For internationalisation
-  CTT2013::LOCALES = [:en, :fr]
-  CTT2013::DEFAULT_LOCALE = :fr
+  LOCALES = [:en, :fr]
+  DEFAULT_LOCALE = :fr
+
+  # Create Sinatra web application
+  Application = Class.new(Sinatra::Base)
 
   # Settings
   # ========
-  configure do
-    set :app_file, __FILE__
-    set :root, File.dirname(settings.app_file)
-    set :views         => File.join(settings.root, 'view_templates'),
-        :public_folder => File.join(settings.root, 'public_folder')
-    enable :method_override  # enable "_method" hack for POST requests
+  Application.instance_eval do
+    configure do
+      set :app_file, __FILE__
+      set :root, File.dirname(settings.app_file)
+      set :views         => File.join(settings.root, 'view_templates'),
+          :public_folder => File.join(settings.root, 'public_folder')
+      enable :method_override  # enable "_method" hack for POST requests
 
-    # Enable/disable cookie based sessions
-    # enable for flash messages in registration form and authentication
-    set :sessions, :path => CTT2013::BASE_URL
+      # Enable/disable cookie based sessions
+      # enable for flash messages in registration form and authentication
+      set :sessions, :path => BASE_URL
 
-    # set :bind, 'localhost' # server hostname or IP address
-    # set :port, 4567        # server port
-    # set :lock, true        # ensure single request concurrency with a mutex lock
+      # set :bind, 'localhost' # server hostname or IP address
+      # set :port, 4567        # server port
+      # set :lock, true        # ensure single request concurrency with a mutex lock
 
-    # Unfortunately this does not work:
-    # set :markdown, :tables => true
+      # Unfortunately this does not work:
+      # set :markdown, :tables => true
+    end
+
+    # This seems to be needed to automatically close connections at the end of
+    # each request.  Not sure if and how this works.  This does not work when
+    # the applicaiton is run from the command line with "Thin" web server.
+    # For that case, connections need to be closed explicitely in an "after"
+    # filter.
+    use ActiveRecord::ConnectionAdapters::ConnectionManagement
+
+    configure :development do
+      use BetterErrors::Middleware
+      BetterErrors.application_root = settings.root
+    end
+
+    configure :production do
+      # Do not "pretty print" HTML for better performance
+      set :haml, { :ugly => true }
+    end
+
+    # Internationalisation
+    # --------------------
+
+    configure do
+      I18n.load_path =
+        Dir[::File.join(settings.root, 'internationalisation/**/*.{rb,yml}')]
+      I18n.default_locale = DEFAULT_LOCALE
+    end
+
+    # Sessions
+    # --------
+
+    # Session-based flash
+    register Sinatra::Flash
   end
-
-  # This seems to be needed to automatically close connections at the end of
-  # each request.  Not sure if and how this works.  This does not work when
-  # the applicaiton is run from the command line with "Thin" web server.
-  # For that case, connections need to be closed explicitely in an "after"
-  # filter.
-  use ActiveRecord::ConnectionAdapters::ConnectionManagement
-
-  configure :development do
-    use BetterErrors::Middleware
-    BetterErrors.application_root = settings.root
-  end
-
-  configure :production do
-    # Do not "pretty print" HTML for better performance
-    set :haml, { :ugly => true }
-  end
-
-  # Internationalisation
-  # --------------------
-
-  configure do
-    I18n.load_path =
-      Dir[::File.join(settings.root, 'internationalisation/**/*.{rb,yml}')]
-    I18n.default_locale = CTT2013::DEFAULT_LOCALE
-  end
-
-  # Sessions
-  # --------
-
-  # Session-based flash
-  register Sinatra::Flash
 
   require_relative 'lib/for_sass'
 
