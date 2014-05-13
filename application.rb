@@ -104,11 +104,11 @@ require_relative 'lib/for_sass'
 
 require_relative 'lib/simple_relation_filter'
 
-require_relative 'models/init'
+require_relative 'models/all'
 
-require_relative 'helpers/init'
+require_relative 'helpers/all'
 
-require_relative 'route_handlers/init'
+require_relative 'route_handlers/all'
 
 if __FILE__ == $0
   CTT2013::Application.run!
