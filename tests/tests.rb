@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'rack/test'
-require './application'
+require File.expand_path('../application.rb', File.dirname(__FILE__))
 
 ENV['RACK_ENV'] = 'test'
 
