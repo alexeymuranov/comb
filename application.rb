@@ -39,8 +39,7 @@ require 'active_record'
 require_relative 'init'
 
 module CTT2013
-  # Host-specific constants (for IMT web site)
-  BASE_URL = Sinatra::Base.production? ? '/top-geom-conf-2013/' : '/'
+  require_relative 'base_url'
 
   # For internationalisation
   LOCALES = [:en, :fr]
