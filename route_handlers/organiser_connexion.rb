@@ -1,6 +1,6 @@
 # encoding: UTF-8 (magic comment)
 
-class CTT2013::Application < Sinatra::Base
+class CTT2013::Application
 
   # == Authentication User model
   # ============================
