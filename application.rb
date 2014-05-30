@@ -189,24 +189,24 @@ module CTT2013
   # Settings
   # ========
   Application.instance_eval do
-    configure do
-      set :app_file, __FILE__
-      set :root, File.dirname(settings.app_file)
-      set :views         => File.join(settings.root, 'view_templates'),
-          :public_folder => File.join(settings.root, 'public_folder')
-      enable :method_override  # enable "_method" hack for POST requests
+    # NOTE: it seems common to put settings inside a block passed to
+    #   `configure` method, but apparently it is useless
+    set :app_file, __FILE__
+    set :root, File.dirname(settings.app_file)
+    set :views         => File.join(settings.root, 'view_templates'),
+        :public_folder => File.join(settings.root, 'public_folder')
+    enable :method_override  # enable "_method" hack for POST requests
 
-      # Enable/disable cookie based sessions
-      # enable for flash messages in registration form and authentication
-      set :sessions, :path => BASE_URL
+    # Enable/disable cookie based sessions
+    # enable for flash messages in registration form and authentication
+    set :sessions, :path => BASE_URL
 
-      # set :bind, 'localhost' # server hostname or IP address
-      # set :port, 4567        # server port
-      # set :lock, true        # ensure single request concurrency with a mutex lock
+    # set :bind, 'localhost' # server hostname or IP address
+    # set :port, 4567        # server port
+    # set :lock, true        # ensure single request concurrency with a mutex lock
 
-      # Unfortunately this does not work:
-      # set :markdown, :tables => true
-    end
+    # Unfortunately this does not work:
+    # set :markdown, :tables => true
 
     # This seems to be needed to automatically close connections at the end of
     # each request.  Not sure if and how this works.  This does not work when
@@ -215,12 +215,12 @@ module CTT2013
     # filter.
     use ActiveRecord::ConnectionAdapters::ConnectionManagement
 
-    configure :development do
+    if development?
       use BetterErrors::Middleware
       BetterErrors.application_root = settings.root
     end
 
-    configure :production do
+    if production?
       # Do not "pretty print" HTML for better performance
       set :haml, { :ugly => true }
     end
@@ -228,11 +228,9 @@ module CTT2013
     # Internationalisation
     # --------------------
 
-    configure do
-      I18n.load_path =
-        Dir[::File.join(settings.root, 'internationalisation/**/*.{rb,yml}')]
-      I18n.default_locale = DEFAULT_LOCALE
-    end
+    I18n.load_path =
+      Dir[::File.join(settings.root, 'internationalisation/**/*.{rb,yml}')]
+    I18n.default_locale = DEFAULT_LOCALE
 
     # Sessions
     # --------
