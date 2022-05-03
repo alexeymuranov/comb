@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Rake (like "make"), to use Rakefile (Makefile for Ruby):
 gem 'rake'
 
-gem 'sinatra', '~> 1.4.2'
+gem 'sinatra', '~> 2.2.0'
 
 group :test do
   # Testing
