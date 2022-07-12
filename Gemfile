@@ -16,7 +16,7 @@ group :development, :test do
 end
 
 # Database interaction:
-gem 'activerecord', '~> 3.2.13'
+gem 'activerecord', '~> 4.1.16'
 gem 'sqlite3'
 
 # HTML/CSS from templates:
